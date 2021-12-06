@@ -1,0 +1,90 @@
+name: Liferay CI
+
+on: [push]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: "8"
+          distribution: "adopt"
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-caches
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            .m2
+            .gradle
+            /home/runner/.liferay
+
+      - name: Set SAIN_MODULE_VERSION env
+        run: echo "SAIN_MODULE_VERSION=$(bash ./module-version.sh)" >> $GITHUB_ENV
+
+      - name: echo SAIN_MODULE_VERSION
+        run: echo ${{ env.SAIN_MODULE_VERSION }}
+
+      - name: create backup from build.properties file
+        run: mv build.properties build.properties.bak
+
+      - name: Change Some Values in build.properties File
+        run: >
+          cat build.properties.bak |  sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ; s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ; s/org.gradle.daemon=true/org.gradle.daemon=false/g' > build.properties
+
+      - name: Build with Ant
+        run: ant compile install-portal-snapshots
+        env:
+          ANT_OPTS: "-Xmx2g"
+
+      - name: run module builder script
+        working-directory: ./modules
+        run: bash ../module-builder.sh
+        env:
+          ANT_OPTS: "-Xmx4g"
+
+      - name: move files to SAIN-Bundles
+        run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Login to SAIN repository
+        uses: docker/login-action@v1
+        with:
+          registry: repo.sain.ir
+          username: ${{ secrets.SAIN_REPO_USERNAME }}
+          password: ${{ secrets.SAIN_REPO_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push with latest tag
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: |
+            repo.sain.ir/liferay/portal-737-ga8:latest
+            repo.sain.ir/liferay/portal-737-ga8:${{ env.SAIN_MODULE_VERSION }}
+
+      - name: Build and push with version tag
+        id: docker_build_with_version
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: repo.sain.ir/liferay/portal-737-ga8:${{ env.SAIN_MODULE_VERSION }}
