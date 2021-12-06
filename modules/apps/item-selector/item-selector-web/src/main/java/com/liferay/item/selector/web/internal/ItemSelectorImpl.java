@@ -67,6 +67,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 /**
  * @author Iván Zaera
  * @author Roberto Díaz
+ * @author Nader Jafari
  */
 @Component(service = ItemSelector.class)
 public class ItemSelectorImpl implements ItemSelector {
@@ -77,6 +78,8 @@ public class ItemSelectorImpl implements ItemSelector {
 
 	public static final String PARAMETER_ITEM_SELECTED_EVENT_NAME =
 		"itemSelectedEventName";
+
+	public static final String PARAMETER_MULTIPLE = "multiple";
 
 	public static final String PARAMETER_SELECTED_TAB = "selectedTab";
 
@@ -164,6 +167,9 @@ public class ItemSelectorImpl implements ItemSelector {
 
 		String itemSelectedEventName = getValue(
 			parameters, PARAMETER_ITEM_SELECTED_EVENT_NAME);
+
+		String multiple = getValue(parameters, PARAMETER_MULTIPLE);
+
 		String selectedTab = getValue(parameters, PARAMETER_SELECTED_TAB);
 
 		List<ItemSelectorViewRenderer> itemSelectorViewRenderers =
@@ -202,7 +208,7 @@ public class ItemSelectorImpl implements ItemSelector {
 				PortletURL portletURL = getPortletURL(
 					requestBackedPortletURLFactory,
 					itemSelectorView.getTitle(themeDisplay.getLocale()),
-					selectedTab, itemSelectedEventName,
+					selectedTab, itemSelectedEventName, multiple,
 					itemSelectorCriteriaArray, themeDisplay);
 
 				itemSelectorViewRenderers.add(
@@ -359,7 +365,7 @@ public class ItemSelectorImpl implements ItemSelector {
 	protected PortletURL getPortletURL(
 		RequestBackedPortletURLFactory requestBackedPortletURLFactory,
 		String title, String selectedTab, String itemSelectedEventName,
-		ItemSelectorCriterion[] itemSelectorCriteriaArray,
+		String multiple, ItemSelectorCriterion[] itemSelectorCriteriaArray,
 		ThemeDisplay themeDisplay) {
 
 		PortletURL portletURL = null;
@@ -382,6 +388,7 @@ public class ItemSelectorImpl implements ItemSelector {
 				itemSelectorCriteriaArray);
 		}
 
+		portletURL.setParameter(PARAMETER_MULTIPLE, multiple);
 		portletURL.setParameter(PARAMETER_SELECTED_TAB, title);
 
 		return portletURL;
