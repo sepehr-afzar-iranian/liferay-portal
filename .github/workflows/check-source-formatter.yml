@@ -1,40 +1,34 @@
+jobs:
+    PreCommit:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up JDK 8
+              uses: actions/setup-java@v2
+              with:
+                  distribution: "adopt"
+                  java-version: "8"
+            - name: Cache Gradle packages
+              uses: actions/cache@v2
+              with:
+                  key: ${{runner.os}}-gradle-caches
+                  path: |
+                      ~/.gradle/caches
+                      ~/.gradle/wrapper
+                      .m2
+                      .gradle
+                      /home/runner/.liferay
+            - name: create backup from build.properties file
+              run: mv build.properties build.properties.bak
+            - name: Change Some Values in build.properties File
+              run: >
+                  cat build.properties.bak | sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ; s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ; s/org.gradle.daemon=true/org.gradle.daemon=false/g' > build.properties
+            - env:
+                  ANT_OPTS: "-Xmx2g"
+              name: Build with Ant
+              run: ant compile install-portal-snapshots
+            - name: Check Source Formatter
+              run: ./gradlew --build-file=./modules/util.gradle checkFormatSourceCurrentBranch
 name: "Liferay CI Pull Request Checker"
 
 on: [pull_request]
-
-jobs:
-  PreCommit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 8
-        uses: actions/setup-java@v2
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-gradle-caches
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            .m2
-            .gradle
-            /home/runner/.liferay
-
-      - name: create backup from build.properties file
-        run: mv build.properties build.properties.bak
-
-      - name: Change Some Values in build.properties File
-        run: >
-          cat build.properties.bak | sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ; s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ; s/org.gradle.daemon=true/org.gradle.daemon=false/g' > build.properties
-
-      - name: Build with Ant
-        run: ant compile install-portal-snapshots
-        env:
-          ANT_OPTS: "-Xmx2g"
-
-      - name: Check Source Formatter
-        run: cd modules && ../gradlew -Dorg.gradle.daemon=false  -DcheckSourceFormattingauto.fix=false -DcheckSourceFormatting.print.errors=true checkSourceFormatting
