@@ -84,6 +84,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Roberto Díaz
+ * @author Nader Jafari
  */
 public class DLItemSelectorViewDisplayContext<T extends ItemSelectorCriterion> {
 
@@ -143,6 +144,7 @@ public class DLItemSelectorViewDisplayContext<T extends ItemSelectorCriterion> {
 
 		portletURL.setParameter("folderId", String.valueOf(_getFolderId()));
 		portletURL.setParameter("selectedTab", String.valueOf(getTitle()));
+		portletURL.setParameter("multiple", String.valueOf(_isMultiple()));
 
 		return portletURL;
 	}
@@ -544,6 +546,10 @@ public class DLItemSelectorViewDisplayContext<T extends ItemSelectorCriterion> {
 		_filterByFileEntryType = filterByFileEntryType;
 
 		return _filterByFileEntryType;
+	}
+
+	private boolean _isMultiple() {
+		return ParamUtil.getBoolean(_httpServletRequest, "multiple");
 	}
 
 	private boolean _isSearch() {

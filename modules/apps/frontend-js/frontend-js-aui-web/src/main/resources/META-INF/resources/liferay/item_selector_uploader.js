@@ -77,6 +77,7 @@ AUI.add(
 					if (!uploader) {
 						uploader = new A.Uploader({
 							fileFieldName: 'imageSelectorFileName',
+							multipleFiles: true,
 						});
 
 						instance._uploader = uploader;

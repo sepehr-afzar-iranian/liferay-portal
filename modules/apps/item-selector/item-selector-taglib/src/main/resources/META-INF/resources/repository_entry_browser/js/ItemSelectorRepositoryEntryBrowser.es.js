@@ -118,18 +118,22 @@ class ItemSelectorRepositoryEntryBrowser extends PortletBase {
 	 * @private
 	 */
 	_bindEvents() {
-		this._eventHandler.add(
-			dom.delegate(this.rootNode, 'click', '.item-preview', (event) =>
-				this._onItemSelected(event.delegateTarget.dataset)
-			)
-		);
+		if (!this.multiple) {
+			this._eventHandler.add(
+				dom.delegate(this.rootNode, 'click', '.item-preview', (event) =>
+					this._onItemSelected(event.delegateTarget.dataset)
+				)
+			);
+		}
 
 		const inputFileNode = this.one('input[type="file"]');
 
 		if (inputFileNode) {
 			this._eventHandler.add(
 				inputFileNode.addEventListener('change', (event) => {
-					this._validateFile(event.target.files[0]);
+					Array.from(event.target.files).forEach((file) => {
+						this._validateFile(file);
+					});
 				})
 			);
 		}
@@ -156,16 +160,26 @@ class ItemSelectorRepositoryEntryBrowser extends PortletBase {
 							url: itemFileUrl,
 							uuid: itemFile.uuid,
 						};
-
 						itemFileValue = JSON.stringify(imageValue);
 					}
 
-					Liferay.componentReady('ItemSelectorPreview').then(() => {
-						Liferay.fire('updateCurrentItem', {
+					if (this.multiple) {
+						this._showAlert(itemFile.title, 'ready-to-upload');
+						this._onItemSelected({
 							url: itemFileUrl,
 							value: itemFileValue,
 						});
-					});
+					}
+					else {
+						Liferay.componentReady('ItemSelectorPreview').then(
+							() => {
+								Liferay.fire('updateCurrentItem', {
+									url: itemFileUrl,
+									value: itemFileValue,
+								});
+							}
+						);
+					}
 				}),
 				itemSelectorUploader.after('itemUploadError', (event) => {
 					this._onItemUploadError(event);
@@ -237,7 +251,9 @@ class ItemSelectorRepositoryEntryBrowser extends PortletBase {
 					rootNode.classList.remove('drop-active');
 
 					if (eventDrop) {
-						this._validateFile(dataTransfer.files[0]);
+						Array.from(dataTransfer.files).forEach((file) => {
+							this._validateFile(file);
+						});
 					}
 				}
 			}
@@ -428,6 +444,23 @@ class ItemSelectorRepositoryEntryBrowser extends PortletBase {
 		);
 	}
 
+	_showAlert(fileName) {
+		new ClayAlert(
+			{
+				destroyOnHide: false,
+				message:
+					fileName + ' ' + Liferay.Language.get('successfully-saved'),
+				spritemap:
+					Liferay.ThemeDisplay.getPathThemeImages() +
+					'/clay/icons.svg',
+				style: 'success',
+				title: '',
+				visible: true,
+			},
+			this.one('.message-container')
+		);
+	}
+
 	/**
 	 * Shows the selected item in the Item Viewer and
 	 * uploads to the server.
@@ -450,7 +483,9 @@ class ItemSelectorRepositoryEntryBrowser extends PortletBase {
 			value: preview,
 		};
 
-		this.openItemSelectorPreview([item], 0);
+		if (!this.multiple) {
+			this.openItemSelectorPreview([item], 0);
+		}
 
 		this._itemSelectorUploader.startUpload(file, this.uploadItemURL);
 	}
@@ -550,6 +585,16 @@ ItemSelectorRepositoryEntryBrowser.STATE = {
 	maxFileSize: Config.oneOfType([Config.number(), Config.string()])
 		.setter('_convertMaxFileSize')
 		.value(Liferay.PropsValues.UPLOAD_SERVLET_REQUEST_IMPL_MAX_SIZE),
+
+	/**
+	 * Allow uploading multiple items.
+	 *
+	 * @instance
+	 * @default false
+	 * @memberof ItemSelectorRepositoryEntryBrowser
+	 * @type {!boolean}
+	 */
+	multiple: Config.bool(),
 
 	/**
 	 * The return type for the uploaded item.

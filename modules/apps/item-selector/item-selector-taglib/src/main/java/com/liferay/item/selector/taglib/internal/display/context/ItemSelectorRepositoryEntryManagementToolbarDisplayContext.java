@@ -49,6 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Alejandro Tardín
+ * @author Nader Jafari
  */
 public class ItemSelectorRepositoryEntryManagementToolbarDisplayContext {
 
@@ -216,6 +217,10 @@ public class ItemSelectorRepositoryEntryManagementToolbarDisplayContext {
 
 	public boolean isDisabled() {
 		return false;
+	}
+
+	public boolean isMultiple() {
+		return ParamUtil.getBoolean(_httpServletRequest, "multiple");
 	}
 
 	private String _getCurrentScopeLabel() {

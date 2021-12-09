@@ -324,9 +324,9 @@ AUI.add(
 				_onInputFileChanged(event) {
 					var instance = this;
 
-					var file = event.currentTarget.getDOMNode().files[0];
-
-					instance._validateFile(file);
+					event.currentTarget.getDOMNode().files.forEach((file) => {
+						instance._validateFile(file);
+					});
 				},
 
 				_onItemSelected(itemViewer) {

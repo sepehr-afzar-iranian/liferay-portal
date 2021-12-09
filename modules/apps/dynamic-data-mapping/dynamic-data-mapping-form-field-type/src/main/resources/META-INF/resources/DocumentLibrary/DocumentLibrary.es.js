@@ -343,7 +343,10 @@ const Main = ({
 	};
 
 	const disableSubmitButton = (disable = true) => {
-		document.getElementById('ddm-form-submit').disabled = disable;
+		const submit =
+			document.getElementById('ddm-form-submit') ||
+			document.getElementsByClassName('lfr-ddm-form-pagination-next');
+		submit.disabled = disable;
 	};
 
 	const handleGuestUploadFileChanged = (errorMessage, event, value) => {

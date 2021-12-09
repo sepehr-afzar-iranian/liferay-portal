@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export SAIN_MODULE_VERSION=1.0.0
+
+echo $SAIN_MODULE_VERSION

@@ -1056,9 +1056,11 @@ AUI.add(
 					instance.fire('liferay-ddm-field:render', {
 						field: instance,
 					});
+
+					return instance;
 				},
 
-				repeat() {
+				repeat(value = '') {
 					var instance = this;
 
 					instance._getTemplate((fieldTemplate) => {
@@ -1079,7 +1081,7 @@ AUI.add(
 
 						form.newRepeatableInstances.push(field);
 
-						field.renderUI();
+						field.renderUI().setValue(value);
 
 						instance._addFieldValidation(field, instance);
 					});
@@ -1575,24 +1577,46 @@ AUI.add(
 
 					var portletNamespace = instance.get('portletNamespace');
 
-					Liferay.Util.openSelectionModal({
-						onSelect: (selectedItem) => {
-							if (selectedItem) {
-								var itemValue = JSON.parse(selectedItem.value);
+					var repeatable = this.get('repeatable');
 
-								instance.setValue({
-									classPK: itemValue.fileEntryId,
-									groupId: itemValue.groupId,
-									title: itemValue.title,
-									type: itemValue.type,
-									uuid: itemValue.uuid,
-								});
+					Liferay.Util.openSelectionModal({
+						multiple: repeatable,
+						onSelect: (selectedItems) => {
+							if (selectedItems) {
+								selectedItems =
+									selectedItems.items || selectedItems;
+
+								for (var i = 0; i < selectedItems.length; i++) {
+									var item = selectedItems[i].value
+										? selectedItems[i].value.resolvedValue
+											? JSON.parse(
+													selectedItems[i].value
+														.resolvedValue
+											  )
+											: JSON.parse(selectedItems[i].value)
+										: selectedItems[i];
+
+									var data = {
+										classPK: item.fileEntryId,
+										groupId: item.groupId,
+										title: item.title,
+										type: item.type,
+										uuid: item.uuid,
+									};
+
+									if (i == 0) {
+										instance.setValue(data);
+									}
+									else if (repeatable) {
+										instance.repeat(data);
+									}
+								}
 							}
 						},
 						selectEventName:
 							portletNamespace + 'selectDocumentLibrary',
 						title: Liferay.Language.get('select-file'),
-						url: instance.getDocumentLibrarySelectorURL(),
+						url: instance.getDocumentLibrarySelectorURL(repeatable),
 					});
 				},
 
@@ -1610,7 +1634,7 @@ AUI.add(
 					}
 				},
 
-				getDocumentLibrarySelectorURL() {
+				getDocumentLibrarySelectorURL(multiple) {
 					var instance = this;
 
 					var form = instance.getForm();
@@ -1620,17 +1644,28 @@ AUI.add(
 					);
 
 					var retVal = instance.getDocumentLibraryURL(
-						'com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion'
+						'com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion',
+						multiple
 					);
+
+					var documentLibraryParameters = {
+						multiple,
+						p_p_id: Liferay.PortletKeys.ITEM_SELECTOR,
+					};
 
 					if (documentLibrarySelectorURL) {
 						retVal = documentLibrarySelectorURL;
 					}
 
+					retVal = Liferay.Util.PortletURL.createPortletURL(
+						retVal,
+						documentLibraryParameters
+					);
+
 					return retVal;
 				},
 
-				getDocumentLibraryURL(criteria) {
+				getDocumentLibraryURL(criteria, multiple) {
 					var instance = this;
 
 					var container = instance.get('container');
@@ -1655,6 +1690,7 @@ AUI.add(
 						criteria,
 						itemSelectedEventName:
 							portletNamespace + 'selectDocumentLibrary',
+						multiple,
 						p_p_auth: container.getData('itemSelectorAuthToken'),
 						p_p_id: Liferay.PortletKeys.ITEM_SELECTOR,
 						p_p_mode: 'view',
@@ -3450,25 +3486,41 @@ AUI.add(
 					}
 				},
 
-				getDocumentLibrarySelectorURL() {
+				getDocumentLibrarySelectorURL(multiple) {
 					var instance = this;
 
 					var form = instance.getForm();
 
 					var imageSelectorURL = form.get('imageSelectorURL');
 
+					var documentLibraryParameters = {
+						multiple,
+						p_p_id: Liferay.PortletKeys.ITEM_SELECTOR,
+					};
+
+					imageSelectorURL = Liferay.Util.PortletURL.createPortletURL(
+						imageSelectorURL,
+						documentLibraryParameters
+					);
+
 					var retVal = instance.getDocumentLibraryURL(
-						'com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion,com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion'
+						'com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion,com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion',
+						multiple
 					);
 
 					if (imageSelectorURL) {
-						retVal = imageSelectorURL;
+						retVal = imageSelectorURL.toString();
 					}
+
+					retVal = Liferay.Util.PortletURL.createPortletURL(
+						retVal,
+						documentLibraryParameters
+					);
 
 					return retVal;
 				},
 
-				getDocumentLibraryURL(criteria) {
+				getDocumentLibraryURL(criteria, multiple) {
 					var instance = this;
 
 					var container = instance.get('container');
@@ -3499,6 +3551,7 @@ AUI.add(
 						criteria,
 						itemSelectedEventName:
 							portletNamespace + 'selectDocumentLibrary',
+						multiple,
 						p_p_auth: container.getData('itemSelectorAuthToken'),
 						p_p_id: Liferay.PortletKeys.ITEM_SELECTOR,
 						p_p_mode: 'view',

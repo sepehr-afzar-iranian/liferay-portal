@@ -16,6 +16,7 @@ apply plugin: "com.liferay.source.formatter"
 apply plugin: "com.liferay.source.formatter.defaults"
 
 task appendHotfixQualifier
+task checkFormatSourceCurrentBranch(type: FormatSourceTask)
 task formatSourceCurrentBranch(type: FormatSourceTask)
 task formatSourceLatestAuthor(type: FormatSourceTask)
 task formatSourceLocalChanges(type: FormatSourceTask)
@@ -68,6 +69,12 @@ appendHotfixQualifier {
 formatSourceCurrentBranch {
 	description = "Runs Liferay Source Formatter to format the project files that are added or modified in the current Git branch."
 	formatCurrentBranch = true
+}
+
+checkFormatSourceCurrentBranch {
+	description = "Runs Liferay Check Source Formatter to format the project files that are added or modified in the current Git branch."
+	formatCurrentBranch = true
+	autoFix = false
 }
 
 formatSourceLatestAuthor {

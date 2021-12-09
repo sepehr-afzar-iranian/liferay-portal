@@ -53,7 +53,17 @@ RepositoryEntryBrowserDisplayContext repositoryEntryBrowserDisplayContext = new 
 
 ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositoryEntryManagementToolbarDisplayContext = new ItemSelectorRepositoryEntryManagementToolbarDisplayContext(request, liferayPortletRequest, liferayPortletResponse, repositoryEntryBrowserDisplayContext);
 
-SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSelectorRepositoryEntryManagementToolbarDisplayContext.getCurrentSortingURL(), null, emptyResultsMessage);
+boolean isMultiple = itemSelectorRepositoryEntryManagementToolbarDisplayContext.isMultiple();
+
+SearchContainer<FileEntry> searchContainer = new SearchContainer(renderRequest, itemSelectorRepositoryEntryManagementToolbarDisplayContext.getCurrentSortingURL(), null, emptyResultsMessage);
+
+RowChecker rowChecker = new RepositoryEntrySelectorChecker(renderResponse, isMultiple);
+
+if (isMultiple) {
+	searchContainer.setRowChecker(rowChecker);
+}
+
+searchContainer.setResults(repositoryEntries);
 %>
 
 <clay:management-toolbar
@@ -63,9 +73,10 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 	filterLabelItems="<%= itemSelectorRepositoryEntryManagementToolbarDisplayContext.getFilterLabelItems() %>"
 	itemsTotal="<%= repositoryEntriesCount %>"
 	searchActionURL="<%= String.valueOf(itemSelectorRepositoryEntryManagementToolbarDisplayContext.getSearchURL()) %>"
+	searchContainerId="ItemSelectorSearchContainer"
 	searchFormMethod="POST"
 	searchFormName="searchFm"
-	selectable="<%= false %>"
+	selectable="<%= isMultiple %>"
 	showInfoButton="<%= false %>"
 	showSearch="<%= showSearch %>"
 	sortingOrder="<%= itemSelectorRepositoryEntryManagementToolbarDisplayContext.getOrderByType() %>"
@@ -105,7 +116,7 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 		<liferay-util:buffer
 			var="selectFileHTML"
 		>
-			<input accept="<%= ListUtil.isEmpty(extensions) ? "*" : StringUtil.merge(extensions) %>" class="input-file" id="<%= randomNamespace %>InputFile" type="file" />
+			<input accept="<%= ListUtil.isEmpty(extensions) ? "*" : StringUtil.merge(extensions) %>" class="input-file" id="<%= randomNamespace %>InputFile" type="file" <%= isMultiple ? "multiple=\"multiple\"": StringPool.BLANK %> />
 
 			<label class="btn btn-secondary" for="<%= randomNamespace %>InputFile"><liferay-ui:message key="select-file" /></label>
 		</liferay-util:buffer>
@@ -123,18 +134,19 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 	</c:if>
 
 	<c:if test="<%= (existingFileEntryReturnType != null) || (itemSelectorReturnTypeResolver != null) %>">
-		<liferay-ui:search-container
-			cssClass='<%= displayStyle.equals("list") ? "main-content-body" : StringPool.BLANK %>'
-			searchContainer="<%= searchContainer %>"
-			total="<%= repositoryEntriesCount %>"
-			var="listSearchContainer"
-		>
-			<liferay-ui:search-container-results
-				results="<%= repositoryEntries %>"
-			/>
+		<aui:form cssClass="container-fluid-1280 portlet-site-memberships-select-users" name="fm">
+			<liferay-ui:search-container
+				cssClass='<%= displayStyle.equals("list") ? "main-content-body" : StringPool.BLANK %>'
+				id="ItemSelectorSearchContainer"
+				searchContainer="<%= searchContainer %>"
+				total="<%= repositoryEntriesCount %>"
+				var="listSearchContainer"
+			>
 
 			<liferay-ui:search-container-row
 				className="com.liferay.portal.kernel.repository.model.RepositoryEntry"
+				cssClass="repository-row"
+				keyProperty="fileEntryId"
 				modelVar="repositoryEntry"
 			>
 				<c:choose>
@@ -168,6 +180,19 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 							JSONObject itemMedatadaJSONObject = ItemSelectorRepositoryEntryBrowserUtil.getItemMetadataJSONObject(fileEntry, locale);
 
 							String thumbnailSrc = DLURLHelperUtil.getThumbnailSrc(fileEntry, themeDisplay);
+
+							row.setData(
+								HashMapBuilder.<String, Object>put(
+									"classPK", fileEntry.getFileEntryId()
+								).put(
+									"groupId", fileEntry.getGroupId()
+								).put(
+									"title", fileEntry.getTitle()
+								).put(
+									"type", "document"
+								).put(
+									"uuid", fileEntry.getUuid()
+								).build());
 							%>
 
 							<liferay-ui:search-container-column-text
@@ -366,6 +391,19 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 
 									JSONObject itemMedatadaJSONObject = ItemSelectorRepositoryEntryBrowserUtil.getItemMetadataJSONObject(fileEntry, locale);
 
+									row.setData(
+										HashMapBuilder.<String, Object>put(
+											"classPK", fileEntry.getFileEntryId()
+										).put(
+											"groupId", fileEntry.getGroupId()
+										).put(
+											"title", fileEntry.getTitle()
+										).put(
+											"type", "document"
+										).put(
+											"uuid", fileEntry.getUuid()
+										).build());
+
 									Map<String, Object> data = HashMapBuilder.<String, Object>put(
 										"description", fileEntry.getDescription()
 									).put(
@@ -398,6 +436,8 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 													cssClass="file-card form-check form-check-card item-preview"
 													data="<%= data %>"
 													icon="documents-and-media"
+													resultRow="<%= row %>"
+													rowChecker="<%= rowChecker %>"
 													title="<%= title %>"
 												>
 													<c:if test="<%= repositoryEntryBrowserDisplayContext.isSearchEverywhere() %>">
@@ -428,6 +468,8 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 													cssClass="form-check form-check-card image-card item-preview"
 													data="<%= data %>"
 													imageUrl="<%= thumbnailSrc %>"
+													resultRow="<%= row %>"
+													rowChecker="<%= rowChecker %>"
 													title="<%= title %>"
 												>
 													<c:if test="<%= repositoryEntryBrowserDisplayContext.isSearchEverywhere() %>">
@@ -507,12 +549,26 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 									JSONObject itemMedatadaJSONObject = ItemSelectorRepositoryEntryBrowserUtil.getItemMetadataJSONObject(fileEntry, locale);
 
 									String thumbnailSrc = DLURLHelperUtil.getThumbnailSrc(fileEntry, themeDisplay);
+
+									row.setData(
+										HashMapBuilder.<String, Object>put(
+											"classPK", fileEntry.getFileEntryId()
+										).put(
+											"groupId", fileEntry.getGroupId()
+										).put(
+											"title", fileEntry.getTitle()
+										).put(
+											"type", "document"
+										).put(
+											"uuid", fileEntry.getUuid()
+										).build());
 									%>
 
 									<c:choose>
 										<c:when test="<%= Validator.isNotNull(thumbnailSrc) %>">
 											<liferay-ui:search-container-column-image
 												src="<%= DLURLHelperUtil.getThumbnailSrc(fileEntry, themeDisplay) %>"
+												toggleRowChecker="<%= isMultiple %>"
 											/>
 										</c:when>
 										<c:otherwise>
@@ -580,6 +636,7 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 				searchContainer="<%= searchContainer %>"
 			/>
 		</liferay-ui:search-container>
+		</aui:form>
 
 		<c:if test="<%= !showSearchInfo && (uploadURL != null) %>">
 			<liferay-ui:drop-here-info
@@ -593,6 +650,7 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 
 <aui:script require='<%= npmResolvedPackageName + "/repository_entry_browser/js/ItemSelectorRepositoryEntryBrowser.es as ItemSelectorRepositoryEntryBrowser" %>'>
 	var itemSelector = new ItemSelectorRepositoryEntryBrowser.default({
+		multiple: <%= isMultiple %>,
 		closeCaption: '<%= UnicodeLanguageUtil.get(request, tabName) %>',
 
 		<c:if test="<%= uploadURL != null %>">
@@ -629,11 +687,51 @@ SearchContainer<?> searchContainer = new SearchContainer(renderRequest, itemSele
 			uploadItemURL: '<%= uploadURL.toString() %>',
 		</c:if>
 	});
-
+	var selectedData = [];
+	<%--	<c:if test="<%= !isMultiple %>">--%>
 	itemSelector.on('selectedItem', function (event) {
-		Liferay.Util.getOpener().Liferay.fire(
-			'<%= itemSelectedEventName %>',
-			event
-		);
+		selectedData.push(event.data);
+
+		Liferay.Util.getOpener().Liferay.fire('<%= itemSelectedEventName %>', {
+			items: selectedData,
+		});
 	});
 </aui:script>
+
+<c:if test="<%= isMultiple %>">
+	<aui:script use="liferay-search-container">
+		var searchContainer = Liferay.SearchContainer.get(
+			'<portlet:namespace />ItemSelectorSearchContainer'
+		);
+
+		searchContainer.on('rowToggled', function (event) {
+			var allSelectedElements = event.elements.allSelectedElements;
+			var selectedData = [];
+
+			allSelectedElements.each(function () {
+				<c:choose>
+					<c:when test='<%= displayStyle.equals("list") %>'>
+						var row = this.ancestor('tr');
+					</c:when>
+					<c:otherwise>
+						var row = this.ancestor('li');
+					</c:otherwise>
+				</c:choose>
+
+				var data = row.getDOM().dataset;
+
+				selectedData.push({
+					classPK: data.classpk,
+					groupId: data.groupid,
+					title: data.title,
+					uuid: data.uuid,
+					type: data.type,
+				});
+			});
+
+			Liferay.Util.getOpener().Liferay.fire('<%= itemSelectedEventName %>', {
+				data: selectedData,
+			});
+		});
+	</aui:script>
+</c:if>

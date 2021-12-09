@@ -18,6 +18,7 @@ import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
 import com.liferay.item.selector.ItemSelectorReturnTypeResolverHandler;
 import com.liferay.item.selector.taglib.servlet.taglib.util.RepositoryEntryBrowserTagUtil;
+import com.liferay.journal.configuration.JournalFileUploadsConfiguration;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion;
 import com.liferay.journal.item.selector.web.internal.JournalItemSelectorView;
@@ -30,6 +31,7 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ParamUtil;
 
 import java.util.Locale;
 
@@ -41,6 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Eduardo García
+ * @author Nader Jafari
  */
 public class JournalItemSelectorViewDisplayContext {
 
@@ -49,6 +52,7 @@ public class JournalItemSelectorViewDisplayContext {
 		ItemSelectorReturnTypeResolverHandler
 			itemSelectorReturnTypeResolverHandler,
 		JournalItemSelectorCriterion journalItemSelectorCriterion,
+		JournalFileUploadsConfiguration journalFileUploadsConfiguration,
 		JournalItemSelectorView journalItemSelectorView, PortletURL portletURL,
 		boolean search) {
 
@@ -57,6 +61,7 @@ public class JournalItemSelectorViewDisplayContext {
 		_itemSelectorReturnTypeResolverHandler =
 			itemSelectorReturnTypeResolverHandler;
 		_journalItemSelectorCriterion = journalItemSelectorCriterion;
+		_journalFileUploadsConfiguration = journalFileUploadsConfiguration;
 		_journalItemSelectorView = journalItemSelectorView;
 		_portletURL = portletURL;
 		_search = search;
@@ -67,6 +72,10 @@ public class JournalItemSelectorViewDisplayContext {
 
 	public Folder fetchAttachmentsFolder(long userId, long groupId) {
 		return null;
+	}
+
+	public String[] getExtensions() {
+		return _journalFileUploadsConfiguration.imageExtensions();
 	}
 
 	public String getItemSelectedEventName() {
@@ -113,6 +122,7 @@ public class JournalItemSelectorViewDisplayContext {
 		portletURL.setParameter(
 			"selectedTab",
 			String.valueOf(getTitle(httpServletRequest.getLocale())));
+		portletURL.setParameter("multiple", String.valueOf(_isMultiple()));
 
 		return portletURL;
 	}
@@ -143,10 +153,16 @@ public class JournalItemSelectorViewDisplayContext {
 		return _search;
 	}
 
+	private boolean _isMultiple() {
+		return ParamUtil.getBoolean(_httpServletRequest, "multiple");
+	}
+
 	private final HttpServletRequest _httpServletRequest;
 	private final String _itemSelectedEventName;
 	private final ItemSelectorReturnTypeResolverHandler
 		_itemSelectorReturnTypeResolverHandler;
+	private final JournalFileUploadsConfiguration
+		_journalFileUploadsConfiguration;
 	private final JournalItemSelectorCriterion _journalItemSelectorCriterion;
 	private final JournalItemSelectorView _journalItemSelectorView;
 	private final PortalPreferences _portalPreferences;
