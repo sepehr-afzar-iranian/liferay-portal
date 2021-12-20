@@ -74,8 +74,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            repo.sain.ir/liferay/portal-737-ga8:latest
-            repo.sain.ir/liferay/portal-737-ga8:${{ env.SAIN_MODULE_VERSION }}
+            ${{ secrets.SAIN_REPO_URL }}/liferay/portal-737-ga8:latest
+            ${{ secrets.SAIN_REPO_URL }}/liferay/portal-737-ga8:${{ env.SAIN_MODULE_VERSION }}
 
 name: "Liferay CI Build Docker Image __ Running on Release__"
 
