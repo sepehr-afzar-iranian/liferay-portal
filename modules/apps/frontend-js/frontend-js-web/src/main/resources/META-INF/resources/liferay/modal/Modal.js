@@ -379,8 +379,7 @@ const openSelectionModal = ({
 		},
 		onOpen: ({container, processClose}) => {
 			const selectEventHandler = Liferay.on(selectEventName, (event) => {
-				selectedItem = event.data || event;
-
+				selectedItem = event.data || event.items[0] || event;
 				if (!multiple) {
 					select({processClose});
 				}
