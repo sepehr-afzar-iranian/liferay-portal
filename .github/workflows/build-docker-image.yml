@@ -2,13 +2,14 @@ jobs:
     Build:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - name: Checkout repository
+              uses: actions/checkout@v2
             - name: Set up JDK 8
               uses: actions/setup-java@v2
               with:
                   distribution: "adopt"
                   java-version: "8"
-            - name: Cache Gradle packages
+            - name: Cache Gradle packages # cache gradle and ant files for quick builds.
               uses: actions/cache@v2
               with:
                   key: ${{runner.os}}-gradle-caches
@@ -18,9 +19,9 @@ jobs:
                       .m2
                       .gradle
                       /home/runner/.liferay
-            - name: Set SAIN_MODULE_VERSION env
+            - name: Set SAIN_MODULE_VERSION env # this version comes from module-version.sh
               run: echo "SAIN_MODULE_VERSION=$(bash ./module-version.sh)" >> $GITHUB_ENV
-            - name: echo SAIN_MODULE_VERSION
+            - name: echo SAIN_MODULE_VERSION # we print it to be sure that is set correctly
               run: echo ${{env.SAIN_MODULE_VERSION}}
             - name: create backup from build.properties file
               run: mv build.properties build.properties.bak
@@ -33,10 +34,10 @@ jobs:
               run: ant compile install-portal-snapshots
             - env:
                   ANT_OPTS: "-Xmx4g"
-              name: run module builder script
+              name: run module builder script # you should list your module names in this file for compile
               run: bash ../module-builder.sh
               working-directory: ./modules
-            - name: move files to SAIN-Bundles
+            - name: move files to SAIN-Bundles # before create docker image, we should move those files to here.
               run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
             - name: Login to Docker Hub
               uses: docker/login-action@v1
@@ -60,10 +61,9 @@ jobs:
                   file: ./Dockerfile
                   push: true
                   tags: |
-                      repo.sain.ir/liferay/portal-737-ga8:latest
-                      repo.sain.ir/liferay/portal-737-ga8:${{env.SAIN_MODULE_VERSION}}
-name: "Liferay CI Build Docker Image"
+                      ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:latest
+                      ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_MODULE_VERSION}}
+name: "Liferay CI Build Docker Image - Running on Release"
 on:
-    push:
-        branches:
-            - sain-7.3.x
+    release:
+        types: [published] # when new release in this branch was created, workflow is run.
