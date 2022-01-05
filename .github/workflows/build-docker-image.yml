@@ -110,7 +110,7 @@ jobs:
                   push: true
                   tags: |
                       ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:latest
-                      ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_MODULE_VERSION}}
+                      ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_DOCKER_VERSION}}
 name: "Liferay CI Build Docker Image - Running on Release"
 on:
     release:
