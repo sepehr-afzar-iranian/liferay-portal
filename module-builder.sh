@@ -10,4 +10,5 @@
 	 apps:item-selector:item-selector-web:deploy \
 	 apps:item-selector:item-selector-taglib:deploy \
 	 apps:dynamic-data-mapping:dynamic-data-mapping-form-field-type:deploy \
-	 apps:frontend-js:frontend-js-aui-web:deploy
+	 apps:frontend-js:frontend-js-aui-web:deploy \
+	 apps:frontend-js:frontend-js-web:deploy
