@@ -1585,8 +1585,9 @@ AUI.add(
 							if (selectedItems) {
 								selectedItems =
 									selectedItems.items ||
-									(selectedItems.value ? [selectedItems] :
-										selectedItems);
+									(selectedItems.value
+										? [selectedItems]
+										: selectedItems);
 
 								for (var i = 0; i < selectedItems.length; i++) {
 									var item = selectedItems[i].value
