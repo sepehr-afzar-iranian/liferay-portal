@@ -67,7 +67,6 @@ jobs:
             - name: get md5 hash of tar extensions from nexus repository
               run: >
                   wget --user `echo ${{secrets.SAIN_FTP_USER}}` --password `echo ${{secrets.SAIN_FTP_PASS}}` https://${{secrets.SAIN_REPO_URL}}/repository/${{env.SAIN_EXTENSION_NEXUS_URL}}/${{env.SAIN_EXTENSION_REPO}}/${{env.SAIN_EXTENSION_VERSION}}/${{env.SAIN_EXTENSION_REPO}}-${{env.SAIN_EXTENSION_VERSION}}.tar.gz.md5
-                  
             - name: checksum of artifact
               run: >
                   cat ${{env.SAIN_EXTENSION_REPO}}-${{env.SAIN_EXTENSION_VERSION}}.tar.gz.md5 |
