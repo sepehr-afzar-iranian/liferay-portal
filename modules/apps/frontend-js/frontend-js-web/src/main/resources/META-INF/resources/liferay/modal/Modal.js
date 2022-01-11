@@ -383,7 +383,7 @@ const openSelectionModal = ({
 				selectedItem = event.data || event;
 
 				if (!multiple) {
-					selectedItem = event.items[0];
+					selectedItem = event.items ? event.items[0] : event;
 					select({processClose});
 				}
 			});
