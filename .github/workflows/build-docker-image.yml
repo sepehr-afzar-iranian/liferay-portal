@@ -17,30 +17,18 @@ jobs:
                       .m2
                       .gradle
                       /home/runner/.liferay
-            - name: Set SAIN_EXTENSION_VERSION env # this version comes from release-sain.properties
-              run: >
-                  echo "SAIN_EXTENSION_VERSION="$(grep "sain.release.extension.version" release-sain.properties |
-                  cut -d'=' -f2) >> $GITHUB_ENV
             - name: Set SAIN_DOCKER_VERSION env # this version comes from release-sain.properties
               run: >
                   echo "SAIN_DOCKER_VERSION="$(grep "sain.docker.release.version" release-sain.properties |
                   cut -d'=' -f2) >> $GITHUB_ENV
+            - name: echo SAIN_DOCKER_VERSION # we print it to be sure that is set correctly
+              run: echo ${{env.SAIN_DOCKER_VERSION}}
             - name: Set SAIN_EXTENSION_NEXUS_URL env # this version comes from release-sain.properties
               run: >
                   echo "SAIN_EXTENSION_NEXUS_URL="$(grep "sain.extensions.nexus.url" release-sain.properties |
                   cut -d'=' -f2) >> $GITHUB_ENV
-            - name: Set SAIN_EXTENSION_REPO env # this version comes from release-sain.properties
-              run: >
-                  echo "SAIN_EXTENSION_REPO="$(grep "sain.extensions.repo.name" release-sain.properties |
-                  cut -d'=' -f2) >> $GITHUB_ENV
-            - name: echo SAIN_EXTENSION_VERSION # we print it to be sure that is set correctly
-              run: echo ${{env.SAIN_EXTENSION_VERSION}}
-            - name: echo SAIN_DOCKER_VERSION # we print it to be sure that is set correctly
-              run: echo ${{env.SAIN_DOCKER_VERSION}}
             - name: echo SAIN_EXTENSION_NEXUS_URL # we print it to be sure that is set correctly
               run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
-            - name: echo SAIN_EXTENSION_REPO # we print it to be sure that is set correctly
-              run: echo ${{env.SAIN_EXTENSION_REPO}}
             - name: create backup from build.properties file
               run: mv build.properties build.properties.bak
             - name: Change Some Values in build.properties File
@@ -61,21 +49,11 @@ jobs:
               working-directory: ./modules
             - name: move files to SAIN-Bundles # before create docker image, we should move those files to here.
               run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
-            - name: get tar extensions from nexus repository
+            - name: Download modules
               run: >
-                  wget --user `echo ${{secrets.SAIN_FTP_USER}}` --password `echo ${{secrets.SAIN_FTP_PASS}}` https://${{secrets.SAIN_REPO_URL}}/repository/${{env.SAIN_EXTENSION_NEXUS_URL}}/${{env.SAIN_EXTENSION_REPO}}/${{env.SAIN_EXTENSION_VERSION}}/${{env.SAIN_EXTENSION_REPO}}-${{env.SAIN_EXTENSION_VERSION}}.tar.gz
-            - name: get md5 hash of tar extensions from nexus repository
-              run: >
-                  wget --user `echo ${{secrets.SAIN_FTP_USER}}` --password `echo ${{secrets.SAIN_FTP_PASS}}` https://${{secrets.SAIN_REPO_URL}}/repository/${{env.SAIN_EXTENSION_NEXUS_URL}}/${{env.SAIN_EXTENSION_REPO}}/${{env.SAIN_EXTENSION_VERSION}}/${{env.SAIN_EXTENSION_REPO}}-${{env.SAIN_EXTENSION_VERSION}}.tar.gz.md5
-            - name: checksum of artifact
-              run: >
-                  cat ${{env.SAIN_EXTENSION_REPO}}-${{env.SAIN_EXTENSION_VERSION}}.tar.gz.md5 |
-                  md5sum -c - || exit 1
-            - name: uncompress artifacts
-              run: >
-                  mkdir SAIN-modules &&
-                  tar -xzf ${{env.SAIN_EXTENSION_REPO}}-${{env.SAIN_EXTENSION_VERSION}}.tar.gz
-                  --directory=SAIN-modules
+                  bash module-downloader.sh release-sain.properties
+                  ${{secrets.SAIN_REPO_URL}} ${{secrets.SAIN_FTP_USER}}
+                  ${{secrets.SAIN_FTP_PASS}} ${{env.SAIN_EXTENSION_NEXUS_URL}}
             - name: Login to Docker Hub
               uses: docker/login-action@v1
               with:
@@ -110,6 +88,10 @@ jobs:
                   tags: |
                       ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:latest
                       ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_DOCKER_VERSION}}
+            - name: Update source in repo
+                  run: >
+                      curl -X POST ${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_URL}}
+                      -F token=${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_TOKEN}} -F ref=master
 name: "Liferay CI Build Docker Image - Running on Release"
 on:
     release:
