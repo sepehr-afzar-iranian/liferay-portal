@@ -71,7 +71,6 @@ import java.util.Objects;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.portlet.PortletURL;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -299,8 +298,8 @@ public class JournalArticleAssetRenderer
 
 	@Override
 	public PortletURL getURLEdit(
-			LiferayPortletRequest liferayPortletRequest,
-			LiferayPortletResponse liferayPortletResponse)
+		LiferayPortletRequest liferayPortletRequest,
+		LiferayPortletResponse liferayPortletResponse)
 		throws Exception {
 
 		return getURLEdit(
@@ -309,8 +308,8 @@ public class JournalArticleAssetRenderer
 
 	@Override
 	public PortletURL getURLExport(
-			LiferayPortletRequest liferayPortletRequest,
-			LiferayPortletResponse liferayPortletResponse)
+		LiferayPortletRequest liferayPortletRequest,
+		LiferayPortletResponse liferayPortletResponse)
 		throws Exception {
 
 		ThemeDisplay themeDisplay =
@@ -350,8 +349,8 @@ public class JournalArticleAssetRenderer
 
 	@Override
 	public PortletURL getURLViewDiffs(
-			LiferayPortletRequest liferayPortletRequest,
-			LiferayPortletResponse liferayPortletResponse)
+		LiferayPortletRequest liferayPortletRequest,
+		LiferayPortletResponse liferayPortletResponse)
 		throws Exception {
 
 		JournalArticle previousApprovedArticle =
@@ -359,7 +358,7 @@ public class JournalArticleAssetRenderer
 
 		if ((previousApprovedArticle.getVersion() == _article.getVersion()) ||
 			(_article.getVersion() ==
-				JournalArticleConstants.VERSION_DEFAULT)) {
+			 JournalArticleConstants.VERSION_DEFAULT)) {
 
 			return null;
 		}
@@ -384,9 +383,9 @@ public class JournalArticleAssetRenderer
 
 	@Override
 	public String getURLViewInContext(
-			LiferayPortletRequest liferayPortletRequest,
-			LiferayPortletResponse liferayPortletResponse,
-			String noSuchEntryRedirect)
+		LiferayPortletRequest liferayPortletRequest,
+		LiferayPortletResponse liferayPortletResponse,
+		String noSuchEntryRedirect)
 		throws Exception {
 
 		ThemeDisplay themeDisplay =
@@ -401,18 +400,7 @@ public class JournalArticleAssetRenderer
 
 		Group group = themeDisplay.getScopeGroup();
 
-		if (!_isShowDisplayPage(group.getGroupId(), _article)) {
-			String hitLayoutURL = getHitLayoutURL(
-				layout.isPrivateLayout(), noSuchEntryRedirect, themeDisplay);
 
-			if (Objects.equals(hitLayoutURL, noSuchEntryRedirect)) {
-				hitLayoutURL = getHitLayoutURL(
-					!layout.isPrivateLayout(), noSuchEntryRedirect,
-					themeDisplay);
-			}
-
-			return hitLayoutURL;
-		}
 
 		if (group.getGroupId() != _article.getGroupId()) {
 			group = GroupLocalServiceUtil.getGroup(_article.getGroupId());
@@ -432,6 +420,19 @@ public class JournalArticleAssetRenderer
 
 				return friendlyURL;
 			}
+		}
+
+		if (!_isShowDisplayPage(group.getGroupId(), _article)) {
+			String hitLayoutURL = getHitLayoutURL(
+				layout.isPrivateLayout(), noSuchEntryRedirect, themeDisplay);
+
+			if (Objects.equals(hitLayoutURL, noSuchEntryRedirect)) {
+				hitLayoutURL = getHitLayoutURL(
+					!layout.isPrivateLayout(), noSuchEntryRedirect,
+					themeDisplay);
+			}
+
+			return hitLayoutURL;
 		}
 
 		String groupFriendlyURL = PortalUtil.getGroupFriendlyURL(
@@ -493,8 +494,8 @@ public class JournalArticleAssetRenderer
 
 	@Override
 	public boolean include(
-			HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse, String template)
+		HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse, String template)
 		throws Exception {
 
 		httpServletRequest.setAttribute(WebKeys.JOURNAL_ARTICLE, _article);
@@ -563,8 +564,8 @@ public class JournalArticleAssetRenderer
 	}
 
 	protected JournalArticleDisplay getArticleDisplay(
-			HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse)
+		HttpServletRequest httpServletRequest,
+		HttpServletResponse httpServletResponse)
 		throws PortalException {
 
 		boolean workflowAssetPreview = GetterUtil.getBoolean(
@@ -614,8 +615,8 @@ public class JournalArticleAssetRenderer
 	}
 
 	protected String getHitLayoutURL(
-			boolean privateLayout, String noSuchEntryRedirect,
-			ThemeDisplay themeDisplay)
+		boolean privateLayout, String noSuchEntryRedirect,
+		ThemeDisplay themeDisplay)
 		throws PortalException {
 
 		List<Long> hitLayoutIds =
