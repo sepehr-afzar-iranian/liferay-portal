@@ -88,7 +88,8 @@ jobs:
                   tags: |
                       ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:latest
                       ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_DOCKER_VERSION}}
-            - name: Update source in repo
+            - name: Build bundle artifact
+              if: ${{github.event_name == 'release' && github.event.action == 'released'}}
               run: >
                   curl -X POST ${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_URL}}
                   -F token=${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_TOKEN}} -F ref=master
