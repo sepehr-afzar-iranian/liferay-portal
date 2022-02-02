@@ -97,7 +97,6 @@ public class JournalArticleAssetRenderer
 	}
 
 	public JournalArticleAssetRenderer(JournalArticle article) {
-
 		_article = article;
 	}
 
