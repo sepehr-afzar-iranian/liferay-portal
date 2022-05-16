@@ -27,6 +27,11 @@ jobs:
               run: >
                   echo "SAIN_EXTENSION_NEXUS_URL="$(grep "sain.extensions.nexus.url" release-sain.properties |
                   cut -d'=' -f2) >> $GITHUB_ENV
+            - name: Set Release Info variables # these variables come from release-sain.properties
+              run: |
+                  echo release.info.date=$(grep "release.info.date" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
+                  echo release.info.name=$(grep "release.info.name" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
+                  echo release.info.version.display.name=$(grep "release.info.version.display.name" release-sain.properties | cut -d'=' -f2) SP ${{env.SAIN_DOCKER_VERSION}} >> release.$USER.properties
             - name: echo SAIN_EXTENSION_NEXUS_URL # we print it to be sure that is set correctly
               run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
             - name: create backup from build.properties file
@@ -88,8 +93,8 @@ jobs:
                   tags: |
                       ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:latest
                       ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_DOCKER_VERSION}}
-            - name: Build bundle artifact
-              if: ${{github.event_name == 'release' && github.event.action == 'released'}}
+            - if: ${{github.event_name == 'release' && github.event.action == 'released'}}
+              name: Build bundle artifact
               run: >
                   curl -X POST ${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_URL}}
                   -F token=${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_TOKEN}} -F ref=master
