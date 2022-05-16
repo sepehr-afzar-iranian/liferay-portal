@@ -45,8 +45,13 @@ jobs:
                   > build.properties
             - env:
                   ANT_OPTS: "-Xmx2g"
-              name: Build with Ant
+              name: Ant Compile
               run: ant compile install-portal-snapshots
+            - env:
+                  ANT_OPTS: "-Xmx4g"
+              name: Ant deploy portal-impl
+              run: ant deploy
+              working-directory: ./portal-impl
             - env:
                   ANT_OPTS: "-Xmx4g"
               name: run module builder script # you should list your module names in this file for compile
