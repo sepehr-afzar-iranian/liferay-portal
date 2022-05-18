@@ -1,4 +1,4 @@
-FROM dockerhub.ir/liferay/portal:7.3.7-ga8
+FROM liferay/portal:7.3.7-ga8
 
 # MAINTAINER="Mahdi Noorbala | noorbla7418@gmail.com" ## Do Not UnCommnet this line!
 
