@@ -54,6 +54,11 @@ jobs:
               working-directory: ./portal-impl
             - env:
                   ANT_OPTS: "-Xmx4g"
+              name: Ant deploy portal-kernel
+              run: ant deploy
+              working-directory: ./portal-kernel
+            - env:
+                  ANT_OPTS: "-Xmx4g"
               name: Ant deploy util-taglib
               run: ant deploy
               working-directory: ./util-taglib
