@@ -193,3 +193,19 @@ Property Name | Mandatory | Description
 `systemProp.repository.private.password` | No | The password used to access the private Maven repository. If set, this property must be equal to the `build.repository.private.password` property value in `build.properties`.
 `systemProp.repository.private.url` | No | The URL of the private Maven repository. If set, this property must be equal to the `build.repository.private.url` property value in `build.properties`.
 `systemProp.repository.private.username` | No | The username used to access the private Maven repository. If set, this property must be equal to the `build.repository.private.username` property value in `build.properties`.
+
+### Patches
+
+**Cumulative diff patch:**  
+[https://github.com/community-security-team/liferay-portal/compare/7.3.7-ga8...7.3.7-cumulative.patch](https://github.com/community-security-team/liferay-portal/compare/7.3.7-ga8...7.3.7-cumulative.patch)
+
+The [January 2022](https://github.com/community-security-team/liferay-portal/commit/1bfe0fddb35dda44f9a0319d3c6377b439971ca7) release contains fixes for the following issues:
+[CST-2022-01](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125206055),
+[CVE-2022-26593](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205804),
+[CVE-2022-26594](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205823),
+[CVE-2022-26595](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205844),
+[CVE-2022-26597](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205782),
+[CVE-TBA-12](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205860),
+[CVE-TBA-13](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205896),
+[CVE-TBA-14](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205953),
+[CVE-TBA-15](https://portal.liferay.dev/learn/security/known-vulnerabilities/-/asset_publisher/HbL5mxmVrnXW/content/id/125205974) and updates to external libraries with known vulnerabilities.
