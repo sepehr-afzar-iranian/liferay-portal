@@ -65,7 +65,7 @@ jobs:
             - env:
                   ANT_OPTS: "-Xmx4g"
             - name: deploy core modules
-              run: bash ../../gradlew deploy
+              run: echo "Test"
               working-directory: ./modules/core
             - name: deploy custom modules # you should list your module names in this file for compile
               run: bash ../module-builder.sh deploy
