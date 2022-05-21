@@ -64,9 +64,6 @@ jobs:
               working-directory: ./util-taglib
             - env:
                   ANT_OPTS: "-Xmx4g"
-            - name: deploy custom modules # you should list your module names in this file for compile
-              run: bash ../module-builder.sh deploy
-              working-directory: ./modules
             - name: move files to SAIN-Bundles # before create docker image, we should move those files to here.
               run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
             - name: Download modules
