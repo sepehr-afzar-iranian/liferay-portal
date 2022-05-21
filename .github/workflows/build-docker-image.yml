@@ -65,10 +65,10 @@ jobs:
             - env:
                   ANT_OPTS: "-Xmx4g"
             - name: deploy core modules
-              run: echo "Test"
+            - run: echo "Test"
               working-directory: ./modules/core
             - name: deploy custom modules # you should list your module names in this file for compile
-              run: bash ../module-builder.sh deploy
+            - run: bash ../module-builder.sh deploy
               working-directory: ./modules
             - name: move files to SAIN-Bundles # before create docker image, we should move those files to here.
               run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
