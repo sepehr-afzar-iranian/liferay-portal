@@ -45,11 +45,11 @@ jobs:
                   > build.properties
             - env:
                   ANT_OPTS: "-Xmx2g"
-              name: Ant Compile
+            - name: Ant Compile
               run: ant compile install-portal-snapshots
             - env:
                   ANT_OPTS: "-Xmx4g"
-              name: Ant deploy portal-impl
+            - name: Ant deploy portal-impl
               run: ant deploy
               working-directory: ./portal-impl
             - env:
