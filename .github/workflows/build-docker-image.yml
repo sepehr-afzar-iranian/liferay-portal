@@ -34,36 +34,7 @@ jobs:
                   echo release.info.version.display.name=$(grep "release.info.version.display.name" release-sain.properties | cut -d'=' -f2) SP ${{env.SAIN_DOCKER_VERSION}} >> release.$USER.properties
             - name: echo SAIN_EXTENSION_NEXUS_URL # we print it to be sure that is set correctly
               run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
-            - name: create backup from build.properties file
-              run: mv build.properties build.properties.bak
-            - name: Change Some Values in build.properties File
-              run: >
-                  cat build.properties.bak |
-                  sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ;
-                  s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
-                  s/org.gradle.daemon=true/org.gradle.daemon=false/g'
-                  > build.properties
-            - env:
-                  ANT_OPTS: "-Xmx2g"
-              name: Ant Compile
-              run: ant compile install-portal-snapshots
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-              name: Ant deploy portal-impl
-              run: ant deploy
-              working-directory: ./portal-impl
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-              name: Ant deploy portal-kernel
-              run: ant deploy
-              working-directory: ./portal-kernel
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-              name: Ant deploy util-taglib
-              run: ant deploy
-              working-directory: ./util-taglib
-            - env:
-                  ANT_OPTS: "-Xmx4g"
+            
             
            
 
