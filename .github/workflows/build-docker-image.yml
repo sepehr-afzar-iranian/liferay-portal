@@ -36,6 +36,15 @@ jobs:
               run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
             - name: create backup from build.properties file
               run: mv build.properties build.properties.bak
+            - name: Change Some Values in build.properties File
+              run: >
+                  cat build.properties.bak |
+                  sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ;
+                  s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
+                  s/org.gradle.daemon=true/org.gradle.daemon=false/g'
+                  > build.properties
+            - env:
+                  ANT_OPTS: "-Xmx2g"
 
 
 name: "Liferay CI Build Docker Image - Running on Release"
