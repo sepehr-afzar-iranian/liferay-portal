@@ -43,7 +43,7 @@ jobs:
                   s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
                   s/org.gradle.daemon=true/org.gradle.daemon=false/g'
                   > build.properties
-            - env:
+              env:
                   ANT_OPTS: "-Xmx2g"
 
 
