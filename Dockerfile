@@ -7,6 +7,7 @@ LABEL Company="SAIN Corp."
 RUN mkdir -p "/opt/liferay/extensions"
 
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/osgi/modules/* /opt/liferay/osgi/marketplace/override/
+COPY --chown=1000:1000 ./SAIN-bundles/bundles/osgi/portal/com.liferay.* /opt/liferay/osgi/marketplace/override/
 COPY --chown=1000:1000 ./SAIN-modules/bundles/osgi/static/* /opt/liferay/osgi/static/
 COPY --chown=1000:1000 ./SAIN-modules/bundles/osgi/modules/* /opt/liferay/extensions/
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/portal-impl.jar /opt/liferay/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/portal-impl.jar
