@@ -36,58 +36,7 @@ jobs:
               run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
             - name: create backup from build.properties file
               run: mv build.properties build.properties.bak
-            - name: Change Some Values in build.properties File
-              run: >
-                  cat build.properties.bak |
-                  sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ;
-                  s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
-                  s/org.gradle.daemon=true/org.gradle.daemon=false/g'
-                  > build.properties
-            - env:
-                  ANT_OPTS: "-Xmx2g"
-            - name: Ant Compile
-              run: ant compile install-portal-snapshots
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-            - name: Ant deploy portal-impl
-              run: ant deploy
-              working-directory: ./portal-impl
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-            - name: Ant deploy portal-kernel
-              run: ant deploy
-              working-directory: ./portal-kernel
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-            - name: Ant deploy util-taglib
-              run: ant deploy
-              working-directory: ./util-taglib
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-            - name: deploy core modules
-              run: bash ../../gradlew deploy
-              working-directory: ./modules/core
-            - name: deploy custom modules # you should list your module names in this file for compile
-              run: bash ../module-builder.sh deploy
-              working-directory: ./modules
-            - name: move files to SAIN-Bundles # before create docker image, we should move those files to here.
-              run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
-            - name: Download modules
-              run: >
-                  bash module-downloader.sh release-sain.properties
-                  ${{secrets.SAIN_REPO_URL}} ${{secrets.SAIN_FTP_USER}}
-                  ${{secrets.SAIN_FTP_PASS}} ${{env.SAIN_EXTENSION_NEXUS_URL}}
-            - name: Login to Docker Hub
-              uses: docker/login-action@v1
-              with:
-                  password: ${{secrets.DOCKER_HUB_PASSWORD}}
-                  username: ${{secrets.DOCKER_HUB_USERNAME}}
-            - name: Login to SAIN repository
-              uses: docker/login-action@v1
-              with:
-                  password: ${{secrets.SAIN_REPO_PASSWORD}}
-                  registry: ${{secrets.SAIN_REPO_URL}}
-                  username: ${{secrets.SAIN_REPO_USERNAME}}
+
 
 name: "Liferay CI Build Docker Image - Running on Release"
 on:
