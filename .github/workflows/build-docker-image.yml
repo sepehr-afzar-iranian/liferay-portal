@@ -88,34 +88,7 @@ jobs:
                   password: ${{secrets.SAIN_REPO_PASSWORD}}
                   registry: ${{secrets.SAIN_REPO_URL}}
                   username: ${{secrets.SAIN_REPO_USERNAME}}
-            - id: buildx
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v1
-            - id: docker_build_pre
-              if: ${{github.event_name == 'release' && github.event.action == 'prereleased'}}
-            - name: Build and push with version tag
-              uses: docker/build-push-action@v2
-              with:
-                  context: ./
-                  file: ./Dockerfile
-                  push: true
-                  tags: ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_DOCKER_VERSION}}
-            - id: docker_build
-              if: ${{github.event_name == 'release' && github.event.action == 'released'}}
-            - name: Build and push with latest tag (Runs ONLY in published releases)
-              uses: docker/build-push-action@v2
-              with:
-                  context: ./
-                  file: ./Dockerfile
-                  push: true
-                  tags: |
-                      ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:latest
-                      ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8:${{env.SAIN_DOCKER_VERSION}}
-            - if: ${{github.event_name == 'release' && github.event.action == 'released'}}
-            - name: Build bundle artifact
-              run: >
-                  curl -X POST ${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_URL}}
-                  -F token=${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_TOKEN}} -F ref=master
+
 name: "Liferay CI Build Docker Image - Running on Release"
 on:
     release:
