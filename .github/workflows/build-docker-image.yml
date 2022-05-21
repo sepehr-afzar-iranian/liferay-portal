@@ -64,7 +64,7 @@ jobs:
               working-directory: ./util-taglib
             - env:
                   ANT_OPTS: "-Xmx4g"
-            - name: Deploy core modules
+            - name: deploy core modules
               run: bash ../../gradlew deploy
               working-directory: ./modules/core
             - name: run module builder script # you should list your module names in this file for compile
