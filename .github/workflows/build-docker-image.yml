@@ -21,7 +21,7 @@ jobs:
               run: >
                   echo "SAIN_DOCKER_VERSION="$(grep "sain.docker.release.version" release-sain.properties |
                   cut -d'=' -f2) >> $GITHUB_ENV
-            - name: echo SAIN_DOCKER_VERSION # we print it to be sure that is set correctly
+            - name: Echo SAIN_DOCKER_VERSION # we print it to be sure that is set correctly
               run: echo ${{env.SAIN_DOCKER_VERSION}}
             - name: Set SAIN_EXTENSION_NEXUS_URL env # this version comes from release-sain.properties
               run: >
@@ -32,9 +32,9 @@ jobs:
                   echo release.info.date=$(grep "release.info.date" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
                   echo release.info.name=$(grep "release.info.name" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
                   echo release.info.version.display.name=$(grep "release.info.version.display.name" release-sain.properties | cut -d'=' -f2) SP ${{env.SAIN_DOCKER_VERSION}} >> release.$USER.properties
-            - name: echo SAIN_EXTENSION_NEXUS_URL # we print it to be sure that is set correctly
+            - name: Echo SAIN_EXTENSION_NEXUS_URL # we print it to be sure that is set correctly
               run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
-            - name: create backup from build.properties file
+            - name: Create backup from build.properties file
               run: mv build.properties build.properties.bak
             - name: Change Some Values in build.properties File
               run: >
@@ -45,7 +45,7 @@ jobs:
                   > build.properties
             - env:
                   ANT_OPTS: "-Xmx2g"
-              name: Ant Compile
+              name: Ant Compile and Install Portal Snapshots
               run: ant compile install-portal-snapshots
             - env:
                   ANT_OPTS: "-Xmx4g"
@@ -62,15 +62,13 @@ jobs:
               name: Ant deploy util-taglib
               run: ant deploy
               working-directory: ./util-taglib
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-            - name: deploy core modules
+            - name: Deploy core modules
               run: bash ../../gradlew deploy
               working-directory: ./modules/core
-            - name: deploy custom modules # you should list your module names in this file for compile
+            - name: Deploy custom modules # you should list your module names in this file for compile
               run: bash ../module-builder.sh deploy
               working-directory: ./modules
-            - name: move files to SAIN-Bundles # before create docker image, we should move those files to here.
+            - name: Move files to SAIN-Bundles # before create docker image, we should move those files to here.
               run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
             - name: Download modules
               run: >
