@@ -301,7 +301,7 @@ public class ProductFriendlyURLResolver implements FriendlyURLResolver {
 			}
 
 			String[] validLayoutTypes = {
-				LayoutConstants.TYPE_PORTLET,
+				LayoutConstants.TYPE_CONTENT, LayoutConstants.TYPE_PORTLET,
 				LayoutConstants.TYPE_FULL_PAGE_APPLICATION,
 				LayoutConstants.TYPE_PANEL
 			};
