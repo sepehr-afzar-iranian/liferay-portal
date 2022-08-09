@@ -23,10 +23,17 @@ import com.liferay.commerce.product.service.CommerceChannelService;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutTemplate;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
+import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.LayoutService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Portal;
@@ -138,7 +145,7 @@ public class CPContentHealthStatus implements CommerceChannelHealthStatus {
 			return true;
 		}
 
-		long plid = _portal.getPlidFromPortletId(
+		long plid = _getPlidFromPortletId(
 			commerceChannel.getSiteGroupId(), CPPortletKeys.CP_CONTENT_WEB);
 
 		if (plid > 0) {
@@ -148,8 +155,108 @@ public class CPContentHealthStatus implements CommerceChannelHealthStatus {
 		return false;
 	}
 
+	private long _getPlidFromPortletId(
+		List<Layout> layouts, String portletId, long scopeGroupId) {
+
+		for (Layout layout : layouts) {
+			LayoutTypePortlet layoutTypePortlet =
+				(LayoutTypePortlet)layout.getLayoutType();
+
+			if (_hasNonstaticPortletId(layoutTypePortlet, portletId) &&
+				(_portal.getScopeGroupId(layout, portletId) == scopeGroupId)) {
+
+				return layout.getPlid();
+			}
+		}
+
+		return LayoutConstants.DEFAULT_PLID;
+	}
+
+	private long _getPlidFromPortletId(long groupId, String portletId) {
+		long scopeGroupId = groupId;
+
+		try {
+			Group group = _groupLocalService.getGroup(groupId);
+
+			if (group.isLayout()) {
+				Layout scopeLayout = _layoutLocalService.getLayout(
+					group.getClassPK());
+
+				groupId = scopeLayout.getGroupId();
+			}
+
+			String[] validLayoutTypes = {
+				LayoutConstants.TYPE_CONTENT, LayoutConstants.TYPE_PORTLET,
+				LayoutConstants.TYPE_FULL_PAGE_APPLICATION,
+				LayoutConstants.TYPE_PANEL
+			};
+
+			for (String layoutType : validLayoutTypes) {
+				List<Layout> layouts = _layoutLocalService.getLayouts(
+					groupId, false, layoutType);
+
+				long plid = _getPlidFromPortletId(
+					layouts, portletId, scopeGroupId);
+
+				if (plid == LayoutConstants.DEFAULT_PLID) {
+					layouts = _layoutLocalService.getLayouts(
+						groupId, true, layoutType);
+
+					plid = _getPlidFromPortletId(
+						layouts, portletId, scopeGroupId);
+				}
+
+				if (plid != LayoutConstants.DEFAULT_PLID) {
+					return plid;
+				}
+			}
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(exception, exception);
+			}
+		}
+
+		return LayoutConstants.DEFAULT_PLID;
+	}
+
+	private boolean _hasNonstaticPortletId(
+		LayoutTypePortlet layoutTypePortlet, String portletId) {
+
+		LayoutTemplate layoutTemplate = layoutTypePortlet.getLayoutTemplate();
+
+		for (String columnId : layoutTemplate.getColumns()) {
+			String[] columnValues = StringUtil.split(
+				layoutTypePortlet.getTypeSettingsProperty(columnId));
+
+			for (String nonstaticPortletId : columnValues) {
+				if (nonstaticPortletId.equals(portletId)) {
+					return true;
+				}
+
+				String decodedNonstaticPortletName =
+					PortletIdCodec.decodePortletName(nonstaticPortletId);
+
+				if (decodedNonstaticPortletName.equals(portletId)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CPContentHealthStatus.class);
+
 	@Reference
 	private CommerceChannelService _commerceChannelService;
+
+	@Reference
+	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private LayoutLocalService _layoutLocalService;
 
 	@Reference
 	private LayoutService _layoutService;
