@@ -41,6 +41,7 @@ jobs:
                   cat build.properties.bak |
                   sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ;
                   s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
+                  s/jsp.precompile=on/jsp.precompile=off/g ;
                   s/org.gradle.daemon=true/org.gradle.daemon=false/g'
                   > build.properties
             - env:
