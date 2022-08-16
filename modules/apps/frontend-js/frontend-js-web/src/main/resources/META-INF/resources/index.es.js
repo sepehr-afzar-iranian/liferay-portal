@@ -64,6 +64,10 @@ export {getSessionValue, setSessionValue} from './liferay/util/session.es';
 
 export {openToast} from './liferay/toast/commands/OpenToast.es';
 
+export {datePicker} from './liferay/toast/commands/DatePicker.es';
+
+export {dateRenderer} from './liferay/toast/commands/DateRenderer.es';
+
 // Throttle API
 
 export {default as throttle} from './liferay/throttle.es';

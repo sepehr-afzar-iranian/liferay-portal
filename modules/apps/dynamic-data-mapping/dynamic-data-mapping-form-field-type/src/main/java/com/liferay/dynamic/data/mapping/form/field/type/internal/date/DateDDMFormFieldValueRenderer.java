@@ -14,17 +14,25 @@
 
 package com.liferay.dynamic.data.mapping.form.field.type.internal.date;
 
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
+
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueRenderer;
 import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.text.ParseException;
 
+import java.util.Date;
 import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
@@ -51,6 +59,30 @@ public class DateDDMFormFieldValueRenderer
 	protected String render(String valueString, Locale locale) {
 		if (Validator.isNotNull(valueString)) {
 			try {
+				String languageId = LanguageUtil.getLanguageId(locale);
+
+				if (languageId.equals("fa_IR")) {
+					SimpleDateFormat formatter = new SimpleDateFormat(
+						"yyyy-MM-dd", LocaleUtil.getDefault());
+
+					NumberFormat numberFormat = NumberFormat.getNumberInstance(
+						LocaleUtil.ENGLISH);
+
+					formatter.setNumberFormat(numberFormat);
+
+					Date value = DateUtil.parseDate(
+						"yyyy-MM-dd", valueString, locale);
+
+					ULocale uLocale = ULocale.forLocale(
+						LocaleUtil.fromLanguageId("fa_IR"));
+
+					Calendar calendar = Calendar.getInstance(uLocale);
+
+					calendar.setTime(value);
+
+					return formatter.format(calendar);
+				}
+
 				return DateUtil.formatDate("yyyy-MM-dd", valueString, locale);
 			}
 			catch (ParseException parseException) {

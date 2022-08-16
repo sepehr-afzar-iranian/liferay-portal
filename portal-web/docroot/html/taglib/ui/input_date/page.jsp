@@ -118,13 +118,15 @@ else {
 			<input class="form-control <%= cssClass %>" <%= disabled ? "disabled=\"disabled\"" : "" %> id="<%= nameId %>" name="<%= namespace + HtmlUtil.escapeAttribute(name) %>" type="date" value="<%= dateString %>" />
 		</c:when>
 		<c:otherwise>
-			<aui:input cssClass="<%= cssClass %>" disabled="<%= disabled %>" id="<%= HtmlUtil.getAUICompatibleId(name) %>" label="" name="<%= name %>" placeholder="<%= StringUtil.toLowerCase(placeholderValue) %>" required="<%= required %>" title="" type="text" value="<%= dateString %>" wrappedField="<%= true %>">
-				<aui:validator errorMessage="please-enter-a-valid-date" name="custom">
-					function(val) {
-						return AUI().use('aui-datatype-date-parse').Parsers.date('<%= mask %>', val);
-					}
-				</aui:validator>
-			</aui:input>
+			<%-- <aui:input cssClass="<%= cssClass %>" disabled="<%= disabled %>" id="<%= HtmlUtil.getAUICompatibleId(name) %>" label="" name="<%= name %>" placeholder="<%= StringUtil.toLowerCase(placeholderValue) %>" required="<%= required %>" title="" type="hidden" value="<%= dateString %>" wrappedField="<%= true %>">--%>
+			<%-- <aui:validator errorMessage="please-enter-a-valid-date" name="custom">--%>
+			<%-- function(val) {--%>
+			<%-- return AUI().use('aui-datatype-date-parse').Parsers.date('<%= mask %>', val);--%>
+			<%-- }--%>
+			<%-- </aui:validator>--%>
+			<%-- </aui:input>--%>
+
+			<span id="<%= nameId %>displayDate"></span>
 		</c:otherwise>
 	</c:choose>
 
@@ -202,6 +204,22 @@ else {
 		})();
 	</script>
 </c:if>
+
+<aui:script require="frontend-js-web/liferay/toast/commands/DatePicker.es as datePicker">
+	datePicker.datePicker(
+		'<%=nameId%>displayDate',
+		{
+			spritemap: '<%= themeDisplay.getPathThemeImages() %>/lexicon/icons.svg',
+			yearParamId: '<%= yearParamId %>',
+			monthParamId: '<%= monthParamId %>',
+			dayParamId: '<%= dayParamId %>',
+			local: '<%=themeDisplay.getLocale().getLanguage() %>',
+			value: '<%=dateString%>',
+			disabled: <%=disabled%>,
+			inputId: '<%=nameId%>'
+		}
+	);
+</aui:script>
 
 <aui:script use='<%= "aui-datepicker" + (BrowserSnifferUtil.isMobile(request) ? "-native" : StringPool.BLANK) %>'>
 	Liferay.component(
@@ -361,7 +379,7 @@ else {
 		}
 	);
 
-	Liferay.component('<%= nameId %>DatePicker');
+	// Liferay.component('<%= nameId %>DatePicker');
 </aui:script>
 
 <%!
