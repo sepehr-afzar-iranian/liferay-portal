@@ -21,8 +21,6 @@ AUI.add(
 
 		var AQueue = A.Queue;
 
-		var DateMath = A.DataType.DateMath;
-
 		var Lang = A.Lang;
 
 		var INSTANCE_ID_PREFIX = '_INSTANCE_';
@@ -1451,36 +1449,27 @@ AUI.add(
 			EXTENDS: Field,
 
 			prototype: {
-				getDatePicker() {
-					var instance = this;
-
-					var inputNode = instance.getInputNode();
-
-					return Liferay.component(
-						inputNode.attr('id') + 'DatePicker'
-					);
-				},
-
 				getValue() {
 					var instance = this;
 
-					var datePicker = instance.getDatePicker();
+					var container = instance.get('container');
+					var inputName = instance.getInputName();
 
-					var value = '';
+					var year = container
+						.one('input[name=' + inputName + 'Year]')
+						.val();
+					var month = container
+						.one('input[name=' + inputName + 'Month]')
+						.val();
+					var day = container
+						.one('input[name=' + inputName + 'Day]')
+						.val();
 
-					if (datePicker) {
-						var selectedDate = datePicker.getDate();
+					var selectedDate = new Date(year, month, day);
 
-						var formattedDate = A.DataType.Date.format(
-							selectedDate
-						);
+					var formattedDate = A.DataType.Date.format(selectedDate);
 
-						var inputNode = instance.getInputNode();
-
-						value = inputNode.val() ? formattedDate : '';
-					}
-
-					return value;
+					return formattedDate;
 				},
 
 				repeat() {
@@ -1502,40 +1491,7 @@ AUI.add(
 					});
 				},
 
-				setValue(value) {
-					var instance = this;
-
-					var datePicker = instance.getDatePicker();
-
-					if (!datePicker) {
-						return;
-					}
-
-					datePicker.set('activeInput', instance.getInputNode());
-
-					datePicker.deselectDates();
-
-					if (value) {
-						var date = A.DataType.Date.parse(value);
-
-						if (!date) {
-							datePicker.selectDates('');
-
-							return;
-						}
-
-						date = DateMath.add(
-							date,
-							DateMath.MINUTES,
-							date.getTimezoneOffset()
-						);
-
-						datePicker.selectDates(date);
-					}
-					else {
-						datePicker.selectDates('');
-					}
-				},
+				setValue() {},
 			},
 		});
 

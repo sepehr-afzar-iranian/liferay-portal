@@ -14,15 +14,15 @@
 
 package com.liferay.taglib.search;
 
+import com.liferay.ibm.icu.text.SimpleDateFormat;
+import com.liferay.ibm.icu.util.Calendar;
+import com.liferay.ibm.icu.util.ULocale;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.text.Format;
 
 import java.util.Date;
 import java.util.Locale;
@@ -47,13 +47,26 @@ public class DateSearchEntry extends TextSearchEntry {
 
 			Locale locale = (Locale)localeAndTimeZone[0];
 
-			Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(
-				locale, (TimeZone)localeAndTimeZone[1]);
+			SimpleDateFormat formatter = new SimpleDateFormat(
+				_DATE_FORMAT_PATTERN, locale);
+
+			ULocale uLocale = ULocale.forLocale(locale);
+
+			TimeZone javaTimeZone = (TimeZone)localeAndTimeZone[1];
+
+			com.liferay.ibm.icu.util.TimeZone timeZone =
+				com.liferay.ibm.icu.util.TimeZone.getTimeZone(
+					javaTimeZone.getID());
+
+			Calendar calendar = Calendar.getInstance(uLocale);
+
+			calendar.setTime(_date);
+			calendar.setTimeZone(timeZone);
 
 			StringBundler sb = new StringBundler(5);
 
 			sb.append("<span class=\"lfr-portal-tooltip\" title=\"");
-			sb.append(dateFormatDateTime.format(_date));
+			sb.append(formatter.format(calendar));
 			sb.append("\">");
 
 			sb.append(
@@ -122,6 +135,8 @@ public class DateSearchEntry extends TextSearchEntry {
 
 		return _date.getTime() - System.currentTimeMillis();
 	}
+
+	private static final String _DATE_FORMAT_PATTERN = "dd MMMM yyyy HH:mm";
 
 	private Date _date;
 	private Locale _locale;

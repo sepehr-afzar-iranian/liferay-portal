@@ -13,7 +13,6 @@
  */
 
 import ClayButton from '@clayui/button';
-import moment from 'moment';
 import React, {useContext} from 'react';
 
 import {removeEmptyValues} from '../../utils/data.es';
@@ -26,7 +25,17 @@ export default ({data, field, summary, totalEntries, type}) => {
 	const formatDate = (field) => {
 		const locale = themeDisplay.getLanguageId().split('_', 1).join('');
 
-		return moment(field).locale(locale).format('L');
+		const dateOptions = {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric',
+		};
+		const formattedDate = new Intl.DateTimeFormat(
+			locale,
+			dateOptions
+		).format(new Date(field));
+
+		return formattedDate;
 	};
 
 	const checkType = (field, type) => {

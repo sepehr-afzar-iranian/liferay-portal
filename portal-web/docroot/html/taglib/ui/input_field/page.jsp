@@ -262,12 +262,12 @@ if (hints != null) {
 					var checkbox = A.one('#<portlet:namespace /><%= formName + fieldParam %>');
 
 					if (checkbox) {
-						checkbox.once(
-							'click',
-							function() {
-								Liferay.component('<portlet:namespace /><%= fieldParam %>DatePicker');
-							}
-						);
+<%--						checkbox.once(--%>
+<%--							'click',--%>
+<%--							function() {--%>
+<%--								Liferay.component('<portlet:namespace /><%= fieldParam %>DatePicker');--%>
+<%--							}--%>
+<%--						);--%>
 
 						var form = document.<portlet:namespace /><%= formName %>;
 
