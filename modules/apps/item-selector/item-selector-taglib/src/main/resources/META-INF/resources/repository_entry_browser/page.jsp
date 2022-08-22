@@ -694,6 +694,7 @@ searchContainer.setResults(repositoryEntries);
 
 		Liferay.Util.getOpener().Liferay.fire('<%= itemSelectedEventName %>', {
 			items: selectedData,
+			data: event.data
 		});
 	});
 </aui:script>

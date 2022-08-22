@@ -16,6 +16,7 @@ package com.liferay.journal.web.internal.item.selector;
 
 import com.liferay.item.selector.ItemSelector;
 import com.liferay.item.selector.ItemSelectorCriterion;
+import com.liferay.item.selector.ItemSelectorReturnType;
 import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
 import com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion;
 import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
@@ -28,6 +29,8 @@ import com.liferay.portal.kernel.portlet.LiferayRenderResponse;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portlet.LiferayPortletUtil;
+
+import java.util.Collections;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -73,6 +76,28 @@ public class JournalItemSelectorHelper {
 			requestBackedPortletURLFactory,
 			liferayRenderResponse.getNamespace() + "selectDocumentLibrary",
 			itemSelectorCriterion);
+	}
+
+	public String getImageItemSelectorUrl() {
+		LiferayRenderRequest liferayRenderRequest =
+			(LiferayRenderRequest)LiferayPortletUtil.getLiferayPortletRequest(
+				_renderRequest);
+
+		RequestBackedPortletURLFactory requestBackedPortletURLFactory =
+			RequestBackedPortletURLFactoryUtil.create(liferayRenderRequest);
+
+		ImageItemSelectorCriterion imageItemSelectorCriterion =
+			new ImageItemSelectorCriterion();
+
+		imageItemSelectorCriterion.setDesiredItemSelectorReturnTypes(
+			Collections.<ItemSelectorReturnType>singletonList(
+				new FileEntryItemSelectorReturnType()));
+
+		PortletURL itemSelectorURL = _itemSelector.getItemSelectorURL(
+			requestBackedPortletURLFactory, "addFileEntry",
+			imageItemSelectorCriterion);
+
+		return itemSelectorURL.toString();
 	}
 
 	public PortletURL getImageSelectorURL() {
