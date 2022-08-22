@@ -22,6 +22,8 @@ JournalArticle article = journalDisplayContext.getArticle();
 JournalEditArticleDisplayContext journalEditArticleDisplayContext = new JournalEditArticleDisplayContext(request, liferayPortletResponse, article);
 
 String smallImageSource = journalEditArticleDisplayContext.getSmallImageSource();
+
+JournalItemSelectorHelper journalItemSelectorHelper = new JournalItemSelectorHelper(article, journalDisplayContext.getFolder(), renderRequest, renderResponse);
 %>
 
 <liferay-ui:error-marker
@@ -50,13 +52,19 @@ JournalFileUploadsConfiguration journalFileUploadsConfiguration = (JournalFileUp
 </aui:select>
 
 <div class="<%= Objects.equals(smallImageSource, "url") ? "" : "hide" %>" id="<portlet:namespace />smallImageURLContainer">
-	<c:if test="<%= (article != null) && Validator.isNotNull(article.getArticleImageURL(themeDisplay)) %>">
-		<div class="aspect-ratio aspect-ratio-16-to-9">
-			<img alt="<liferay-ui:message escapeAttribute="<%= true %>" key="preview" />" class="aspect-ratio-item-fluid" src="<%= HtmlUtil.escapeAttribute(article.getArticleImageURL(themeDisplay)) %>" />
-		</div>
-	</c:if>
+	<div class="mb-2 aspect-ratio aspect-ratio-16-to-9 preview-article-image <%= Objects.equals(smallImageSource, "url") ? "" : "hide" %>">
+		<img alt="<liferay-ui:message escapeAttribute="<%= true %>" key="preview" />" class="aspect-ratio-item-fluid" src='<%=
+			(article != null) && Validator.isNotNull(article.getArticleImageURL(themeDisplay)) ? HtmlUtil.escapeAttribute(article.getArticleImageURL(themeDisplay)) : ""
+			%>'
+		/>
+	</div>
 
-	<aui:input ignoreRequestValue="<%= journalEditArticleDisplayContext.isChangeStructure() %>" label="" name="smallImageURL" title="small-image-url" wrapperCssClass="mb-3" />
+	<aui:input ignoreRequestValue="<%= journalEditArticleDisplayContext.isChangeStructure() %>" label="" name="smallImageURL" title="small-image-url" />
+
+	<div class="form-group">
+		<aui:button id="selectArticleImageURL" value="select" />
+		<aui:button id="clearArticleImageURL" value="clear" />
+	</div>
 </div>
 
 <div class="<%= Objects.equals(smallImageSource, "file") ? "" : "hide" %>" id="<portlet:namespace />smallFileContainer">
@@ -80,4 +88,64 @@ JournalFileUploadsConfiguration journalFileUploadsConfiguration = (JournalFileUp
 		'file',
 		'<portlet:namespace />smallFileContainer'
 	);
+</aui:script>
+
+<aui:script require="frontend-js-web/liferay/ItemSelectorDialog.es as ItemSelectorDialog">
+	var clearArticleImageURLButton = document.getElementById(
+		'<portlet:namespace />clearArticleImageURL'
+	);
+
+	var selectArticleImageURLButton = document.getElementById(
+		'<portlet:namespace />selectArticleImageURL'
+	);
+
+	selectArticleImageURLButton.addEventListener('click', function (event) {
+		event.preventDefault();
+
+		var itemSelectorDialog = new ItemSelectorDialog.default({
+			eventName: 'addFileEntry',
+			singleSelect: true,
+			title: '<liferay-ui:message key="select-item" />',
+			url:
+				'<%= String.valueOf(journalItemSelectorHelper.getImageItemSelectorUrl()) %>',
+		});
+
+		itemSelectorDialog.open();
+
+		itemSelectorDialog.on('selectedItemChange', function (event) {
+			var selectedItem = event.selectedItem;
+
+			if (selectedItem && selectedItem.value) {
+				var item = JSON.parse(selectedItem.value);
+
+				changeArticleImageURL(item.url);
+			}
+		});
+	});
+
+	if (clearArticleImageURLButton) {
+		clearArticleImageURLButton.addEventListener('click', function (event) {
+			changeArticleImageURL();
+		});
+	}
+
+	function changeArticleImageURL(imageURL) {
+		var previewArticleImageEl = document.querySelector(
+			'#<portlet:namespace />smallImageURLContainer .preview-article-image'
+		);
+
+		document.getElementById(
+			'<portlet:namespace />smallImageURL'
+		).value = imageURL ? imageURL : '';
+		document.querySelector(
+			'#<portlet:namespace />smallImageURLContainer img'
+		).src = imageURL ? imageURL : '';
+
+		if (imageURL) {
+			previewArticleImageEl.classList.remove('hide');
+		}
+		else {
+			previewArticleImageEl.classList.add('hide');
+		}
+	}
 </aui:script>
