@@ -1,0 +1,39 @@
+.Calendar {
+	min-height: 25.7em;
+	padding-top: 0;
+	width: 25em;
+	z-index: 1600;
+}
+
+.Calendar__header {
+	padding: 1em 1.2em;
+}
+
+.Calendar__day.-rtl {
+	height: 1.98em;
+}
+
+.Calendar__day.-ltr {
+	min-height: 0.98em;
+}
+
+.Calendar__sectionWrapper {
+	min-height: 21.8em;
+}
+
+.DatePicker__calendarContainer {
+	left: 0;
+}
+
+.ltr .DatePicker__calendarContainer {
+	left: 35%;
+	right: 0;
+}
+
+.ltr .Calendar {
+	width: 28em;
+}
+
+.DatePicker.disable {
+	z-index: 1;
+}

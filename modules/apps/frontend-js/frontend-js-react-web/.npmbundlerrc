@@ -10,6 +10,12 @@
 			}
 		}
 	},
+    	"rules": [
+        		{
+        			"test": "\\.css$",
+        			"use": ["css-loader"]
+        		}
+        	],
 	"exclude": {
 		"babel-runtime": true,
 		"core-js": true,

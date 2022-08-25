@@ -14,6 +14,11 @@
 
 package com.liferay.dynamic.data.mapping.internal.io.exporter;
 
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
+
 import com.liferay.dynamic.data.mapping.exception.FormInstanceRecordExporterException;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTypeServicesTracker;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueRenderer;
@@ -42,6 +47,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -51,6 +57,7 @@ import java.text.Format;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -169,8 +176,6 @@ public class DDMFormInstanceRecordExporterImpl
 
 		List<Map<String, String>> ddmFormFieldValues = new ArrayList<>();
 
-		Format dateTimeFormat = FastDateFormatFactoryUtil.getDateTime(locale);
-
 		for (DDMFormInstanceRecord ddmFormInstanceRecord :
 				ddmFormInstanceRecords) {
 
@@ -206,8 +211,8 @@ public class DDMFormInstanceRecordExporterImpl
 
 			ddmFormFieldsValue.put(
 				_MODIFIED_DATE,
-				dateTimeFormat.format(
-					ddmFormInstanceRecordVersion.getStatusDate()));
+				getModifiedDate(
+					ddmFormInstanceRecordVersion.getStatusDate(), locale));
 
 			ddmFormFieldsValue.put(
 				_AUTHOR, ddmFormInstanceRecordVersion.getUserName());
@@ -238,6 +243,33 @@ public class DDMFormInstanceRecordExporterImpl
 		);
 
 		return ddmFormFields;
+	}
+
+	protected String getModifiedDate(Date date, Locale locale) {
+		String languageId = LanguageUtil.getLanguageId(locale);
+
+		if (languageId.equals("fa_IR")) {
+			SimpleDateFormat formatter = new SimpleDateFormat(
+				"yyyy-MM-dd hh:mm:ss", LocaleUtil.getDefault());
+
+			NumberFormat numberFormat = NumberFormat.getNumberInstance(
+				LocaleUtil.ENGLISH);
+
+			formatter.setNumberFormat(numberFormat);
+
+			ULocale uLocale = ULocale.forLocale(
+				LocaleUtil.fromLanguageId("fa_IR"));
+
+			Calendar calendar = Calendar.getInstance(uLocale);
+
+			calendar.setTime(date);
+
+			return formatter.format(calendar);
+		}
+
+		Format dateTimeFormat = FastDateFormatFactoryUtil.getDateTime(locale);
+
+		return dateTimeFormat.format(date);
 	}
 
 	protected Map<String, DDMFormField>

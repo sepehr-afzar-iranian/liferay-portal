@@ -7,6 +7,7 @@
 		"@liferay/amd-loader": "4.3.1",
 		"clay": "2.18.1",
 		"clay-alert": "2.22.2",
+		"jalali-moment": "3.3.10",
 		"lodash.escape": "4.0.1",
 		"lodash.groupby": "4.6.0",
 		"lodash.isequal": "4.5.0",
@@ -20,6 +21,7 @@
 		"metal-events": "2.16.8",
 		"metal-position": "2.1.2",
 		"metal-soy": "2.16.8",
+		"moment": "2.22.2",
 		"react": "16.12.0",
 		"react-dom": "16.12.0",
 		"uuid": "^3.3.2"

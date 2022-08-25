@@ -41,6 +41,7 @@ jobs:
                   cat build.properties.bak |
                   sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ;
                   s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
+                  s/jsp.precompile=on/jsp.precompile=off/g ;
                   s/org.gradle.daemon=true/org.gradle.daemon=false/g'
                   > build.properties
             - env:
@@ -52,6 +53,11 @@ jobs:
               name: Ant deploy portal-impl
               run: ant deploy
               working-directory: ./portal-impl
+            - env:
+                  ANT_OPTS: "-Xmx4g"
+              name: Ant deploy portal-web
+              run: ant deploy
+              working-directory: ./portal-web
             - env:
                   ANT_OPTS: "-Xmx4g"
               name: Ant deploy portal-kernel
