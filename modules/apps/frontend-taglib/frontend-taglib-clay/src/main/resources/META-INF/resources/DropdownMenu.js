@@ -29,6 +29,7 @@ export default function DropdownMenu({
 	locale: _locale,
 	portletId: _portletId,
 	portletNamespace: _portletNamespace,
+	spritemap,
 	...otherProps
 }) {
 	return (
@@ -64,7 +65,7 @@ export default function DropdownMenu({
 									'inline-item-before': label,
 								})}
 							>
-								<ClayIcon symbol={icon} />
+								<ClayIcon spritemap={spritemap} symbol={icon} />
 							</span>
 						)}
 

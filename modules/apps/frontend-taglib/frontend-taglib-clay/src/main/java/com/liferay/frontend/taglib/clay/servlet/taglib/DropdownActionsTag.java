@@ -14,6 +14,9 @@
 
 package com.liferay.frontend.taglib.clay.servlet.taglib;
 
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +41,13 @@ public class DropdownActionsTag extends DropdownMenuTag {
 	@Override
 	protected Map<String, Object> prepareProps(Map<String, Object> props) {
 		props.put("actionsDropdown", true);
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		String pathThemeImages = themeDisplay.getPathThemeImages();
+
+		props.put("spritemap", pathThemeImages.concat("/clay/icons.svg"));
 
 		return super.prepareProps(props);
 	}
