@@ -25,6 +25,7 @@ apps:journal:journal-item-selector-web:$1 \
 apps:journal:journal-service:$1 \
 apps:journal:journal-web:$1 \
 apps:layout:layout-impl:$1 \
+apps:layout:layout-impl:$1 \
 apps:layout:layout-seo-web-test:$1 \
 apps:layout:layout-seo-web:$1 \
 apps:portal-search-elasticsearch7:portal-search-elasticsearch7-impl:$1 \
