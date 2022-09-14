@@ -22,7 +22,9 @@ import com.liferay.frontend.taglib.clay.internal.util.ReactRendererProvider;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.string.StringUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.template.react.renderer.ComponentDescriptor;
 import com.liferay.portal.template.react.renderer.ReactRenderer;
 import com.liferay.taglib.util.AttributesTagSupport;
@@ -268,6 +270,15 @@ public class BaseContainerTag extends AttributesTagSupport {
 		}
 
 		props.put("id", _id);
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		if (themeDisplay != null) {
+			String pathThemeImages = themeDisplay.getPathThemeImages();
+
+			props.put("spritemap", pathThemeImages.concat("/clay/icons.svg"));
+		}
 
 		if (_additionalProps != null) {
 			props.putAll(_additionalProps);
