@@ -14,6 +14,7 @@ apps:dynamic-data-mapping:dynamic-data-mapping-form-field-type:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-form-report-web:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-service:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-web:$1 \
+apps:friendly-url:friendly-url-service:$1 \
 apps:frontend-editor:frontend-editor-ckeditor-web:$1 \
 apps:frontend-js:frontend-js-aui-web:$1 \
 apps:frontend-js:frontend-js-react-web:$1 \
