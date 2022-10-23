@@ -81,7 +81,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 
 		String extraPlugins =
 			"addimages,autogrow,autolink,filebrowser,itemselector,lfrpopup," +
-				"media,stylescombo,videoembed";
+				"media,stylescombo,videoembed,bidi";
 
 		boolean inlineEdit = GetterUtil.getBoolean(
 			(String)inputEditorTaglibAttributes.get(
@@ -210,6 +210,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 			toJSONArray(
 				"['JustifyLeft', 'JustifyCenter', 'JustifyRight', " +
 					"'JustifyBlock']"),
+			toJSONArray("['BidiLtr', 'BidiRtl']"),
 			toJSONArray("['Bold', 'Italic', 'Underline', 'Strikethrough']"),
 			toJSONArray("['RemoveFormat']"),
 			toJSONArray("['NumberedList', 'BulletedList']"),
