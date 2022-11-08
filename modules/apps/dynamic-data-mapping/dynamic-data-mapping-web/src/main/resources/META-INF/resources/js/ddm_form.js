@@ -1451,6 +1451,7 @@ AUI.add(
 			prototype: {
 				getValue() {
 					var instance = this;
+					var formattedDate = '';
 
 					var container = instance.get('container');
 					var inputName = instance.getInputName();
@@ -1465,9 +1466,10 @@ AUI.add(
 						.one('input[name=' + inputName + 'Day]')
 						.val();
 
-					var selectedDate = new Date(year, month, day);
-
-					var formattedDate = A.DataType.Date.format(selectedDate);
+					if (year > 0) {
+						var selectedDate = new Date(year, month, day);
+						formattedDate = A.DataType.Date.format(selectedDate);
+					}
 
 					return formattedDate;
 				},

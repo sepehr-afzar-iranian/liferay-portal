@@ -35,7 +35,14 @@ boolean nullable = GetterUtil.getBoolean((String)request.getAttribute("liferay-u
 boolean required = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-date:required"));
 boolean showDisableCheckbox = GetterUtil.getBoolean((String)request.getAttribute("liferay-ui:input-date:showDisableCheckbox"));
 String yearParam = GetterUtil.getString((String)request.getAttribute("liferay-ui:input-date:yearParam"));
+
 int yearValue = GetterUtil.getInteger((String)request.getAttribute("liferay-ui:input-date:yearValue"));
+
+// Shamsi Datepicker does not supports lower than 1301 Hijri year
+
+if ((yearValue > 0) && (yearValue < 1922)) {
+	yearValue = 1922;
+}
 
 String dayParamId = namespace + HtmlUtil.getAUICompatibleId(dayParam);
 String monthParamId = namespace + HtmlUtil.getAUICompatibleId(monthParam);
