@@ -42,6 +42,9 @@ task portalYarnCheckFormat
 task portalYarnFormat
 task portalYarnInstall
 
+allprojects { plugins.withId("com.liferay.node") { node.nodeVersion = '12.22.12' } }
+
+
 Set<File> bndPrintJarFiles = null
 
 if (Boolean.getBoolean("build.bnd.print.enabled")) {
