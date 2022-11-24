@@ -38,6 +38,8 @@ ext {
 	]
 }
 
+allprojects { plugins.withId("com.liferay.node") { node.nodeVersion = '10.24.1' } }
+
 task portalYarnCheckFormat
 task portalYarnFormat
 task portalYarnInstall
