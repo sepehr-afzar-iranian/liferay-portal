@@ -1115,7 +1115,7 @@
     react-transition-group "^4.4.1"
     warning "^4.0.3"
 
-"@clayui/drop-down@^3.8.0", "@clayui/drop-down@^3.9.1":
+"@clayui/drop-down@^3.8.0", "@clayui/drop-down@^3.9.1", "@clayui/drop-down@^3.28.0":
   version "3.28.0"
   resolved "https://registry.yarnpkg.com/@clayui/drop-down/-/drop-down-3.28.0.tgz#0075fc81b38fcf05dd5122ab135c3288fe37c236"
   integrity sha512-NBW1of+jH/pplRCS1AImiCoO50axT7ry9neVTex0kPtiCE6yxpJXPkCYqGkbT6PtFnk6iXMGb4W3fsCZrRtMFA==
