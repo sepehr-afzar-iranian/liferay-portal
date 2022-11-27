@@ -20,6 +20,9 @@
 			"frontend-js-web": {
 				"/": ">=3.0.0"
 			},
+			"frontend-js-node-shims": {
+				"domain": "*"
+			},
 			"frontend-taglib-chart": {
 				"billboard.js": ">=1.5.0",
 				"d3": ">=1.0.0",
