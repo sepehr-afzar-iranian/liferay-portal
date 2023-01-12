@@ -197,7 +197,7 @@ else {
 			yearParamId: '<%= yearParamId %>',
 			monthParamId: '<%= monthParamId %>',
 			dayParamId: '<%= dayParamId %>',
-			local: '<%=themeDisplay.getLocale().getLanguage() %>',
+			local: '<%=themeDisplay.getLocale().getLanguage().equals("fa") ? "fa" : "en" %>',
 			value: '<%=dateString%>',
 			disabled: <%=disabled%>,
 			inputId: '<%=nameId%>'
