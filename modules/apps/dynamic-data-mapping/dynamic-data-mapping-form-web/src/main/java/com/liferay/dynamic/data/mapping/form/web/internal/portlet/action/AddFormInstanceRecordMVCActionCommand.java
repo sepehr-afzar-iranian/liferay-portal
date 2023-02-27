@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.LiferayActionResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.LayoutLocalService;
@@ -220,6 +221,15 @@ public class AddFormInstanceRecordMVCActionCommand
 							KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE));
 			}
 		}
+		LiferayActionResponse liferayActionResponse =
+			(LiferayActionResponse)actionResponse;
+
+		PortletURL portletURL = liferayActionResponse.createRenderURL();
+
+		portletURL.setParameter(
+			"trackingCode", _trackingCode);
+
+		actionResponse.sendRedirect(portletURL.toString());
 	}
 
 	protected DDMForm getDDMForm(DDMFormInstance ddmFormInstance)
@@ -292,6 +302,8 @@ public class AddFormInstanceRecordMVCActionCommand
 					_ddmFormInstanceRecordService.addFormInstanceRecord(
 						groupId, ddmFormInstance.getFormInstanceId(),
 						ddmFormValues, serviceContext);
+
+				_trackingCode = ddmFormInstanceRecord.getTrackingCode();
 			}
 			else {
 				ddmFormInstanceRecord =
@@ -330,6 +342,7 @@ public class AddFormInstanceRecordMVCActionCommand
 					" is not published");
 		}
 	}
+	private String _trackingCode;
 
 	@Reference
 	private AddDefaultSharedFormLayoutPortalInstanceLifecycleListener
