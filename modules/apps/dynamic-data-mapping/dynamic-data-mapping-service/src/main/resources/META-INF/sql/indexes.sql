@@ -104,3 +104,5 @@ create index IX_6A4E3B55 on DDMTemplateVersion (ctCollectionId);
 create index IX_4E55E73E on DDMTemplateVersion (templateId, ctCollectionId);
 create index IX_1EC6BA24 on DDMTemplateVersion (templateId, status, ctCollectionId);
 create unique index IX_64E82786 on DDMTemplateVersion (templateId, version[$COLUMN_LENGTH:75$], ctCollectionId);
+
+create unique index IX_D1455B8D on DDMTrackingCode (trackingCode[$COLUMN_LENGTH:75$], ctCollectionId);
