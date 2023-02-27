@@ -73,6 +73,8 @@ public class DDMFormInstanceRecordModelDocumentContributor
 				Field.VERSION, ddmFormInstanceRecordVersion.getVersion());
 			document.addKeyword(
 				"formInstanceId", ddmFormInstance.getFormInstanceId());
+			document.addKeyword(
+				"trackingCode", ddmFormInstanceRecord.getTrackingCode());
 
 			DDMStructure ddmStructure = ddmFormInstance.getStructure();
 

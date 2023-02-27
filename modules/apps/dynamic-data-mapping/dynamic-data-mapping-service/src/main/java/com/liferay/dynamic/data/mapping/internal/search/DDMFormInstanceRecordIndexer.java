@@ -150,6 +150,7 @@ public class DDMFormInstanceRecordIndexer
 		throws Exception {
 
 		addSearchTerm(searchQuery, searchContext, Field.USER_NAME, false);
+		addSearchTerm(searchQuery, searchContext, "trackingCode", false);
 
 		addContentSearchTerm(searchQuery, searchContext);
 	}
