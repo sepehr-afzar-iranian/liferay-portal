@@ -83,4 +83,7 @@ public interface DDMFormInstanceRecord
 	public String getStorageType()
 		throws com.liferay.portal.kernel.exception.PortalException;
 
+	public String getTrackingCode()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
 }
