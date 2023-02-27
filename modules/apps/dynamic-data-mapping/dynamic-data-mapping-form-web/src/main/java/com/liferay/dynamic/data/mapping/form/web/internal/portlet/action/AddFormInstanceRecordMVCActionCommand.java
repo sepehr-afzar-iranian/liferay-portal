@@ -33,6 +33,7 @@ import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.LiferayActionResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -52,6 +53,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletSession;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -156,6 +158,15 @@ public class AddFormInstanceRecordMVCActionCommand
 							KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE));
 			}
 		}
+		LiferayActionResponse liferayActionResponse =
+			(LiferayActionResponse)actionResponse;
+
+		PortletURL portletURL = liferayActionResponse.createRenderURL();
+
+		portletURL.setParameter(
+			"trackingCode", _trackingCode);
+
+		actionResponse.sendRedirect(portletURL.toString());
 	}
 
 	protected DDMForm getDDMForm(DDMFormInstance ddmFormInstance)
@@ -221,9 +232,10 @@ public class AddFormInstanceRecordMVCActionCommand
 						WorkflowConstants.STATUS_DRAFT);
 
 			if (ddmFormInstanceRecordVersion == null) {
-				_ddmFormInstanceRecordService.addFormInstanceRecord(
+				DDMFormInstanceRecord ddmFormInstanceRecord = _ddmFormInstanceRecordService.addFormInstanceRecord(
 					groupId, ddmFormInstance.getFormInstanceId(), ddmFormValues,
 					serviceContext);
+				_trackingCode = ddmFormInstanceRecord.getTrackingCode();
 			}
 			else {
 				_ddmFormInstanceRecordService.updateFormInstanceRecord(
@@ -259,6 +271,7 @@ public class AddFormInstanceRecordMVCActionCommand
 					" is not published");
 		}
 	}
+	private String _trackingCode;
 
 	@Reference
 	private AddDefaultSharedFormLayoutPortalInstanceLifecycleListener
