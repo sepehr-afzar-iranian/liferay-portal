@@ -134,6 +134,7 @@ public class DDMFormInstanceRecordExporterImpl
 					localizedValue.getString(locale));
 			});
 
+		ddmFormFieldsLabel.put(_TRACKING_CODE, LanguageUtil.get(locale, _TRACKING_CODE));
 		ddmFormFieldsLabel.put(_STATUS, LanguageUtil.get(locale, _STATUS));
 		ddmFormFieldsLabel.put(
 			_MODIFIED_DATE, LanguageUtil.get(locale, "modified-date"));
@@ -203,6 +204,10 @@ public class DDMFormInstanceRecordExporterImpl
 
 			DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion =
 				ddmFormInstanceRecord.getFormInstanceRecordVersion();
+
+			ddmFormFieldsValue.put(
+				_TRACKING_CODE,
+				ddmFormInstanceRecord.getTrackingCode());
 
 			ddmFormFieldsValue.put(
 				_STATUS,
@@ -354,5 +359,7 @@ public class DDMFormInstanceRecordExporterImpl
 	private static final String _MODIFIED_DATE = "modifiedDate";
 
 	private static final String _STATUS = "status";
+
+	private static final String _TRACKING_CODE = "trackingCode";
 
 }
