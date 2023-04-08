@@ -91,7 +91,7 @@ PortletURL portletURL = ddmFormViewFormInstanceRecordsDisplayContext.getPortletU
 				%>
 
 				<liferay-ui:search-container-column-text
-					name="trackingCode"
+					name="tracking-code"
 					value="<%= formInstanceRecord.getTrackingCode() %>"
 				/>
 

@@ -134,7 +134,7 @@ public class DDMFormInstanceRecordExporterImpl
 					localizedValue.getString(locale));
 			});
 
-		ddmFormFieldsLabel.put(_TRACKING_CODE, LanguageUtil.get(locale, _TRACKING_CODE));
+		ddmFormFieldsLabel.put(_TRACKING_CODE, "tracking-code");
 		ddmFormFieldsLabel.put(_STATUS, LanguageUtil.get(locale, _STATUS));
 		ddmFormFieldsLabel.put(
 			_MODIFIED_DATE, LanguageUtil.get(locale, "modified-date"));
