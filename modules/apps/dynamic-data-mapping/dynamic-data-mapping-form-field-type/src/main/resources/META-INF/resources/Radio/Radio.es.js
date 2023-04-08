@@ -12,12 +12,13 @@
  * details.
  */
 
-import {ClayRadio} from '@clayui/form';
-import React, {useMemo} from 'react';
+import {ClayInput, ClayRadio} from '@clayui/form';
+import React, {useEffect, useMemo, useState} from 'react';
 
 import {FieldBase} from '../FieldBase/ReactFieldBase.es';
 import {useSyncValue} from '../hooks/useSyncValue.es';
 import {setJSONArrayValue} from '../util/setters.es';
+import {sumFormFieldsValues} from '../util/sumFormFields';
 
 const Radio = ({
 	options = [
@@ -38,8 +39,18 @@ const Radio = ({
 	predefinedValue,
 	readOnly: disabled,
 	value: initialValue,
+	priceField,
+	portletNamespace,
+	amountValues,
 	...otherProps
 }) => {
+	const amountValuesArray = amountValues.split(',');
+
+	const [amountValue, setAmountValue] = useState(0);
+	useEffect(() => {
+		sumFormFieldsValues(portletNamespace);
+	}, [amountValue, portletNamespace]);
+
 	const predefinedValueMemo = useMemo(() => {
 		const predefinedValueJSONArray =
 			setJSONArrayValue(predefinedValue) || [];
@@ -54,9 +65,11 @@ const Radio = ({
 	return (
 		<FieldBase {...otherProps} name={name} readOnly={disabled}>
 			<div className="ddm-radio" onBlur={onBlur} onFocus={onFocus}>
-				{options.map((option) => (
+				{options.map((option, index) => (
 					<ClayRadio
 						checked={currentValue === option.value}
+						data-price-field={priceField ? 'price-field' : ''}
+						data-price-value={priceField ? amountValue : ''}
 						disabled={disabled}
 						inline={inline}
 						key={option.value}
@@ -64,13 +77,14 @@ const Radio = ({
 						name={name}
 						onChange={(event) => {
 							setCurrentValue(option.value);
-
+							setAmountValue(amountValuesArray[index]);
 							onChange(event);
 						}}
 						value={option.value}
 					/>
 				))}
 			</div>
+			<ClayInput name={name} type="hidden" value={currentValue} />
 		</FieldBase>
 	);
 };

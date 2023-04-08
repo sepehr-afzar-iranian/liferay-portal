@@ -71,6 +71,15 @@ public class RadioDDMFormFieldTemplateContextContributor
 			getValue(
 				GetterUtil.getString(
 					ddmFormFieldRenderingContext.getValue(), "[]")));
+		parameters.put(
+			"priceField",
+			GetterUtil.getBoolean(ddmFormField.getProperty("priceField")));
+		parameters.put(
+			"amountValues",
+			GetterUtil.getString(ddmFormField.getProperty("amountValues")));
+		parameters.put(
+			"portletNamespace",
+			ddmFormFieldRenderingContext.getPortletNamespace());
 
 		return parameters;
 	}

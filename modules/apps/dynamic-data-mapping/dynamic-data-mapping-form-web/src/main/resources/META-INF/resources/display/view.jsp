@@ -79,6 +79,21 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 
 				<%
 				DDMFormInstance formInstance = ddmFormDisplayContext.getFormInstance();
+
+				DDMStructure ddmStructure = formInstance.getStructure();
+
+				DDMForm ddmForm = ddmStructure.getDDMForm();
+
+				boolean formHasPriceField = false;
+				List<DDMFormField> ddmFormFieldList = ddmForm.getDDMFormFields();
+
+				for (DDMFormField ddmFormField : ddmFormFieldList) {
+					if (Validator.isNotNull(ddmFormField.getProperty("priceField")) && (Boolean)ddmFormField.getProperty("priceField")) {
+						formHasPriceField = true;
+
+						break;
+					}
+				}
 				%>
 
 				<div class="portlet-forms">
@@ -287,6 +302,10 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 						<portlet:namespace />enableForm();
 						<portlet:namespace />fireFormView();
 
+						if ('<%=formHasPriceField%>' == 'true') {
+							document.getElementById('<portlet:namespace />sumOfFields').innerHTML =
+								'<%=LanguageUtil.get(request,"sum-of-payment") %>: 0';
+						}
 						<c:choose>
 							<c:when test="<%= ddmFormDisplayContext.isAutosaveEnabled() %>">
 								var container = document.querySelector(

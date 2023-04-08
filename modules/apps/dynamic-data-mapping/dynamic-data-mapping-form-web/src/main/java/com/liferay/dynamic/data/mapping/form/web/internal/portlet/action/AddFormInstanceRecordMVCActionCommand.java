@@ -21,6 +21,7 @@ import com.liferay.dynamic.data.mapping.form.values.factory.DDMFormValuesFactory
 import com.liferay.dynamic.data.mapping.form.web.internal.constants.DDMFormWebKeys;
 import com.liferay.dynamic.data.mapping.form.web.internal.instance.lifecycle.AddDefaultSharedFormLayoutPortalInstanceLifecycleListener;
 import com.liferay.dynamic.data.mapping.model.DDMForm;
+import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecordVersion;
@@ -33,8 +34,13 @@ import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.portlet.LiferayWindowState;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -44,14 +50,21 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.List;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
+import javax.portlet.PortletURL;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -120,12 +133,63 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		serviceContext.setRequest(_portal.getHttpServletRequest(actionRequest));
 
-		_updateFormInstanceRecord(
+		DDMFormInstanceRecord ddmFormInstanceRecord = _updateFormInstanceRecord(
 			actionRequest, ddmFormInstance, ddmFormValues, groupId,
 			serviceContext, themeDisplay.getUserId());
 
 		if (!SessionErrors.isEmpty(actionRequest)) {
 			return;
+		}
+
+		boolean formHasPriceField = false;
+		List<DDMFormField> ddmFormFieldList = ddmForm.getDDMFormFields();
+
+		for (DDMFormField ddmFormField : ddmFormFieldList) {
+			if (Validator.isNotNull(ddmFormField.getProperty("priceField")) &&
+				(Boolean)ddmFormField.getProperty("priceField")) {
+
+				formHasPriceField = true;
+
+				break;
+			}
+		}
+
+		if (formHasPriceField) {
+			List<Layout> layoutList = _layoutLocalService.getLayouts(
+				themeDisplay.getScopeGroupId(), false);
+			String definitionPortletId =
+				"ir_sain_definition_epayment_DefinitionEPaymentPortlet";
+
+			for (Layout layout : layoutList) {
+				long count =
+					_portletPreferencesLocalService.getPortletPreferencesCount(
+						PortletKeys.PREFS_OWNER_TYPE_LAYOUT, layout.getPlid(),
+						definitionPortletId);
+
+				if (count > 0) {
+					PortletURL epaymentPortletURL =
+						PortletURLFactoryUtil.create(
+							actionRequest, definitionPortletId,
+							layout.getPlid(), PortletRequest.ACTION_PHASE);
+
+					epaymentPortletURL.setWindowState(
+						LiferayWindowState.NORMAL);
+					epaymentPortletURL.setParameter(
+						"javax.portlet.action", "/definition/add_token");
+					epaymentPortletURL.setParameter(
+						"ddmFormInstanceRecordId",
+						String.valueOf(
+							ddmFormInstanceRecord.getFormInstanceRecordId()));
+
+					HttpServletResponse httpServletResponse =
+						_portal.getHttpServletResponse(actionResponse);
+
+					httpServletResponse.sendRedirect(
+						epaymentPortletURL.toString());
+
+					break;
+				}
+			}
 		}
 
 		DDMFormInstanceSettings formInstanceSettings =
@@ -199,7 +263,7 @@ public class AddFormInstanceRecordMVCActionCommand
 		}
 	}
 
-	private void _updateFormInstanceRecord(
+	private DDMFormInstanceRecord _updateFormInstanceRecord(
 			ActionRequest actionRequest, DDMFormInstance ddmFormInstance,
 			DDMFormValues ddmFormValues, long groupId,
 			ServiceContext serviceContext, long userId)
@@ -207,10 +271,13 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		long ddmFormInstanceRecordId = ParamUtil.getLong(
 			actionRequest, "formInstanceRecordId");
+		DDMFormInstanceRecord ddmFormInstanceRecord = null;
 
 		if (ddmFormInstanceRecordId != 0) {
-			_ddmFormInstanceRecordService.updateFormInstanceRecord(
-				ddmFormInstanceRecordId, false, ddmFormValues, serviceContext);
+			ddmFormInstanceRecord =
+				_ddmFormInstanceRecordService.updateFormInstanceRecord(
+					ddmFormInstanceRecordId, false, ddmFormValues,
+					serviceContext);
 		}
 		else {
 			DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion =
@@ -221,16 +288,20 @@ public class AddFormInstanceRecordMVCActionCommand
 						WorkflowConstants.STATUS_DRAFT);
 
 			if (ddmFormInstanceRecordVersion == null) {
-				_ddmFormInstanceRecordService.addFormInstanceRecord(
-					groupId, ddmFormInstance.getFormInstanceId(), ddmFormValues,
-					serviceContext);
+				ddmFormInstanceRecord =
+					_ddmFormInstanceRecordService.addFormInstanceRecord(
+						groupId, ddmFormInstance.getFormInstanceId(),
+						ddmFormValues, serviceContext);
 			}
 			else {
-				_ddmFormInstanceRecordService.updateFormInstanceRecord(
-					ddmFormInstanceRecordVersion.getFormInstanceRecordId(),
-					false, ddmFormValues, serviceContext);
+				ddmFormInstanceRecord =
+					_ddmFormInstanceRecordService.updateFormInstanceRecord(
+						ddmFormInstanceRecordVersion.getFormInstanceRecordId(),
+						false, ddmFormValues, serviceContext);
 			}
 		}
+
+		return ddmFormInstanceRecord;
 	}
 
 	private void _validatePublishStatus(
@@ -278,6 +349,12 @@ public class AddFormInstanceRecordMVCActionCommand
 	private DDMFormValuesFactory _ddmFormValuesFactory;
 
 	@Reference
+	private LayoutLocalService _layoutLocalService;
+
+	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletPreferencesLocalService _portletPreferencesLocalService;
 
 }

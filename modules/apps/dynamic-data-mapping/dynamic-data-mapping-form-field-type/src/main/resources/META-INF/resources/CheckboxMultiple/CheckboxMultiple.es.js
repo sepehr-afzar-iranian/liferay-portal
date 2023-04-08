@@ -12,12 +12,13 @@
  * details.
  */
 
-import {ClayCheckbox} from '@clayui/form';
+import {ClayCheckbox, ClayInput} from '@clayui/form';
 import classNames from 'classnames';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {FieldBase} from '../FieldBase/ReactFieldBase.es';
 import {setJSONArrayValue} from '../util/setters.es';
+import {sumFormFieldsValues} from '../util/sumFormFields';
 
 const Switcher = ({
 	checked,
@@ -56,6 +57,7 @@ const Switcher = ({
 );
 
 const CheckboxMultiple = ({
+	amountValues,
 	disabled,
 	inline,
 	isSwitcher,
@@ -64,22 +66,34 @@ const CheckboxMultiple = ({
 	onChange,
 	onFocus,
 	options,
+	portletNamespace,
 	predefinedValue,
+	priceField,
 	value: initialValue,
 }) => {
 	const [value, setValue] = useState(initialValue);
+	const [amountValue, setAmountValue] = useState(0);
 
 	const displayValues = value && value.length > 0 ? value : predefinedValue;
 	const Toggle = isSwitcher ? Switcher : ClayCheckbox;
-
+	useEffect(() => {
+		sumFormFieldsValues(portletNamespace);
+	}, [amountValue, portletNamespace]);
 	const handleChange = (event) => {
 		const {target} = event;
 		const newValue = value.filter(
 			(currentValue) => currentValue !== target.value
 		);
-
+		const currentAmountValue = parseInt(
+			target.getAttribute('amountValue'),
+			10
+		);
 		if (target.checked) {
 			newValue.push(target.value);
+			setAmountValue(amountValue + currentAmountValue);
+		}
+		else {
+			setAmountValue(amountValue - currentAmountValue);
 		}
 
 		setValue(newValue);
@@ -88,8 +102,9 @@ const CheckboxMultiple = ({
 
 	return (
 		<div className="lfr-ddm-checkbox-multiple">
-			{options.map((option) => (
+			{options.map((option, index) => (
 				<Toggle
+					amountValue={amountValues.split(',')[index]}
 					checked={displayValues.includes(option.value)}
 					disabled={disabled}
 					inline={inline}
@@ -102,6 +117,13 @@ const CheckboxMultiple = ({
 					value={option.value}
 				/>
 			))}
+			<ClayInput
+				data-price-field={priceField ? 'price-field' : ''}
+				data-price-value={amountValue}
+				name={name}
+				type="hidden"
+				value={value}
+			/>
 		</div>
 	);
 };
@@ -126,10 +148,14 @@ const Main = ({
 	readOnly,
 	showAsSwitcher = true,
 	value,
+	priceField,
+	portletNamespace,
+	amountValues,
 	...otherProps
 }) => (
 	<FieldBase name={name} readOnly={readOnly} {...otherProps}>
 		<CheckboxMultiple
+			amountValues={amountValues}
 			disabled={readOnly}
 			inline={inline}
 			isSwitcher={showAsSwitcher}
@@ -138,7 +164,9 @@ const Main = ({
 			onChange={onChange}
 			onFocus={onFocus}
 			options={options}
+			portletNamespace={portletNamespace}
 			predefinedValue={setJSONArrayValue(predefinedValue)}
+			priceField={priceField}
 			value={setJSONArrayValue(value)}
 		/>
 	</FieldBase>
