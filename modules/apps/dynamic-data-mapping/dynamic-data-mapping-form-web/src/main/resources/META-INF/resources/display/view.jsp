@@ -71,7 +71,7 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 							<%
 								String trackingCode = ParamUtil.getString(request,"trackingCode");
 							%>
-							<h2 class="ddm-form-description"><liferay-ui:message key="tracking-code-message"/> : <%=trackingCode%></h2>
+							<h2 class="ddm-form-description"><liferay-ui:message key="tracking-code-message"/>: <%=trackingCode%></h2>
 							<p class="ddm-form-description"><%= HtmlUtil.escape(GetterUtil.getString(body.getString(displayLocale), body.getString(body.getDefaultLocale()))) %></p>
 						</clay:container-fluid>
 					</div>

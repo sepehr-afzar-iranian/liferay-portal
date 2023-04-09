@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -62,6 +63,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -133,8 +135,12 @@ public class DDMFormInstanceRecordExporterImpl
 					field.getFieldReference(),
 					localizedValue.getString(locale));
 			});
+		//LanguageUtil.get(getResourceBundle(locale), "tracking-code")
 
-		ddmFormFieldsLabel.put(_TRACKING_CODE, "tracking-code");
+		ddmFormFieldsLabel.put(_TRACKING_CODE,LanguageUtil.get(
+			ResourceBundleUtil.getBundle(
+				locale, DDMFormInstanceRecordExporter.class),
+			"tracking-code"));
 		ddmFormFieldsLabel.put(_STATUS, LanguageUtil.get(locale, _STATUS));
 		ddmFormFieldsLabel.put(
 			_MODIFIED_DATE, LanguageUtil.get(locale, "modified-date"));
