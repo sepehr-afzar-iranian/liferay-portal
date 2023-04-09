@@ -24,25 +24,25 @@ import {subWords} from '../util/strings.es';
 import {getSelectedValidation, transformData} from './transform.es';
 
 const Validation = ({
-						dataType,
-						defaultLanguageId,
-						editingLanguageId,
-						enableValidation: initialEnableValidation,
-						errorMessage: initialErrorMessage,
-						label,
-						localizationMode,
-						name,
-						onChange,
-						parameter: initialParameter,
-						parameterMessage,
-						readOnly,
-						selectedValidation: initialSelectedValidation,
-						spritemap,
-						validation,
-						validations,
-						value,
-						visible,
-					}) => {
+	dataType,
+	defaultLanguageId,
+	editingLanguageId,
+	enableValidation: initialEnableValidation,
+	errorMessage: initialErrorMessage,
+	label,
+	localizationMode,
+	name,
+	onChange,
+	parameter: initialParameter,
+	parameterMessage,
+	readOnly,
+	selectedValidation: initialSelectedValidation,
+	spritemap,
+	validation,
+	validations,
+	value,
+	visible,
+}) => {
 	const [
 		{enableValidation, errorMessage, parameter, selectedValidation},
 		setState,
@@ -159,7 +159,8 @@ const Validation = ({
 						<DynamicComponent
 							dataType={dataType}
 							displayStyle={
-								selectedValidation.label === Liferay.Language.get('is-not-in-list')
+								selectedValidation.label ===
+								Liferay.Language.get('is-not-in-list')
 									? 'multiline'
 									: 'singleline'
 							}
@@ -196,19 +197,19 @@ const Validation = ({
 };
 
 const Main = ({
-				  dataType: initialDataType,
-				  defaultLanguageId,
-				  editingLanguageId,
-				  label,
-				  name,
-				  onChange,
-				  readOnly,
-				  spritemap,
-				  validation,
-				  validations: initialValidations,
-				  value = {},
-				  visible,
-			  }) => {
+	dataType: initialDataType,
+	defaultLanguageId,
+	editingLanguageId,
+	label,
+	name,
+	onChange,
+	readOnly,
+	spritemap,
+	validation,
+	validations: initialValidations,
+	value = {},
+	visible,
+}) => {
 	const data = transformData({
 		defaultLanguageId,
 		editingLanguageId,
