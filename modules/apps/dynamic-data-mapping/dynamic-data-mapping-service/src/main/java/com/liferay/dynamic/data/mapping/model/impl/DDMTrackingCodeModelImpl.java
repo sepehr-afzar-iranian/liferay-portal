@@ -69,7 +69,8 @@ public class DDMTrackingCodeModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"mvccVersion", Types.BIGINT}, {"ctCollectionId", Types.BIGINT},
-		{"formInstanceRecordId", Types.BIGINT}, {"trackingCode", Types.VARCHAR}
+		{"companyId", Types.BIGINT}, {"formInstanceRecordId", Types.BIGINT},
+		{"trackingCode", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -78,12 +79,13 @@ public class DDMTrackingCodeModelImpl
 	static {
 		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("ctCollectionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("formInstanceRecordId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("trackingCode", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table DDMTrackingCode (mvccVersion LONG default 0 not null,ctCollectionId LONG default 0 not null,formInstanceRecordId LONG not null,trackingCode VARCHAR(75) null,primary key (formInstanceRecordId, ctCollectionId))";
+		"create table DDMTrackingCode (mvccVersion LONG default 0 not null,ctCollectionId LONG default 0 not null,companyId LONG,formInstanceRecordId LONG not null,trackingCode VARCHAR(75) null,primary key (formInstanceRecordId, ctCollectionId))";
 
 	public static final String TABLE_SQL_DROP = "drop table DDMTrackingCode";
 
@@ -143,6 +145,7 @@ public class DDMTrackingCodeModelImpl
 
 		model.setMvccVersion(soapModel.getMvccVersion());
 		model.setCtCollectionId(soapModel.getCtCollectionId());
+		model.setCompanyId(soapModel.getCompanyId());
 		model.setFormInstanceRecordId(soapModel.getFormInstanceRecordId());
 		model.setTrackingCode(soapModel.getTrackingCode());
 
@@ -311,6 +314,11 @@ public class DDMTrackingCodeModelImpl
 			(BiConsumer<DDMTrackingCode, Long>)
 				DDMTrackingCode::setCtCollectionId);
 		attributeGetterFunctions.put(
+			"companyId", DDMTrackingCode::getCompanyId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<DDMTrackingCode, Long>)DDMTrackingCode::setCompanyId);
+		attributeGetterFunctions.put(
 			"formInstanceRecordId", DDMTrackingCode::getFormInstanceRecordId);
 		attributeSetterBiConsumers.put(
 			"formInstanceRecordId",
@@ -357,6 +365,21 @@ public class DDMTrackingCodeModelImpl
 		}
 
 		_ctCollectionId = ctCollectionId;
+	}
+
+	@JSON
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_companyId = companyId;
 	}
 
 	@JSON
@@ -430,7 +453,7 @@ public class DDMTrackingCodeModelImpl
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, DDMTrackingCode.class.getName(), getPrimaryKey());
+			getCompanyId(), DDMTrackingCode.class.getName(), getPrimaryKey());
 	}
 
 	@Override
@@ -461,6 +484,7 @@ public class DDMTrackingCodeModelImpl
 
 		ddmTrackingCodeImpl.setMvccVersion(getMvccVersion());
 		ddmTrackingCodeImpl.setCtCollectionId(getCtCollectionId());
+		ddmTrackingCodeImpl.setCompanyId(getCompanyId());
 		ddmTrackingCodeImpl.setFormInstanceRecordId(getFormInstanceRecordId());
 		ddmTrackingCodeImpl.setTrackingCode(getTrackingCode());
 
@@ -544,6 +568,8 @@ public class DDMTrackingCodeModelImpl
 		ddmTrackingCodeCacheModel.mvccVersion = getMvccVersion();
 
 		ddmTrackingCodeCacheModel.ctCollectionId = getCtCollectionId();
+
+		ddmTrackingCodeCacheModel.companyId = getCompanyId();
 
 		ddmTrackingCodeCacheModel.formInstanceRecordId =
 			getFormInstanceRecordId();
@@ -631,6 +657,7 @@ public class DDMTrackingCodeModelImpl
 
 	private long _mvccVersion;
 	private long _ctCollectionId;
+	private long _companyId;
 	private long _formInstanceRecordId;
 	private String _trackingCode;
 
@@ -663,6 +690,7 @@ public class DDMTrackingCodeModelImpl
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
 		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
+		_columnOriginalValues.put("companyId", _companyId);
 		_columnOriginalValues.put(
 			"formInstanceRecordId", _formInstanceRecordId);
 		_columnOriginalValues.put("trackingCode", _trackingCode);
@@ -683,9 +711,11 @@ public class DDMTrackingCodeModelImpl
 
 		columnBitmasks.put("ctCollectionId", 2L);
 
-		columnBitmasks.put("formInstanceRecordId", 4L);
+		columnBitmasks.put("companyId", 4L);
 
-		columnBitmasks.put("trackingCode", 8L);
+		columnBitmasks.put("formInstanceRecordId", 8L);
+
+		columnBitmasks.put("trackingCode", 16L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

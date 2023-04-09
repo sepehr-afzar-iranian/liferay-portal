@@ -36,6 +36,8 @@ public class DDMTrackingCodeTable extends BaseTable<DDMTrackingCodeTable> {
 	public final Column<DDMTrackingCodeTable, Long> ctCollectionId =
 		createColumn(
 			"ctCollectionId", Long.class, Types.BIGINT, Column.FLAG_PRIMARY);
+	public final Column<DDMTrackingCodeTable, Long> companyId = createColumn(
+		"companyId", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
 	public final Column<DDMTrackingCodeTable, Long> formInstanceRecordId =
 		createColumn(
 			"formInstanceRecordId", Long.class, Types.BIGINT,

@@ -158,13 +158,13 @@ public class AddFormInstanceRecordMVCActionCommand
 							KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE));
 			}
 		}
+
 		LiferayActionResponse liferayActionResponse =
 			(LiferayActionResponse)actionResponse;
 
 		PortletURL portletURL = liferayActionResponse.createRenderURL();
 
-		portletURL.setParameter(
-			"trackingCode", _trackingCode);
+		portletURL.setParameter("trackingCode", _trackingCode);
 
 		actionResponse.sendRedirect(portletURL.toString());
 	}
@@ -232,9 +232,11 @@ public class AddFormInstanceRecordMVCActionCommand
 						WorkflowConstants.STATUS_DRAFT);
 
 			if (ddmFormInstanceRecordVersion == null) {
-				DDMFormInstanceRecord ddmFormInstanceRecord = _ddmFormInstanceRecordService.addFormInstanceRecord(
-					groupId, ddmFormInstance.getFormInstanceId(), ddmFormValues,
-					serviceContext);
+				DDMFormInstanceRecord ddmFormInstanceRecord =
+					_ddmFormInstanceRecordService.addFormInstanceRecord(
+						groupId, ddmFormInstance.getFormInstanceId(),
+						ddmFormValues, serviceContext);
+
 				_trackingCode = ddmFormInstanceRecord.getTrackingCode();
 			}
 			else {
@@ -271,7 +273,6 @@ public class AddFormInstanceRecordMVCActionCommand
 					" is not published");
 		}
 	}
-	private String _trackingCode;
 
 	@Reference
 	private AddDefaultSharedFormLayoutPortalInstanceLifecycleListener
@@ -292,5 +293,7 @@ public class AddFormInstanceRecordMVCActionCommand
 
 	@Reference
 	private Portal _portal;
+
+	private String _trackingCode;
 
 }

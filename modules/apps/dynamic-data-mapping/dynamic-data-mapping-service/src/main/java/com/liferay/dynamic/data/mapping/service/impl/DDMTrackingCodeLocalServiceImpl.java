@@ -17,8 +17,8 @@ package com.liferay.dynamic.data.mapping.service.impl;
 import com.liferay.dynamic.data.mapping.model.DDMTrackingCode;
 import com.liferay.dynamic.data.mapping.service.base.DDMTrackingCodeLocalServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
-
 import com.liferay.portal.kernel.exception.PortalException;
+
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -40,32 +40,46 @@ import org.osgi.service.component.annotations.Component;
 )
 public class DDMTrackingCodeLocalServiceImpl
 	extends DDMTrackingCodeLocalServiceBaseImpl {
+
 	public DDMTrackingCode addDDMTrackingCode(
-		long formInstanceRecordId, String trackingCode)
+			long formInstanceRecordId, String trackingCode)
 		throws PortalException {
 
-		DDMTrackingCode ddmTrackingCode =
-			ddmTrackingCodePersistence.create(formInstanceRecordId);
+		DDMTrackingCode ddmTrackingCode = ddmTrackingCodePersistence.create(
+			formInstanceRecordId);
+
 		ddmTrackingCode.setTrackingCode(trackingCode);
 
 		return ddmTrackingCodePersistence.update(ddmTrackingCode);
 	}
-	public String getTrackingCode(long formInstanceRecordId)
-		throws PortalException {
-		return getTrackingCodeByFormInstanceRecordId(formInstanceRecordId);
-	}
-	private String getTrackingCodeByFormInstanceRecordId(long formInstanceRecordId)
-		throws PortalException {
-		return ddmTrackingCodePersistence.findByPrimaryKey(formInstanceRecordId).getTrackingCode();
-	}
 
 	public DDMTrackingCode getDDMTrackingCode(String trackingCode)
 		throws PortalException {
-		return getDDMTrackingCodeByTrackingCode(trackingCode);
+
+		return _getDDMTrackingCodeByTrackingCode(trackingCode);
 	}
 
-	private DDMTrackingCode getDDMTrackingCodeByTrackingCode(String trackingCode)
+	public String getTrackingCode(long formInstanceRecordId)
 		throws PortalException {
+
+		return _getTrackingCodeByFormInstanceRecordId(formInstanceRecordId);
+	}
+
+	private DDMTrackingCode _getDDMTrackingCodeByTrackingCode(
+			String trackingCode)
+		throws PortalException {
+
 		return ddmTrackingCodePersistence.fetchByTrackingCode(trackingCode);
 	}
+
+	private String _getTrackingCodeByFormInstanceRecordId(
+			long formInstanceRecordId)
+		throws PortalException {
+
+		DDMTrackingCode ddmTrackingCode =
+			ddmTrackingCodePersistence.findByPrimaryKey(formInstanceRecordId);
+
+		return ddmTrackingCode.getTrackingCode();
+	}
+
 }

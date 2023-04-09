@@ -41,9 +41,10 @@ import org.osgi.service.component.annotations.Component;
 )
 public class DDMTrackingCodeServiceImpl extends DDMTrackingCodeServiceBaseImpl {
 
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use <code>com.liferay.dynamic.data.mapping.service.DDMTrackingCodeServiceUtil</code> to access the ddm tracking code remote service.
 	 */
+
 }

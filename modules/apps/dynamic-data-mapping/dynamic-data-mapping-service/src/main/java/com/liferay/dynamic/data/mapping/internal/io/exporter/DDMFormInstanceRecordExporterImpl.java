@@ -63,7 +63,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -137,10 +136,12 @@ public class DDMFormInstanceRecordExporterImpl
 			});
 		//LanguageUtil.get(getResourceBundle(locale), "tracking-code")
 
-		ddmFormFieldsLabel.put(_TRACKING_CODE,LanguageUtil.get(
-			ResourceBundleUtil.getBundle(
-				locale, DDMFormInstanceRecordExporter.class),
-			"tracking-code"));
+		ddmFormFieldsLabel.put(
+			_TRACKING_CODE,
+			LanguageUtil.get(
+				ResourceBundleUtil.getBundle(
+					locale, DDMFormInstanceRecordExporter.class),
+				"tracking-code"));
 		ddmFormFieldsLabel.put(_STATUS, LanguageUtil.get(locale, _STATUS));
 		ddmFormFieldsLabel.put(
 			_MODIFIED_DATE, LanguageUtil.get(locale, "modified-date"));
@@ -212,8 +213,7 @@ public class DDMFormInstanceRecordExporterImpl
 				ddmFormInstanceRecord.getFormInstanceRecordVersion();
 
 			ddmFormFieldsValue.put(
-				_TRACKING_CODE,
-				ddmFormInstanceRecord.getTrackingCode());
+				_TRACKING_CODE, ddmFormInstanceRecord.getTrackingCode());
 
 			ddmFormFieldsValue.put(
 				_STATUS,

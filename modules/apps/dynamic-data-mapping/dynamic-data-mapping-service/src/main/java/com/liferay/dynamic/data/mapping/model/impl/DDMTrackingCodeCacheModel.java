@@ -76,12 +76,14 @@ public class DDMTrackingCodeCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(11);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
 		sb.append(", ctCollectionId=");
 		sb.append(ctCollectionId);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append(", formInstanceRecordId=");
 		sb.append(formInstanceRecordId);
 		sb.append(", trackingCode=");
@@ -97,6 +99,7 @@ public class DDMTrackingCodeCacheModel
 
 		ddmTrackingCodeImpl.setMvccVersion(mvccVersion);
 		ddmTrackingCodeImpl.setCtCollectionId(ctCollectionId);
+		ddmTrackingCodeImpl.setCompanyId(companyId);
 		ddmTrackingCodeImpl.setFormInstanceRecordId(formInstanceRecordId);
 
 		if (trackingCode == null) {
@@ -117,6 +120,8 @@ public class DDMTrackingCodeCacheModel
 
 		ctCollectionId = objectInput.readLong();
 
+		companyId = objectInput.readLong();
+
 		formInstanceRecordId = objectInput.readLong();
 		trackingCode = objectInput.readUTF();
 	}
@@ -126,6 +131,8 @@ public class DDMTrackingCodeCacheModel
 		objectOutput.writeLong(mvccVersion);
 
 		objectOutput.writeLong(ctCollectionId);
+
+		objectOutput.writeLong(companyId);
 
 		objectOutput.writeLong(formInstanceRecordId);
 
@@ -139,6 +146,7 @@ public class DDMTrackingCodeCacheModel
 
 	public long mvccVersion;
 	public long ctCollectionId;
+	public long companyId;
 	public long formInstanceRecordId;
 	public String trackingCode;
 

@@ -45,6 +45,7 @@ public class DDMTrackingCodeWrapper
 
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("ctCollectionId", getCtCollectionId());
+		attributes.put("companyId", getCompanyId());
 		attributes.put("formInstanceRecordId", getFormInstanceRecordId());
 		attributes.put("trackingCode", getTrackingCode());
 
@@ -65,6 +66,12 @@ public class DDMTrackingCodeWrapper
 			setCtCollectionId(ctCollectionId);
 		}
 
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
 		Long formInstanceRecordId = (Long)attributes.get(
 			"formInstanceRecordId");
 
@@ -77,6 +84,16 @@ public class DDMTrackingCodeWrapper
 		if (trackingCode != null) {
 			setTrackingCode(trackingCode);
 		}
+	}
+
+	/**
+	 * Returns the company ID of this ddm tracking code.
+	 *
+	 * @return the company ID of this ddm tracking code
+	 */
+	@Override
+	public long getCompanyId() {
+		return model.getCompanyId();
 	}
 
 	/**
@@ -132,6 +149,16 @@ public class DDMTrackingCodeWrapper
 	@Override
 	public void persist() {
 		model.persist();
+	}
+
+	/**
+	 * Sets the company ID of this ddm tracking code.
+	 *
+	 * @param companyId the company ID of this ddm tracking code
+	 */
+	@Override
+	public void setCompanyId(long companyId) {
+		model.setCompanyId(companyId);
 	}
 
 	/**
