@@ -11,7 +11,9 @@ apps:commerce:commerce-product-definitions-web:$1 \
 apps:data-engine:data-engine-taglib:$1 \
 apps:document-library:document-library-item-selector-web:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-form-field-type:$1 \
+apps:dynamic-data-mapping:dynamic-data-mapping-form-renderer:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-form-report-web:$1 \
+apps:dynamic-data-mapping:dynamic-data-mapping-form-web:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-service:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-web:$1 \
 apps:friendly-url:friendly-url-service:$1 \
