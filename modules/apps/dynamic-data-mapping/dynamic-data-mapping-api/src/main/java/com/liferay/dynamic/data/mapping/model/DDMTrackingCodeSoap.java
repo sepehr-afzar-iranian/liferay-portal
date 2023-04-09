@@ -34,6 +34,7 @@ public class DDMTrackingCodeSoap implements Serializable {
 
 		soapModel.setMvccVersion(model.getMvccVersion());
 		soapModel.setCtCollectionId(model.getCtCollectionId());
+		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setFormInstanceRecordId(model.getFormInstanceRecordId());
 		soapModel.setTrackingCode(model.getTrackingCode());
 
@@ -111,6 +112,14 @@ public class DDMTrackingCodeSoap implements Serializable {
 		_ctCollectionId = ctCollectionId;
 	}
 
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
 	public long getFormInstanceRecordId() {
 		return _formInstanceRecordId;
 	}
@@ -129,6 +138,7 @@ public class DDMTrackingCodeSoap implements Serializable {
 
 	private long _mvccVersion;
 	private long _ctCollectionId;
+	private long _companyId;
 	private long _formInstanceRecordId;
 	private String _trackingCode;
 

@@ -760,10 +760,9 @@
 
 		<!-- PK fields -->
 
+		<column name="companyId" type="long" />
 		<column name="formInstanceRecordId" primary="true" type="long" />
-
 		<column name="trackingCode" type="String" />
-
 		<finder name="TrackingCode" return-type="DDMTrackingCode" unique="true">
 			<finder-column name="trackingCode" />
 		</finder>

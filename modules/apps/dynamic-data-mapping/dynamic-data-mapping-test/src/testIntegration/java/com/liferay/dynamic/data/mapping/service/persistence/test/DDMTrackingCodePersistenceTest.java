@@ -128,6 +128,8 @@ public class DDMTrackingCodePersistenceTest {
 
 		newDDMTrackingCode.setCtCollectionId(RandomTestUtil.nextLong());
 
+		newDDMTrackingCode.setCompanyId(RandomTestUtil.nextLong());
+
 		newDDMTrackingCode.setTrackingCode(RandomTestUtil.randomString());
 
 		_ddmTrackingCodes.add(_persistence.update(newDDMTrackingCode));
@@ -141,6 +143,9 @@ public class DDMTrackingCodePersistenceTest {
 		Assert.assertEquals(
 			existingDDMTrackingCode.getCtCollectionId(),
 			newDDMTrackingCode.getCtCollectionId());
+		Assert.assertEquals(
+			existingDDMTrackingCode.getCompanyId(),
+			newDDMTrackingCode.getCompanyId());
 		Assert.assertEquals(
 			existingDDMTrackingCode.getFormInstanceRecordId(),
 			newDDMTrackingCode.getFormInstanceRecordId());
@@ -184,7 +189,8 @@ public class DDMTrackingCodePersistenceTest {
 	protected OrderByComparator<DDMTrackingCode> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create(
 			"DDMTrackingCode", "mvccVersion", true, "ctCollectionId", true,
-			"formInstanceRecordId", true, "trackingCode", true);
+			"companyId", true, "formInstanceRecordId", true, "trackingCode",
+			true);
 	}
 
 	@Test
@@ -473,6 +479,8 @@ public class DDMTrackingCodePersistenceTest {
 		ddmTrackingCode.setMvccVersion(RandomTestUtil.nextLong());
 
 		ddmTrackingCode.setCtCollectionId(RandomTestUtil.nextLong());
+
+		ddmTrackingCode.setCompanyId(RandomTestUtil.nextLong());
 
 		ddmTrackingCode.setTrackingCode(RandomTestUtil.randomString());
 

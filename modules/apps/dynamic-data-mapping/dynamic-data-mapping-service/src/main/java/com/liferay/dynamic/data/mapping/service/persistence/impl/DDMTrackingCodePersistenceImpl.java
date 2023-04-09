@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.change.tracking.helper.CTPersistenceHelper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -466,6 +467,8 @@ public class DDMTrackingCodePersistenceImpl
 
 		ddmTrackingCode.setNew(true);
 		ddmTrackingCode.setPrimaryKey(formInstanceRecordId);
+
+		ddmTrackingCode.setCompanyId(CompanyThreadLocal.getCompanyId());
 
 		return ddmTrackingCode;
 	}
@@ -1042,6 +1045,7 @@ public class DDMTrackingCodePersistenceImpl
 
 		ctControlColumnNames.add("mvccVersion");
 		ctControlColumnNames.add("ctCollectionId");
+		ctStrictColumnNames.add("companyId");
 		ctStrictColumnNames.add("trackingCode");
 
 		_ctColumnNamesMap.put(

@@ -17,6 +17,7 @@ package com.liferay.dynamic.data.mapping.model;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.MVCCModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.change.tracking.CTModel;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -34,7 +35,8 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface DDMTrackingCodeModel
-	extends BaseModel<DDMTrackingCode>, CTModel<DDMTrackingCode>, MVCCModel {
+	extends BaseModel<DDMTrackingCode>, CTModel<DDMTrackingCode>, MVCCModel,
+			ShardedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -89,6 +91,22 @@ public interface DDMTrackingCodeModel
 	 */
 	@Override
 	public void setCtCollectionId(long ctCollectionId);
+
+	/**
+	 * Returns the company ID of this ddm tracking code.
+	 *
+	 * @return the company ID of this ddm tracking code
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this ddm tracking code.
+	 *
+	 * @param companyId the company ID of this ddm tracking code
+	 */
+	@Override
+	public void setCompanyId(long companyId);
 
 	/**
 	 * Returns the form instance record ID of this ddm tracking code.

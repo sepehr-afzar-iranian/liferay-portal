@@ -79,8 +79,10 @@ public class DDMFormInstanceRecordImpl extends DDMFormInstanceRecordBaseImpl {
 
 		return ddmFormInstance.getStorageType();
 	}
+
 	public String getTrackingCode() throws PortalException {
-		return DDMTrackingCodeLocalServiceUtil.getTrackingCode(getFormInstanceRecordId());
+		return DDMTrackingCodeLocalServiceUtil.getTrackingCode(
+			getFormInstanceRecordId());
 	}
 
 }

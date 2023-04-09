@@ -221,6 +221,7 @@ public class AddFormInstanceRecordMVCActionCommand
 							KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE));
 			}
 		}
+
 		LiferayActionResponse liferayActionResponse =
 			(LiferayActionResponse)actionResponse;
 

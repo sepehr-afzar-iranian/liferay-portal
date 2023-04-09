@@ -25,7 +25,7 @@ package com.liferay.dynamic.data.mapping.model.impl;
  */
 public class DDMTrackingCodeImpl extends DDMTrackingCodeBaseImpl {
 
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a ddm tracking code model instance should use the {@link com.liferay.dynamic.data.mapping.model.DDMTrackingCode} interface instead.
