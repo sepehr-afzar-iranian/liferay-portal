@@ -175,7 +175,7 @@ public class AddFormInstanceRecordMVCActionCommand
 					epaymentPortletURL.setWindowState(
 						LiferayWindowState.NORMAL);
 					epaymentPortletURL.setParameter(
-						"javax.portlet.action", "/definition/add_token");
+						"javax.portlet.action", "/definition_epayment/add_token");
 					epaymentPortletURL.setParameter(
 						"ddmFormInstanceRecordId",
 						String.valueOf(
