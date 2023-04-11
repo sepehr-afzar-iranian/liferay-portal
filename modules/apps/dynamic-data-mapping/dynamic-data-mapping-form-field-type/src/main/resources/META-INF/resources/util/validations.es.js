@@ -93,6 +93,13 @@ export const VALIDATIONS = {
 			regex: /^match\((.+), "(.*)"\)$/,
 			template: 'match({name}, "{parameter}")',
 		},
+		{
+			label: Liferay.Language.get('is-not-in-list'),
+			name: 'isInList',
+			parameterMessage: Liferay.Language.get('list-validation'),
+			regex: /^isInList\((.+), "(.*)"\)$/,
+			template: 'isInList({name}, "{parameter}")',
+		},
 	],
 };
 
