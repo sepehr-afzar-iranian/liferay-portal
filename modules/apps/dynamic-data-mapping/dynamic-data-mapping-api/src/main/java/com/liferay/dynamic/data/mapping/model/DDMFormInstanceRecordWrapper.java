@@ -363,6 +363,13 @@ public class DDMFormInstanceRecordWrapper
 		return model.getStorageType();
 	}
 
+	@Override
+	public String getTrackingCode()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return model.getTrackingCode();
+	}
+
 	/**
 	 * Returns the user ID of this ddm form instance record.
 	 *

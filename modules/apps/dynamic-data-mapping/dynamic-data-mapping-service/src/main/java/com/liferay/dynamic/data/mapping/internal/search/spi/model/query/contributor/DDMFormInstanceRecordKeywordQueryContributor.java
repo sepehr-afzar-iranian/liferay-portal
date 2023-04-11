@@ -42,6 +42,9 @@ public class DDMFormInstanceRecordKeywordQueryContributor
 		queryHelper.addSearchTerm(
 			booleanQuery, keywordQueryContributorHelper.getSearchContext(),
 			Field.USER_NAME, false);
+		queryHelper.addSearchTerm(
+			booleanQuery, keywordQueryContributorHelper.getSearchContext(),
+			"trackingCode", false);
 
 		queryHelper.addSearchLocalizedTerm(
 			booleanQuery, keywordQueryContributorHelper.getSearchContext(),

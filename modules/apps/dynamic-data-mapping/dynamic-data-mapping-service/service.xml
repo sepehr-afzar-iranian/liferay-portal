@@ -756,6 +756,17 @@
 			<finder-column name="status" />
 		</finder>
 	</entity>
+	<entity local-service="true" name="DDMTrackingCode" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="companyId" type="long" />
+		<column name="formInstanceRecordId" primary="true" type="long" />
+		<column name="trackingCode" type="String" />
+		<finder name="TrackingCode" return-type="DDMTrackingCode" unique="true">
+			<finder-column name="trackingCode" />
+		</finder>
+	</entity>
 	<exceptions>
 		<exception>Content</exception>
 		<exception>ContentData</exception>
