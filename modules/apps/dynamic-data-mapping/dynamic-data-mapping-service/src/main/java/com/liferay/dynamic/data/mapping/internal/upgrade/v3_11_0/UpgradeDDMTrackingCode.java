@@ -28,4 +28,5 @@ public class UpgradeDDMTrackingCode extends UpgradeProcess {
 			runSQL(DDMTrackingCodeTable.TABLE_SQL_CREATE);
 		}
 	}
+
 }
