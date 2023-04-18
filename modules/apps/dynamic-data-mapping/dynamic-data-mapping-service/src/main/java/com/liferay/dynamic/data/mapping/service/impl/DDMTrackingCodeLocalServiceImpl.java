@@ -77,7 +77,11 @@ public class DDMTrackingCodeLocalServiceImpl
 		throws PortalException {
 
 		DDMTrackingCode ddmTrackingCode =
-			ddmTrackingCodePersistence.findByPrimaryKey(formInstanceRecordId);
+			ddmTrackingCodePersistence.fetchByPrimaryKey(formInstanceRecordId);
+
+		if (ddmTrackingCode == null)
+
+			return "";
 
 		return ddmTrackingCode.getTrackingCode();
 	}
