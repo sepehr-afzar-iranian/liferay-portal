@@ -1,3 +1,5 @@
+<%@ page import="java.util.Calendar" %>
+<%@ page import="com.liferay.portal.kernel.util.CalendarFactoryUtil" %>
 <%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -58,6 +60,54 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 		%>
 
 	</aui:select>
+
+	<%
+		Calendar calendar = CalendarFactoryUtil.getCalendar(timeZone,locale);
+	%>
+	</br>
+	</br>
+	<aui:fieldset>
+		<clay:row>
+			<clay:col>
+				<aui:field-wrapper label="start-date">
+					<clay:row>
+						<clay:col>
+							<liferay-ui:input-date dayParam="startDateDay" dayValue="<%= calendar.get(Calendar.DATE) %>"
+												   monthParam="startDateMonth" monthValue="<%= calendar.get(Calendar.MONTH) %>" yearParam="startDateYear"
+												   yearValue="<%= calendar.get(Calendar.YEAR) %>" name="startDate" />
+						</clay:col>
+						<clay:col>
+							<liferay-ui:input-time amPmParam="startDateAmPm" amPmValue="<%= calendar.get(Calendar.AM_PM) %>"
+												   hourParam="startDateHour" hourValue="<%= calendar.get(Calendar.HOUR) %>" minuteParam="startDateMinute"
+												   minuteValue="<%= calendar.get(Calendar.MINUTE) %>" name="startTime" disabled="true"/>
+						</clay:col>
+					</clay:row>
+					<aui:input name="enableStart" type="checkbox" label="Set start date" value="<%= false %>" onClick='<%= liferayPortletResponse.getNamespace() + "EnableDisableTextBox(this,'start');" %>'/>
+				</aui:field-wrapper>
+			</clay:col>
+			<clay:col>
+				<aui:field-wrapper label="end-date">
+					<clay:row>
+						<clay:col>
+							<liferay-ui:input-date dayParam="endDateDay" dayValue="<%= calendar.get(Calendar.DATE) %>"
+												   monthParam="endDateMonth" monthValue="<%= calendar.get(Calendar.MONTH) %>" yearParam="endDateYear"
+												   yearValue="<%= calendar.get(Calendar.YEAR) %>" name="endDate" disabled="true"/>
+						</clay:col>
+						<clay:col>
+							<liferay-ui:input-time amPmParam="endDateAmPm" amPmValue="<%= calendar.get(Calendar.AM_PM) %>"
+												   hourParam="endDateHour" hourValue="<%= calendar.get(Calendar.HOUR) %>" minuteParam="endDateMinute"
+												   minuteValue="<%= calendar.get(Calendar.MINUTE) %>" name="endTime" disabled="true"/>
+						</clay:col>
+					</clay:row>
+					<aui:input name="enableEnd" type="checkbox" label="Set end date" value="<%= false %>" onClick='<%= liferayPortletResponse.getNamespace() + "EnableDisableTextBox(this,'end');" %>'/>
+				</aui:field-wrapper>
+			</clay:col>
+		</clay:row>
+	</aui:fieldset>
+	<liferay-ui:input-date dayParam="Day" dayValue="<%= calendar.get(Calendar.DATE) %>"
+						   monthParam="Month" monthValue="<%= calendar.get(Calendar.MONTH) %>" yearParam="Year"
+						   yearValue="<%= calendar.get(Calendar.YEAR) %>" name="Date" />
+
 </div>
 
 <aui:script>
@@ -149,4 +199,16 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 		},
 		['aui-alert', 'liferay-util-window']
 	);
+</aui:script>
+<aui:script>
+	Liferay.provide(window, '<portlet:namespace />EnableDisableTextBox', function (check,string) {
+	var date = document.getElementById('<portlet:namespace />'+string+'Date');
+	var time = document.getElementById('<portlet:namespace />'+string+'Time');
+	date.disabled = check.checked ? false : true;
+	time.disabled = check.checked ? false : true;
+	if (!date.disabled) {
+	date.focus();
+	time.focus();
+	}
+	});
 </aui:script>
