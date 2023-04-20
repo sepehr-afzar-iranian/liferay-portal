@@ -93,6 +93,34 @@ export const VALIDATIONS = {
 			regex: /^match\((.+), "(.*)"\)$/,
 			template: 'match({name}, "{parameter}")',
 		},
+		{
+			label: Liferay.Language.get('is-not-home-phone-number'),
+			name: 'homePhoneNumber',
+			parameterMessage: '',
+			regex: /^isHomePhoneNumber\((.+)\)$/,
+			template: 'isHomePhoneNumber({name})',
+		},
+		{
+			label: Liferay.Language.get('is-not-mobile-phone-number'),
+			name: 'mobilePhoneNumber',
+			parameterMessage: '',
+			regex: /^isMobilePhoneNumber\((.+)\)$/,
+			template: 'isMobilePhoneNumber({name})',
+		},
+		{
+			label: Liferay.Language.get('is-not-national-code'),
+			name: 'nationalCode',
+			parameterMessage: '',
+			regex: /^isNationalCode\((.+)\)$/,
+			template: 'isNationalCode({name})',
+		},
+		{
+			label: Liferay.Language.get('is-not-postal-code'),
+			name: 'postalCode',
+			parameterMessage: '',
+			regex: /^isPostalCode\((.+)\)$/,
+			template: 'isPostalCode({name})',
+		},
 	],
 };
 
