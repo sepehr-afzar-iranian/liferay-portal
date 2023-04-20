@@ -43,6 +43,11 @@ public class IsNationalCodeFunction
 		);
 	}
 
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 	private boolean _isNationalCode(String nationalCode) {
 		if (Validator.isNull(nationalCode)) {
 			return false;
@@ -50,7 +55,7 @@ public class IsNationalCodeFunction
 
 		String addSpacePadding = String.format("%1$10s", nationalCode);
 
-		String addZeroPadding = addSpacePadding.replace(' ', '0');
+		String addZeroPadding = StringUtil.replace(addSpacePadding, ' ', '0');
 
 		Matcher matcher = _nationalCodePattern.matcher(nationalCode);
 
@@ -91,10 +96,5 @@ public class IsNationalCodeFunction
 
 	private static final Pattern _nationalCodePattern = Pattern.compile(
 		"^\\d{8,10}$");
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
 
 }

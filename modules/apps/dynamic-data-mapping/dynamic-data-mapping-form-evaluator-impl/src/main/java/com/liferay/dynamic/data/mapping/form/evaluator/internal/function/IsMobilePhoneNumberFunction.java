@@ -42,6 +42,11 @@ public class IsMobilePhoneNumberFunction
 		);
 	}
 
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 	private boolean _isMobilePhoneNumber(String mobilePhoneNumber) {
 		if (Validator.isNull(mobilePhoneNumber)) {
 			return false;
@@ -54,10 +59,5 @@ public class IsMobilePhoneNumberFunction
 
 	private static final Pattern _mobilePhoneNumberPattern = Pattern.compile(
 		"(\\+98|0)9(1\\d|3[1-9]|2[1-9])-?\\d{3}-?\\d{4}");
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
 
 }

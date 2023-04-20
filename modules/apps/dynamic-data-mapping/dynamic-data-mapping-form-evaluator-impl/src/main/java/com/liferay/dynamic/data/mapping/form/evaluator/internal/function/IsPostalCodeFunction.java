@@ -42,6 +42,11 @@ public class IsPostalCodeFunction
 		);
 	}
 
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 	private boolean _isPostalCode(String isPostalCode) {
 		if (Validator.isNull(isPostalCode)) {
 			return false;
@@ -54,10 +59,5 @@ public class IsPostalCodeFunction
 
 	private static final Pattern _isPostalCodePattern = Pattern.compile(
 		"\\b(?!(\\d)\\1{3})[13-9]{4}[1346-9][013-9]{5}\\b");
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
 
 }

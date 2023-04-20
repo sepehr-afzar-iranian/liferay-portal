@@ -42,6 +42,11 @@ public class IsHomePhoneNumberFunction
 		);
 	}
 
+	@Override
+	public String getName() {
+		return NAME;
+	}
+
 	private boolean _isHomePhoneNumber(String homePhoneNumber) {
 		if (Validator.isNull(homePhoneNumber))
 
@@ -54,10 +59,5 @@ public class IsHomePhoneNumberFunction
 
 	private static final Pattern _homePhoneNumberPattern = Pattern.compile(
 		"^0\\d{2,}\\d{8,}$");
-
-	@Override
-	public String getName() {
-		return NAME;
-	}
 
 }
