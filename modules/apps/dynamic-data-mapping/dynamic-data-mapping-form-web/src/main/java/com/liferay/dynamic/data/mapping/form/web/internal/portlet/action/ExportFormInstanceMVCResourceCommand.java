@@ -41,6 +41,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -89,11 +91,16 @@ public class ExportFormInstanceMVCResourceCommand
 			WebKeys.THEME_DISPLAY);
 
 		Date startDate = _getDate(
-			resourceRequest,themeDisplay, "startDateDay", "startDateMonth", "startDateYear",
-			"startDateAmPm", "startDateHour", "startDateMinute");
+			resourceRequest, themeDisplay.getTimeZone(),
+			themeDisplay.getLocale(), "startDateDay", "startDateMonth",
+			"startDateYear", "startDateAmPm", "startDateHour",
+			"startDateMinute");
+
 		Date endDate = _getDate(
-			resourceRequest,themeDisplay,"endDateDay", "endDateMonth", "endDateYear",
-			"endDateAmPm", "endDateHour", "endDateMinute");
+			resourceRequest, themeDisplay.getTimeZone(),
+			themeDisplay.getLocale(), "endDateDay", "endDateMonth",
+			"endDateYear", "endDateAmPm", "endDateHour", "endDateMinute");
+
 		boolean startEnable = ParamUtil.getBoolean(
 			resourceRequest, "startEnable");
 		boolean endEnable = ParamUtil.getBoolean(resourceRequest, "endEnable");
@@ -104,6 +111,7 @@ public class ExportFormInstanceMVCResourceCommand
 		DDMFormInstanceRecordExporterRequest.Builder builder =
 			DDMFormInstanceRecordExporterRequest.Builder.newBuilder(
 				formInstanceId, fileExtension);
+
 		OrderByComparator<DDMFormInstanceRecord> orderByComparator =
 			_getDDMFormInstanceOrderByComparator("desc");
 
@@ -129,7 +137,7 @@ public class ExportFormInstanceMVCResourceCommand
 		int start;
 		int end;
 
-		if (selectedRecord.size() == 0) {
+		if (selectedRecord.isEmpty()) {
 			start = -2;
 			end = -2;
 		}
@@ -179,22 +187,10 @@ public class ExportFormInstanceMVCResourceCommand
 	protected DDMFormInstanceRecordLocalService
 		ddmFormInstanceRecordLocalService;
 
-	private OrderByComparator<DDMFormInstanceRecord>
-		_getDDMFormInstanceOrderByComparator(String orderByType) {
-
-		boolean orderByAsc = false;
-
-		if (orderByType.equals("asc")) {
-			orderByAsc = true;
-		}
-
-		return new DDMFormInstanceRecordModifiedDateComparator(orderByAsc);
-	}
-
 	private Date _getDate(
-			ResourceRequest resourceRequest,ThemeDisplay themeDisplay, String dayParam, String monthParam,
-			String yearParam, String amPmParam, String hourParam,
-			String minuteParam){
+		ResourceRequest resourceRequest, TimeZone timeZone, Locale locale,
+		String dayParam, String monthParam, String yearParam, String amPmParam,
+		String hourParam, String minuteParam) {
 
 		int day = ParamUtil.getInteger(resourceRequest, dayParam);
 		int month = ParamUtil.getInteger(resourceRequest, monthParam);
@@ -203,7 +199,7 @@ public class ExportFormInstanceMVCResourceCommand
 		int hour = ParamUtil.getInteger(resourceRequest, hourParam);
 		int minute = ParamUtil.getInteger(resourceRequest, minuteParam);
 
-		Calendar calendar = CalendarFactoryUtil.getCalendar(themeDisplay.getTimeZone(),themeDisplay.getLocale());
+		Calendar calendar = CalendarFactoryUtil.getCalendar(timeZone, locale);
 
 		calendar.set(Calendar.MONTH, month);
 		calendar.set(Calendar.DATE, day);
@@ -215,6 +211,18 @@ public class ExportFormInstanceMVCResourceCommand
 		calendar.set(Calendar.AM_PM, amPm);
 
 		return calendar.getTime();
+	}
+
+	private OrderByComparator<DDMFormInstanceRecord>
+		_getDDMFormInstanceOrderByComparator(String orderByType) {
+
+		boolean orderByAsc = false;
+
+		if (orderByType.equals("asc")) {
+			orderByAsc = true;
+		}
+
+		return new DDMFormInstanceRecordModifiedDateComparator(orderByAsc);
 	}
 
 	@Reference
