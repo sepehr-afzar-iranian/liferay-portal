@@ -58,6 +58,82 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 		%>
 
 	</aui:select>
+
+	<%
+	Calendar calendar = CalendarFactoryUtil.getCalendar(timeZone, locale);
+	%>
+
+	<aui:fieldset>
+		<clay:row>
+			<clay:col>
+				<aui:field-wrapper label="start-date">
+					<clay:row>
+						<clay:col>
+							<liferay-ui:input-date
+								dayParam="startDateDay"
+								dayValue="<%= calendar.get(Calendar.DATE) %>"
+								disabled="<%= false %>"
+								monthParam="startDateMonth"
+								monthValue="<%= calendar.get(Calendar.MONTH) %>"
+								name="startDate"
+								yearParam="startDateYear"
+								yearValue="<%= calendar.get(Calendar.YEAR) %>"
+							/>
+						</clay:col>
+
+						<clay:col>
+							<liferay-ui:input-time
+								amPmParam="startDateAmPm"
+								amPmValue="<%= calendar.get(Calendar.AM_PM) %>"
+								disabled="<%= false %>"
+								hourParam="startDateHour"
+								hourValue="<%= calendar.get(Calendar.HOUR) %>"
+								minuteParam="startDateMinute"
+								minuteValue="<%= calendar.get(Calendar.MINUTE) %>"
+								name="startTime"
+							/>
+						</clay:col>
+					</clay:row>
+
+					<aui:input label="set-start-date" name="startEnable" onClick='<%= liferayPortletResponse.getNamespace() + "EnableDisableInputs(this,'start');" %>' type="checkbox" value="<%= true %>" />
+				</aui:field-wrapper>
+			</clay:col>
+
+			<clay:col>
+				<aui:field-wrapper label="end-date">
+					<clay:row>
+						<clay:col>
+							<liferay-ui:input-date
+								dayParam="endDateDay"
+								dayValue="<%= calendar.get(Calendar.DATE) %>"
+								disabled="<%= false %>"
+								monthParam="endDateMonth"
+								monthValue="<%= calendar.get(Calendar.MONTH) %>"
+								name="endDate"
+								yearParam="endDateYear"
+								yearValue="<%= calendar.get(Calendar.YEAR) %>"
+							/>
+						</clay:col>
+
+						<clay:col>
+							<liferay-ui:input-time
+								amPmParam="endDateAmPm"
+								amPmValue="<%= calendar.get(Calendar.AM_PM) %>"
+								disabled="<%= false %>"
+								hourParam="endDateHour"
+								hourValue="<%= calendar.get(Calendar.HOUR) %>"
+								minuteParam="endDateMinute"
+								minuteValue="<%= calendar.get(Calendar.MINUTE) %>"
+								name="endTime"
+							/>
+						</clay:col>
+					</clay:row>
+
+					<aui:input label="set-end-date" name="endEnable" onClick='<%= liferayPortletResponse.getNamespace() + "EnableDisableInputs(this,'end');" %>' type="checkbox" value="<%= true %>" />
+				</aui:field-wrapper>
+			</clay:col>
+		</clay:row>
+	</aui:fieldset>
 </div>
 
 <aui:script>
@@ -75,9 +151,23 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 
 			var fileExtensionSelect = A.one('#<portlet:namespace />fileExtension');
 
+			var setValueOfInputs = function (name) {
+				var date = document.getElementById(
+					'<portlet:namespace />' + name + 'Date'
+				);
+				var time = document.getElementById(
+					'<portlet:namespace />' + name + 'Time'
+				);
+				var check = document.getElementById(
+					'<portlet:namespace />' + name + 'Enable'
+				);
+				date.disabled = true;
+				time.disabled = true;
+				check.checked = false;
+			};
+
 			var showCSVWarning = function () {
 				var csvWarning = A.one('#<portlet:namespace />csvWarning');
-
 				if (
 					fileExtensionSelect.val() === 'csv' &&
 					<%= StringUtil.equals("enabled-with-warning", csvExport) %>
@@ -89,6 +179,8 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 				}
 			};
 
+			setValueOfInputs('start');
+			setValueOfInputs('end');
 			if (content) {
 				if (fileExtensionSelect) {
 					showCSVWarning();
@@ -149,4 +241,21 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 		},
 		['aui-alert', 'liferay-util-window']
 	);
+</aui:script>
+
+<aui:script>
+	Liferay.provide(window, '<portlet:namespace />EnableDisableInputs', function (
+		check,
+		name
+	) {
+		var date = document.getElementById('<portlet:namespace />' + name + 'Date');
+		var time = document.getElementById('<portlet:namespace />' + name + 'Time');
+		date.disabled = check.checked ? false : true;
+		time.disabled = check.checked ? false : true;
+
+		if (!date.disabled) {
+			date.focus();
+			time.focus();
+		}
+	});
 </aui:script>
