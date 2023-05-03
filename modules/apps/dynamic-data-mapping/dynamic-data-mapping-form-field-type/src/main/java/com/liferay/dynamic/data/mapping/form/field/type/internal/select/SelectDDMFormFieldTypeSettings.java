@@ -45,7 +45,8 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				"setVisible('ddmDataProviderInstanceOutput', contains(getValue('dataSourceType'), \"data-provider\"))",
 				"setVisible('options', contains(getValue('dataSourceType'), \"manual\"))",
 				"setVisible('predefinedValue', contains(getValue('dataSourceType'), \"manual\"))",
-				"setVisible('validation', false)"
+				"setVisible('validation', false)",
+				"setVisible('amountValues', getValue('priceField'))"
 			},
 			condition = "TRUE"
 		),
@@ -71,7 +72,8 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 							value = {
 								"label", "tip", "required", "dataSourceType",
 								"options", "ddmDataProviderInstanceId",
-								"ddmDataProviderInstanceOutput"
+								"ddmDataProviderInstanceOutput", "priceField",
+								"amountValues"
 							}
 						)
 					}
@@ -108,6 +110,9 @@ public interface SelectDDMFormFieldTypeSettings
 		properties = "showAsSwitcher=true"
 	)
 	public boolean alphabeticalOrder();
+
+	@DDMFormField(dataType = "string", label = "%amounts", type = "text")
+	public String amountValues();
 
 	@DDMFormField(
 		label = "%create-list",
@@ -155,5 +160,8 @@ public interface SelectDDMFormFieldTypeSettings
 	)
 	@Override
 	public LocalizedValue predefinedValue();
+
+	@DDMFormField(label = "%price-field", properties = "showAsSwitcher=true")
+	public boolean priceField();
 
 }

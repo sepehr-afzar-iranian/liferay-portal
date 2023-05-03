@@ -68,9 +68,18 @@ public class SelectDDMFormFieldTemplateContextContributor
 			"alphabeticalOrder",
 			GetterUtil.getBoolean(ddmFormField.getProperty("alphabeticalOrder"))
 		).put(
+			"amountValues",
+			GetterUtil.getString(ddmFormField.getProperty("amountValues"))
+		).put(
 			"dataSourceType", ddmFormField.getDataSourceType()
 		).put(
 			"multiple", getMultiple(ddmFormField, ddmFormFieldRenderingContext)
+		).put(
+			"portletNamespace",
+			ddmFormFieldRenderingContext.getPortletNamespace()
+		).put(
+			"priceField",
+			GetterUtil.getBoolean(ddmFormField.getProperty("priceField"))
 		).build();
 
 		DDMFormFieldOptions ddmFormFieldOptions =

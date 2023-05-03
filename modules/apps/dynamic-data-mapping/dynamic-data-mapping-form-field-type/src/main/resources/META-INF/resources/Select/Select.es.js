@@ -13,11 +13,12 @@
  */
 
 import ClayDropDown from '@clayui/drop-down';
-import {ClayCheckbox} from '@clayui/form';
+import {ClayCheckbox, ClayInput} from '@clayui/form';
 import React, {forwardRef, useEffect, useMemo, useRef, useState} from 'react';
 
 import {FieldBase} from '../FieldBase/ReactFieldBase.es';
 import {useSyncValue} from '../hooks/useSyncValue.es';
+import {sumFormFieldsValues} from '../util/sumFormFields';
 import HiddenSelectInput from './HiddenSelectInput.es';
 import VisibleSelectInput from './VisibleSelectInput.es';
 
@@ -565,8 +566,15 @@ const Main = ({
 	readOnly = false,
 	showEmptyOption = true,
 	value = [],
+	priceField,
+	amountValues,
+	portletNamespace,
 	...otherProps
 }) => {
+	let selectedAmountValuesIndex = -1;
+
+	const amountValuesArray = amountValues.split(',');
+
 	const predefinedValueArray = toArray(predefinedValue);
 	const valueArray = toArray(value);
 
@@ -592,6 +600,10 @@ const Main = ({
 			}),
 		[multiple, normalizedOptions, predefinedValueArray, valueArray]
 	);
+	const [amountValue, setAmountValue] = useState(0);
+	useEffect(() => {
+		sumFormFieldsValues(portletNamespace);
+	}, [amountValue, portletNamespace]);
 
 	return (
 		<FieldBase
@@ -607,9 +619,23 @@ const Main = ({
 				onCloseButtonClicked={({event, value}) =>
 					onChange(event, value)
 				}
-				onDropdownItemClicked={({event, value}) =>
-					onChange(event, value)
-				}
+				onDropdownItemClicked={({event, value}) => {
+					for (let i = 0; i < options.length; i++) {
+						if (options[i].value === value[0]) {
+							selectedAmountValuesIndex = i;
+							break;
+						}
+					}
+					let currentAmountValue = 0;
+					if (selectedAmountValuesIndex > -1) {
+						currentAmountValue = parseInt(
+							amountValuesArray[selectedAmountValuesIndex],
+							10
+						);
+					}
+					setAmountValue(currentAmountValue);
+					onChange(event, value);
+				}}
 				onExpand={({event, expand}) => {
 					if (expand) {
 						onFocus(event);
@@ -619,11 +645,20 @@ const Main = ({
 					}
 				}}
 				options={normalizedOptions}
+				portletNamespace={portletNamespace}
 				predefinedValue={predefinedValueArray}
 				readOnly={readOnly}
+				selectedAmountValuesIndex={selectedAmountValuesIndex}
 				showEmptyOption={showEmptyOption}
 				value={value}
 				{...otherProps}
+			/>
+			<ClayInput
+				data-price-field={priceField ? 'price-field' : ''}
+				data-price-value={amountValue}
+				name={name}
+				type="hidden"
+				value={value}
 			/>
 		</FieldBase>
 	);

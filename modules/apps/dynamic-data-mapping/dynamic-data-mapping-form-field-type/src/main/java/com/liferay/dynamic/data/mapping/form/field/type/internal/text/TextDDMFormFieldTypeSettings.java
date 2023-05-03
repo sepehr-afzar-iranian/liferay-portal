@@ -76,7 +76,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 							size = 12,
 							value = {
 								"label", "placeholder", "tip", "displayStyle",
-								"required"
+								"required", "priceField"
 							}
 						)
 					}
@@ -182,6 +182,9 @@ public interface TextDDMFormFieldTypeSettings
 		type = "text"
 	)
 	public LocalizedValue placeholder();
+
+	@DDMFormField(label = "%price-field", properties = "showAsSwitcher=true")
+	public boolean priceField();
 
 	@DDMFormField(visibilityExpression = "FALSE")
 	public LocalizedValue tooltip();

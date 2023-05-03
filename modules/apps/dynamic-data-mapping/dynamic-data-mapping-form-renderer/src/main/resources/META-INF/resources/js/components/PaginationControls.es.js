@@ -34,6 +34,7 @@ export const PaginationControls = ({
 	const {
 		cancelLabel,
 		containerElement,
+		portletNamespace,
 		redirectURL,
 		showCancelButton,
 	} = usePage();
@@ -43,6 +44,7 @@ export const PaginationControls = ({
 
 	return (
 		<div className="lfr-ddm-form-pagination-controls">
+			<div id={portletNamespace + 'sumOfFields'}></div>
 			{activePage > 0 && (
 				<ClayButton
 					className="lfr-ddm-form-pagination-prev"

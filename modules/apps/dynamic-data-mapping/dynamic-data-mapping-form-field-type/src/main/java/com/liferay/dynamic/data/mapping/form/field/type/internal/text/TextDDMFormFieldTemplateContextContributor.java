@@ -79,6 +79,13 @@ public class TextDDMFormFieldTemplateContextContributor
 			parameters.put("predefinedValue", predefinedValue);
 		}
 
+		parameters.put(
+			"portletNamespace",
+			ddmFormFieldRenderingContext.getPortletNamespace());
+		parameters.put(
+			"priceField",
+			GetterUtil.getBoolean(ddmFormField.getProperty("priceField")));
+
 		String value = getValue(ddmFormFieldRenderingContext);
 
 		if (Validator.isNotNull(value)) {

@@ -34,7 +34,8 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 			actions = {
 				"setOptions('predefinedValue', getValue('options'))",
 				"setRequired('options', true)",
-				"setVisible('validation', false)"
+				"setVisible('validation', false)",
+				"setVisible('amountValues', getValue('priceField'))"
 			},
 			condition = "TRUE"
 		)
@@ -52,7 +53,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 							size = 12,
 							value = {
 								"label", "tip", "required", "showAsSwitcher",
-								"options"
+								"options", "priceField", "amountValues"
 							}
 						)
 					}
@@ -84,6 +85,9 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 public interface CheckboxMultipleDDMFormFieldTypeSettings
 	extends DefaultDDMFormFieldTypeSettings {
 
+	@DDMFormField(dataType = "string", label = "%amounts", type = "text")
+	public String amountValues();
+
 	@DDMFormField(label = "%inline", properties = "showAsSwitcher=true")
 	public boolean inline();
 
@@ -102,6 +106,9 @@ public interface CheckboxMultipleDDMFormFieldTypeSettings
 	)
 	@Override
 	public LocalizedValue predefinedValue();
+
+	@DDMFormField(label = "%price-field", properties = "showAsSwitcher=true")
+	public boolean priceField();
 
 	@DDMFormField(
 		dataType = "boolean", label = "%show-as-a-switcher",

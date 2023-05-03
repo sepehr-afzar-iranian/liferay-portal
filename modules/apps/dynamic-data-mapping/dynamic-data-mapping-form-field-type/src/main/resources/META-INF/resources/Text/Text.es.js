@@ -21,6 +21,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 
 import {FieldBase} from '../FieldBase/ReactFieldBase.es';
 import {useSyncValue} from '../hooks/useSyncValue.es';
+import {sumFormFieldsValues} from '../util/sumFormFields';
 
 const Text = ({
 	defaultLanguageId,
@@ -35,6 +36,8 @@ const Text = ({
 	onChange,
 	onFocus,
 	placeholder,
+	portletNamespace,
+	priceField,
 	shouldUpdateValue,
 	syncDelay,
 	value: initialValue,
@@ -80,11 +83,15 @@ const Text = ({
 		setValue,
 		shouldUpdateValue,
 	]);
+	useEffect(() => {
+		sumFormFieldsValues(portletNamespace);
+	}, [value, portletNamespace]);
 
 	return (
 		<ClayInput
 			aria-labelledby={id}
 			className="ddm-field-text"
+			data-price-field={priceField ? 'price-field' : ''}
 			disabled={disabled}
 			id={id}
 			name={name}
@@ -327,6 +334,8 @@ const Main = ({
 	shouldUpdateValue = false,
 	syncDelay = true,
 	value,
+	priceField,
+	portletNamespace,
 	...otherProps
 }) => {
 	const optionsMemo = useMemo(() => options.map((option) => option.label), [
@@ -365,6 +374,8 @@ const Main = ({
 				onFocus={onFocus}
 				options={optionsMemo}
 				placeholder={placeholder}
+				portletNamespace={portletNamespace}
+				priceField={priceField}
 				shouldUpdateValue={shouldUpdateValue}
 				syncDelay={syncDelay}
 				value={value ? value : predefinedValue}
