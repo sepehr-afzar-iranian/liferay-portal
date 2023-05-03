@@ -158,6 +158,12 @@ const Validation = ({
 					{selectedValidation.parameterMessage && (
 						<DynamicComponent
 							dataType={dataType}
+							displayStyle={
+								selectedValidation.label ===
+								Liferay.Language.get('is-not-in-list')
+									? 'multiline'
+									: 'singleline'
+							}
 							label={Liferay.Language.get('the-value')}
 							name={`${name}_parameter`}
 							onChange={(event) =>
