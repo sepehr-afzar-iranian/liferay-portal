@@ -18,6 +18,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecordVersion;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordVersionLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMTrackingCodeLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.portal.kernel.exception.PortalException;
 
@@ -77,6 +78,11 @@ public class DDMFormInstanceRecordImpl extends DDMFormInstanceRecordBaseImpl {
 		DDMFormInstance ddmFormInstance = getFormInstance();
 
 		return ddmFormInstance.getStorageType();
+	}
+
+	public String getTrackingCode() throws PortalException {
+		return DDMTrackingCodeLocalServiceUtil.getTrackingCode(
+			getFormInstanceRecordId());
 	}
 
 }

@@ -304,3 +304,12 @@ create table DDMTemplateVersion (
 	statusDate DATE null,
 	primary key (templateVersionId, ctCollectionId)
 );
+
+create table DDMTrackingCode (
+	mvccVersion LONG default 0 not null,
+	ctCollectionId LONG default 0 not null,
+	companyId LONG,
+	formInstanceRecordId LONG not null,
+	trackingCode VARCHAR(75) null,
+	primary key (formInstanceRecordId, ctCollectionId)
+);

@@ -380,6 +380,11 @@ public class DDMServiceUpgrade implements UpgradeStepRegistrator {
 			"3.9.1", "3.10.0",
 			new com.liferay.dynamic.data.mapping.internal.upgrade.v3_10_0.
 				UpgradeDDMFormInstanceRecord());
+
+		registry.register(
+			"3.10.0", "3.11.0",
+			new com.liferay.dynamic.data.mapping.internal.upgrade.v3_11_0.
+				UpgradeDDMTrackingCode());
 	}
 
 	@Activate
