@@ -35,9 +35,9 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.portlet.LiferayActionResponse;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
-import com.liferay.portal.kernel.portlet.LiferayActionResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.LayoutLocalService;
@@ -176,7 +176,8 @@ public class AddFormInstanceRecordMVCActionCommand
 					epaymentPortletURL.setWindowState(
 						LiferayWindowState.NORMAL);
 					epaymentPortletURL.setParameter(
-						"javax.portlet.action", "/definition_epayment/add_token");
+						"javax.portlet.action",
+						"/definition_epayment/add_token");
 					epaymentPortletURL.setParameter(
 						"ddmFormInstanceRecordId",
 						String.valueOf(
@@ -227,8 +228,7 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		PortletURL portletURL = liferayActionResponse.createRenderURL();
 
-		portletURL.setParameter(
-			"trackingCode", _trackingCode);
+		portletURL.setParameter("trackingCode", _trackingCode);
 
 		actionResponse.sendRedirect(portletURL.toString());
 	}
@@ -343,7 +343,6 @@ public class AddFormInstanceRecordMVCActionCommand
 					" is not published");
 		}
 	}
-	private String _trackingCode;
 
 	@Reference
 	private AddDefaultSharedFormLayoutPortalInstanceLifecycleListener
@@ -370,5 +369,7 @@ public class AddFormInstanceRecordMVCActionCommand
 
 	@Reference
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
+
+	private String _trackingCode;
 
 }
