@@ -139,6 +139,7 @@ const Validation = ({
 			{enableValidation && (
 				<>
 					<Select
+						amountValues={''}
 						disableEmptyOption
 						label={Liferay.Language.get('if-input')}
 						name="selectedValidation"
@@ -150,6 +151,8 @@ const Validation = ({
 						}
 						options={validations}
 						placeholder={Liferay.Language.get('choose-an-option')}
+						portletNamespace={''}
+						priceField={''}
 						readOnly={readOnly || localizationMode}
 						spritemap={spritemap}
 						value={[selectedValidation.name]}
@@ -170,6 +173,8 @@ const Validation = ({
 								handleChange('parameter', event.target.value)
 							}
 							placeholder={selectedValidation.parameterMessage}
+							portletNamespace={''}
+							priceField={''}
 							readOnly={readOnly}
 							required={false}
 							spritemap={spritemap}
@@ -184,6 +189,8 @@ const Validation = ({
 							handleChange('errorMessage', event.target.value)
 						}
 						placeholder={Liferay.Language.get('show-error-message')}
+						portletNamespace={''}
+						priceField={''}
 						readOnly={readOnly}
 						required={false}
 						spritemap={spritemap}
