@@ -374,7 +374,11 @@ const Main = ({
 				onFocus={onFocus}
 				options={optionsMemo}
 				placeholder={placeholder}
-				portletNamespace={portletNamespace}
+				portletNamespace={
+					typeof portletNamespace !== 'undefined'
+						? portletNamespace
+						: ''
+				}
 				priceField={priceField}
 				shouldUpdateValue={shouldUpdateValue}
 				syncDelay={syncDelay}

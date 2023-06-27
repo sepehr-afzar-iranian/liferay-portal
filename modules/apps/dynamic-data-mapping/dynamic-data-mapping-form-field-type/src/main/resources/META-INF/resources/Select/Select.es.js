@@ -573,7 +573,10 @@ const Main = ({
 }) => {
 	let selectedAmountValuesIndex = -1;
 
-	const amountValuesArray = amountValues.split(',');
+	let amountValuesArray = [0];
+	if (typeof amountValues !== 'undefined') {
+		amountValuesArray = amountValues.split(',');
+	}
 
 	const predefinedValueArray = toArray(predefinedValue);
 	const valueArray = toArray(value);
@@ -602,7 +605,9 @@ const Main = ({
 	);
 	const [amountValue, setAmountValue] = useState(0);
 	useEffect(() => {
-		sumFormFieldsValues(portletNamespace);
+		if (typeof portletNamespace !== 'undefined') {
+			sumFormFieldsValues(portletNamespace);
+		}
 	}, [amountValue, portletNamespace]);
 
 	return (

@@ -17,6 +17,7 @@
 export function sumFormFieldsValues(portletNamespace) {
 	try {
 		if (!portletNamespace.includes('Admin')) {
+			let showSumOfPayment = false;
 			const elements = document.getElementById(portletNamespace + 'fm')
 				.elements;
 			const elements2 = document.getElementById(portletNamespace + 'fm')
@@ -41,6 +42,7 @@ export function sumFormFieldsValues(portletNamespace) {
 								elements[i].getAttribute('data-price-value'),
 								10
 							);
+							showSumOfPayment = true;
 						}
 					}
 				}
@@ -50,6 +52,7 @@ export function sumFormFieldsValues(portletNamespace) {
 					elements[i].getAttribute('value') !== ''
 				) {
 					sum += parseInt(elements[i].getAttribute('value'), 10);
+					showSumOfPayment = true;
 				}
 				if (
 					elementType === 'hidden' &&
@@ -60,11 +63,15 @@ export function sumFormFieldsValues(portletNamespace) {
 						elements[i].getAttribute('data-price-value'),
 						10
 					);
+					showSumOfPayment = true;
 				}
 			}
-			document.getElementById(
-				portletNamespace + 'sumOfFields'
-			).innerHTML = Liferay.Language.get('sum-of-payment') + ': ' + sum;
+			if (showSumOfPayment) {
+				document.getElementById(
+					portletNamespace + 'sumOfFields'
+				).innerHTML =
+					Liferay.Language.get('sum-of-payment') + ': ' + sum;
+			}
 		}
 	}
 	catch (e) {}
