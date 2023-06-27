@@ -44,11 +44,16 @@ const Radio = ({
 	amountValues,
 	...otherProps
 }) => {
-	const amountValuesArray = amountValues.split(',');
+	let amountValuesArray = [0];
+	if (typeof amountValues !== 'undefined') {
+		amountValuesArray = amountValues.split(',');
+	}
 
 	const [amountValue, setAmountValue] = useState(0);
 	useEffect(() => {
-		sumFormFieldsValues(portletNamespace);
+		if (typeof portletNamespace !== 'undefined') {
+			sumFormFieldsValues(portletNamespace);
+		}
 	}, [amountValue, portletNamespace]);
 
 	const predefinedValueMemo = useMemo(() => {

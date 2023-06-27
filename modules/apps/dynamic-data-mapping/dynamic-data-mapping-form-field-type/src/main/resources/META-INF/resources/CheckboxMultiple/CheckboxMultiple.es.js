@@ -77,8 +77,11 @@ const CheckboxMultiple = ({
 	const displayValues = value && value.length > 0 ? value : predefinedValue;
 	const Toggle = isSwitcher ? Switcher : ClayCheckbox;
 	useEffect(() => {
-		sumFormFieldsValues(portletNamespace);
+		if (typeof portletNamespace !== 'undefined') {
+			sumFormFieldsValues(portletNamespace);
+		}
 	}, [amountValue, portletNamespace]);
+
 	const handleChange = (event) => {
 		const {target} = event;
 		const newValue = value.filter(
@@ -164,7 +167,9 @@ const Main = ({
 			onChange={onChange}
 			onFocus={onFocus}
 			options={options}
-			portletNamespace={portletNamespace}
+			portletNamespace={
+				typeof portletNamespace !== 'undefined' ? portletNamespace : ''
+			}
 			predefinedValue={setJSONArrayValue(predefinedValue)}
 			priceField={priceField}
 			value={setJSONArrayValue(value)}
