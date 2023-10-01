@@ -14,8 +14,11 @@
 
 package com.liferay.login.web.internal.portlet.action;
 
+import com.liferay.captcha.util.CaptchaUtil;
 import com.liferay.login.web.constants.LoginPortletKeys;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
+import com.liferay.portal.kernel.captcha.CaptchaException;
 import com.liferay.portal.kernel.exception.CompanyMaxUsersException;
 import com.liferay.portal.kernel.exception.CookieNotSupportedException;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
@@ -74,6 +77,12 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
+	protected void checkCaptcha(ActionRequest actionRequest)
+		throws CaptchaConfigurationException, CaptchaException {
+
+		CaptchaUtil.check(actionRequest);
+	}
+
 	@Override
 	protected void doProcessAction(
 			ActionRequest actionRequest, ActionResponse actionResponse)
@@ -97,6 +106,8 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		}*/
 
 		try {
+			checkCaptcha(actionRequest);
+
 			login(themeDisplay, actionRequest, actionResponse);
 
 			boolean doActionAfterLogin = ParamUtil.getBoolean(
@@ -145,6 +156,9 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 				SessionErrors.add(
 					actionRequest, exception.getClass(), exception);
+			}
+			else if (exception instanceof CaptchaException) {
+				SessionErrors.add(actionRequest, exception.getClass());
 			}
 			else {
 				_log.error(exception, exception);
