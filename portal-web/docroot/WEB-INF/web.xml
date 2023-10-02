@@ -625,6 +625,18 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>I18n Servlet</servlet-name>
+		<url-pattern>/ku/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>I18n Servlet</servlet-name>
+		<url-pattern>/ku-IR/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>I18n Servlet</servlet-name>
+		<url-pattern>/ku_IR/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>I18n Servlet</servlet-name>
 		<url-pattern>/lo/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -1138,6 +1150,9 @@
 			<url-pattern>/ko/c/portal/protected</url-pattern>
 			<url-pattern>/ko-KR/c/portal/protected</url-pattern>
 			<url-pattern>/ko_KR/c/portal/protected</url-pattern>
+			<url-pattern>/ku/c/portal/protected</url-pattern>
+			<url-pattern>/ku-IR/c/portal/protected</url-pattern>
+			<url-pattern>/ku_IR/c/portal/protected</url-pattern>
 			<url-pattern>/lo/c/portal/protected</url-pattern>
 			<url-pattern>/lo-LA/c/portal/protected</url-pattern>
 			<url-pattern>/lo_LA/c/portal/protected</url-pattern>
