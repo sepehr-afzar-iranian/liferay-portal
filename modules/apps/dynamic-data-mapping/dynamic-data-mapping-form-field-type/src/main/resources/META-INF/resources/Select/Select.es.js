@@ -661,7 +661,6 @@ const Main = ({
 			<ClayInput
 				data-price-field={priceField ? 'price-field' : ''}
 				data-price-value={amountValue}
-				name={name}
 				type="hidden"
 				value={value}
 			/>
