@@ -21,6 +21,20 @@
 <%
 JournalArticleDisplay articleDisplay = (JournalArticleDisplay)request.getAttribute("liferay-journal:journal-article:articleDisplay");
 String wrapperCssClass = (String)request.getAttribute("liferay-journal:journal-article:wrapperCssClass");
+
+AssetRendererFactory<JournalArticle> assetRendererFactory = AssetRendererFactoryRegistryUtil.getAssetRendererFactoryByClass(JournalArticle.class);
+
+AssetRenderer<JournalArticle> latestArticleAssetRenderer = assetRendererFactory.getAssetRenderer(articleDisplay.getResourcePrimKey(), AssetRendererFactory.TYPE_LATEST_APPROVED);
+
+PortletURL portletURL = latestArticleAssetRenderer.getURLEdit(request);
+
+portletURL.setParameter("redirect", PortalUtil.getCurrentURL(request));
+
+JournalArticle article = JournalArticleLocalServiceUtil.getLatestArticle(articleDisplay.getResourcePrimKey());
+
+boolean hasPermission = JournalArticlePermission.contains(themeDisplay.getPermissionChecker(), article, ActionKeys.UPDATE);
+
+portletURL.setParameter("portletResource", portletDisplay.getPortletName());
 %>
 
 <div class="journal-content-article <%= Validator.isNotNull(wrapperCssClass) ? wrapperCssClass : StringPool.BLANK %>" data-analytics-asset-id="<%= articleDisplay.getArticleId() %>" data-analytics-asset-title="<%= HtmlUtil.escapeAttribute(articleDisplay.getTitle()) %>" data-analytics-asset-type="web-content">
@@ -29,6 +43,19 @@ String wrapperCssClass = (String)request.getAttribute("liferay-journal:journal-a
 	</c:if>
 
 	<%= articleDisplay.getContent() %>
+
+	<clay:content-col
+		cssClass="print-action user-tool-asset-addon-entry"
+	>
+		<c:if test="<%= hasPermission %>">
+			<liferay-ui:icon
+				icon="pencil"
+				markupView="lexicon"
+				message="edit"
+				url="<%= portletURL.toString() %>"
+			/>
+		</c:if>
+	</clay:content-col>
 </div>
 
 <%

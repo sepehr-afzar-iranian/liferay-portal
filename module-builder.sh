@@ -30,6 +30,7 @@ apps:item-selector:item-selector-taglib:$1 \
 apps:item-selector:item-selector-web:$1 \
 apps:journal:journal-item-selector-web:$1 \
 apps:journal:journal-service:$1 \
+apps:journal:journal-taglib:$1 \
 apps:journal:journal-web:$1 \
 apps:layout:layout-admin-web:$1 \
 apps:layout:layout-impl:$1 \
