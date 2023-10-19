@@ -49,6 +49,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.model.DDMStructureVersion;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalService;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceVersionLocalService;
@@ -63,7 +64,6 @@ import com.liferay.dynamic.data.mapping.util.comparator.DDMFormInstanceModifiedD
 import com.liferay.dynamic.data.mapping.util.comparator.DDMFormInstanceNameComparator;
 import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolver;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
-import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
@@ -84,6 +84,7 @@ import com.liferay.portal.kernel.json.JSONSerializer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
@@ -92,6 +93,7 @@ import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -251,14 +253,12 @@ public class DDMFormAdminDisplayContext {
 		return formAdminRequestHelper.getCompanyId();
 	}
 
-	public CreationMenu getCreationMenu() {
+	public CreationMenu getCreationMenu() throws PortalException {
 		if (!_formInstancePermissionCheckerHelper.isShowAddButton()) {
 			return null;
 		}
 
-		return CreationMenuBuilder.addPrimaryDropdownItem(
-			getAddFormDropdownItem()
-		).build();
+		return _getCreationMenu();
 	}
 
 	public String getCSVExport() {
@@ -1576,6 +1576,87 @@ public class DDMFormAdminDisplayContext {
 
 		jsonObject.put(
 			languageId, HtmlUtil.escape(jsonObject.getString(languageId)));
+	}
+
+	private CreationMenu _getCreationMenu() throws PortalException {
+		return new CreationMenu() {
+			{
+				addPrimaryDropdownItem(
+					dropdownItem -> {
+						HttpServletRequest httpServletRequest =
+							formAdminRequestHelper.getRequest();
+
+						ThemeDisplay themeDisplay =
+							(ThemeDisplay)httpServletRequest.getAttribute(
+								WebKeys.THEME_DISPLAY);
+
+						dropdownItem.setHref(
+							renderResponse.createRenderURL(),
+							"mvcRenderCommandName", "/admin/edit_form_instance",
+							"redirect",
+							PortalUtil.getCurrentURL(httpServletRequest),
+							"groupId",
+							String.valueOf(themeDisplay.getScopeGroupId()));
+
+						dropdownItem.setLabel(
+							LanguageUtil.get(httpServletRequest, "new-form"));
+					});
+
+				HttpServletRequest httpServletRequest =
+					formAdminRequestHelper.getRequest();
+
+				ThemeDisplay themeDisplay =
+					(ThemeDisplay)httpServletRequest.getAttribute(
+						WebKeys.THEME_DISPLAY);
+
+				Group globalGroup = GroupLocalServiceUtil.getCompanyGroup(
+					themeDisplay.getCompanyId());
+
+				long groupId = globalGroup.getGroupId();
+
+				List<DDMFormInstance> ddmFormInstances =
+					DDMFormInstanceLocalServiceUtil.getFormInstances(groupId);
+
+				for (DDMFormInstance ddmFormInstance : ddmFormInstances) {
+					/*PortletURL portletURL =
+						renderResponse.createRenderURL();*/
+					PortletURL portletURL = PortletURLFactoryUtil.create(
+						httpServletRequest,
+						DDMPortletKeys.DYNAMIC_DATA_MAPPING_FORM_ADMIN,
+						PortletRequest.ACTION_PHASE);
+
+					portletURL.setParameter(
+						ActionRequest.ACTION_NAME,
+						"/dynamic_data_mapping_form/import_form_instance");
+					portletURL.setParameter(
+						"groupId",
+						String.valueOf(themeDisplay.getScopeGroupId()));
+					portletURL.setParameter(
+						"backUrl",
+						PortalUtil.getCurrentURL(httpServletRequest));
+					portletURL.setParameter(
+						"formInstanceId",
+						String.valueOf(ddmFormInstance.getFormInstanceId()));
+
+					UnsafeConsumer<DropdownItem, Exception> unsafeConsumer =
+						dropdownItem -> {
+							dropdownItem.setHref(portletURL);
+							dropdownItem.setLabel(
+								HtmlUtil.escape(
+									ddmFormInstance.getName(
+										themeDisplay.getLocale())));
+						};
+
+					addRestDropdownItem(unsafeConsumer);
+				}
+
+				setHelpText(
+					LanguageUtil.get(
+						httpServletRequest,
+						"you-can-customize-this-menu-or-see-all-you-have-by-" +
+							"clicking-more"));
+			}
+		};
 	}
 
 	private void _populateDDMDataProviderNavigationItem(
