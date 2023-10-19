@@ -14,6 +14,9 @@
 
 package com.liferay.dynamic.data.mapping.form.evaluator.internal.helper;
 
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderRequest;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponse;
 import com.liferay.dynamic.data.mapping.expression.CreateExpressionRequest;
 import com.liferay.dynamic.data.mapping.expression.DDMExpression;
 import com.liferay.dynamic.data.mapping.expression.DDMExpressionException;
@@ -35,6 +38,7 @@ import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueLocaliz
 import com.liferay.dynamic.data.mapping.form.field.type.DefaultDDMFormFieldValueAccessor;
 import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
+import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldValidation;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldValidationExpression;
 import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
@@ -50,6 +54,7 @@ import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoader;
 import com.liferay.portal.kernel.resource.bundle.ResourceBundleLoaderUtil;
 import com.liferay.portal.kernel.util.AggregateResourceBundle;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -63,6 +68,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -78,11 +85,15 @@ public class DDMFormEvaluatorHelper {
 	public DDMFormEvaluatorHelper(
 		DDMFormEvaluatorEvaluateRequest ddmFormEvaluatorEvaluateRequest,
 		DDMExpressionFactory ddmExpressionFactory,
-		DDMFormFieldTypeServicesTracker ddmFormFieldTypeServicesTracker) {
+		DDMFormFieldTypeServicesTracker ddmFormFieldTypeServicesTracker,
+		DDMDataProviderInvoker ddmDataProviderInvoker) {
 
 		_ddmFormEvaluatorEvaluateRequest = ddmFormEvaluatorEvaluateRequest;
 		_ddmExpressionFactory = ddmExpressionFactory;
 		_ddmFormFieldTypeServicesTracker = ddmFormFieldTypeServicesTracker;
+		_ddmDataProviderInvoker = ddmDataProviderInvoker;
+
+		_locale = ddmFormEvaluatorEvaluateRequest.getLocale();
 
 		createResourceBundle(_ddmFormEvaluatorEvaluateRequest.getLocale());
 
@@ -561,6 +572,35 @@ public class DDMFormEvaluatorHelper {
 					ddmFormFieldValidationExpression.getValue());
 			}
 			else {
+				String ddmFormFieldValidationExpressionValue =
+					ddmFormFieldValidationExpression.getValue();
+
+				if (!Objects.equals(_ddmDataProviderInvoker, null) &&
+					ddmFormFieldValidationExpressionValue.contains(
+						"DataProvider")) {
+
+					boolean focused = false;
+
+					try {
+						DDMFormField field = _ddmFormFieldsMap.get(fieldName);
+
+						Map<String, Object> fieldProperties =
+							field.getProperties();
+
+						if ((Boolean)fieldProperties.get("focused")) {
+							focused = true;
+						}
+					}
+					catch (Exception exception) {
+					}
+
+					if (!focused) {
+						localizedValueString =
+							_getDDMFormValidationDataProviderParameter(
+								localizedValueString);
+					}
+				}
+
 				ddmExpression = createExpression(
 					StringUtil.replace(
 						ddmFormFieldValidationExpression.getValue(),
@@ -673,6 +713,51 @@ public class DDMFormEvaluatorHelper {
 		return ddmFormFieldContextKeySet.stream();
 	}
 
+	private String _getDDMFormValidationDataProviderParameter(
+		String parameter) {
+
+		if (Validator.isNull(parameter))
+
+			return parameter;
+		String dataProviderInstanceId = parameter.split("_\\$_\\$_")[0];
+		String dataProviderOutputInstanceId = parameter.split("_\\$_\\$_")[1];
+
+		DDMFormFieldOptions ddmFormFieldOptions = new DDMFormFieldOptions();
+
+		ddmFormFieldOptions.setDefaultLocale(_locale);
+
+		DDMDataProviderRequest.Builder builder =
+			DDMDataProviderRequest.Builder.newBuilder();
+
+		DDMDataProviderRequest ddmDataProviderRequest =
+			builder.withDDMDataProviderId(
+				dataProviderInstanceId
+			).withLocale(
+				_locale
+			).build();
+
+		DDMDataProviderResponse ddmDataProviderResponse =
+			_ddmDataProviderInvoker.invoke(ddmDataProviderRequest);
+
+		Optional<List<KeyValuePair>> keyValuesPairsOptional =
+			ddmDataProviderResponse.getOutputOptional(
+				dataProviderOutputInstanceId, List.class);
+
+		if (!keyValuesPairsOptional.isPresent()) {
+			return parameter;
+		}
+
+		for (KeyValuePair keyValuePair : keyValuesPairsOptional.get()) {
+			ddmFormFieldOptions.addOptionLabel(
+				keyValuePair.getKey(), _locale, keyValuePair.getValue());
+		}
+
+		Set<String> dataProviderOptionsValues =
+			ddmFormFieldOptions.getOptionsValues();
+
+		return dataProviderOptionsValues.toString();
+	}
+
 	private boolean _isNumericField(DDMFormField ddmFormField) {
 		String type = ddmFormField.getType();
 
@@ -755,6 +840,7 @@ public class DDMFormEvaluatorHelper {
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDMFormEvaluatorHelper.class);
 
+	private final DDMDataProviderInvoker _ddmDataProviderInvoker;
 	private final DDMExpressionFactory _ddmExpressionFactory;
 	private final DDMForm _ddmForm;
 	private final DDMFormEvaluatorEvaluateRequest
@@ -769,6 +855,7 @@ public class DDMFormEvaluatorHelper {
 	private final DDMFormLayout _ddmFormLayout;
 	private final DDMFormEvaluatorRuleHelper _ddmFormRuleHelper;
 	private List<String> _evaluatedActions;
+	private final Locale _locale;
 	private final Map<Integer, Integer> _pageFlow = new HashMap<>();
 	private ResourceBundle _resourceBundle;
 

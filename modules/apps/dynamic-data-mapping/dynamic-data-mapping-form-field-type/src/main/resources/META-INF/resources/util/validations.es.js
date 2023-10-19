@@ -128,6 +128,13 @@ export const VALIDATIONS = {
 			regex: /^isPostalCode\((.+)\)$/,
 			template: 'isPostalCode({name})',
 		},
+		{
+			label: Liferay.Language.get('by-data-provider'),
+			name: 'dataprovider',
+			parameterMessage: '',
+			regex: /^DataProvider\((.+)\)$/,
+			template: 'DataProvider({name}, "{parameter}")',
+		},
 	],
 };
 

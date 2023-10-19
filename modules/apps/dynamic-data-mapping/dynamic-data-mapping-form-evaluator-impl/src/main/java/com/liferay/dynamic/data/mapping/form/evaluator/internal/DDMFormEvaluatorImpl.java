@@ -14,6 +14,7 @@
 
 package com.liferay.dynamic.data.mapping.form.evaluator.internal;
 
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
 import com.liferay.dynamic.data.mapping.expression.DDMExpressionFactory;
 import com.liferay.dynamic.data.mapping.form.evaluator.DDMFormEvaluator;
 import com.liferay.dynamic.data.mapping.form.evaluator.DDMFormEvaluatorEvaluateRequest;
@@ -43,7 +44,7 @@ public class DDMFormEvaluatorImpl implements DDMFormEvaluator {
 
 		DDMFormEvaluatorHelper formEvaluatorHelper = new DDMFormEvaluatorHelper(
 			ddmFormEvaluatorEvaluateRequest, ddmExpressionFactory,
-			ddmFormFieldTypeServicesTracker);
+			ddmFormFieldTypeServicesTracker, ddmDataProviderInvoker);
 
 		return formEvaluatorHelper.evaluate();
 	}
@@ -82,6 +83,9 @@ public class DDMFormEvaluatorImpl implements DDMFormEvaluator {
 
 		return map;
 	}
+
+	@Reference
+	protected DDMDataProviderInvoker ddmDataProviderInvoker;
 
 	@Reference
 	protected DDMExpressionFactory ddmExpressionFactory;

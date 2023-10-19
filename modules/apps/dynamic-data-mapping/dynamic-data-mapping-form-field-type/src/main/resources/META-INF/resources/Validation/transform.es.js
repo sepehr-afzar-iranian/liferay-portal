@@ -32,6 +32,45 @@ const getValidationFromExpression = (validations, validation) => {
 	};
 };
 
+const getDataProviderFromParameter = (dataProviders) => {
+	return function transformDataProviderFromParameter(dataProviderInstanceId) {
+		let mutDataProvider;
+
+		if (!dataProviderInstanceId && dataProviders[0]) {
+			dataProviderInstanceId = dataProviders[0].value;
+		}
+
+		if (dataProviderInstanceId) {
+			mutDataProvider = dataProviders.find(
+				(datap) => datap.value == dataProviderInstanceId
+			);
+		}
+
+		return mutDataProvider;
+	};
+};
+
+const getDataProviderOutputFromParameter = () => {
+	return function transformDataProviderOutputFromParameter(
+		selectedDataProvider,
+		dataProviderOutputInstanceId
+	) {
+		let mutDataProviderOutput;
+
+		if (!dataProviderOutputInstanceId && selectedDataProvider.outputs[0]) {
+			dataProviderOutputInstanceId =
+				selectedDataProvider.outputs[0].value;
+		}
+
+		if (dataProviderOutputInstanceId) {
+			mutDataProviderOutput = selectedDataProvider.outputs.find(
+				(datao) => datao.value === dataProviderOutputInstanceId
+			);
+		}
+
+		return mutDataProviderOutput;
+	};
+};
 const transformValidations = (validations, initialDataType) => {
 	const dataType = initialDataType == 'string' ? initialDataType : 'numeric';
 
@@ -77,6 +116,62 @@ const getValidation = (
 	};
 };
 
+const getDataProvider = (
+	defaultLanguageId,
+	editingLanguageId,
+	dataProviders,
+	transformDataProviderFromParameter,
+	transformDataProviderOutputFromParameter
+) => {
+	return function transformValue(value) {
+		if (dataProviders === undefined || dataProviders.length === 0) {
+			return {
+				parameter: null,
+				selectedDataProvider: null,
+				selectedDataProviderOutput: null,
+			};
+		}
+		let dataProviderInstanceId = '';
+		let dataProviderOutputInstanceId = '';
+		if (value.parameter[editingLanguageId]) {
+			dataProviderInstanceId = value.parameter[editingLanguageId].split(
+				'_$_$_'
+			)[0];
+			dataProviderOutputInstanceId = value.parameter[
+				editingLanguageId
+			].split('_$_$_')[1];
+		}
+		let selectedDataProvider = transformDataProviderFromParameter(
+			dataProviderInstanceId
+		);
+
+		if (!selectedDataProvider) {
+			selectedDataProvider = dataProviders[0];
+		}
+
+		let selectedDataProviderOutput = transformDataProviderOutputFromParameter(
+			selectedDataProvider,
+			dataProviderOutputInstanceId
+		);
+
+		if (!selectedDataProviderOutput) {
+			selectedDataProviderOutput = selectedDataProvider.outputs[0];
+		}
+
+		return {
+			parameter: {
+				...value.parameter,
+				[editingLanguageId]:
+					selectedDataProvider.value +
+					'_$_$_' +
+					selectedDataProviderOutput.value,
+			},
+			selectedDataProvider,
+			selectedDataProviderOutput,
+		};
+	};
+};
+
 export const getSelectedValidation = (validations) => {
 	return function transformSelectedValidation(value) {
 		if (Array.isArray(value)) {
@@ -93,7 +188,44 @@ export const getSelectedValidation = (validations) => {
 	};
 };
 
+export const getSelectedDataProvider = (dataProviders) => {
+	return function transformSelectedDataProvider(value1) {
+		if (Array.isArray(value1)) {
+			value1 = value1[0];
+		}
+
+		let selectedDataProvider = dataProviders.find(
+			({value}) => value === value1
+		);
+
+		if (!selectedDataProvider) {
+			selectedDataProvider = dataProviders[0];
+		}
+
+		return selectedDataProvider;
+	};
+};
+
+export const getSelectedDataProviderOutput = () => {
+	return function transformSelectedDataProvider(dataproviderOutputs, value1) {
+		if (Array.isArray(value1)) {
+			value1 = value1[0];
+		}
+
+		let selectedDataProviderOutput = dataproviderOutputs.find(
+			({value}) => value === value1
+		);
+
+		if (!selectedDataProviderOutput) {
+			selectedDataProviderOutput = dataproviderOutputs[0];
+		}
+
+		return selectedDataProviderOutput;
+	};
+};
+
 export const transformData = ({
+	dataProviders,
 	defaultLanguageId,
 	editingLanguageId,
 	initialDataType,
@@ -112,6 +244,13 @@ export const transformData = ({
 		validations,
 		getValidationFromExpression(validations, validation)
 	)(value);
+	const parsedDataProvider = getDataProvider(
+		defaultLanguageId,
+		editingLanguageId,
+		dataProviders,
+		getDataProviderFromParameter(dataProviders),
+		getDataProviderOutputFromParameter()
+	)(value);
 	const localizationMode = editingLanguageId !== defaultLanguageId;
 
 	return {
@@ -119,5 +258,6 @@ export const transformData = ({
 		dataType,
 		localizationMode,
 		validations,
+		...parsedDataProvider,
 	};
 };

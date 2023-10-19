@@ -21,9 +21,15 @@ import Numeric from '../Numeric/Numeric.es';
 import Select from '../Select/Select.es';
 import Text from '../Text/Text.es';
 import {subWords} from '../util/strings.es';
-import {getSelectedValidation, transformData} from './transform.es';
+import {
+	getSelectedDataProvider,
+	getSelectedDataProviderOutput,
+	getSelectedValidation,
+	transformData,
+} from './transform.es';
 
 const Validation = ({
+	dataProviders,
 	dataType,
 	defaultLanguageId,
 	editingLanguageId,
@@ -36,6 +42,8 @@ const Validation = ({
 	parameter: initialParameter,
 	parameterMessage,
 	readOnly,
+	selectedDataProvider: initialSelectedDataProvider,
+	selectedDataProviderOutput: initialSelectedDataProviderOutput,
 	selectedValidation: initialSelectedValidation,
 	spritemap,
 	validation,
@@ -44,12 +52,21 @@ const Validation = ({
 	visible,
 }) => {
 	const [
-		{enableValidation, errorMessage, parameter, selectedValidation},
+		{
+			enableValidation,
+			errorMessage,
+			parameter,
+			selectedDataProvider,
+			selectedDataProviderOutput,
+			selectedValidation,
+		},
 		setState,
 	] = useState({
 		enableValidation: initialEnableValidation,
 		errorMessage: initialErrorMessage,
 		parameter: initialParameter,
+		selectedDataProvider: initialSelectedDataProvider,
+		selectedDataProviderOutput: initialSelectedDataProviderOutput,
 		selectedValidation: initialSelectedValidation,
 	});
 
@@ -78,6 +95,26 @@ const Validation = ({
 				};
 			}
 
+			let parm = {
+				...value.parameter,
+				[editingLanguageId]: !value.expression
+					? parameterMessage
+					: newState.parameter,
+			};
+
+			if (
+				!(dataProviders === undefined || dataProviders.length === 0) &&
+				newState.selectedValidation.name === 'dataprovider'
+			) {
+				parm = {
+					...parm,
+					[editingLanguageId]:
+						newState.selectedDataProvider.value +
+						'_$_$_' +
+						newState.selectedDataProviderOutput.value,
+				};
+			}
+
 			onChange({
 				enableValidation: newState.enableValidation,
 				errorMessage: {
@@ -86,10 +123,7 @@ const Validation = ({
 				},
 				expression,
 				parameter: {
-					...value.parameter,
-					[editingLanguageId]: !value.expression
-						? parameterMessage
-						: newState.parameter,
+					...parm,
 				},
 			});
 
@@ -98,6 +132,12 @@ const Validation = ({
 	};
 
 	const transformSelectedValidation = getSelectedValidation(validations);
+
+	const transformSelectedDataProvider = getSelectedDataProvider(
+		dataProviders
+	);
+
+	const transformSelectedDataProviderOutput = getSelectedDataProviderOutput();
 
 	const prevEditingLanguageId = usePrevious(editingLanguageId);
 
@@ -158,6 +198,63 @@ const Validation = ({
 						value={[selectedValidation.name]}
 						visible={visible}
 					/>
+					{!(
+						dataProviders === undefined ||
+						dataProviders.length === 0
+					) &&
+						selectedValidation.name === 'dataprovider' && (
+							<Select
+								disableEmptyOption
+								label={Liferay.Language.get(
+									'select-data-provider'
+								)}
+								name="selectedDataProvider"
+								onChange={(event, value) =>
+									handleChange(
+										'selectedDataProvider',
+										transformSelectedDataProvider(value)
+									)
+								}
+								options={dataProviders}
+								placeholder={Liferay.Language.get(
+									'choose-a-data-provider'
+								)}
+								readOnly={readOnly || localizationMode}
+								spritemap={spritemap}
+								value={[selectedDataProvider.value]}
+								visible={visible}
+							/>
+						)}
+					{!(
+						dataProviders === undefined ||
+						dataProviders.length === 0
+					) &&
+						selectedValidation.name === 'dataprovider' && (
+							<Select
+								disableEmptyOption
+								label={Liferay.Language.get(
+									'select-data-provider-output'
+								)}
+								name="selectedDataProviderOutput"
+								onChange={(event, value) =>
+									handleChange(
+										'selectedDataProviderOutput',
+										transformSelectedDataProviderOutput(
+											selectedDataProvider.outputs,
+											value
+										)
+									)
+								}
+								options={selectedDataProvider.outputs}
+								placeholder={Liferay.Language.get(
+									'choose-a-data-provider-output'
+								)}
+								readOnly={readOnly || localizationMode}
+								spritemap={spritemap}
+								value={[selectedDataProviderOutput.value]}
+								visible={visible}
+							/>
+						)}
 					{selectedValidation.parameterMessage && (
 						<DynamicComponent
 							dataType={dataType}
@@ -216,8 +313,10 @@ const Main = ({
 	validations: initialValidations,
 	value = {},
 	visible,
+	dataProviders,
 }) => {
 	const data = transformData({
+		dataProviders,
 		defaultLanguageId,
 		editingLanguageId,
 		initialDataType,
@@ -229,6 +328,7 @@ const Main = ({
 	return (
 		<Validation
 			{...data}
+			dataProviders={dataProviders}
 			defaultLanguageId={defaultLanguageId}
 			editingLanguageId={editingLanguageId}
 			label={label}
