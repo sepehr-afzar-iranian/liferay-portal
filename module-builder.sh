@@ -19,6 +19,7 @@ apps:dynamic-data-mapping:dynamic-data-mapping-form-web:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-lang:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-service:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-taglib:$1 \
+apps:dynamic-data-mapping:dynamic-data-mapping-validator:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-web:$1 \
 apps:friendly-url:friendly-url-service:$1 \
 apps:frontend-editor:frontend-editor-ckeditor-web:$1 \
@@ -36,6 +37,7 @@ apps:layout:layout-admin-web:$1 \
 apps:layout:layout-impl:$1 \
 apps:layout:layout-seo-web-test:$1 \
 apps:layout:layout-seo-web:$1 \
+apps:login:login-web:$1 \
 apps:portal-search-elasticsearch7:portal-search-elasticsearch7-impl:$1 \
 apps:portal-search:portal-search-web:$1 \
 apps:site:site-browser-web:$1 \
