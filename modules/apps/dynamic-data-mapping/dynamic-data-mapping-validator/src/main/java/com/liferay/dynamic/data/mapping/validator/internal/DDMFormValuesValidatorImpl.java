@@ -14,6 +14,9 @@
 
 package com.liferay.dynamic.data.mapping.validator.internal;
 
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderRequest;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderResponse;
 import com.liferay.dynamic.data.mapping.expression.CreateExpressionRequest;
 import com.liferay.dynamic.data.mapping.expression.DDMExpression;
 import com.liferay.dynamic.data.mapping.expression.DDMExpressionException;
@@ -24,6 +27,7 @@ import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueValidat
 import com.liferay.dynamic.data.mapping.form.field.type.DefaultDDMFormFieldValueAccessor;
 import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
+import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldValidation;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldValidationExpression;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
@@ -46,6 +50,7 @@ import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.KeyValuePair;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -54,6 +59,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -78,6 +85,31 @@ public class DDMFormValuesValidatorImpl implements DDMFormValuesValidator {
 		if (ddmForm == null) {
 			throw new NullPointerException("A DDM Form instance was never set");
 		}
+
+		_ddmDataProviderInvoker = null;
+
+		traverseDDMFormFields(
+			ddmForm.getDDMFormFields(),
+			ddmFormValues.getDDMFormFieldValuesMap());
+
+		traverseDDMFormFieldValues(
+			ddmFormValues.getDDMFormFieldValues(),
+			ddmForm.getDDMFormFieldsMap(false));
+	}
+
+	@Override
+	public void validate(
+			DDMFormValues ddmFormValues,
+			DDMDataProviderInvoker ddmDataProviderInvoker)
+		throws DDMFormValuesValidationException {
+
+		DDMForm ddmForm = ddmFormValues.getDDMForm();
+
+		if (ddmForm == null) {
+			throw new NullPointerException("A DDM Form instance was never set");
+		}
+
+		_ddmDataProviderInvoker = ddmDataProviderInvoker;
 
 		traverseDDMFormFields(
 			ddmForm.getDDMFormFields(),
@@ -120,12 +152,36 @@ public class DDMFormValuesValidatorImpl implements DDMFormValuesValidator {
 				LocalizedValue parameterLocalizedValue =
 					ddmFormFieldValidation.getParameterLocalizedValue();
 
+				String localizedValueString = null;
+
+				if (parameterLocalizedValue != null) {
+					localizedValueString = parameterLocalizedValue.getString(
+						locale);
+
+					if (Validator.isNull(localizedValueString)) {
+						localizedValueString =
+							parameterLocalizedValue.getString(
+								parameterLocalizedValue.getDefaultLocale());
+					}
+				}
+
+				String ddmFormFieldValidationExpressionValue =
+					ddmFormFieldValidationExpression.getValue();
+
+				if (!Objects.equals(_ddmDataProviderInvoker, null) &&
+					ddmFormFieldValidationExpressionValue.contains(
+						"DataProvider")) {
+
+					localizedValueString =
+						_getDDMFormValidationDataProviderParameter(
+							localizedValueString, locale);
+				}
+
 				ddmExpression = _ddmExpressionFactory.createExpression(
 					CreateExpressionRequest.Builder.newBuilder(
 						StringUtil.replace(
 							ddmFormFieldValidationExpression.getValue(),
-							"{parameter}",
-							parameterLocalizedValue.getString(locale))
+							"{parameter}", localizedValueString)
 					).build());
 			}
 			else {
@@ -402,9 +458,55 @@ public class DDMFormValuesValidatorImpl implements DDMFormValuesValidator {
 		}
 	}
 
+	private String _getDDMFormValidationDataProviderParameter(
+		String parameter, Locale locale) {
+
+		if (Validator.isNull(parameter))
+
+			return parameter;
+		String dataProviderInstanceId = parameter.split("_\\$_\\$_")[0];
+		String dataProviderOutputInstanceId = parameter.split("_\\$_\\$_")[1];
+
+		DDMFormFieldOptions ddmFormFieldOptions = new DDMFormFieldOptions();
+
+		ddmFormFieldOptions.setDefaultLocale(locale);
+
+		DDMDataProviderRequest.Builder builder =
+			DDMDataProviderRequest.Builder.newBuilder();
+
+		DDMDataProviderRequest ddmDataProviderRequest =
+			builder.withDDMDataProviderId(
+				dataProviderInstanceId
+			).withLocale(
+				locale
+			).build();
+
+		DDMDataProviderResponse ddmDataProviderResponse =
+			_ddmDataProviderInvoker.invoke(ddmDataProviderRequest);
+
+		Optional<List<KeyValuePair>> keyValuesPairsOptional =
+			ddmDataProviderResponse.getOutputOptional(
+				dataProviderOutputInstanceId, List.class);
+
+		if (!keyValuesPairsOptional.isPresent()) {
+			return parameter;
+		}
+
+		for (KeyValuePair keyValuePair : keyValuesPairsOptional.get()) {
+			ddmFormFieldOptions.addOptionLabel(
+				keyValuePair.getKey(), locale, keyValuePair.getValue());
+		}
+
+		Set<String> dataProviderOptionsValues =
+			ddmFormFieldOptions.getOptionsValues();
+
+		return dataProviderOptionsValues.toString();
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDMFormValuesValidatorImpl.class);
 
+	private DDMDataProviderInvoker _ddmDataProviderInvoker;
 	private DDMExpressionFactory _ddmExpressionFactory;
 	private DDMFormFieldTypeServicesTracker _ddmFormFieldTypeServicesTracker;
 	private final DDMFormFieldValueAccessor<String>

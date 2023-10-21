@@ -15,6 +15,7 @@
 package com.liferay.dynamic.data.mapping.service.impl;
 
 import com.liferay.document.library.kernel.util.DLUtil;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
 import com.liferay.dynamic.data.mapping.exception.FormInstanceRecordGroupIdException;
 import com.liferay.dynamic.data.mapping.exception.NoSuchFormInstanceRecordException;
 import com.liferay.dynamic.data.mapping.exception.StorageException;
@@ -954,7 +955,7 @@ public class DDMFormInstanceRecordLocalServiceImpl
 			return;
 		}
 
-		_ddmFormValuesValidator.validate(ddmFormValues);
+		_ddmFormValuesValidator.validate(ddmFormValues, ddmDataProviderInvoker);
 	}
 
 	protected void validate(long groupId, DDMFormInstance ddmFormInstance)
@@ -966,6 +967,9 @@ public class DDMFormInstanceRecordLocalServiceImpl
 					"ID");
 		}
 	}
+
+	@Reference
+	protected DDMDataProviderInvoker ddmDataProviderInvoker;
 
 	private SearchContext _buildSearchContext(
 			long formInstanceId, String[] notEmptyFields, int status, int start,

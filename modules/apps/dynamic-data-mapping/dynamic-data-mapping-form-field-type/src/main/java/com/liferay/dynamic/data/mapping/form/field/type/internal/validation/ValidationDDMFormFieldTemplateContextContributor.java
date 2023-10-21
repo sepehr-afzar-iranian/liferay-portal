@@ -14,18 +14,37 @@
 
 package com.liferay.dynamic.data.mapping.form.field.type.internal.validation;
 
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProvider;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderOutputParametersSettings;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderParameterSettings;
+import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderTracker;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTemplateContextContributor;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializer;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializerDeserializeRequest;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializerDeserializeResponse;
+import com.liferay.dynamic.data.mapping.model.DDMDataProviderInstance;
+import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderingContext;
+import com.liferay.dynamic.data.mapping.service.DDMDataProviderInstanceLocalService;
+import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
+import com.liferay.dynamic.data.mapping.util.DDMFormFactory;
+import com.liferay.dynamic.data.mapping.util.DDMFormInstanceFactory;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -48,9 +67,115 @@ public class ValidationDDMFormFieldTemplateContextContributor
 		DDMFormField ddmFormField,
 		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
-		return HashMapBuilder.<String, Object>put(
-			"value", getValue(ddmFormFieldRenderingContext)
-		).build();
+		try {
+			long groupId = portal.getScopeGroupId(
+				ddmFormFieldRenderingContext.getHttpServletRequest());
+
+			List<DDMDataProviderInstance> dataProviderInstances =
+				ddmDataProviderInstanceLocalService.getDataProviderInstances(
+					new long[] {groupId});
+
+			ArrayList<HashMap<String, Object>> dataproviders =
+				new ArrayList<>();
+
+			for (DDMDataProviderInstance ddmDataProviderInstance :
+					dataProviderInstances) {
+
+				DDMDataProvider ddmDataProvider =
+					ddmDataProviderTracker.getDDMDataProvider(
+						ddmDataProviderInstance.getType());
+
+				DDMFormValues dataProviderFormValues =
+					getDataProviderInstanceFormValues(
+						ddmDataProvider, ddmDataProviderInstance);
+
+				DDMDataProviderParameterSettings
+					ddmDataProviderParameterSetting =
+						DDMFormInstanceFactory.create(
+							DDMDataProviderParameterSettings.class,
+							dataProviderFormValues);
+
+				DDMDataProviderOutputParametersSettings[]
+					ddmDataProvidersOutputParametersSettings =
+						ddmDataProviderParameterSetting.outputParameters();
+
+				ArrayList<HashMap<String, Object>> dataproviderOutputs =
+					new ArrayList<>();
+
+				for (DDMDataProviderOutputParametersSettings
+						ddmDataProviderOutputParametersSettings :
+							ddmDataProvidersOutputParametersSettings) {
+
+					if (Objects.equals(
+							ddmDataProviderOutputParametersSettings.
+								outputParameterType(),
+							"list")) {
+
+						dataproviderOutputs.add(
+							HashMapBuilder.<String, Object>put(
+								"label",
+								ddmDataProviderOutputParametersSettings.
+									outputParameterName()
+							).put(
+								"value",
+								ddmDataProviderOutputParametersSettings.
+									outputParameterId()
+							).build());
+					}
+				}
+
+				if (!dataproviderOutputs.isEmpty()) {
+					dataproviders.add(
+						HashMapBuilder.<String, Object>put(
+							"label",
+							ddmDataProviderInstance.getName(
+								ddmFormFieldRenderingContext.getLocale())
+						).put(
+							"outputs", dataproviderOutputs
+						).put(
+							"value",
+							ddmDataProviderInstance.getDataProviderInstanceId()
+						).build());
+				}
+			}
+
+			return HashMapBuilder.<String, Object>put(
+				"dataProviders", dataproviders
+			).put(
+				"value", getValue(ddmFormFieldRenderingContext)
+			).build();
+		}
+		catch (Exception exception1) {
+			try {
+				return HashMapBuilder.<String, Object>put(
+					"value", getValue(ddmFormFieldRenderingContext)
+				).build();
+			}
+			catch (Exception exception2) {
+				return new HashMap<>();
+			}
+		}
+	}
+
+	protected DDMFormValues deserialize(String content, DDMForm ddmForm) {
+		DDMFormValuesDeserializerDeserializeRequest.Builder builder =
+			DDMFormValuesDeserializerDeserializeRequest.Builder.newBuilder(
+				content, ddmForm);
+
+		DDMFormValuesDeserializerDeserializeResponse
+			ddmFormValuesDeserializerDeserializeResponse =
+				jsonDDMFormValuesDeserializer.deserialize(builder.build());
+
+		return ddmFormValuesDeserializerDeserializeResponse.getDDMFormValues();
+	}
+
+	protected DDMFormValues getDataProviderInstanceFormValues(
+		DDMDataProvider ddmDataProvider,
+		DDMDataProviderInstance ddmDataProviderInstance) {
+
+		DDMForm ddmForm = DDMFormFactory.create(ddmDataProvider.getSettings());
+
+		return deserialize(ddmDataProviderInstance.getDefinition(), ddmForm);
 	}
 
 	protected Map<String, Object> getValue(
@@ -89,7 +214,23 @@ public class ValidationDDMFormFieldTemplateContextContributor
 	}
 
 	@Reference
+	protected DDMDataProviderInstanceLocalService
+		ddmDataProviderInstanceLocalService;
+
+	@Reference
+	protected DDMDataProviderInvoker ddmDataProviderInvoker;
+
+	@Reference
+	protected DDMDataProviderTracker ddmDataProviderTracker;
+
+	@Reference(target = "(ddm.form.values.deserializer.type=json)")
+	protected DDMFormValuesDeserializer jsonDDMFormValuesDeserializer;
+
+	@Reference
 	protected JSONFactory jsonFactory;
+
+	@Reference
+	protected Portal portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ValidationDDMFormFieldTemplateContextContributor.class);

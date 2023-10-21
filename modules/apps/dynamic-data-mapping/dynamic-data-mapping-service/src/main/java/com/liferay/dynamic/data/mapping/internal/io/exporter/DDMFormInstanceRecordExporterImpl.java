@@ -134,7 +134,6 @@ public class DDMFormInstanceRecordExporterImpl
 					field.getFieldReference(),
 					localizedValue.getString(locale));
 			});
-		//LanguageUtil.get(getResourceBundle(locale), "tracking-code")
 
 		ddmFormFieldsLabel.put(
 			_TRACKING_CODE,
