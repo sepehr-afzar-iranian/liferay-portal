@@ -18,9 +18,12 @@ import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
+import com.liferay.document.library.kernel.service.DLAppService;
+import com.liferay.document.library.util.DLURLHelper;
 import com.liferay.dynamic.data.mapping.exception.FormInstanceRecordExporterException;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTypeServicesTracker;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueRenderer;
+import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporter;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterByTrackingCode;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterRequest;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterResponse;
@@ -35,6 +38,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecordVersion;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceVersion;
 import com.liferay.dynamic.data.mapping.model.DDMStructureVersion;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
+import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceVersionLocalService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
@@ -52,6 +56,12 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -163,8 +173,8 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 		return HtmlUtil.extractText(
 			StringUtil.merge(
 				stream.map(
-					ddmForFieldValue -> ddmFormFieldValueRenderer.render(
-						ddmForFieldValue, locale)
+					ddmForFieldValue -> _getRender(
+						ddmForFieldValue, ddmFormFieldValueRenderer, locale)
 				).filter(
 					Validator::isNotNull
 				).collect(
@@ -356,6 +366,70 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 	protected DDMFormInstanceVersionLocalService
 		ddmFormInstanceVersionLocalService;
 
+	@Reference
+	protected DLAppService dlAppService;
+
+	@Reference
+	protected DLURLHelper dlurlHelper;
+
+	@Reference
+	protected JSONFactory jsonFactory;
+
+	private String _getRender(
+		DDMFormFieldValue ddmFormFieldValue,
+		DDMFormFieldValueRenderer ddmFormFieldValueRenderer, Locale locale) {
+
+		String type = ddmFormFieldValue.getType();
+
+		if (!type.equals("document_library")) {
+			return ddmFormFieldValueRenderer.render(ddmFormFieldValue, locale);
+		}
+
+		JSONObject jsonObject = _getValue(ddmFormFieldValue, locale);
+
+		String uuid = jsonObject.getString("uuid");
+		long groupId = jsonObject.getLong("groupId");
+
+		if (Validator.isNull(uuid) || (groupId == 0)) {
+			return StringPool.BLANK;
+		}
+
+		try {
+			FileEntry fileEntry = dlAppService.getFileEntryByUuidAndGroupId(
+				uuid, groupId);
+
+			return dlurlHelper.getDownloadURL(
+				fileEntry, fileEntry.getFileVersion(), null, null);
+		}
+		catch (Exception exception) {
+			return LanguageUtil.format(
+				locale, "is-temporarily-unavailable", "content");
+		}
+	}
+
+	private JSONObject _getValue(
+		DDMFormFieldValue ddmFormFieldValue, Locale locale) {
+
+		Value value = ddmFormFieldValue.getValue();
+
+		if (value == null) {
+			return jsonFactory.createJSONObject();
+		}
+
+		try {
+			return jsonFactory.createJSONObject(value.getString(locale));
+		}
+		catch (JSONException jsonException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug("Unable to parse JSON object", jsonException);
+			}
+
+			return jsonFactory.createJSONObject();
+		}
+	}
+
+
+
 	private static final String _AUTHOR = "author";
 
 	private static final String _MODIFIED_DATE = "modifiedDate";
@@ -363,5 +437,7 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 	private static final String _STATUS = "status";
 
 	private static final String _TRACKING_CODE = "trackingCode";
+	private static final Log _log = LogFactoryUtil.getLog(
+		DDMFormInstanceRecordExporter.class);
 
 }
