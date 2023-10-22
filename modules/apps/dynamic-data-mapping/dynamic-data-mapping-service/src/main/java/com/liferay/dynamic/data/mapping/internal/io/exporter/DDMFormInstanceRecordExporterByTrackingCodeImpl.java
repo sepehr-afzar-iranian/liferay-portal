@@ -18,12 +18,12 @@ import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
+
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.util.DLURLHelper;
 import com.liferay.dynamic.data.mapping.exception.FormInstanceRecordExporterException;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTypeServicesTracker;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueRenderer;
-import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporter;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterByTrackingCode;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterRequest;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterResponse;
@@ -46,7 +46,13 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.util.comparator.FormInstanceVersionVersionComparator;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -56,16 +62,9 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactory;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.repository.model.FileEntry;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.text.Format;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -76,10 +75,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Leonardo Barros
  */
-@Component(immediate = true, service = DDMFormInstanceRecordExporterByTrackingCode.class)
+@Component(
+	immediate = true,
+	service = DDMFormInstanceRecordExporterByTrackingCode.class
+)
 public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 	implements DDMFormInstanceRecordExporterByTrackingCode {
 
@@ -385,7 +390,7 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 			return ddmFormFieldValueRenderer.render(ddmFormFieldValue, locale);
 		}
 
-		JSONObject jsonObject = _getValue(ddmFormFieldValue, locale);
+		JSONObject jsonObject = _getValueJSONObject(ddmFormFieldValue, locale);
 
 		String uuid = jsonObject.getString("uuid");
 		long groupId = jsonObject.getLong("groupId");
@@ -407,7 +412,7 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 		}
 	}
 
-	private JSONObject _getValue(
+	private JSONObject _getValueJSONObject(
 		DDMFormFieldValue ddmFormFieldValue, Locale locale) {
 
 		Value value = ddmFormFieldValue.getValue();
@@ -428,8 +433,6 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 		}
 	}
 
-
-
 	private static final String _AUTHOR = "author";
 
 	private static final String _MODIFIED_DATE = "modifiedDate";
@@ -437,7 +440,8 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 	private static final String _STATUS = "status";
 
 	private static final String _TRACKING_CODE = "trackingCode";
+
 	private static final Log _log = LogFactoryUtil.getLog(
-		DDMFormInstanceRecordExporter.class);
+		DDMFormInstanceRecordExporterByTrackingCodeImpl.class);
 
 }

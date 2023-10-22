@@ -21,15 +21,12 @@ import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporte
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterByTrackingCode;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterRequest;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordExporterResponse;
-import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
-import com.liferay.dynamic.data.mapping.service.DDMFormInstanceVersionLocalService;
 import com.liferay.dynamic.data.mapping.util.comparator.DDMFormInstanceRecordModifiedDateComparator;
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.portlet.PortletResponseUtil;
@@ -166,29 +163,34 @@ public class ExportFormInstanceMVCResourceCommand
 				orderByComparator
 			).build();
 
-
 		DDMFormInstance formInstance = _ddmFormInstanceService.getFormInstance(
 			formInstanceId);
 
 		List<DDMFormField> ddmFormFieldList = getFormFields(formInstance);
-		boolean formHasPriceField= false;
+
+		boolean formHasPriceField = false;
 
 		for (DDMFormField ddmFormField : ddmFormFieldList) {
-			if (Validator.isNotNull(ddmFormField.getProperty("priceField")) && (Boolean)ddmFormField.getProperty("priceField")) {
+			if (Validator.isNotNull(ddmFormField.getProperty("priceField")) &&
+				(Boolean)ddmFormField.getProperty("priceField")) {
+
 				formHasPriceField = true;
+
 				break;
 			}
 		}
+
 		DDMFormInstanceRecordExporterResponse
 			ddmFormInstanceRecordExporterResponse;
 
 		if (formHasPriceField)
-			ddmFormInstanceRecordExporterResponse=_ddmFormInstanceRecordExporter.export(
+			ddmFormInstanceRecordExporterResponse =
+				_ddmFormInstanceRecordExporter.export(
 					ddmFormInstanceRecordExporterRequest);
-		else
-			ddmFormInstanceRecordExporterResponse=_ddmFormInstanceRecordExporterByTrackingCode.export(
-				ddmFormInstanceRecordExporterRequest);
-
+			else
+			ddmFormInstanceRecordExporterResponse =
+				_ddmFormInstanceRecordExporterByTrackingCode.export(
+					ddmFormInstanceRecordExporterRequest);
 
 		String fileName =
 			formInstance.getName(themeDisplay.getLocale()) + CharPool.PERIOD +
@@ -200,9 +202,11 @@ public class ExportFormInstanceMVCResourceCommand
 			MimeTypesUtil.getContentType(fileName));
 	}
 
-	protected List<DDMFormField> getFormFields(DDMFormInstance ddmFormInstance) throws Exception {
+	protected List<DDMFormField> getFormFields(DDMFormInstance ddmFormInstance)
+		throws Exception {
 
-		DDMStructure ddmStructure= ddmFormInstance.getStructure();
+		DDMStructure ddmStructure = ddmFormInstance.getStructure();
+
 		return ddmStructure.getDDMFormFields(false);
 	}
 
