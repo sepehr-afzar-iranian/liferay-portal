@@ -1931,7 +1931,7 @@ public class SitesImpl implements Sites {
 		catch (PortalException portalException) {
 			_log.debug(
 				"Unable to export layout set prototype " +
-				layoutSetPrototype.getLayoutSetPrototypeId(),
+					layoutSetPrototype.getLayoutSetPrototypeId(),
 				portalException);
 
 			return null;
