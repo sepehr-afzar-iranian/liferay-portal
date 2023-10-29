@@ -1929,7 +1929,7 @@ public class SitesImpl implements Sites {
 				exportImportConfiguration);
 		}
 		catch (PortalException portalException) {
-			_log.error(
+			_log.debug(
 				"Unable to export layout set prototype " +
 					layoutSetPrototype.getLayoutSetPrototypeId(),
 				portalException);
