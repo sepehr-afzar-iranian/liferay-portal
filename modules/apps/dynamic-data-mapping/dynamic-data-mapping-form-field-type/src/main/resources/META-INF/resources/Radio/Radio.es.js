@@ -89,7 +89,7 @@ const Radio = ({
 					/>
 				))}
 			</div>
-			<ClayInput  type="hidden" value={currentValue} />
+			<ClayInput type="hidden" value={currentValue} />
 		</FieldBase>
 	);
 };
