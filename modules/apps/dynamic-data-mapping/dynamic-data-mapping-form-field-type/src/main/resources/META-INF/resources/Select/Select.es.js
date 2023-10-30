@@ -574,7 +574,7 @@ const Main = ({
 	let selectedAmountValuesIndex = -1;
 
 	let amountValuesArray = [0];
-	if (typeof amountValues !== 'undefined') {
+	if (typeof amountValues !== 'undefined' && amountValues) {
 		amountValuesArray = amountValues.split(',');
 	}
 
@@ -605,7 +605,7 @@ const Main = ({
 	);
 	const [amountValue, setAmountValue] = useState(0);
 	useEffect(() => {
-		if (typeof portletNamespace !== 'undefined') {
+		if (typeof portletNamespace !== 'undefined' && amountValues) {
 			sumFormFieldsValues(portletNamespace);
 		}
 	}, [amountValue, portletNamespace]);

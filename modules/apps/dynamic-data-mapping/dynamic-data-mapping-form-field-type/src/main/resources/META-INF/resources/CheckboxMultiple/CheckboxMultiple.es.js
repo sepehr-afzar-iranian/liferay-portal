@@ -77,7 +77,7 @@ const CheckboxMultiple = ({
 	const displayValues = value && value.length > 0 ? value : predefinedValue;
 	const Toggle = isSwitcher ? Switcher : ClayCheckbox;
 	useEffect(() => {
-		if (typeof portletNamespace !== 'undefined') {
+		if (typeof portletNamespace !== 'undefined' && amountValues) {
 			sumFormFieldsValues(portletNamespace);
 		}
 	}, [amountValue, portletNamespace]);
@@ -123,7 +123,6 @@ const CheckboxMultiple = ({
 			<ClayInput
 				data-price-field={priceField ? 'price-field' : ''}
 				data-price-value={amountValue}
-				name={name}
 				type="hidden"
 				value={value}
 			/>
