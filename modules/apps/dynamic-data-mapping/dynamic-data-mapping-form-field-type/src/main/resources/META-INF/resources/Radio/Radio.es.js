@@ -45,13 +45,13 @@ const Radio = ({
 	...otherProps
 }) => {
 	let amountValuesArray = [0];
-	if (typeof amountValues !== 'undefined') {
+	if (typeof amountValues !== 'undefined' && amountValues) {
 		amountValuesArray = amountValues.split(',');
 	}
 
 	const [amountValue, setAmountValue] = useState(0);
 	useEffect(() => {
-		if (typeof portletNamespace !== 'undefined') {
+		if (typeof portletNamespace !== 'undefined' && amountValues) {
 			sumFormFieldsValues(portletNamespace);
 		}
 	}, [amountValue, portletNamespace]);
@@ -89,7 +89,7 @@ const Radio = ({
 					/>
 				))}
 			</div>
-			<ClayInput name={name} type="hidden" value={currentValue} />
+			<ClayInput  type="hidden" value={currentValue} />
 		</FieldBase>
 	);
 };
