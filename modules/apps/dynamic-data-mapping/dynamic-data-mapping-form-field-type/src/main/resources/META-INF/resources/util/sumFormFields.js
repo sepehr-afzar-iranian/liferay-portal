@@ -36,10 +36,11 @@ export function sumFormFieldsValues(portletNamespace) {
 						);
 						if (
 							jElementType === 'hidden' &&
-							jElementValue === elements[i].value
+							jElementValue === elements[i].value &&
+							elements[i].getAttribute('data-price-value') !== ''
 						) {
 							sum += parseInt(
-								elements[i].getAttribute('data-price-value'),
+								!isNaN(elements[i].getAttribute('data-price-value')) ? elements[i].getAttribute('data-price-value') : "0",
 								10
 							);
 							showSumOfPayment = true;
@@ -51,7 +52,7 @@ export function sumFormFieldsValues(portletNamespace) {
 					dataPriceField === 'price-field' &&
 					elements[i].getAttribute('value') !== ''
 				) {
-					sum += parseInt(elements[i].getAttribute('value'), 10);
+					sum += parseInt(!isNaN(elements[i].getAttribute('value')) ? elements[i].getAttribute('value') : "0", 10);
 					showSumOfPayment = true;
 				}
 				if (
@@ -60,7 +61,7 @@ export function sumFormFieldsValues(portletNamespace) {
 					elements[i].getAttribute('data-price-value') !== ''
 				) {
 					sum += parseInt(
-						elements[i].getAttribute('data-price-value'),
+						!isNaN(elements[i].getAttribute('data-price-value')) ? elements[i].getAttribute('data-price-value') : "0",
 						10
 					);
 					showSumOfPayment = true;

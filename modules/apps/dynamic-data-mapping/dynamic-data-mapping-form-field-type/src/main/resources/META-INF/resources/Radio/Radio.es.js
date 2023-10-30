@@ -45,13 +45,13 @@ const Radio = ({
 	...otherProps
 }) => {
 	let amountValuesArray = [0];
-	if (typeof amountValues !== 'undefined' && amountValues) {
+	if (typeof amountValues !== 'undefined') {
 		amountValuesArray = amountValues.split(',');
 	}
 
 	const [amountValue, setAmountValue] = useState(0);
 	useEffect(() => {
-		if (typeof portletNamespace !== 'undefined' && amountValues) {
+		if (typeof portletNamespace !== 'undefined') {
 			sumFormFieldsValues(portletNamespace);
 		}
 	}, [amountValue, portletNamespace]);
