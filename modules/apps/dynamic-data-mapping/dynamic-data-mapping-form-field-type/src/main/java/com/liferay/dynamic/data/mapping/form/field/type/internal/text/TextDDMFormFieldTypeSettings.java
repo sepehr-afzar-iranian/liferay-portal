@@ -95,7 +95,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 								"visibilityExpression", "fieldNamespace",
 								"indexType", "localizable", "nativeField",
 								"readOnly", "dataType", "type", "showLabel",
-								"repeatable", "validation", "tooltip"
+								"repeatable", "uniqueField","validation", "tooltip"
 							}
 						)
 					}
@@ -185,6 +185,9 @@ public interface TextDDMFormFieldTypeSettings
 
 	@DDMFormField(label = "%price-field", properties = "showAsSwitcher=true")
 	public boolean priceField();
+
+	@DDMFormField(label = "%Unique Field", properties = "showAsSwitcher=true")
+	public boolean uniqueField();
 
 	@DDMFormField(visibilityExpression = "FALSE")
 	public LocalizedValue tooltip();
