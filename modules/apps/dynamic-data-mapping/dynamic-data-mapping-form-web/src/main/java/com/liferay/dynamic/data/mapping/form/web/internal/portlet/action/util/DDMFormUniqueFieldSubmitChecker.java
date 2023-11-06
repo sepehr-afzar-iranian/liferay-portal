@@ -4,4 +4,8 @@ import org.osgi.service.component.annotations.Component;
 
 @Component(immediate = true, service = DDMFormUniqueFieldSubmitChecker.class)
 public class DDMFormUniqueFieldSubmitChecker {
+
+	public void Check() {
+
+	}
 }
