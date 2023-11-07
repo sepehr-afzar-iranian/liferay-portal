@@ -137,7 +137,7 @@ public class DDMFormValuesValidationException extends StorageException {
 			return _fieldName;
 		}
 
-		private String _fieldName;
+		private final String _fieldName;
 
 	}
 
@@ -178,4 +178,26 @@ public class DDMFormValuesValidationException extends StorageException {
 
 	}
 
+	public static class UniqueValue extends DDMFormValuesValidationException {
+
+		public UniqueValue(String fieldName, String fieldValue) {
+			super(
+				String.format("This %s: %s already used",
+					fieldName, fieldValue));
+
+			_fieldName = fieldName;
+			_fieldValue = fieldValue;
+		}
+
+		public String getFieldName() {
+			return _fieldName;
+		}
+
+		public String getFieldValue() {
+			return  _fieldValue;
+		}
+
+		private final String _fieldName;
+		private final String _fieldValue;
+	}
 }
