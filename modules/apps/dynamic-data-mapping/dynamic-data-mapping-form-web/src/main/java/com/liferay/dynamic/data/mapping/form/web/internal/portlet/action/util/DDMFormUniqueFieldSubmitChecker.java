@@ -18,8 +18,8 @@ public class DDMFormUniqueFieldSubmitChecker {
 
 		String fieldReference = fieldValue.getFieldReference();
 
-		String fieldName = fieldValue.getDDMFormField().getLabel().getValues().
-			values().toArray()[0].toString();
+		String fieldName = String.valueOf(fieldValue.getDDMFormField().
+			getLabel().getValues().values().toArray()[0]);
 
 
 		boolean isUnique = _ddmFormUniqueFieldChecker.Check(
