@@ -182,7 +182,7 @@ public class DDMFormValuesValidationException extends StorageException {
 
 		public UniqueValue(String fieldName, String fieldValue) {
 			super(
-				String.format("This %s: %s already used",
+				String.format("This %s: %s is already used",
 					fieldName, fieldValue));
 
 			_fieldName = fieldName;

@@ -38,11 +38,15 @@ public class DDMFormUniqueFieldChecker {
 			JSONArray jsonArray = jsonObject.getJSONArray("fieldValues");
 			for (int i = 0; i < jsonArray.length(); i++) {
 
+				String jsonReference = jsonArray.getJSONObject(i).
+					getString("fieldReference");
+
 				String jsonValue = jsonArray.getJSONObject(i).
 					getJSONObject("value").
 					getString("en_US");
 
-				if (fieldValue.equals(jsonValue)) {
+				if (fieldValue.equals(jsonValue) && fieldReference.equals(
+					jsonReference)) {
 					return true;
 				}
 			}

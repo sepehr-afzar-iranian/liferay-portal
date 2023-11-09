@@ -50,7 +50,7 @@ public class DDMFormUniqueFieldEditChecker {
 
 		if (!stillUnique && _ddmFormUniqueFieldChecker.Check(
 			currentValue_, fieldName)) {
-			throw new DDMFormValuesValidationException.UniqueValue("","");
+			throw new PortalException("This Value is already used.");
 		}
 	}
 
