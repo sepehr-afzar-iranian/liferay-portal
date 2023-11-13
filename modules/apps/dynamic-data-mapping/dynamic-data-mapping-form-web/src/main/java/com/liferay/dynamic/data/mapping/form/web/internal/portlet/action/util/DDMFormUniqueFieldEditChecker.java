@@ -1,11 +1,10 @@
 package com.liferay.dynamic.data.mapping.form.web.internal.portlet.action.util;
 
+
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
-import com.liferay.dynamic.data.mapping.validator.DDMFormValuesValidationException;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -23,6 +22,7 @@ public class DDMFormUniqueFieldEditChecker {
 		long formInstanceRecordId = ParamUtil.getLong(
 			actionRequest, "formInstanceRecordId");
 
+		String currentReference = currentValue.getFieldReference();
 
 		DDMFormInstanceRecord ddmFormInstanceRecord =
 			DDMFormInstanceRecordLocalServiceUtil.
@@ -36,14 +36,16 @@ public class DDMFormUniqueFieldEditChecker {
 			getValues().values().toArray()[0]);
 
 		String fieldName = "";
-		boolean stillUnique = false;
+		boolean stillUnique = true;
 
 		for (DDMFormFieldValue fieldValue : ddmFormInstanceRecords) {
-			String oldValue = String.valueOf(fieldValue.getValue().getValues().
-				values().toArray()[0]);
+
+			String oldValue = String.valueOf(fieldValue.getValue().
+				getValues().values().toArray()[0]);
 			fieldName = fieldValue.getFieldReference();
-			if (currentValue_.equals(oldValue)) {
-				stillUnique = true;
+			if (!currentValue_.equals(oldValue) && fieldName.equals(
+				currentReference)) {
+				stillUnique = false;
 				break;
 			}
 		}

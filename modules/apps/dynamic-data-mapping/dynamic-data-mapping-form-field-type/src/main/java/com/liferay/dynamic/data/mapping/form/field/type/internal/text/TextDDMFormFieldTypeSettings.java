@@ -186,7 +186,7 @@ public interface TextDDMFormFieldTypeSettings
 	@DDMFormField(label = "%price-field", properties = "showAsSwitcher=true")
 	public boolean priceField();
 
-	@DDMFormField(label = "%Unique Field", properties = "showAsSwitcher=true")
+	@DDMFormField(label = "%uniqueField", properties = "showAsSwitcher=true")
 	public boolean uniqueField();
 
 	@DDMFormField(visibilityExpression = "FALSE")
