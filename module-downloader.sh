@@ -30,3 +30,8 @@ do
 	# Uncompress file
 	tar -xzf $(echo $MODULE_NAME)-$(echo $MODULE_VERSION).tar.gz --directory=SAIN-modules
 done
+
+# Download static contents
+
+wget --user $3 --password $4 https://$2/repository/$5/static/fonts.tgz || exit 1
+tar -xzf ./fonts.tgz --directory=./
