@@ -71,7 +71,8 @@ import org.osgi.annotation.versioning.ProviderType;
 						@DDMFormLayoutColumn(
 							size = 12,
 							value = {
-								"sendEmailNotification", "sendEmailNotificationToFormCreator",
+								"sendEmailNotification",
+								"sendEmailNotificationToFormCreator",
 								"sendEmailNotificationToUser", "emailFromName",
 								"emailFromAddress", "emailToAddress",
 								"emailSubject", "published"
