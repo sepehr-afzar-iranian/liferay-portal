@@ -31,6 +31,8 @@ import org.osgi.annotation.versioning.ProviderType;
 	rules = {
 		@DDMFormRule(
 			actions = {
+				"setVisible('sendEmailNotificationToFormCreator', getValue('sendEmailNotification'))",
+				"setVisible('sendEmailNotificationToUser', getValue('sendEmailNotification'))",
 				"setVisible('emailFromAddress', getValue('sendEmailNotification'))",
 				"setVisible('emailFromName', getValue('sendEmailNotification'))",
 				"setVisible('emailSubject', getValue('sendEmailNotification'))",
@@ -69,7 +71,8 @@ import org.osgi.annotation.versioning.ProviderType;
 						@DDMFormLayoutColumn(
 							size = 12,
 							value = {
-								"sendEmailNotification", "emailFromName",
+								"sendEmailNotification", "sendEmailNotificationToFormCreator",
+								"sendEmailNotificationToUser", "emailFromName",
 								"emailFromAddress", "emailToAddress",
 								"emailSubject", "published"
 							}
@@ -137,6 +140,18 @@ public interface DDMFormInstanceSettings {
 		properties = "showAsSwitcher=true", type = "checkbox"
 	)
 	public boolean sendEmailNotification();
+
+	@DDMFormField(
+		label = "%send-the-email-notification-to-form-creator",
+		properties = "showAsSwitcher=true", type = "checkbox"
+	)
+	public boolean sendEmailNotificationToFormCreator();
+
+	@DDMFormField(
+		label = "%send-the-email-notification-to-user",
+		properties = "showAsSwitcher=true", type = "checkbox"
+	)
+	public boolean sendEmailNotificationToUser();
 
 	@DDMFormField(
 		label = "%select-a-storage-type", predefinedValue = "[\"json\"]",

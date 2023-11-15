@@ -67,10 +67,13 @@ import java.io.Writer;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javax.mail.internet.InternetAddress;
@@ -102,8 +105,8 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected MailMessage createMailMessage(
-			HttpServletRequest httpServletRequest,
-			DDMFormInstanceRecord ddmFormInstanceRecord)
+		HttpServletRequest httpServletRequest,
+		DDMFormInstanceRecord ddmFormInstanceRecord)
 		throws Exception {
 
 		DDMFormInstance ddmFormInstance =
@@ -124,15 +127,53 @@ public class DDMFormEmailNotificationSender {
 		InternetAddress[] toAddresses = InternetAddress.parse(
 			getEmailToAddress(ddmFormInstance));
 
+		DDMFormInstanceSettings formInstancetings =
+			ddmFormInstance.getSettingsModel();
+
+		List<InternetAddress> toAddressesList =
+			new ArrayList<>(Arrays.asList(toAddresses));
+
+		if (formInstancetings.sendEmailNotificationToFormCreator()) {
+			InternetAddress[] toAddressesFormCreator = InternetAddress.parse(
+				_portal.getUserEmailAddress(ddmFormInstance.getUserId()));
+
+			Collections.addAll(toAddressesList, toAddressesFormCreator);
+		}
+
+		if (formInstancetings.sendEmailNotificationToUser()) {
+			DDMFormValues ddmFormValues = ddmFormInstanceRecord.getDDMFormValues();
+
+			List<DDMFormFieldValue> ddmFormFieldValues = ddmFormValues.getDDMFormFieldValues();
+
+			DDMFormFieldValue userMailField = null;
+
+			for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
+				if (Objects.equals(ddmFormFieldValue.getFieldReference(), "userMail")) {
+					userMailField = ddmFormFieldValue;
+				}
+			}
+
+			if (Validator.isNotNull(userMailField)){
+				String userMail = userMailField.getValue().getValues().get(ddmFormValues.getDefaultLocale());
+
+				if (Validator.isEmailAddress(userMail)) {
+					Collections.addAll(toAddressesList, InternetAddress.parse(userMail));
+				}
+			}
+		}
+
+		toAddresses =
+			toAddressesList.toArray(new InternetAddress[0]);
+
 		mailMessage.setTo(toAddresses);
 
 		return mailMessage;
 	}
 
 	protected Template createTemplate(
-			HttpServletRequest httpServletRequest,
-			DDMFormInstance ddmFormInstance,
-			DDMFormInstanceRecord ddmFormInstanceRecord)
+		HttpServletRequest httpServletRequest,
+		DDMFormInstance ddmFormInstance,
+		DDMFormInstanceRecord ddmFormInstanceRecord)
 		throws PortalException {
 
 		Template template = TemplateManagerUtil.getTemplate(
@@ -155,7 +196,7 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected Map<String, List<DDMFormFieldValue>> getDDMFormFieldValuesMap(
-			DDMFormInstanceRecord ddmFormInstanceRecord)
+		DDMFormInstanceRecord ddmFormInstanceRecord)
 		throws PortalException {
 
 		DDMFormValues ddmFormValues = ddmFormInstanceRecord.getDDMFormValues();
@@ -172,9 +213,9 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected String getEmailBody(
-			HttpServletRequest httpServletRequest,
-			DDMFormInstance ddmFormInstance,
-			DDMFormInstanceRecord ddmFormInstanceRecord)
+		HttpServletRequest httpServletRequest,
+		DDMFormInstance ddmFormInstance,
+		DDMFormInstanceRecord ddmFormInstanceRecord)
 		throws PortalException {
 
 		Template template = createTemplate(
@@ -291,10 +332,10 @@ public class DDMFormEmailNotificationSender {
 		List<String> fieldNames = new ArrayList<>();
 
 		for (DDMFormLayoutRow ddmFormLayoutRow :
-				ddmFormLayoutPage.getDDMFormLayoutRows()) {
+			ddmFormLayoutPage.getDDMFormLayoutRows()) {
 
 			for (DDMFormLayoutColumn ddmFormLayoutColumn :
-					ddmFormLayoutRow.getDDMFormLayoutColumns()) {
+				ddmFormLayoutRow.getDDMFormLayoutColumns()) {
 
 				fieldNames.addAll(ddmFormLayoutColumn.getDDMFormFieldNames());
 			}
@@ -352,8 +393,8 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected List<Object> getPages(
-			DDMFormInstance ddmFormInstance,
-			DDMFormInstanceRecord ddmFormInstanceRecord)
+		DDMFormInstance ddmFormInstance,
+		DDMFormInstanceRecord ddmFormInstanceRecord)
 		throws PortalException {
 
 		List<Object> pages = new ArrayList<>();
@@ -361,7 +402,7 @@ public class DDMFormEmailNotificationSender {
 		DDMFormLayout ddmFormLayout = getDDMFormLayout(ddmFormInstance);
 
 		for (DDMFormLayoutPage ddmFormLayoutPage :
-				ddmFormLayout.getDDMFormLayoutPages()) {
+			ddmFormLayout.getDDMFormLayoutPages()) {
 
 			Map<String, Object> page = getPage(
 				ddmFormLayoutPage,
@@ -421,7 +462,7 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected String getViewFormEntriesURL(
-			DDMFormInstance ddmFormInstance, ThemeDisplay themeDisplay)
+		DDMFormInstance ddmFormInstance, ThemeDisplay themeDisplay)
 		throws PortalException {
 
 		String portletNamespace = _portal.getPortletNamespace(
@@ -443,9 +484,9 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected String getViewFormURL(
-			DDMFormInstance ddmFormInstance,
-			DDMFormInstanceRecord ddmFormInstanceRecord,
-			ThemeDisplay themeDisplay)
+		DDMFormInstance ddmFormInstance,
+		DDMFormInstanceRecord ddmFormInstanceRecord,
+		ThemeDisplay themeDisplay)
 		throws PortalException {
 
 		String portletNamespace = _portal.getPortletNamespace(
@@ -473,9 +514,9 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected void populateParameters(
-			Template template, HttpServletRequest httpServletRequest,
-			DDMFormInstance ddmFormInstance,
-			DDMFormInstanceRecord ddmFormInstanceRecord)
+		Template template, HttpServletRequest httpServletRequest,
+		DDMFormInstance ddmFormInstance,
+		DDMFormInstanceRecord ddmFormInstanceRecord)
 		throws PortalException {
 
 		Locale locale = getLocale(ddmFormInstance);
