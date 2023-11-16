@@ -28,6 +28,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormLayoutPage;
 import com.liferay.dynamic.data.mapping.model.DDMFormLayoutRow;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.model.LocalizedValue;
+import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.mail.kernel.model.MailMessage;
@@ -67,10 +68,13 @@ import java.io.Writer;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javax.mail.internet.InternetAddress;
@@ -123,6 +127,65 @@ public class DDMFormEmailNotificationSender {
 
 		InternetAddress[] toAddresses = InternetAddress.parse(
 			getEmailToAddress(ddmFormInstance));
+
+		DDMFormInstanceSettings formInstancetings =
+			ddmFormInstance.getSettingsModel();
+
+		List<InternetAddress> toAddressesList = new ArrayList<>(
+			Arrays.asList(toAddresses));
+
+		if (formInstancetings.sendEmailNotificationToFormCreator()) {
+			try {
+				InternetAddress[] toAddressesFormCreator =
+					InternetAddress.parse(
+						_portal.getUserEmailAddress(
+							ddmFormInstance.getUserId()));
+
+				Collections.addAll(toAddressesList, toAddressesFormCreator);
+			}
+			catch (Exception exception) {
+			}
+		}
+
+		if (formInstancetings.sendEmailNotificationToUser()) {
+			try {
+				DDMFormValues ddmFormValues =
+					ddmFormInstanceRecord.getDDMFormValues();
+
+				List<DDMFormFieldValue> ddmFormFieldValues =
+					ddmFormValues.getDDMFormFieldValues();
+
+				DDMFormFieldValue userMailField = null;
+
+				for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
+					if (Objects.equals(
+							ddmFormFieldValue.getFieldReference(),
+							"userMail")) {
+
+						userMailField = ddmFormFieldValue;
+					}
+				}
+
+				if (!Objects.equals(userMailField, null)) {
+					Value userMailFieldValue = userMailField.getValue();
+
+					Map<Locale, String> userMailFieldValues =
+						userMailFieldValue.getValues();
+
+					String userMail = userMailFieldValues.get(
+						ddmFormValues.getDefaultLocale());
+
+					if (Validator.isEmailAddress(userMail)) {
+						Collections.addAll(
+							toAddressesList, InternetAddress.parse(userMail));
+					}
+				}
+			}
+			catch (Exception exception) {
+			}
+		}
+
+		toAddresses = toAddressesList.toArray(new InternetAddress[0]);
 
 		mailMessage.setTo(toAddresses);
 
