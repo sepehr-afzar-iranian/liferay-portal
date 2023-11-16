@@ -135,42 +135,53 @@ public class DDMFormEmailNotificationSender {
 			Arrays.asList(toAddresses));
 
 		if (formInstancetings.sendEmailNotificationToFormCreator()) {
-			InternetAddress[] toAddressesFormCreator = InternetAddress.parse(
-				_portal.getUserEmailAddress(ddmFormInstance.getUserId()));
+			try {
+				InternetAddress[] toAddressesFormCreator =
+					InternetAddress.parse(
+						_portal.getUserEmailAddress(
+							ddmFormInstance.getUserId()));
 
-			Collections.addAll(toAddressesList, toAddressesFormCreator);
+				Collections.addAll(toAddressesList, toAddressesFormCreator);
+			}
+			catch (Exception exception) {
+			}
 		}
 
 		if (formInstancetings.sendEmailNotificationToUser()) {
-			DDMFormValues ddmFormValues =
-				ddmFormInstanceRecord.getDDMFormValues();
+			try {
+				DDMFormValues ddmFormValues =
+					ddmFormInstanceRecord.getDDMFormValues();
 
-			List<DDMFormFieldValue> ddmFormFieldValues =
-				ddmFormValues.getDDMFormFieldValues();
+				List<DDMFormFieldValue> ddmFormFieldValues =
+					ddmFormValues.getDDMFormFieldValues();
 
-			DDMFormFieldValue userMailField = null;
+				DDMFormFieldValue userMailField = null;
 
-			for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
-				if (Objects.equals(
-						ddmFormFieldValue.getFieldReference(), "userMail")) {
+				for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
+					if (Objects.equals(
+							ddmFormFieldValue.getFieldReference(),
+							"userMail")) {
 
-					userMailField = ddmFormFieldValue;
+						userMailField = ddmFormFieldValue;
+					}
+				}
+
+				if (!Objects.equals(userMailField, null)) {
+					Value userMailFieldValue = userMailField.getValue();
+
+					Map<Locale, String> userMailFieldValues =
+						userMailFieldValue.getValues();
+
+					String userMail = userMailFieldValues.get(
+						ddmFormValues.getDefaultLocale());
+
+					if (Validator.isEmailAddress(userMail)) {
+						Collections.addAll(
+							toAddressesList, InternetAddress.parse(userMail));
+					}
 				}
 			}
-
-			if (!Objects.equals(userMailField, null)) {
-				Value userMailFieldValue = userMailField.getValue();
-
-				Map<Locale, String> userMailFieldValues =
-					userMailFieldValue.getValues();
-
-				String userMail = userMailFieldValues.get(
-					ddmFormValues.getDefaultLocale());
-
-				if (Validator.isEmailAddress(userMail)) {
-					Collections.addAll(
-						toAddressesList, InternetAddress.parse(userMail));
-				}
+			catch (Exception exception) {
 			}
 		}
 
