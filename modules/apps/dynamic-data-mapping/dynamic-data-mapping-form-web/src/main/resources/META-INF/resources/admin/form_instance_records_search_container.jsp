@@ -68,12 +68,13 @@ PortletURL portletURL = ddmFormViewFormInstanceRecordsDisplayContext.getPortletU
 					).build());
 
 				for (DDMFormField ddmFormField : ddmFormViewFormInstanceRecordsDisplayContext.getDDMFormFields()) {
-					String ColumnName = ddmFormViewFormInstanceRecordsDisplayContext.getColumnName(ddmFormField);
-					if ((boolean) ddmFormField.getProperty("uniqueField")) {
-						String uniqueFlag = String.format(" (%s)", LanguageUtil.get(request, "unique"));
-						ColumnName = ddmFormViewFormInstanceRecordsDisplayContext.getColumnName(ddmFormField) + uniqueFlag;
-					}
+					String columnName = ddmFormViewFormInstanceRecordsDisplayContext.getColumnName(ddmFormField);
 
+					if ((boolean)ddmFormField.getProperty("uniqueField")) {
+						String uniqueFlag = String.format(" (%s)", LanguageUtil.get(request, "unique"));
+
+						columnName = ddmFormViewFormInstanceRecordsDisplayContext.getColumnName(ddmFormField) + uniqueFlag;
+					}
 				%>
 
 					<c:choose>
@@ -85,7 +86,7 @@ PortletURL portletURL = ddmFormViewFormInstanceRecordsDisplayContext.getPortletU
 						</c:when>
 						<c:otherwise>
 							<liferay-ui:search-container-column-text
-								name="<%= ColumnName %>"
+								name="<%= columnName %>"
 								truncate="<%= true %>"
 								value="<%= ddmFormViewFormInstanceRecordsDisplayContext.getColumnValue(ddmFormFieldsMap.get(ddmFormField.getName()), ddmFormFieldValuesMap.get(ddmFormField.getName())) %>"
 							/>
