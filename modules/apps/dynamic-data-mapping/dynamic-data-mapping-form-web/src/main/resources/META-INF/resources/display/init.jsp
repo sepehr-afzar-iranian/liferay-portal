@@ -32,6 +32,7 @@ page import="com.liferay.dynamic.data.mapping.exception.NoSuchStructureLayoutExc
 page import="com.liferay.dynamic.data.mapping.exception.StorageException" %><%@
 page import="com.liferay.dynamic.data.mapping.form.renderer.DDMFormRenderingException" %><%@
 page import="com.liferay.dynamic.data.mapping.form.web.internal.display.context.DDMFormDisplayContext" %><%@
+page import="com.liferay.dynamic.data.mapping.storage.DDMFormValues" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMForm" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormField" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormInstance" %><%@

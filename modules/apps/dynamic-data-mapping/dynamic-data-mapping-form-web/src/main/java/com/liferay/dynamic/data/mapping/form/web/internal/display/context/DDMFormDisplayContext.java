@@ -23,6 +23,9 @@ import com.liferay.dynamic.data.mapping.form.web.internal.configuration.DDMFormW
 import com.liferay.dynamic.data.mapping.form.web.internal.display.context.util.DDMFormGuestUploadFieldUtil;
 import com.liferay.dynamic.data.mapping.form.web.internal.display.context.util.DDMFormInstanceStagingUtil;
 import com.liferay.dynamic.data.mapping.form.web.internal.security.permission.resource.DDMFormInstancePermission;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesSerializer;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesSerializerSerializeRequest;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesSerializerSerializeResponse;
 import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
@@ -114,6 +117,37 @@ public class DDMFormDisplayContext {
 		DDMStorageAdapterTracker ddmStorageAdapterTracker,
 		GroupLocalService groupLocalService, JSONFactory jsonFactory,
 		WorkflowDefinitionLinkLocalService workflowDefinitionLinkLocalService,
+		Portal portal,DDMFormValuesSerializer jsonDDMFormValuesSerializer) {
+
+		this(
+			renderRequest, renderResponse, ddmFormFieldTypeServicesTracker,
+			ddmFormInstanceLocalService, ddmFormInstanceRecordLocalService,
+			ddmFormInstanceRecordVersionLocalService, ddmFormInstanceService,
+			ddmFormInstanceVersionLocalService, ddmFormRenderer,
+			ddmFormValuesFactory, ddmFormValuesMerger,
+			ddmFormWebConfiguration,
+			ddmStorageAdapterTracker, groupLocalService, jsonFactory,
+			workflowDefinitionLinkLocalService, portal);
+
+		_jsonDDMFormValuesSerializer = jsonDDMFormValuesSerializer;
+	}
+
+	public DDMFormDisplayContext(
+		RenderRequest renderRequest, RenderResponse renderResponse,
+		DDMFormFieldTypeServicesTracker ddmFormFieldTypeServicesTracker,
+		DDMFormInstanceLocalService ddmFormInstanceLocalService,
+		DDMFormInstanceRecordLocalService ddmFormInstanceRecordLocalService,
+		DDMFormInstanceRecordVersionLocalService
+			ddmFormInstanceRecordVersionLocalService,
+		DDMFormInstanceService ddmFormInstanceService,
+		DDMFormInstanceVersionLocalService ddmFormInstanceVersionLocalService,
+		DDMFormRenderer ddmFormRenderer,
+		DDMFormValuesFactory ddmFormValuesFactory,
+		DDMFormValuesMerger ddmFormValuesMerger,
+		DDMFormWebConfiguration ddmFormWebConfiguration,
+		DDMStorageAdapterTracker ddmStorageAdapterTracker,
+		GroupLocalService groupLocalService, JSONFactory jsonFactory,
+		WorkflowDefinitionLinkLocalService workflowDefinitionLinkLocalService,
 		Portal portal) {
 
 		_renderRequest = renderRequest;
@@ -182,7 +216,21 @@ public class DDMFormDisplayContext {
 		return _containerId;
 	}
 
-	public String getDDMFormHTML() throws PortalException {
+	public String getDDMFormValuesString(DDMFormValues ddmFormValues) {
+		DDMFormValuesSerializerSerializeRequest.Builder builder =
+			DDMFormValuesSerializerSerializeRequest.Builder.newBuilder(
+				ddmFormValues);
+
+		DDMFormValuesSerializerSerializeResponse
+			ddmFormValuesSerializerSerializeResponse =
+			_jsonDDMFormValuesSerializer.serialize(builder.build());
+
+		return ddmFormValuesSerializerSerializeResponse.getContent();
+	}
+	public String getDDMFormHTML(boolean readOnly) throws PortalException {
+		return getDDMFormHTML(readOnly,null);
+	}
+	public String getDDMFormHTML(boolean readOnly, String submitLabel) throws PortalException {
 		DDMFormInstance ddmFormInstance = getFormInstance();
 
 		if (ddmFormInstance == null) {
@@ -257,11 +305,25 @@ public class DDMFormDisplayContext {
 			ddmFormRenderingContext.setReadOnly(true);
 		}
 
+		ResourceBundle resourceBundle = getResourceBundle(
+			getLocale(_getHttpServletRequest(), getDDMForm()));
+
+		String label = Validator.isNotNull(submitLabel)?submitLabel:getSubmitLabel();
+
+		ddmFormRenderingContext.setReadOnly(readOnly);
 		ddmFormRenderingContext.setShowSubmitButton(isShowSubmitButton());
-		ddmFormRenderingContext.setSubmitLabel(getSubmitLabel());
+		ddmFormRenderingContext.setSubmitLabel(label);
 
 		return _ddmFormRenderer.render(
 			ddmForm, ddmFormLayout, ddmFormRenderingContext);
+	}
+
+	public DDMFormInstanceRecordVersion getDDMFormInstanceRecordVersion()
+		throws PortalException {
+
+		DDMFormInstanceRecord formInstanceRecord = getFormInstanceRecord();
+
+		return formInstanceRecord.getLatestFormInstanceRecordVersion();
 	}
 
 	public DDMFormSuccessPageSettings getDDMFormSuccessPageSettings()
@@ -374,7 +436,7 @@ public class DDMFormDisplayContext {
 					ddmFormInstanceRecord.getLatestFormInstanceRecordVersion();
 
 				if (ddmFormInstanceRecordVersion.getStatus() ==
-						WorkflowConstants.STATUS_PENDING) {
+					WorkflowConstants.STATUS_PENDING) {
 
 					return LanguageUtil.get(resourceBundle, "save");
 				}
@@ -469,6 +531,15 @@ public class DDMFormDisplayContext {
 		return _autosaveEnabled;
 	}
 
+	public boolean isConfirmOnSubmitRequired(DDMFormInstance ddmFormInstance)
+		throws PortalException {
+
+		DDMFormInstanceSettings ddmFormInstanceSettings =
+			ddmFormInstance.getSettingsModel();
+
+		return ddmFormInstanceSettings.confirmOnSubmit();
+	}
+
 	public boolean isFormAvailable() throws PortalException {
 		if (isPreview()) {
 			return true;
@@ -493,9 +564,9 @@ public class DDMFormDisplayContext {
 				ThemeDisplay themeDisplay = getThemeDisplay();
 
 				if (!DDMFormInstanceStagingUtil.
-						isFormInstancePublishedToRemoteLive(
-							group, themeDisplay.getUser(),
-							formInstance.getUuid())) {
+					isFormInstancePublishedToRemoteLive(
+						group, themeDisplay.getUser(),
+						formInstance.getUuid())) {
 
 					return false;
 				}
@@ -701,7 +772,7 @@ public class DDMFormDisplayContext {
 	}
 
 	protected DDMForm getDDMForm(
-			DDMFormInstance ddmFormInstance, boolean requireCaptcha)
+		DDMFormInstance ddmFormInstance, boolean requireCaptcha)
 		throws PortalException {
 
 		DDMForm ddmForm = null;
@@ -741,7 +812,7 @@ public class DDMFormDisplayContext {
 	}
 
 	protected DDMFormLayout getDDMFormLayout(
-			DDMFormInstance ddmFormInstance, boolean requireCaptcha)
+		DDMFormInstance ddmFormInstance, boolean requireCaptcha)
 		throws PortalException {
 
 		DDMFormLayout ddmFormLayout = null;
@@ -938,6 +1009,7 @@ public class DDMFormDisplayContext {
 	private final DDMFormValuesMerger _ddmFormValuesMerger;
 	private final DDMFormWebConfiguration _ddmFormWebConfiguration;
 	private final DDMStorageAdapterTracker _ddmStorageAdapterTracker;
+	private  DDMFormValuesSerializer _jsonDDMFormValuesSerializer;
 	private final GroupLocalService _groupLocalService;
 	private Boolean _hasAddFormInstanceRecordPermission;
 	private Boolean _hasViewPermission;
