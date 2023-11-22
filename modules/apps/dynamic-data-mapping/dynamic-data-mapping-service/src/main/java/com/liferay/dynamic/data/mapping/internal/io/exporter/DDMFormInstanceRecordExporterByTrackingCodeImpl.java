@@ -53,6 +53,8 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -386,7 +388,7 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 
 		String type = ddmFormFieldValue.getType();
 
-		if (!type.equals("document_library")) {
+		if (!type.equals("document_library") && !type.equals("image")) {
 			return ddmFormFieldValueRenderer.render(ddmFormFieldValue, locale);
 		}
 
@@ -394,6 +396,9 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 
 		String uuid = jsonObject.getString("uuid");
 		long groupId = jsonObject.getLong("groupId");
+
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		if (Validator.isNull(uuid) || (groupId == 0)) {
 			return StringPool.BLANK;
@@ -404,7 +409,8 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 				uuid, groupId);
 
 			return dlurlHelper.getDownloadURL(
-				fileEntry, fileEntry.getFileVersion(), null, null);
+				fileEntry, fileEntry.getFileVersion(),
+				serviceContext.getThemeDisplay(), null);
 		}
 		catch (Exception exception) {
 			return LanguageUtil.format(

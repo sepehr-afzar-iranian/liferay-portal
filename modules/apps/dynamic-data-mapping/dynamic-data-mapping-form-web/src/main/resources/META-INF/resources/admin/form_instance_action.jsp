@@ -58,18 +58,6 @@ FormInstancePermissionCheckerHelper formInstancePermissionCheckerHelper = ddmFor
 		/>
 	</c:if>
 
-	<c:if test="<%= formInstancePermissionCheckerHelper.isShowExportIcon(formInstance) %>">
-		<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="/dynamic_data_mapping_form/export_form_instance_files" var="exportFormInstanceFilesURL">
-			<portlet:param name="formInstanceId" value="<%= String.valueOf(formInstance.getFormInstanceId()) %>" />
-		</liferay-portlet:resourceURL>
-
-		<liferay-ui:icon
-			cssClass='<%= !valid ? "disabled" : "" %>'
-			message="export-files"
-			url="<%= exportFormInstanceFilesURL %>"
-		/>
-	</c:if>
-
 	<c:if test="<%= formInstancePermissionCheckerHelper.isShowEditIcon(formInstance) %>">
 		<portlet:renderURL var="editURL">
 			<portlet:param name="mvcRenderCommandName" value="/admin/edit_form_instance" />
@@ -103,6 +91,18 @@ FormInstancePermissionCheckerHelper formInstancePermissionCheckerHelper = ddmFor
 			cssClass='<%= !valid ? "disabled" : "" %>'
 			message="export"
 			url="<%= sb.toString() %>"
+		/>
+	</c:if>
+
+	<c:if test="<%= formInstancePermissionCheckerHelper.isShowExportIcon(formInstance) %>">
+		<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="/dynamic_data_mapping_form/export_form_instance_files" var="exportFormInstanceFilesURL">
+			<portlet:param name="formInstanceId" value="<%= String.valueOf(formInstance.getFormInstanceId()) %>" />
+		</liferay-portlet:resourceURL>
+
+		<liferay-ui:icon
+			cssClass='<%= !valid ? "disabled" : "" %>'
+			message="export-files"
+			url="<%= exportFormInstanceFilesURL %>"
 		/>
 	</c:if>
 
