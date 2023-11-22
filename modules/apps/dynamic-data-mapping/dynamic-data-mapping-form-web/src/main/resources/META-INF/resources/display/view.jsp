@@ -200,14 +200,17 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 							cssClass="ddm-form-builder-app ddm-form-builder-app-not-ready"
 							id='<%= ddmFormDisplayContext.getContainerId() + "container" %>'
 						>
+
 							<%
-								String submitLabel;
+							String submitLabel;
+
 							if (confirmOnSubmit)
-								submitLabel=LanguageUtil.get(resourceBundle, "preview");
-							else
-								submitLabel=null;
+								submitLabel = LanguageUtil.get(resourceBundle, "preview");
+								else
+								submitLabel = null;
 							%>
-							<%= ddmFormDisplayContext.getDDMFormHTML(false,submitLabel) %>
+
+							<%= ddmFormDisplayContext.getDDMFormHTML(false, submitLabel) %>
 
 							<aui:input name="empty" type="hidden" value="" />
 						</clay:container-fluid>

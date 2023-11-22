@@ -232,7 +232,8 @@ public class DDMFormPortlet extends MVCPortlet {
 			_ddmFormValuesFactory, _ddmFormValuesMerger,
 			_ddmFormWebConfigurationActivator.getDDMFormWebConfiguration(),
 			_ddmStorageAdapterTracker, _groupLocalService, _jsonFactory,
-			_workflowDefinitionLinkLocalService, _portal,_jsonDDMFormValuesSerializer);
+			_workflowDefinitionLinkLocalService, _portal,
+			_jsonDDMFormValuesSerializer);
 
 		renderRequest.setAttribute(
 			WebKeys.PORTLET_DISPLAY_CONTEXT, ddmFormDisplayContext);
@@ -290,13 +291,13 @@ public class DDMFormPortlet extends MVCPortlet {
 	private GroupLocalService _groupLocalService;
 
 	@Reference
+	private DDMFormValuesSerializer _jsonDDMFormValuesSerializer;
+
+	@Reference
 	private JSONFactory _jsonFactory;
 
 	@Reference
 	private Portal _portal;
-
-	@Reference
-	private DDMFormValuesSerializer _jsonDDMFormValuesSerializer;;
 
 	@Reference
 	private WorkflowDefinitionLinkLocalService

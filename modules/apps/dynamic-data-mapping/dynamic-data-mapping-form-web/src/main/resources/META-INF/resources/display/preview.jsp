@@ -13,14 +13,15 @@
  * details.
  */
 --%>
+
 <%@ include file="/display/init.jsp" %>
 
 <%
-	String backUrl = ParamUtil.getString(request, "backUrl");
+String backUrl = ParamUtil.getString(request, "backUrl");
 
-	DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion = ddmFormDisplayContext.getDDMFormInstanceRecordVersion();
+DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion = ddmFormDisplayContext.getDDMFormInstanceRecordVersion();
 
-	renderResponse.setTitle(LanguageUtil.get(request, "preview-form"));
+renderResponse.setTitle(LanguageUtil.get(request, "preview-form"));
 %>
 
 <clay:container-fluid>
@@ -34,20 +35,16 @@
 >
 	<portlet:actionURL name="/dynamic_data_mapping_form/add_form_instance_record" var="editFormInstanceRecordActionURL" />
 
-	<aui:form action="<%= editFormInstanceRecordActionURL %>"  method="post" name="fm">
+	<aui:form action="<%= editFormInstanceRecordActionURL %>" method="post" name="fm">
 		<aui:input name="formInstanceRecordId" type="hidden" value="<%= ddmFormInstanceRecordVersion.getFormInstanceRecordId() %>" />
 		<aui:input name="formInstanceId" type="hidden" value="<%= ddmFormInstanceRecordVersion.getFormInstanceId() %>" />
 		<aui:input name="workflowAction" type="hidden" value="<%= WorkflowConstants.ACTION_PUBLISH %>" />
 
-		<%
-			DDMFormValues ddmFormValues= ddmFormInstanceRecordVersion.getDDMFormValues();
-			String ddmFormValuesString = ddmFormDisplayContext.getDDMFormValuesString(ddmFormValues);
-		%>
-		<aui:input name="ddmFormValues" type="hidden" value="<%= ddmFormValuesString %>" />
+		<aui:input name="ddmFormValues" type="hidden" value="<%= ddmFormDisplayContext.getDDMFormValuesString(ddmFormInstanceRecordVersion.getDDMFormValues()) %>" />
 
-		<%= ddmFormDisplayContext.getDDMFormHTML(true)%>
+		<%= ddmFormDisplayContext.getDDMFormHTML(true) %>
 		<aui:button-row>
-			<aui:button cssClass="float-right lfr-ddm-form-submit" type="submit" value="submit"/>
+			<aui:button cssClass="float-right lfr-ddm-form-submit" type="submit" value="submit" />
 
 			<aui:button cssClass="float-right" href="<%= backUrl %>" type="cancel" value="edit" />
 		</aui:button-row>

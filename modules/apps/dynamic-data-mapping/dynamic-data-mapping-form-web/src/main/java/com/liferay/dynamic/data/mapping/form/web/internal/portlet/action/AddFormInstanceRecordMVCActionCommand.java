@@ -36,7 +36,6 @@ import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordVersionLoca
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayActionResponse;
@@ -91,7 +90,7 @@ public class AddFormInstanceRecordMVCActionCommand
 
 	@Override
 	protected void doProcessAction(
-		ActionRequest actionRequest, ActionResponse actionResponse)
+			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
 		PortletSession portletSession = actionRequest.getPortletSession();
@@ -100,7 +99,8 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		String backUrl = ParamUtil.getString(actionRequest, "currentURL");
 
-		boolean confirmOnSubmit = ParamUtil.getBoolean(actionRequest, "confirmOnSubmit");
+		boolean confirmOnSubmit = ParamUtil.getBoolean(
+			actionRequest, "confirmOnSubmit");
 
 		if (groupId == 0) {
 			groupId = GetterUtil.getLong(
@@ -125,10 +125,11 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		DDMForm ddmForm = getDDMForm(ddmFormInstance);
 
-		DDMFormValues ddmFormValues = getDDMFormValues(actionRequest,ddmForm);
+		DDMFormValues ddmFormValues = _getDDMFormValues(actionRequest, ddmForm);
 
-		if (Validator.isNull(ddmFormValues)){
-			ddmFormValues=_ddmFormValuesFactory.create(actionRequest, ddmForm);
+		if (ddmFormValues.equals(null)) {
+			ddmFormValues = _ddmFormValuesFactory.create(
+				actionRequest, ddmForm);
 		}
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
@@ -153,11 +154,12 @@ public class AddFormInstanceRecordMVCActionCommand
 			return;
 		}
 
-		if (confirmOnSubmit){
+		if (confirmOnSubmit) {
 			LiferayActionResponse liferayActionResponse =
 				(LiferayActionResponse)actionResponse;
 
 			PortletURL portletURL = liferayActionResponse.createRenderURL();
+
 			portletURL.setParameter("mvcPath", "/display/preview.jsp");
 			portletURL.setParameter("backUrl", backUrl);
 			portletURL.setParameter(
@@ -166,6 +168,7 @@ public class AddFormInstanceRecordMVCActionCommand
 				"formInstanceRecordId",
 				String.valueOf(
 					ddmFormInstanceRecord.getFormInstanceRecordId()));
+
 			HttpServletResponse httpServletResponse =
 				_portal.getHttpServletResponse(actionResponse);
 
@@ -258,7 +261,8 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		PortletURL portletURL = liferayActionResponse.createRenderURL();
 
-		portletURL.setParameter("trackingCode", ddmFormInstanceRecord.getTrackingCode());
+		portletURL.setParameter(
+			"trackingCode", ddmFormInstanceRecord.getTrackingCode());
 
 		actionResponse.sendRedirect(portletURL.toString());
 	}
@@ -293,7 +297,7 @@ public class AddFormInstanceRecordMVCActionCommand
 	}
 
 	protected void validateCaptcha(
-		ActionRequest actionRequest, DDMFormInstance ddmFormInstance)
+			ActionRequest actionRequest, DDMFormInstance ddmFormInstance)
 		throws Exception {
 
 		DDMFormInstanceSettings formInstanceSettings =
@@ -304,10 +308,38 @@ public class AddFormInstanceRecordMVCActionCommand
 		}
 	}
 
+	@Reference(target = "(ddm.form.values.deserializer.type=json)")
+	protected DDMFormValuesDeserializer jsonDDMFormValuesDeserializer;
+
+	private DDMFormValues _deserialize(String content, DDMForm ddmForm) {
+		DDMFormValuesDeserializerDeserializeRequest.Builder builder =
+			DDMFormValuesDeserializerDeserializeRequest.Builder.newBuilder(
+				content, ddmForm);
+
+		DDMFormValuesDeserializerDeserializeResponse
+			ddmFormValuesDeserializerDeserializeResponse =
+				jsonDDMFormValuesDeserializer.deserialize(builder.build());
+
+		return ddmFormValuesDeserializerDeserializeResponse.getDDMFormValues();
+	}
+
+	private DDMFormValues _getDDMFormValues(
+		ActionRequest actionRequest, DDMForm ddmForm) {
+
+		String serializedDDMFormValues = ParamUtil.getString(
+			actionRequest, "ddmFormValues");
+
+		if (Validator.isNull(serializedDDMFormValues))
+
+			return null;
+
+		return _deserialize(serializedDDMFormValues, ddmForm);
+	}
+
 	private DDMFormInstanceRecord _updateFormInstanceRecord(
-		ActionRequest actionRequest, DDMFormInstance ddmFormInstance,
-		DDMFormValues ddmFormValues, long groupId,
-		ServiceContext serviceContext, long userId)
+			ActionRequest actionRequest, DDMFormInstance ddmFormInstance,
+			DDMFormValues ddmFormValues, long groupId,
+			ServiceContext serviceContext, long userId)
 		throws Exception {
 
 		long ddmFormInstanceRecordId = ParamUtil.getLong(
@@ -346,7 +378,7 @@ public class AddFormInstanceRecordMVCActionCommand
 	}
 
 	private void _validatePublishStatus(
-		ActionRequest actionRequest, DDMFormInstance ddmFormInstance)
+			ActionRequest actionRequest, DDMFormInstance ddmFormInstance)
 		throws Exception {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
@@ -368,32 +400,8 @@ public class AddFormInstanceRecordMVCActionCommand
 
 			throw new FormInstanceNotPublishedException(
 				"Form instance " + ddmFormInstance.getFormInstanceId() +
-				" is not published");
+					" is not published");
 		}
-	}
-
-	private DDMFormValues getDDMFormValues(ActionRequest actionRequest,DDMForm ddmForm)
-		throws PortalException {
-
-		String serializedDDMFormValues = ParamUtil.getString(
-			actionRequest, "ddmFormValues");
-
-
-		if (Validator.isNull(serializedDDMFormValues))
-			return null;
-
-		return deserialize(serializedDDMFormValues, ddmForm);
-	}
-	private DDMFormValues deserialize(String content, DDMForm ddmForm) {
-		DDMFormValuesDeserializerDeserializeRequest.Builder builder =
-			DDMFormValuesDeserializerDeserializeRequest.Builder.newBuilder(
-				content, ddmForm);
-
-		DDMFormValuesDeserializerDeserializeResponse
-			ddmFormValuesDeserializerDeserializeResponse =
-			jsonDDMFormValuesDeserializer.deserialize(builder.build());
-
-		return ddmFormValuesDeserializerDeserializeResponse.getDDMFormValues();
 	}
 
 	@Reference
@@ -421,8 +429,5 @@ public class AddFormInstanceRecordMVCActionCommand
 
 	@Reference
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
-
-	@Reference(target = "(ddm.form.values.deserializer.type=json)")
-	protected DDMFormValuesDeserializer jsonDDMFormValuesDeserializer;
 
 }
