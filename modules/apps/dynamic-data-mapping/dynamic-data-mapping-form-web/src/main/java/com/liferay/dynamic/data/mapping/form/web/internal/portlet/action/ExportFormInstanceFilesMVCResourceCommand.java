@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -42,23 +42,27 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.zip.ZipWriter;
 import com.liferay.portal.kernel.zip.ZipWriterFactoryUtil;
 
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-
-import com.liferay.portal.kernel.util.Validator;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import java.io.File;
 
 import java.nio.file.Files;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
+
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Pedro Queiroz
@@ -76,7 +80,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 
 	@Override
 	protected void doServeResource(
-		ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws Exception {
 
 		long formInstanceId = ParamUtil.getLong(
@@ -97,7 +101,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		ZipWriter zipWriter = ZipWriterFactoryUtil.getZipWriter();
 
 		for (DDMFormInstanceRecord ddmFormInstanceRecord :
-			ddmFormInstanceRecords) {
+				ddmFormInstanceRecords) {
 
 			DDMFormValues ddmFormValues =
 				ddmFormInstanceRecord.getDDMFormValues();
@@ -107,15 +111,24 @@ public class ExportFormInstanceFilesMVCResourceCommand
 			Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap =
 				ddmFormValues.getDDMFormFieldValuesReferencesMap(true);
 
-			for (Map.Entry<String, DDMFormField> entry : ddmFormFields.entrySet()) {
-				String fieldReference = entry.getValue().getFieldReference();
+			for (Map.Entry<String, DDMFormField> entry :
+					ddmFormFields.entrySet()) {
+
+				DDMFormField ddmFormField = entry.getValue();
+
+				String fieldReference = ddmFormField.getFieldReference();
+
 				if (ddmFormFieldValuesMap.containsKey(fieldReference)) {
 					List<DDMFormFieldValue> ddmFormFieldValues =
 						ddmFormFieldValuesMap.get(fieldReference);
-					for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
-						FileEntry fileEntry =
-							_getRender(ddmFormFieldValue, locale);
-						if (Validator.isNotNull(fileEntry)) {
+
+					for (DDMFormFieldValue ddmFormFieldValue :
+							ddmFormFieldValues) {
+
+						FileEntry fileEntry = _getRender(
+							ddmFormFieldValue, locale);
+
+						if (!Objects.equals(fileEntry, null)) {
 							zipWriter.addEntry(
 								trackingCode + "/" + fileEntry.getFileName(),
 								fileEntry.getContentStream());
@@ -125,16 +138,16 @@ public class ExportFormInstanceFilesMVCResourceCommand
 			}
 		}
 
+		File file = zipWriter.getFile();
+
 		PortletResponseUtil.sendFile(
 			resourceRequest, resourceResponse,
 			formInstance.getName(locale) + ".zip",
-			Files.newInputStream(zipWriter.getFile().toPath()),
-			ContentTypes.APPLICATION_ZIP);
-
+			Files.newInputStream(file.toPath()), ContentTypes.APPLICATION_ZIP);
 	}
 
 	protected Map<String, DDMFormField> getDistinctFields(
-		long ddmFormInstanceId)
+			long ddmFormInstanceId)
 		throws Exception {
 
 		List<DDMStructureVersion> ddmStructureVersions = getStructureVersions(
@@ -147,16 +160,15 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		stream.map(
 			this::getNontransientDDMFormFieldsReferencesMap
 		).forEach(
-			map -> map.forEach(
-				ddmFormFields::putIfAbsent)
+			map -> map.forEach(ddmFormFields::putIfAbsent)
 		);
 
 		return ddmFormFields;
 	}
 
 	protected Map<String, DDMFormField>
-	getNontransientDDMFormFieldsReferencesMap(
-		DDMStructureVersion ddmStructureVersion) {
+		getNontransientDDMFormFieldsReferencesMap(
+			DDMStructureVersion ddmStructureVersion) {
 
 		DDMForm ddmForm = ddmStructureVersion.getDDMForm();
 
@@ -164,7 +176,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 	}
 
 	protected List<DDMStructureVersion> getStructureVersions(
-		long ddmFormInstanceId)
+			long ddmFormInstanceId)
 		throws Exception {
 
 		List<DDMFormInstanceVersion> ddmFormInstanceVersions =
@@ -178,7 +190,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		List<DDMStructureVersion> ddmStructureVersions = new ArrayList<>();
 
 		for (DDMFormInstanceVersion ddmFormInstanceVersion :
-			ddmFormInstanceVersions) {
+				ddmFormInstanceVersions) {
 
 			ddmStructureVersions.add(
 				ddmFormInstanceVersion.getStructureVersion());
@@ -186,6 +198,16 @@ public class ExportFormInstanceFilesMVCResourceCommand
 
 		return ddmStructureVersions;
 	}
+
+	@Reference
+	protected DDMFormInstanceVersionLocalService
+		ddmFormInstanceVersionLocalService;
+
+	@Reference
+	protected DLAppService dlAppService;
+
+	@Reference
+	protected JSONFactory jsonFactory;
 
 	private FileEntry _getRender(
 		DDMFormFieldValue ddmFormFieldValue, Locale locale) {
@@ -206,8 +228,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		}
 
 		try {
-			return dlAppService.getFileEntryByUuidAndGroupId(
-				uuid, groupId);
+			return dlAppService.getFileEntryByUuidAndGroupId(uuid, groupId);
 		}
 		catch (Exception exception) {
 			return null;
@@ -230,22 +251,13 @@ public class ExportFormInstanceFilesMVCResourceCommand
 			if (_log.isDebugEnabled()) {
 				_log.debug(jsonException, jsonException);
 			}
+
 			return jsonFactory.createJSONObject();
 		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ExportFormInstanceFilesMVCResourceCommand.class);
-
-	@Reference
-	protected DDMFormInstanceVersionLocalService
-		ddmFormInstanceVersionLocalService;
-
-	@Reference
-	protected DLAppService dlAppService;
-
-	@Reference
-	protected JSONFactory jsonFactory;
 
 	@Reference
 	private DDMFormInstanceRecordService _ddmFormInstanceRecordService;
