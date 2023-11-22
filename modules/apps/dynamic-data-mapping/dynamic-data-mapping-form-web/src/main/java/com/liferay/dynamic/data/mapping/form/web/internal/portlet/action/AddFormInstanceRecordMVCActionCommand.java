@@ -61,6 +61,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -127,7 +128,7 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		DDMFormValues ddmFormValues = _getDDMFormValues(actionRequest, ddmForm);
 
-		if (ddmFormValues.equals(null)) {
+		if (Objects.equals(ddmFormValues, null)) {
 			ddmFormValues = _ddmFormValuesFactory.create(
 				actionRequest, ddmForm);
 		}
