@@ -122,6 +122,14 @@ public class JournalManagementToolbarDisplayContext
 			}
 		).add(
 			dropdownItem -> {
+				dropdownItem.putData("action", "exportEntries");
+				dropdownItem.setIcon("import-export");
+				dropdownItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "export"));
+				dropdownItem.setQuickAction(true);
+			}
+		).add(
+			dropdownItem -> {
 				dropdownItem.putData("action", "moveEntries");
 				dropdownItem.setIcon("move-folder");
 				dropdownItem.setLabel(

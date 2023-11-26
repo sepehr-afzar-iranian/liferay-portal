@@ -49,6 +49,10 @@ class ElementsDefaultEventHandler extends DefaultEventHandler {
 		this._send(itemData.copyArticleURL);
 	}
 
+	exportArticle(itemData) {
+		this._send(itemData.exportArticle);
+	}
+
 	delete(itemData) {
 		let message = Liferay.Language.get(
 			'are-you-sure-you-want-to-delete-this'

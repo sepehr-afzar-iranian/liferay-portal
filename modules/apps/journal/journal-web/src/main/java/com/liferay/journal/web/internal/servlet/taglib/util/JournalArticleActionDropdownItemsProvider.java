@@ -164,6 +164,12 @@ public class JournalArticleActionDropdownItemsProvider {
 				ActionKeys.ADD_ARTICLE),
 			_getCopyArticleActionUnsafeConsumer()
 		).add(
+			() -> JournalFolderPermission.contains(
+				_themeDisplay.getPermissionChecker(),
+				_themeDisplay.getScopeGroupId(), _article.getFolderId(),
+				ActionKeys.ADD_ARTICLE),
+			_getExportArticleActionUnsafeConsumer()
+		).add(
 			() ->
 				JournalArticlePermission.contains(
 					_themeDisplay.getPermissionChecker(), _article,
@@ -437,6 +443,26 @@ public class JournalArticleActionDropdownItemsProvider {
 			dropdownItem.putData("expireURL", expireURL.toString());
 			dropdownItem.setLabel(
 				LanguageUtil.get(_httpServletRequest, "expire"));
+		};
+	}
+
+	private UnsafeConsumer<DropdownItem, Exception>
+		_getExportArticleActionUnsafeConsumer() {
+
+		PortletURL copyArticleURL = _liferayPortletResponse.createActionURL();
+
+		copyArticleURL.setParameter(ActionRequest.ACTION_NAME, "exportArticle");
+
+		copyArticleURL.setParameter("redirect", _getRedirect());
+		copyArticleURL.setParameter(
+			"groupId", String.valueOf(_article.getGroupId()));
+		copyArticleURL.setParameter("articleId", _article.getArticleId());
+
+		return dropdownItem -> {
+			dropdownItem.putData("action", "exportArticle");
+			dropdownItem.putData("exportArticle", copyArticleURL.toString());
+			dropdownItem.setLabel(
+				LanguageUtil.get(_httpServletRequest, "Export"));
 		};
 	}
 
