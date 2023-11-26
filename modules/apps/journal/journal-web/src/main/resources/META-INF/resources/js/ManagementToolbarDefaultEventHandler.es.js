@@ -21,6 +21,15 @@ import {
 import {Config} from 'metal-state';
 
 class ManagementToolbarDefaultEventHandler extends DefaultEventHandler {
+	exportEntries() {
+		const searchContainer = Liferay.SearchContainer.get(
+			this.ns('articles')
+		);
+
+		Liferay.fire(this.ns('editEntry'), {
+			action: 'exportArticle',
+		});
+	}
 	deleteEntries() {
 		const searchContainer = Liferay.SearchContainer.get(
 			this.ns('articles')

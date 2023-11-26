@@ -64,6 +64,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletPreferences;
 
@@ -469,6 +470,20 @@ public class JournalPortletDataHandler extends BasePortletDataHandler {
 		exportActionableDynamicQuery.setAddCriteriaMethod(
 			dynamicQuery -> {
 				addCriteriaMethod.addCriteria(dynamicQuery);
+
+				Map<String, String[]> parameterMap =
+					portletDataContext.getParameterMap();
+
+				String[] articleIds = parameterMap.get(
+					PortletDataHandlerControl.getNamespacedControlName(
+						NAMESPACE, "article-ids"));
+
+				if (articleIds != null) {
+					Property articleIdProperty = PropertyFactoryUtil.forName(
+						"articleId");
+
+					dynamicQuery.add(articleIdProperty.in(articleIds));
+				}
 
 				if (portletDataContext.getBooleanParameter(
 						NAMESPACE, "version-history")) {

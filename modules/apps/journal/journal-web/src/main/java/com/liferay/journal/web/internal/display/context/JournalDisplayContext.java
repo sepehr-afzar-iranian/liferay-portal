@@ -364,6 +364,7 @@ public class JournalDisplayContext {
 				ActionKeys.UPDATE)) {
 
 			availableActions.add("moveEntries");
+			availableActions.add("exportEntries");
 		}
 
 		if (JournalArticlePermission.contains(
