@@ -17,12 +17,12 @@
 <%@ include file="/admin/init.jsp" %>
 
 <%
-String back = ParamUtil.getString(request, "back");
+String backURL = ParamUtil.getString(request, "backURL");
 
 DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion = ddmFormAdminDisplayContext.getDDMFormInstanceRecordVersion();
 
 portletDisplay.setShowBackIcon(true);
-portletDisplay.setURLBack(back);
+portletDisplay.setURLBack(backURL);
 
 renderResponse.setTitle(LanguageUtil.get(request, "view-form"));
 %>
@@ -43,6 +43,7 @@ renderResponse.setTitle(LanguageUtil.get(request, "view-form"));
 	<portlet:actionURL name="/dynamic_data_mapping_form/add_form_instance_record" var="editFormInstanceRecordActionURL" />
 
 	<aui:form action="<%= editFormInstanceRecordActionURL %>" data-DDMFormInstanceId="<%= ddmFormInstanceRecordVersion.getFormInstanceId() %>" data-senna-off="true" method="post" name="fm">
+		<aui:input name="redirect" type="hidden" value="<%= backURL %>" />
 		<aui:input name="back" type="hidden" value="<%= PortalUtil.getCurrentURL(request) %>" />
 		<aui:input name="formInstanceRecordId" type="hidden" value="<%= ddmFormInstanceRecordVersion.getFormInstanceRecordId() %>" />
 		<aui:input name="formInstanceId" type="hidden" value="<%= ddmFormInstanceRecordVersion.getFormInstanceId() %>" />
@@ -65,7 +66,7 @@ renderResponse.setTitle(LanguageUtil.get(request, "view-form"));
 			DDMFormValuesValidationException.UniqueValue uv = (DDMFormValuesValidationException.UniqueValue)errorException;
 			%>
 
-			<liferay-ui:message arguments="<%= new Object[] {HtmlUtil.escape(uv.getFieldName()), HtmlUtil.escape(uv.getFieldValue())} %>" key="this-x-x-already-used" translateArguments="<%= false %>" />
+			<liferay-ui:message arguments="<%= HtmlUtil.escape(uv.getFieldName()) %>" key="this-value-already-exists-for-the-field-x" translateArguments="<%= false %>" />
 		</liferay-ui:error>
 
 		<%= ddmFormAdminDisplayContext.getDDMFormHTML(renderRequest, false) %>

@@ -80,8 +80,7 @@ public class DDMFormUniqueFieldChecker {
 			getLableValuesCollection.toArray()[0]);
 
 		if (checkForUnique(currentValue, fieldReference)) {
-			throw new DDMFormValuesValidationException.UniqueValue(
-				fieldLabel, currentValue);
+			throw new DDMFormValuesValidationException.UniqueValue(fieldLabel);
 		}
 	}
 
@@ -160,8 +159,7 @@ public class DDMFormUniqueFieldChecker {
 
 			actionResponse.sendRedirect(redirectURL);
 
-			throw new DDMFormValuesValidationException.UniqueValue(
-				fieldLabel, currentValue_);
+			throw new DDMFormValuesValidationException.UniqueValue(fieldLabel);
 		}
 	}
 

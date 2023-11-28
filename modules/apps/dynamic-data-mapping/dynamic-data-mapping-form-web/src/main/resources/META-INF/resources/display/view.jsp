@@ -147,7 +147,7 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 							DDMFormValuesValidationException.UniqueValue uv = (DDMFormValuesValidationException.UniqueValue)errorException;
 							%>
 
-							<liferay-ui:message arguments="<%= new Object[] {HtmlUtil.escape(uv.getFieldName()), HtmlUtil.escape(uv.getFieldValue())} %>" key="this-x-x-already-used" translateArguments="<%= false %>" />
+							<liferay-ui:message arguments="<%= HtmlUtil.escape(uv.getFieldName()) %>" key="this-value-already-exists-for-the-field-x" translateArguments="<%= false %>" />
 						</liferay-ui:error>
 
 						<liferay-ui:error exception="<%= NoSuchFormInstanceException.class %>" message="the-selected-form-no-longer-exists" />

@@ -180,24 +180,20 @@ public class DDMFormValuesValidationException extends StorageException {
 
 	public static class UniqueValue extends DDMFormValuesValidationException {
 
-		public UniqueValue(String fieldName, String fieldValue) {
+		public UniqueValue(String fieldName) {
 			super(
-				String.format("This %s: %s is already used",
-					fieldName, fieldValue));
+				String.format(
+					"This value already exists for the field %s", fieldName));
 
 			_fieldName = fieldName;
-			_fieldValue = fieldValue;
 		}
 
 		public String getFieldName() {
 			return _fieldName;
 		}
 
-		public String getFieldValue() {
-			return  _fieldValue;
-		}
-
 		private final String _fieldName;
-		private final String _fieldValue;
+
 	}
+
 }

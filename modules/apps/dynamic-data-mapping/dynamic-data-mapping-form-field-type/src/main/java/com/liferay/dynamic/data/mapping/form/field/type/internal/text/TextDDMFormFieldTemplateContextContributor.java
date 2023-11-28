@@ -89,6 +89,10 @@ public class TextDDMFormFieldTemplateContextContributor
 			"uniqueField",
 			GetterUtil.getBoolean(ddmFormField.getProperty("uniqueField")));
 
+		if (GetterUtil.getBoolean(ddmFormField.getProperty("uniqueField"))) {
+			parameters.put("required", true);
+		}
+
 		String value = getValue(ddmFormFieldRenderingContext);
 
 		if (Validator.isNotNull(value)) {
