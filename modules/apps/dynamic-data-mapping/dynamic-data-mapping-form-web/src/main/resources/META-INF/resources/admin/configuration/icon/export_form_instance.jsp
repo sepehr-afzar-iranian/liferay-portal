@@ -43,7 +43,17 @@ sb.append("');");
 	<portlet:param name="formInstanceId" value="<%= String.valueOf(formInstanceId) %>" />
 </liferay-portlet:resourceURL>
 
+<%
+	StringBundler sbf = new StringBundler(5);
+
+	sbf.append("javascript:");
+	sbf.append(liferayPortletResponse.getNamespace());
+	sbf.append("exportFormInstanceFiles('");
+	sbf.append(exportFormInstanceFilesURL);
+	sbf.append("');");
+%>
+
 <liferay-ui:icon
 	message="export-files"
-	url="<%= exportFormInstanceFilesURL %>"
+	url="<%= sbf.toString() %>"
 />

@@ -214,3 +214,4 @@ FormInstancePermissionCheckerHelper formInstancePermissionCheckerHelper = ddmFor
 <%@ include file="/admin/copy_form_publish_url.jspf" %>
 
 <%@ include file="/admin/export_form_instance.jspf" %>
+<%@ include file="/admin/export_form_instance_files.jspf" %>
