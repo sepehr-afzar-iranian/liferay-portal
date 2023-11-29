@@ -15,12 +15,9 @@
 --%>
 
 <div class="hide" id="<portlet:namespace />exportFormInstanceFiles">
-
-
 	<clay:alert
 		message="export-files-warning-message"
 	/>
-
 </div>
 
 <aui:script>
@@ -37,7 +34,6 @@
 			var content = A.one('#<portlet:namespace />exportFormInstanceFiles');
 
 			if (content) {
-
 				form.append(content);
 
 				content.show();
@@ -85,7 +81,7 @@
 						],
 					},
 					width: 600,
-					height: 300
+					height: 300,
 				},
 				title: '<%= UnicodeLanguageUtil.get(request, "export-files") %>',
 			});

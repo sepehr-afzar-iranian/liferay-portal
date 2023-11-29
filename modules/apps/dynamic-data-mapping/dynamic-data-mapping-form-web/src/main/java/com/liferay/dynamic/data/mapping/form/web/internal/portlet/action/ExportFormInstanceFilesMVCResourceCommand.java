@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -30,7 +30,6 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.util.comparator.FormInstanceVersionVersionComparator;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -81,7 +80,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 
 	@Override
 	protected void doServeResource(
-		ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			ResourceRequest resourceRequest, ResourceResponse resourceResponse)
 		throws Exception {
 
 		long formInstanceId = ParamUtil.getLong(
@@ -102,7 +101,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		ZipWriter zipWriter = ZipWriterFactoryUtil.getZipWriter();
 
 		for (DDMFormInstanceRecord ddmFormInstanceRecord :
-			ddmFormInstanceRecords) {
+				ddmFormInstanceRecords) {
 
 			DDMFormValues ddmFormValues =
 				ddmFormInstanceRecord.getDDMFormValues();
@@ -113,7 +112,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 				ddmFormValues.getDDMFormFieldValuesReferencesMap(true);
 
 			for (Map.Entry<String, DDMFormField> entry :
-				ddmFormFields.entrySet()) {
+					ddmFormFields.entrySet()) {
 
 				DDMFormField ddmFormField = entry.getValue();
 
@@ -124,18 +123,29 @@ public class ExportFormInstanceFilesMVCResourceCommand
 						ddmFormFieldValuesMap.get(fieldReference);
 
 					for (DDMFormFieldValue ddmFormFieldValue :
-						ddmFormFieldValues) {
+							ddmFormFieldValues) {
 
 						FileEntry fileEntry = _getRender(
 							ddmFormFieldValue, locale);
 
+						StringBuilder stringBuilder = new StringBuilder();
+
 						if (!Objects.equals(fileEntry, null)) {
+							stringBuilder.append(trackingCode);
+							stringBuilder.append(
+								_getValueByFieldReference(
+									ddmFormInstanceRecord, "firstName"));
+							stringBuilder.append(
+								_getValueByFieldReference(
+									ddmFormInstanceRecord, "lastName"));
+							stringBuilder.append(
+								_getValueByFieldReference(
+									ddmFormInstanceRecord, "nationalCode"));
+							stringBuilder.append("/");
+							stringBuilder.append(fileEntry.getFileName());
+
 							zipWriter.addEntry(
-								trackingCode +
-								_getValueByFieldReference(ddmFormInstanceRecord, "firstName") +
-								_getValueByFieldReference(ddmFormInstanceRecord, "lastName") +
-								_getValueByFieldReference(ddmFormInstanceRecord, "nationalCode") +
-								"/" + fileEntry.getFileName(),
+								stringBuilder.toString(),
 								fileEntry.getContentStream());
 						}
 					}
@@ -152,7 +162,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 	}
 
 	protected Map<String, DDMFormField> getDistinctFields(
-		long ddmFormInstanceId)
+			long ddmFormInstanceId)
 		throws Exception {
 
 		List<DDMStructureVersion> ddmStructureVersions = getStructureVersions(
@@ -172,8 +182,8 @@ public class ExportFormInstanceFilesMVCResourceCommand
 	}
 
 	protected Map<String, DDMFormField>
-	getNontransientDDMFormFieldsReferencesMap(
-		DDMStructureVersion ddmStructureVersion) {
+		getNontransientDDMFormFieldsReferencesMap(
+			DDMStructureVersion ddmStructureVersion) {
 
 		DDMForm ddmForm = ddmStructureVersion.getDDMForm();
 
@@ -181,7 +191,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 	}
 
 	protected List<DDMStructureVersion> getStructureVersions(
-		long ddmFormInstanceId)
+			long ddmFormInstanceId)
 		throws Exception {
 
 		List<DDMFormInstanceVersion> ddmFormInstanceVersions =
@@ -195,50 +205,13 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		List<DDMStructureVersion> ddmStructureVersions = new ArrayList<>();
 
 		for (DDMFormInstanceVersion ddmFormInstanceVersion :
-			ddmFormInstanceVersions) {
+				ddmFormInstanceVersions) {
 
 			ddmStructureVersions.add(
 				ddmFormInstanceVersion.getStructureVersion());
 		}
 
 		return ddmStructureVersions;
-	}
-
-	private String _getValueByFieldReference(
-		DDMFormInstanceRecord ddmFormInstanceRecord, String fieldReference)
-		throws PortalException {
-		DDMFormValues ddmFormValues =
-			ddmFormInstanceRecord.getDDMFormValues();
-
-		List<DDMFormFieldValue> ddmFormFieldValues =
-			ddmFormValues.getDDMFormFieldValues();
-
-		DDMFormFieldValue targetField = null;
-
-		for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
-			if (Objects.equals(
-				ddmFormFieldValue.getFieldReference(),
-				fieldReference)) {
-
-				targetField = ddmFormFieldValue;
-				break;
-			}
-		}
-
-		if (!Objects.equals(targetField, null)) {
-			Value targetFieldValue = targetField.getValue();
-
-			Map<Locale, String> targetFieldValues =
-				targetFieldValue.getValues();
-
-			String value = targetFieldValues.get(
-				ddmFormValues.getDefaultLocale());
-
-			if (Validator.isNotNull(value)) {
-				return "_" + value;
-			}
-		}
-		return "";
 	}
 
 	@Reference
@@ -275,6 +248,44 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		catch (Exception exception) {
 			return null;
 		}
+	}
+
+	private String _getValueByFieldReference(
+			DDMFormInstanceRecord ddmFormInstanceRecord, String fieldReference)
+		throws Exception {
+
+		DDMFormValues ddmFormValues = ddmFormInstanceRecord.getDDMFormValues();
+
+		List<DDMFormFieldValue> ddmFormFieldValues =
+			ddmFormValues.getDDMFormFieldValues();
+
+		DDMFormFieldValue targetField = null;
+
+		for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
+			if (Objects.equals(
+					ddmFormFieldValue.getFieldReference(), fieldReference)) {
+
+				targetField = ddmFormFieldValue;
+
+				break;
+			}
+		}
+
+		if (!Objects.equals(targetField, null)) {
+			Value targetFieldValue = targetField.getValue();
+
+			Map<Locale, String> targetFieldValues =
+				targetFieldValue.getValues();
+
+			String value = targetFieldValues.get(
+				ddmFormValues.getDefaultLocale());
+
+			if (Validator.isNotNull(value)) {
+				return "_" + value;
+			}
+		}
+
+		return "";
 	}
 
 	private JSONObject _getValueJSONObject(

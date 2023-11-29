@@ -44,16 +44,16 @@ sb.append("');");
 </liferay-portlet:resourceURL>
 
 <%
-	StringBundler sbf = new StringBundler(5);
+StringBundler fSB = new StringBundler(5);
 
-	sbf.append("javascript:");
-	sbf.append(liferayPortletResponse.getNamespace());
-	sbf.append("exportFormInstanceFiles('");
-	sbf.append(exportFormInstanceFilesURL);
-	sbf.append("');");
+fSB.append("javascript:");
+fSB.append(liferayPortletResponse.getNamespace());
+fSB.append("exportFormInstanceFiles('");
+fSB.append(exportFormInstanceFilesURL);
+fSB.append("');");
 %>
 
 <liferay-ui:icon
 	message="export-files"
-	url="<%= sbf.toString() %>"
+	url="<%= fSB.toString() %>"
 />
