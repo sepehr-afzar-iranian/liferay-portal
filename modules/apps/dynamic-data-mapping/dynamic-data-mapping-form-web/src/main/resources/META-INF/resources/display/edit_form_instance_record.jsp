@@ -76,6 +76,6 @@ renderResponse.setTitle(GetterUtil.get(title, LanguageUtil.get(request, "view-fo
 			</c:if>
 		</div>
 
-		<%= ddmFormDisplayContext.getDDMFormHTML() %>
+		<%= ddmFormDisplayContext.getDDMFormHTML(false) %>
 	</aui:form>
 </clay:container-fluid>

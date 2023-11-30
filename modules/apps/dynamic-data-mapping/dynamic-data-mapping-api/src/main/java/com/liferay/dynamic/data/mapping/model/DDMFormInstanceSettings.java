@@ -55,7 +55,8 @@ import org.osgi.annotation.versioning.ProviderType;
 							size = 12,
 							value = {
 								"requireAuthentication", "requireCaptcha",
-								"autosaveEnabled", "redirectURL", "storageType",
+								"confirmOnSubmit", "autosaveEnabled",
+								"redirectURL", "storageType",
 								"workflowDefinition"
 							}
 						)
@@ -92,6 +93,12 @@ public interface DDMFormInstanceSettings {
 		properties = "showAsSwitcher=true"
 	)
 	public boolean autosaveEnabled();
+
+	@DDMFormField(
+		label = "%confirm-on-submit", properties = "showAsSwitcher=true",
+		type = "checkbox"
+	)
+	public boolean confirmOnSubmit();
 
 	@DDMFormField(
 		label = "%from-address",

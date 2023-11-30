@@ -22,6 +22,7 @@ import com.liferay.dynamic.data.mapping.form.web.internal.configuration.activato
 import com.liferay.dynamic.data.mapping.form.web.internal.constants.DDMFormWebKeys;
 import com.liferay.dynamic.data.mapping.form.web.internal.display.context.DDMFormDisplayContext;
 import com.liferay.dynamic.data.mapping.form.web.internal.instance.lifecycle.AddDefaultSharedFormLayoutPortalInstanceLifecycleListener;
+import com.liferay.dynamic.data.mapping.io.DDMFormValuesSerializer;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalService;
@@ -231,7 +232,8 @@ public class DDMFormPortlet extends MVCPortlet {
 			_ddmFormValuesFactory, _ddmFormValuesMerger,
 			_ddmFormWebConfigurationActivator.getDDMFormWebConfiguration(),
 			_ddmStorageAdapterTracker, _groupLocalService, _jsonFactory,
-			_workflowDefinitionLinkLocalService, _portal);
+			_workflowDefinitionLinkLocalService, _portal,
+			_jsonDDMFormValuesSerializer);
 
 		renderRequest.setAttribute(
 			WebKeys.PORTLET_DISPLAY_CONTEXT, ddmFormDisplayContext);
@@ -287,6 +289,9 @@ public class DDMFormPortlet extends MVCPortlet {
 
 	@Reference
 	private GroupLocalService _groupLocalService;
+
+	@Reference
+	private DDMFormValuesSerializer _jsonDDMFormValuesSerializer;
 
 	@Reference
 	private JSONFactory _jsonFactory;

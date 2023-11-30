@@ -96,6 +96,8 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 						break;
 					}
 				}
+
+				boolean confirmOnSubmit = ddmFormDisplayContext.isConfirmOnSubmitRequired(formInstance);
 				%>
 
 				<div class="portlet-forms">
@@ -113,7 +115,8 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 						<aui:input name="groupId" type="hidden" value="<%= formInstance.getGroupId() %>" />
 						<aui:input name="formInstanceId" type="hidden" value="<%= formInstance.getFormInstanceId() %>" />
 						<aui:input name="languageId" type="hidden" value="<%= languageId %>" />
-						<aui:input name="workflowAction" type="hidden" value="<%= WorkflowConstants.ACTION_PUBLISH %>" />
+						<aui:input name="workflowAction" type="hidden" value="<%= confirmOnSubmit ? WorkflowConstants.ACTION_SAVE_DRAFT : WorkflowConstants.ACTION_PUBLISH %>" />
+						<aui:input name="confirmOnSubmit" type="hidden" value="<%= confirmOnSubmit %>" />
 
 						<liferay-ui:error exception="<%= CaptchaException.class %>" message="captcha-verification-failed" />
 						<liferay-ui:error exception="<%= CaptchaTextException.class %>" message="text-verification-failed" />
@@ -197,7 +200,17 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 							cssClass="ddm-form-builder-app ddm-form-builder-app-not-ready"
 							id='<%= ddmFormDisplayContext.getContainerId() + "container" %>'
 						>
-							<%= ddmFormDisplayContext.getDDMFormHTML() %>
+
+							<%
+							String submitLabel;
+
+							if (confirmOnSubmit)
+								submitLabel = LanguageUtil.get(resourceBundle, "preview");
+								else
+								submitLabel = null;
+							%>
+
+							<%= ddmFormDisplayContext.getDDMFormHTML(false, submitLabel) %>
 
 							<aui:input name="empty" type="hidden" value="" />
 						</clay:container-fluid>
