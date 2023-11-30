@@ -48,8 +48,7 @@ FormInstancePermissionCheckerHelper formInstancePermissionCheckerHelper = ddmFor
 	<c:if test="<%= formInstancePermissionCheckerHelper.isShowEditIcon(ddmFormAdminDisplayContext.getDDMFormInstance()) %>">
 		<portlet:renderURL var="editURL">
 			<portlet:param name="mvcPath" value="/admin/edit_form_instance_record.jsp" />
-			<portlet:param name="redirect" value="<%= currentURL %>" />
-			<portlet:param name="backURL" value="<%= currentURL %>" />
+			<portlet:param name="redirect" value="<%= PortalUtil.getCurrentURL(request) %>" />
 			<portlet:param name="formInstanceRecordId" value="<%= String.valueOf(formInstanceRecord.getFormInstanceRecordId()) %>" />
 			<portlet:param name="formInstanceId" value="<%= String.valueOf(formInstanceRecord.getFormInstanceId()) %>" />
 		</portlet:renderURL>

@@ -20,6 +20,7 @@ import com.liferay.dynamic.data.mapping.exception.FormInstanceNotPublishedExcept
 import com.liferay.dynamic.data.mapping.form.values.factory.DDMFormValuesFactory;
 import com.liferay.dynamic.data.mapping.form.web.internal.constants.DDMFormWebKeys;
 import com.liferay.dynamic.data.mapping.form.web.internal.instance.lifecycle.AddDefaultSharedFormLayoutPortalInstanceLifecycleListener;
+import com.liferay.dynamic.data.mapping.form.web.internal.portlet.action.util.DDMFormUniqueFieldChecker;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializer;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializerDeserializeRequest;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializerDeserializeResponse;
@@ -31,9 +32,11 @@ import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecordVersion;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceSettings;
 import com.liferay.dynamic.data.mapping.model.DDMFormSuccessPageSettings;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMContentLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordVersionLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
+import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -131,6 +134,32 @@ public class AddFormInstanceRecordMVCActionCommand
 		if (Objects.equals(ddmFormValues, null)) {
 			ddmFormValues = _ddmFormValuesFactory.create(
 				actionRequest, ddmForm);
+		}
+
+		long ddmFormInstanceRecordId = ParamUtil.getLong(
+			actionRequest, "formInstanceRecordId");
+		System.out.println(
+			"ddmFormInstanceRecordId = " + ddmFormInstanceRecordId);
+
+		List<DDMFormFieldValue> ddmFormFieldValueList =
+			ddmFormValues.getDDMFormFieldValues();
+
+		for (DDMFormFieldValue fieldValue : ddmFormFieldValueList) {
+			DDMFormField getDDMFormFieldValue = fieldValue.getDDMFormField();
+
+			if (Validator.isNotNull(
+				getDDMFormFieldValue.getProperty("uniqueField")) &&
+				(Boolean)getDDMFormFieldValue.getProperty("uniqueField")) {
+
+				if (ddmFormInstanceRecordId != 0) {
+					_ddmFormUniqueFieldChecker.checkForEdit(
+						actionRequest, actionResponse, fieldValue,
+						ddmFormInstance);
+				}
+				else {
+					_ddmFormUniqueFieldChecker.checkForAdd(fieldValue);
+				}
+			}
 		}
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
@@ -234,7 +263,7 @@ public class AddFormInstanceRecordMVCActionCommand
 		String redirectURL = ParamUtil.getString(
 			actionRequest, "redirect", formInstanceSettings.redirectURL());
 
-		if (Validator.isNotNull(redirectURL)) {
+		if (ddmFormInstanceRecordId != 0) {
 			portletSession.setAttribute(
 				DDMFormWebKeys.DYNAMIC_DATA_MAPPING_FORM_INSTANCE_ID,
 				formInstanceId);
@@ -255,17 +284,16 @@ public class AddFormInstanceRecordMVCActionCommand
 						SessionMessages.
 							KEY_SUFFIX_HIDE_DEFAULT_SUCCESS_MESSAGE));
 			}
+
+			LiferayActionResponse liferayActionResponse =
+				(LiferayActionResponse)actionResponse;
+
+			PortletURL portletURL = liferayActionResponse.createRenderURL();
+
+			portletURL.setParameter("trackingCode", ddmFormInstanceRecord.getTrackingCode());
+
+			sendRedirect(actionRequest, actionResponse, portletURL.toString());
 		}
-
-		LiferayActionResponse liferayActionResponse =
-			(LiferayActionResponse)actionResponse;
-
-		PortletURL portletURL = liferayActionResponse.createRenderURL();
-
-		portletURL.setParameter(
-			"trackingCode", ddmFormInstanceRecord.getTrackingCode());
-
-		actionResponse.sendRedirect(portletURL.toString());
 	}
 
 	protected DDMForm getDDMForm(DDMFormInstance ddmFormInstance)
@@ -349,9 +377,22 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		if (ddmFormInstanceRecordId != 0) {
 			ddmFormInstanceRecord =
+				_ddmFormInstanceRecordService.getFormInstanceRecord(
+					ddmFormInstanceRecordId);
+
+			long prevStorageId = ddmFormInstanceRecord.getStorageId();
+
+			ddmFormInstanceRecord =
 				_ddmFormInstanceRecordService.updateFormInstanceRecord(
 					ddmFormInstanceRecordId, false, ddmFormValues,
 					serviceContext);
+
+			long newStorageId = ddmFormInstanceRecord.getStorageId();
+
+			if (prevStorageId != newStorageId) {
+				_ddmContentLocalService.deleteContent(
+					_ddmContentLocalService.getContent(prevStorageId));
+			}
 		}
 		else {
 			DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion =
@@ -418,6 +459,12 @@ public class AddFormInstanceRecordMVCActionCommand
 	@Reference
 	private DDMFormInstanceRecordVersionLocalService
 		_ddmFormInstanceRecordVersionLocalService;
+
+	@Reference
+	private DDMFormUniqueFieldChecker _ddmFormUniqueFieldChecker;
+
+	@Reference
+	private DDMContentLocalService _ddmContentLocalService;
 
 	private DDMFormInstanceService _ddmFormInstanceService;
 	private DDMFormValuesFactory _ddmFormValuesFactory;

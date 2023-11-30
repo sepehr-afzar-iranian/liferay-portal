@@ -17,7 +17,7 @@
 <%@ include file="/admin/init.jsp" %>
 
 <%
-String backURL = ParamUtil.getString(request, "backURL");
+String backURL = ParamUtil.getString(request, "redirect");
 
 DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion = ddmFormAdminDisplayContext.getDDMFormInstanceRecordVersion();
 
