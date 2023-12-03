@@ -101,8 +101,6 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		long groupId = ParamUtil.getLong(actionRequest, "groupId");
 
-		String backUrl = ParamUtil.getString(actionRequest, "currentURL");
-
 		boolean confirmOnSubmit = ParamUtil.getBoolean(
 			actionRequest, "confirmOnSubmit");
 
@@ -138,8 +136,6 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		long ddmFormInstanceRecordId = ParamUtil.getLong(
 			actionRequest, "formInstanceRecordId");
-		System.out.println(
-			"ddmFormInstanceRecordId = " + ddmFormInstanceRecordId);
 
 		List<DDMFormFieldValue> ddmFormFieldValueList =
 			ddmFormValues.getDDMFormFieldValues();
@@ -148,7 +144,7 @@ public class AddFormInstanceRecordMVCActionCommand
 			DDMFormField getDDMFormFieldValue = fieldValue.getDDMFormField();
 
 			if (Validator.isNotNull(
-				getDDMFormFieldValue.getProperty("uniqueField")) &&
+					getDDMFormFieldValue.getProperty("uniqueField")) &&
 				(Boolean)getDDMFormFieldValue.getProperty("uniqueField")) {
 
 				if (ddmFormInstanceRecordId != 0) {
@@ -191,7 +187,6 @@ public class AddFormInstanceRecordMVCActionCommand
 			PortletURL portletURL = liferayActionResponse.createRenderURL();
 
 			portletURL.setParameter("mvcPath", "/display/preview.jsp");
-			portletURL.setParameter("backUrl", backUrl);
 			portletURL.setParameter(
 				"formInstanceId", String.valueOf(formInstanceId));
 			portletURL.setParameter(
@@ -263,7 +258,9 @@ public class AddFormInstanceRecordMVCActionCommand
 		String redirectURL = ParamUtil.getString(
 			actionRequest, "redirect", formInstanceSettings.redirectURL());
 
-		if (ddmFormInstanceRecordId != 0) {
+		if ((ddmFormInstanceRecordId != 0) &&
+			Validator.isNotNull(redirectURL)) {
+
 			portletSession.setAttribute(
 				DDMFormWebKeys.DYNAMIC_DATA_MAPPING_FORM_INSTANCE_ID,
 				formInstanceId);
@@ -290,7 +287,8 @@ public class AddFormInstanceRecordMVCActionCommand
 
 			PortletURL portletURL = liferayActionResponse.createRenderURL();
 
-			portletURL.setParameter("trackingCode", ddmFormInstanceRecord.getTrackingCode());
+			portletURL.setParameter(
+				"trackingCode", ddmFormInstanceRecord.getTrackingCode());
 
 			sendRedirect(actionRequest, actionResponse, portletURL.toString());
 		}
@@ -454,19 +452,20 @@ public class AddFormInstanceRecordMVCActionCommand
 	private AddFormInstanceRecordMVCCommandHelper
 		_addFormInstanceMVCCommandHelper;
 
+	@Reference
+	private DDMContentLocalService _ddmContentLocalService;
+
 	private DDMFormInstanceRecordService _ddmFormInstanceRecordService;
 
 	@Reference
 	private DDMFormInstanceRecordVersionLocalService
 		_ddmFormInstanceRecordVersionLocalService;
 
+	private DDMFormInstanceService _ddmFormInstanceService;
+
 	@Reference
 	private DDMFormUniqueFieldChecker _ddmFormUniqueFieldChecker;
 
-	@Reference
-	private DDMContentLocalService _ddmContentLocalService;
-
-	private DDMFormInstanceService _ddmFormInstanceService;
 	private DDMFormValuesFactory _ddmFormValuesFactory;
 
 	@Reference

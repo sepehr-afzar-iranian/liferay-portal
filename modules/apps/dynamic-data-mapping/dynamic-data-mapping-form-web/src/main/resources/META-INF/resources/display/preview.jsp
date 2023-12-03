@@ -17,8 +17,6 @@
 <%@ include file="/display/init.jsp" %>
 
 <%
-String backUrl = ParamUtil.getString(request, "backUrl");
-
 DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion = ddmFormDisplayContext.getDDMFormInstanceRecordVersion();
 
 renderResponse.setTitle(LanguageUtil.get(request, "preview-form"));
@@ -35,6 +33,12 @@ renderResponse.setTitle(LanguageUtil.get(request, "preview-form"));
 >
 	<portlet:actionURL name="/dynamic_data_mapping_form/add_form_instance_record" var="editFormInstanceRecordActionURL" />
 
+	<portlet:renderURL var="editURL">
+		<portlet:param name="mvcPath" value="/display/edit_form_instance_record.jsp" />
+		<portlet:param name="formInstanceRecordId" value="<%= String.valueOf(ddmFormInstanceRecordVersion.getFormInstanceRecordId()) %>" />
+		<portlet:param name="formInstanceId" value="<%= String.valueOf(ddmFormInstanceRecordVersion.getFormInstanceId()) %>" />
+	</portlet:renderURL>
+
 	<aui:form action="<%= editFormInstanceRecordActionURL %>" method="post" name="fm">
 		<aui:input name="formInstanceRecordId" type="hidden" value="<%= ddmFormInstanceRecordVersion.getFormInstanceRecordId() %>" />
 		<aui:input name="formInstanceId" type="hidden" value="<%= ddmFormInstanceRecordVersion.getFormInstanceId() %>" />
@@ -46,7 +50,7 @@ renderResponse.setTitle(LanguageUtil.get(request, "preview-form"));
 		<aui:button-row>
 			<aui:button cssClass="float-right lfr-ddm-form-submit" type="submit" value="submit" />
 
-			<aui:button cssClass="float-right" href="<%= backUrl %>" type="cancel" value="edit" />
+			<aui:button cssClass="float-right" href="<%= editURL %>" type="cancel" value="edit" />
 		</aui:button-row>
 	</aui:form>
 </clay:container-fluid>
