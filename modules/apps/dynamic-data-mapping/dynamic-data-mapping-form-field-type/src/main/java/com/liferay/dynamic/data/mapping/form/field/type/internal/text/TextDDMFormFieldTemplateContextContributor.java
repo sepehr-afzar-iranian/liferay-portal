@@ -85,6 +85,13 @@ public class TextDDMFormFieldTemplateContextContributor
 		parameters.put(
 			"priceField",
 			GetterUtil.getBoolean(ddmFormField.getProperty("priceField")));
+		parameters.put(
+			"uniqueField",
+			GetterUtil.getBoolean(ddmFormField.getProperty("uniqueField")));
+
+		if (GetterUtil.getBoolean(ddmFormField.getProperty("uniqueField"))) {
+			parameters.put("required", true);
+		}
 
 		String value = getValue(ddmFormFieldRenderingContext);
 

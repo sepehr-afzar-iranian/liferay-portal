@@ -17,8 +17,6 @@
 <%@ include file="/display/init.jsp" %>
 
 <%
-String redirect = ParamUtil.getString(request, "redirect");
-
 DDMFormInstance formInstance = ddmFormDisplayContext.getFormInstance();
 
 DDMFormInstanceRecord formInstanceRecord = ddmFormDisplayContext.getFormInstanceRecord();
@@ -29,21 +27,16 @@ if (formInstanceRecord != null) {
 	formInstanceRecordVersion = formInstanceRecord.getLatestFormInstanceRecordVersion();
 }
 
-portletDisplay.setURLBack(redirect);
-portletDisplay.setShowBackIcon(true);
-
 String title = ParamUtil.getString(request, "title");
 
 renderResponse.setTitle(GetterUtil.get(title, LanguageUtil.get(request, "view-form")));
+
+String submitLabel = LanguageUtil.get(request, "preview");
 %>
 
 <clay:container-fluid>
 	<c:if test="<%= formInstanceRecordVersion != null %>">
 		<aui:model-context bean="<%= formInstanceRecordVersion %>" model="<%= DDMFormInstanceRecordVersion.class %>" />
-
-		<div class="panel text-center">
-			<aui:workflow-status markupView="lexicon" model="<%= DDMFormInstanceRecord.class %>" showHelpMessage="<%= false %>" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= formInstanceRecordVersion.getStatus() %>" version="<%= formInstanceRecordVersion.getVersion() %>" />
-		</div>
 	</c:if>
 </clay:container-fluid>
 
@@ -53,9 +46,11 @@ renderResponse.setTitle(GetterUtil.get(title, LanguageUtil.get(request, "view-fo
 	<portlet:actionURL name="/dynamic_data_mapping_form/add_form_instance_record" var="editFormInstanceRecordActionURL" />
 
 	<aui:form action="<%= editFormInstanceRecordActionURL %>" data-DDMFormInstanceId="<%= ddmFormDisplayContext.getFormInstanceId() %>" data-senna-off="true" method="post" name="fm">
-		<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
+		<aui:input name="back" type="hidden" value="<%= PortalUtil.getCurrentURL(request) %>" />
+		<aui:input name="confirmOnSubmit" type="hidden" value="<%= true %>" />
 		<aui:input name="formInstanceRecordId" type="hidden" value="<%= ddmFormDisplayContext.getFormInstanceRecordId() %>" />
 		<aui:input name="formInstanceId" type="hidden" value="<%= ddmFormDisplayContext.getFormInstanceId() %>" />
+		<aui:input name="workflowAction" type="hidden" value="<%= WorkflowConstants.ACTION_SAVE_DRAFT %>" />
 
 		<div class="ddm-form-basic-info">
 
@@ -76,6 +71,15 @@ renderResponse.setTitle(GetterUtil.get(title, LanguageUtil.get(request, "view-fo
 			</c:if>
 		</div>
 
-		<%= ddmFormDisplayContext.getDDMFormHTML(false) %>
+		<liferay-ui:error exception="<%= DDMFormValuesValidationException.UniqueValue.class %>">
+
+			<%
+			DDMFormValuesValidationException.UniqueValue uv = (DDMFormValuesValidationException.UniqueValue)errorException;
+			%>
+
+			<liferay-ui:message arguments="<%= HtmlUtil.escape(uv.getFieldName()) %>" key="this-value-already-exists-for-the-field-x" translateArguments="<%= false %>" />
+		</liferay-ui:error>
+
+		<%= ddmFormDisplayContext.getDDMFormHTML(false, submitLabel) %>
 	</aui:form>
 </clay:container-fluid>

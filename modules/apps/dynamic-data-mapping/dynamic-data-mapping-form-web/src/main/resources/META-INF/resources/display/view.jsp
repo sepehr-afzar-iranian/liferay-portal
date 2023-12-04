@@ -141,6 +141,15 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 							<liferay-ui:message arguments="<%= HtmlUtil.escape(rv.getFieldName()) %>" key="no-value-is-defined-for-field-x" translateArguments="<%= false %>" />
 						</liferay-ui:error>
 
+						<liferay-ui:error exception="<%= DDMFormValuesValidationException.UniqueValue.class %>">
+
+							<%
+							DDMFormValuesValidationException.UniqueValue uv = (DDMFormValuesValidationException.UniqueValue)errorException;
+							%>
+
+							<liferay-ui:message arguments="<%= HtmlUtil.escape(uv.getFieldName()) %>" key="this-value-already-exists-for-the-field-x" translateArguments="<%= false %>" />
+						</liferay-ui:error>
+
 						<liferay-ui:error exception="<%= NoSuchFormInstanceException.class %>" message="the-selected-form-no-longer-exists" />
 						<liferay-ui:error exception="<%= NoSuchStructureException.class %>" message="unable-to-retrieve-the-definition-of-the-selected-form" />
 						<liferay-ui:error exception="<%= NoSuchStructureLayoutException.class %>" message="unable-to-retrieve-the-layout-of-the-selected-form" />

@@ -137,7 +137,7 @@ public class DDMFormValuesValidationException extends StorageException {
 			return _fieldName;
 		}
 
-		private String _fieldName;
+		private final String _fieldName;
 
 	}
 
@@ -166,6 +166,24 @@ public class DDMFormValuesValidationException extends StorageException {
 		public RequiredValue(String fieldName) {
 			super(
 				String.format("No value defined for field name %s", fieldName));
+
+			_fieldName = fieldName;
+		}
+
+		public String getFieldName() {
+			return _fieldName;
+		}
+
+		private final String _fieldName;
+
+	}
+
+	public static class UniqueValue extends DDMFormValuesValidationException {
+
+		public UniqueValue(String fieldName) {
+			super(
+				String.format(
+					"This value already exists for the field %s", fieldName));
 
 			_fieldName = fieldName;
 		}
