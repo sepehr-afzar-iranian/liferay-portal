@@ -16,6 +16,21 @@
 
 <%@ include file="/display/init.jsp" %>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+
+	<title>Preview</title>
+
+	<script>
+		history.pushState(null, null, document.URL);
+		window.addEventListener('popstate', function () {
+			history.pushState(null, null, document.URL);
+		});
+	</script>
+</head>
+
 <%
 DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion = ddmFormDisplayContext.getDDMFormInstanceRecordVersion();
 
