@@ -15,6 +15,7 @@
 package com.liferay.dynamic.data.mapping.form.web.internal.portlet.action.util;
 
 import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
@@ -33,14 +34,20 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -54,21 +61,28 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = DDMFormUniqueFieldChecker.class)
 public class DDMFormUniqueFieldChecker {
 
-	public void checkForAdd(DDMFormFieldValue fieldValue)
+	public void checkForAdd(
+			ActionRequest actionRequest, DDMFormFieldValue fieldValue)
 		throws PortalException {
+
+		DDMFormField getDDMFormField = fieldValue.getDDMFormField();
+
+		DDMForm ddmForm = getDDMFormField.getDDMForm();
+
+		String languageId = LanguageUtil.getLanguageId(actionRequest);
+
+		Locale getDDMFormLangLocale = LocaleUtil.fromLanguageId(languageId);
+
+		String fieldLang = String.valueOf(getDDMFormLangLocale);
 
 		Value getFieldValue = fieldValue.getValue();
 
 		Map<Locale, String> getFieldValues = getFieldValue.getValues();
 
-		Collection<String> getFieldValueCollection = getFieldValues.values();
-
 		String currentValue = String.valueOf(
-			getFieldValueCollection.toArray()[0]);
+			getFieldValues.get(getDDMFormLangLocale));
 
 		String fieldReference = fieldValue.getFieldReference();
-
-		DDMFormField getDDMFormField = fieldValue.getDDMFormField();
 
 		LocalizedValue getLabel = getDDMFormField.getLabel();
 
@@ -79,20 +93,20 @@ public class DDMFormUniqueFieldChecker {
 		String fieldLabel = String.valueOf(
 			getLableValuesCollection.toArray()[0]);
 
-		if (checkForUnique(currentValue, fieldReference)) {
+		for (Locale locale : ddmForm.getAvailableLocales()) {
+			getFieldValue.addString(locale, currentValue);
+		}
+
+		if (_isUnique(currentValue, fieldReference, fieldLang)) {
 			throw new DDMFormValuesValidationException.UniqueValue(fieldLabel);
 		}
 	}
 
 	public void checkForEdit(
 			ActionRequest actionRequest, ActionResponse actionResponse,
-			DDMFormFieldValue currentValue, DDMFormInstance ddmFormInstance)
+			DDMFormFieldValue fieldValue, DDMFormInstance ddmFormInstance,
+			long formInstanceRecordId)
 		throws IOException, PortalException {
-
-		long formInstanceRecordId = ParamUtil.getLong(
-			actionRequest, "formInstanceRecordId");
-
-		String currentFieldReference = currentValue.getFieldReference();
 
 		DDMFormInstanceRecord ddmFormInstanceRecord =
 			_ddmFormInstanceRecordLocalService.getDDMFormInstanceRecord(
@@ -103,67 +117,90 @@ public class DDMFormUniqueFieldChecker {
 		List<DDMFormFieldValue> ddmFormInstanceRecords =
 			ddmFormValues.getDDMFormFieldValues();
 
-		Value getCurrentValue = currentValue.getValue();
+		String currentFieldReference = fieldValue.getFieldReference();
 
-		Map<Locale, String> getCurrentValues = getCurrentValue.getValues();
+		DDMFormField currentDDMFormField = fieldValue.getDDMFormField();
 
-		Collection<String> getCurrentValuesCollection =
-			getCurrentValues.values();
+		DDMForm ddmForm = currentDDMFormField.getDDMForm();
 
-		String currentValue_ = String.valueOf(
-			getCurrentValuesCollection.toArray()[0]);
+		String languageId = LanguageUtil.getLanguageId(actionRequest);
 
-		DDMFormField getDDMFormField = currentValue.getDDMFormField();
+		Locale currentLocale = LocaleUtil.fromLanguageId(languageId);
 
-		LocalizedValue getLabel = getDDMFormField.getLabel();
+		Value currentValue = fieldValue.getValue();
 
-		Map<Locale, String> getLabelValues = getLabel.getValues();
+		Map<Locale, String> currentValues = currentValue.getValues();
 
-		Collection<String> getLableValuesCollection = getLabelValues.values();
+		String other = currentValues.get(currentLocale);
 
-		String fieldLabel = String.valueOf(
-			getLableValuesCollection.toArray()[0]);
+		Map<String, Integer> valueCountMap = new HashMap<>();
+
+		Collection<String> values = currentValues.values();
+
+		values.forEach(
+			element -> valueCountMap.put(
+				element, valueCountMap.getOrDefault(element, 0) + 1));
+
+		Set<Map.Entry<String, Integer>> entries = valueCountMap.entrySet();
+
+		Stream<Map.Entry<String, Integer>> stream = entries.stream();
+
+		String uniqueValue = stream.filter(
+			entry -> entry.getValue() == 1
+		).findFirst(
+		).map(
+			Map.Entry::getKey
+		).orElse(
+			other
+		);
+
+		LocalizedValue fieldLabel = currentDDMFormField.getLabel();
+
+		String fieldLabelValue = fieldLabel.getString(currentLocale);
 
 		String fieldReference = "";
-		boolean stillUnique = true;
+		boolean unique = true;
 
-		for (DDMFormFieldValue fieldValue : ddmFormInstanceRecords) {
-			Value getPrevFieldValue = fieldValue.getValue();
+		for (DDMFormFieldValue prevFieldValue : ddmFormInstanceRecords) {
+			Value prevValue = prevFieldValue.getValue();
 
-			Map<Locale, String> getPrevFieldValues =
-				getPrevFieldValue.getValues();
+			Map<Locale, String> prevValues = prevValue.getValues();
 
-			Collection<String> getPrevFieldValuesCollection =
-				getPrevFieldValues.values();
+			String prevValueString = prevValues.get(currentLocale);
 
-			String prevValue = String.valueOf(
-				getPrevFieldValuesCollection.toArray()[0]);
+			fieldReference = prevFieldValue.getFieldReference();
 
-			fieldReference = fieldValue.getFieldReference();
-
-			if (!currentValue_.equals(prevValue) &&
+			if (!uniqueValue.equals(prevValueString) &&
 				fieldReference.equals(currentFieldReference)) {
 
-				stillUnique = false;
+				unique = false;
 
 				break;
 			}
 		}
 
-		if (!stillUnique && checkForUnique(currentValue_, fieldReference)) {
+		if (!unique && _isUnique(uniqueValue, fieldReference, languageId)) {
 			DDMFormInstanceSettings formInstanceSettings =
 				ddmFormInstance.getSettingsModel();
 
 			String redirectURL = ParamUtil.getString(
 				actionRequest, "back", formInstanceSettings.redirectURL());
 
-			actionResponse.sendRedirect(redirectURL);
+			if (Validator.isNotNull(redirectURL)) {
+				actionResponse.sendRedirect(redirectURL);
+			}
 
-			throw new DDMFormValuesValidationException.UniqueValue(fieldLabel);
+			throw new DDMFormValuesValidationException.UniqueValue(
+				fieldLabelValue);
+		}
+
+		for (Locale locale : ddmForm.getAvailableLocales()) {
+			currentValue.addString(locale, uniqueValue);
 		}
 	}
 
-	public boolean checkForUnique(String fieldValue, String fieldReference)
+	private boolean _isUnique(
+			String fieldValue, String fieldReference, String fieldLang)
 		throws PortalException {
 
 		DynamicQuery dynamicQuery = _ddmContentLocalService.dynamicQuery();
@@ -172,8 +209,10 @@ public class DDMFormUniqueFieldChecker {
 		String reference = String.format("%%%s%%", fieldReference);
 
 		dynamicQuery.setProjection(ProjectionFactoryUtil.property("data"));
-		dynamicQuery.add(RestrictionsFactoryUtil.like("data", value));
-		dynamicQuery.add(RestrictionsFactoryUtil.like("data", reference));
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.and(
+				RestrictionsFactoryUtil.like("data", value),
+				RestrictionsFactoryUtil.like("data", reference)));
 
 		List<DDMContent> oldValues = _ddmContentLocalService.dynamicQuery(
 			dynamicQuery);
@@ -181,27 +220,22 @@ public class DDMFormUniqueFieldChecker {
 		for (Object oldValue : oldValues) {
 			String jsonString = String.valueOf(oldValue);
 
-			JSONObject createJSONObject = _jsonFactory.createJSONObject(
-				jsonString);
+			JSONObject jsonObject = _jsonFactory.createJSONObject(jsonString);
 
-			JSONArray jsonArray = createJSONObject.getJSONArray("fieldValues");
+			JSONArray jsonArray = jsonObject.getJSONArray("fieldValues");
 
 			for (int i = 0; i < jsonArray.length(); i++) {
-				String jsonReference = jsonArray.getJSONObject(
-					i
-				).getString(
-					"fieldReference"
-				);
+				JSONObject fieldValuesJSONObject = jsonArray.getJSONObject(i);
 
-				JSONObject jsonObject = jsonArray.getJSONObject(
-					i
-				).getJSONObject(
-					"value"
-				);
+				String jsonReference = fieldValuesJSONObject.getString(
+					"fieldReference");
 
-				String enUsValue = jsonObject.getString("en_US");
+				JSONObject valueJSONObject =
+					fieldValuesJSONObject.getJSONObject("value");
 
-				if (fieldValue.equals(enUsValue) &&
+				String value_ = valueJSONObject.getString(fieldLang);
+
+				if (fieldValue.equals(value_) &&
 					fieldReference.equals(jsonReference)) {
 
 					return true;
