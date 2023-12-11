@@ -134,8 +134,25 @@ public class AddFormInstanceRecordMVCActionCommand
 				actionRequest, ddmForm);
 		}
 
+		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
 		long ddmFormInstanceRecordId = ParamUtil.getLong(
 			actionRequest, "formInstanceRecordId");
+
+		if (ddmFormInstanceRecordId == 0) {
+			DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion =
+				_ddmFormInstanceRecordVersionLocalService.
+					fetchLatestFormInstanceRecordVersion(
+						themeDisplay.getUserId(), formInstanceId,
+						ddmFormInstance.getVersion(),
+						WorkflowConstants.STATUS_DRAFT);
+
+			if (!Objects.equals(ddmFormInstanceRecordVersion, null)) {
+				ddmFormInstanceRecordId =
+					ddmFormInstanceRecordVersion.getFormInstanceRecordId();
+			}
+		}
 
 		List<DDMFormFieldValue> ddmFormFieldValueList =
 			ddmFormValues.getDDMFormFieldValues();
@@ -150,16 +167,14 @@ public class AddFormInstanceRecordMVCActionCommand
 				if (ddmFormInstanceRecordId != 0) {
 					_ddmFormUniqueFieldChecker.checkForEdit(
 						actionRequest, actionResponse, fieldValue,
-						ddmFormInstance);
+						ddmFormInstance, ddmFormInstanceRecordId);
 				}
 				else {
-					_ddmFormUniqueFieldChecker.checkForAdd(fieldValue);
+					_ddmFormUniqueFieldChecker.checkForAdd(
+						actionRequest, fieldValue);
 				}
 			}
 		}
-
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
 
 		_addFormInstanceMVCCommandHelper.
 			updateRequiredFieldsAccordingToVisibility(
