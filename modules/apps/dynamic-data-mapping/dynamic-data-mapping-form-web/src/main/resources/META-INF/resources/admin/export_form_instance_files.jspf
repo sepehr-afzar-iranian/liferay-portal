@@ -1,0 +1,91 @@
+<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<div class="hide" id="<portlet:namespace />exportFormInstanceFiles">
+	<clay:alert
+		message="export-files-warning-message"
+	/>
+</div>
+
+<aui:script>
+	Liferay.provide(
+		window,
+		'<portlet:namespace />exportFormInstanceFiles',
+		function (url) {
+			var A = AUI();
+
+			var form = A.Node.create('<form />');
+
+			form.attr('method', 'POST');
+
+			var content = A.one('#<portlet:namespace />exportFormInstanceFiles');
+
+			if (content) {
+				form.append(content);
+
+				content.show();
+			}
+
+			var dialog = Liferay.Util.Window.getWindow({
+				dialog: {
+					bodyContent: form,
+					cssClass: 'ddm-form-export-modal',
+					resizable: false,
+					toolbars: {
+						footer: [
+							{
+								cssClass: 'btn-secondary',
+								label: '<liferay-ui:message key="cancel" />',
+								on: {
+									click: function () {
+										dialog.hide();
+									},
+								},
+							},
+							{
+								cssClass: 'btn-primary',
+								label: '<liferay-ui:message key="ok" />',
+								on: {
+									click: function () {
+										submitForm(form, url, false);
+
+										dialog.hide();
+									},
+								},
+							},
+						],
+						header: [
+							{
+								cssClass: 'close',
+								discardDefaultButtonCssClasses: true,
+								labelHTML: Liferay.Util.getLexiconIconTpl('times'),
+								on: {
+									click: function () {
+										dialog.hide();
+									},
+								},
+							},
+						],
+					},
+					width: 600,
+					height: 300,
+				},
+				title: '<%= UnicodeLanguageUtil.get(request, "export-files") %>',
+			});
+		},
+		['aui-alert', 'liferay-util-window']
+	);
+</aui:script>

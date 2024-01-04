@@ -157,7 +157,9 @@ public interface DDMFormInstanceSettings {
 
 	@DDMFormField(
 		label = "%send-the-email-notification-to-user",
-		properties = "showAsSwitcher=true", type = "checkbox"
+		properties = "showAsSwitcher=true",
+		tip = "%if-enabled-field-with-reference-of-userMail-will-be-used",
+		type = "checkbox"
 	)
 	public boolean sendEmailNotificationToUser();
 

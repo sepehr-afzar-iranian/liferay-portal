@@ -94,6 +94,28 @@ FormInstancePermissionCheckerHelper formInstancePermissionCheckerHelper = ddmFor
 		/>
 	</c:if>
 
+	<c:if test="<%= formInstancePermissionCheckerHelper.isShowExportIcon(formInstance) %>">
+		<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="/dynamic_data_mapping_form/export_form_instance_files" var="exportFormInstanceFilesURL">
+			<portlet:param name="formInstanceId" value="<%= String.valueOf(formInstance.getFormInstanceId()) %>" />
+		</liferay-portlet:resourceURL>
+
+		<%
+		StringBundler fSB = new StringBundler(5);
+
+		fSB.append("javascript:");
+		fSB.append(liferayPortletResponse.getNamespace());
+		fSB.append("exportFormInstanceFiles('");
+		fSB.append(exportFormInstanceFilesURL);
+		fSB.append("');");
+		%>
+
+		<liferay-ui:icon
+			cssClass='<%= !valid ? "disabled" : "" %>'
+			message="export-files"
+			url="<%= fSB.toString() %>"
+		/>
+	</c:if>
+
 	<c:if test="<%= formInstancePermissionCheckerHelper.isShowPermissionsIcon(formInstance) %>">
 		<liferay-security:permissionsURL
 			modelResource="<%= DDMFormInstance.class.getName() %>"

@@ -139,6 +139,7 @@ PortletURL portletURL = ddmFormViewFormInstanceRecordsDisplayContext.getPortletU
 </clay:container-fluid>
 
 <%@ include file="/admin/export_form_instance.jspf" %>
+<%@ include file="/admin/export_form_instance_files.jspf" %>
 
 <aui:script sandbox="<%= true %>">
 	var deleteRecords = function () {
