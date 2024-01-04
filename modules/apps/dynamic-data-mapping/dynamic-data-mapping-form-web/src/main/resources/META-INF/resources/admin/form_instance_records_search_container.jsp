@@ -70,7 +70,7 @@ PortletURL portletURL = ddmFormViewFormInstanceRecordsDisplayContext.getPortletU
 				for (DDMFormField ddmFormField : ddmFormViewFormInstanceRecordsDisplayContext.getDDMFormFields()) {
 					String columnName = ddmFormViewFormInstanceRecordsDisplayContext.getColumnName(ddmFormField);
 
-					if ((boolean)ddmFormField.getProperty("uniqueField")) {
+					if (Objects.equals(ddmFormField.getType(), "text") && (boolean)ddmFormField.getProperty("uniqueField")) {
 						String uniqueFlag = String.format(" (%s)", LanguageUtil.get(request, "unique"));
 
 						columnName = ddmFormViewFormInstanceRecordsDisplayContext.getColumnName(ddmFormField) + uniqueFlag;
