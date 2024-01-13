@@ -84,7 +84,9 @@ FormInstancePermissionCheckerHelper formInstancePermissionCheckerHelper = ddmFor
 		sb.append(liferayPortletResponse.getNamespace());
 		sb.append("exportFormInstance('");
 		sb.append(exportFormInstanceURL);
-		sb.append("');");
+		sb.append("', ");
+		sb.append(Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER)));
+		sb.append(");");
 		%>
 
 		<liferay-ui:icon
