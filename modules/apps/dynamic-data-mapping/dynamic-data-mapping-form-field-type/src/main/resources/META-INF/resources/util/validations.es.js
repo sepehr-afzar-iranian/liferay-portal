@@ -99,6 +99,7 @@ export const VALIDATIONS = {
 			parameterMessage: Liferay.Language.get('list-validation'),
 			regex: /^isInList\((.+), "(.*)"\)$/,
 			template: 'isInList({name}, "{parameter}")',
+			advanced: true,
 		},
 		{
 			label: Liferay.Language.get('is-not-home-phone-number'),
@@ -106,6 +107,7 @@ export const VALIDATIONS = {
 			parameterMessage: '',
 			regex: /^isHomePhoneNumber\((.+)\)$/,
 			template: 'isHomePhoneNumber({name})',
+			advanced: true,
 		},
 		{
 			label: Liferay.Language.get('is-not-mobile-phone-number'),
@@ -113,6 +115,7 @@ export const VALIDATIONS = {
 			parameterMessage: '',
 			regex: /^isMobilePhoneNumber\((.+)\)$/,
 			template: 'isMobilePhoneNumber({name})',
+			advanced: true,
 		},
 		{
 			label: Liferay.Language.get('is-not-national-code'),
@@ -120,6 +123,7 @@ export const VALIDATIONS = {
 			parameterMessage: '',
 			regex: /^isNationalCode\((.+)\)$/,
 			template: 'isNationalCode({name})',
+			advanced: true,
 		},
 		{
 			label: Liferay.Language.get('is-not-postal-code'),
@@ -127,6 +131,7 @@ export const VALIDATIONS = {
 			parameterMessage: '',
 			regex: /^isPostalCode\((.+)\)$/,
 			template: 'isPostalCode({name})',
+			advanced: true,
 		},
 		{
 			label: Liferay.Language.get('by-data-provider'),
@@ -134,6 +139,7 @@ export const VALIDATIONS = {
 			parameterMessage: '',
 			regex: /^DataProvider\((.+)\)$/,
 			template: 'DataProvider({name}, "{parameter}")',
+			advanced: true,
 		},
 	],
 };

@@ -314,6 +314,7 @@ const Main = ({
 	value = {},
 	visible,
 	dataProviders,
+	hasAdvancedFormBuilder,
 }) => {
 	const data = transformData({
 		dataProviders,
@@ -323,6 +324,7 @@ const Main = ({
 		initialValidations,
 		validation,
 		value,
+		hasAdvancedFormBuilder,
 	});
 
 	return (

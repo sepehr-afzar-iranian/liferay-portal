@@ -14,6 +14,7 @@
 
 package com.liferay.dynamic.data.mapping.form.field.type.internal.validation;
 
+import com.liferay.dynamic.data.mapping.constants.DDMConstants;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProvider;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderOutputParametersSettings;
@@ -38,6 +39,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
@@ -67,7 +69,13 @@ public class ValidationDDMFormFieldTemplateContextContributor
 		DDMFormField ddmFormField,
 		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
+		boolean hasAdvancedFormBuilder = Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
+
 		try {
+			if (!hasAdvancedFormBuilder) {
+				throw new Exception();
+			}
+
 			long groupId = portal.getScopeGroupId(
 				ddmFormFieldRenderingContext.getHttpServletRequest());
 
@@ -143,12 +151,16 @@ public class ValidationDDMFormFieldTemplateContextContributor
 				"dataProviders", dataproviders
 			).put(
 				"value", getValue(ddmFormFieldRenderingContext)
+			).put(
+				"hasAdvancedFormBuilder", true
 			).build();
 		}
 		catch (Exception exception1) {
 			try {
 				return HashMapBuilder.<String, Object>put(
 					"value", getValue(ddmFormFieldRenderingContext)
+				).put(
+					"hasAdvancedFormBuilder", hasAdvancedFormBuilder
 				).build();
 			}
 			catch (Exception exception2) {
