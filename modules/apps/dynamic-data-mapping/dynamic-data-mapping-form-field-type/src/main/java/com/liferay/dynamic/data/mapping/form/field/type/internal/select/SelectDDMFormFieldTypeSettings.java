@@ -46,6 +46,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				"setVisible('options', contains(getValue('dataSourceType'), \"manual\"))",
 				"setVisible('predefinedValue', contains(getValue('dataSourceType'), \"manual\"))",
 				"setVisible('validation', false)",
+				"setVisible('priceField', getBooleanProp('advanced.form.builder'))",
 				"setVisible('amountValues', getValue('priceField'))"
 			},
 			condition = "TRUE"

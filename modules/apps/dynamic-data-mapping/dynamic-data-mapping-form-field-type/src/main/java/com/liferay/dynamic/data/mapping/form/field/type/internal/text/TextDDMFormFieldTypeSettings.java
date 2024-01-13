@@ -51,7 +51,9 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				"setVisible('dataSourceType', getValue('autocomplete'))",
 				"setVisible('ddmDataProviderInstanceId', equals(getValue('dataSourceType'), \"data-provider\") and getValue('autocomplete'))",
 				"setVisible('ddmDataProviderInstanceOutput', equals(getValue('dataSourceType'), \"data-provider\") and getValue('autocomplete'))",
-				"setVisible('options', contains(getValue('dataSourceType'), \"manual\") and getValue('autocomplete'))"
+				"setVisible('options', contains(getValue('dataSourceType'), \"manual\") and getValue('autocomplete'))",
+				"setVisible('priceField', getBooleanProp('advanced.form.builder'))",
+				"setVisible('uniqueField', getBooleanProp('advanced.form.builder'))"
 			},
 			condition = "TRUE"
 		),
