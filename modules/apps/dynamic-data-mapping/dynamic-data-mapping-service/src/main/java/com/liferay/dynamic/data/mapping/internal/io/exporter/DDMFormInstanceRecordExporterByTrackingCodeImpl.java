@@ -19,6 +19,7 @@ import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
+import com.liferay.dynamic.data.mapping.constants.DDMConstants;
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.util.DLURLHelper;
 import com.liferay.dynamic.data.mapping.exception.FormInstanceRecordExporterException;
@@ -57,6 +58,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -149,12 +151,15 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 					localizedValue.getString(locale));
 			});
 
-		ddmFormFieldsLabel.put(
-			_TRACKING_CODE,
-			LanguageUtil.get(
-				ResourceBundleUtil.getBundle(
-					locale, DDMFormInstanceRecordExporterByTrackingCode.class),
-				"tracking-code"));
+		if (hasAdvancedFormBuilder) {
+			ddmFormFieldsLabel.put(
+				_TRACKING_CODE,
+				LanguageUtil.get(
+					ResourceBundleUtil.getBundle(
+						locale,
+						DDMFormInstanceRecordExporterByTrackingCode.class),
+					"tracking-code"));
+		}
 		ddmFormFieldsLabel.put(_STATUS, LanguageUtil.get(locale, _STATUS));
 		ddmFormFieldsLabel.put(
 			_MODIFIED_DATE, LanguageUtil.get(locale, "modified-date"));
@@ -225,8 +230,10 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 			DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion =
 				ddmFormInstanceRecord.getFormInstanceRecordVersion();
 
-			ddmFormFieldsValue.put(
-				_TRACKING_CODE, ddmFormInstanceRecord.getTrackingCode());
+			if (hasAdvancedFormBuilder) {
+				ddmFormFieldsValue.put(
+					_TRACKING_CODE, ddmFormInstanceRecord.getTrackingCode());
+			}
 
 			ddmFormFieldsValue.put(
 				_STATUS,
@@ -449,5 +456,7 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DDMFormInstanceRecordExporterByTrackingCodeImpl.class);
+
+	private final Boolean hasAdvancedFormBuilder = Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
 
 }
