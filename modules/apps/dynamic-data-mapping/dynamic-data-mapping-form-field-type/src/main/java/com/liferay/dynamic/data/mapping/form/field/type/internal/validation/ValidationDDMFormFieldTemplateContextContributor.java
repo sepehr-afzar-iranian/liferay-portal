@@ -69,7 +69,8 @@ public class ValidationDDMFormFieldTemplateContextContributor
 		DDMFormField ddmFormField,
 		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
-		boolean hasAdvancedFormBuilder = Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
+		boolean hasAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
 
 		try {
 			if (!hasAdvancedFormBuilder) {
@@ -150,17 +151,17 @@ public class ValidationDDMFormFieldTemplateContextContributor
 			return HashMapBuilder.<String, Object>put(
 				"dataProviders", dataproviders
 			).put(
-				"value", getValue(ddmFormFieldRenderingContext)
-			).put(
 				"hasAdvancedFormBuilder", true
+			).put(
+				"value", getValue(ddmFormFieldRenderingContext)
 			).build();
 		}
 		catch (Exception exception1) {
 			try {
 				return HashMapBuilder.<String, Object>put(
-					"value", getValue(ddmFormFieldRenderingContext)
-				).put(
 					"hasAdvancedFormBuilder", hasAdvancedFormBuilder
+				).put(
+					"value", getValue(ddmFormFieldRenderingContext)
 				).build();
 			}
 			catch (Exception exception2) {

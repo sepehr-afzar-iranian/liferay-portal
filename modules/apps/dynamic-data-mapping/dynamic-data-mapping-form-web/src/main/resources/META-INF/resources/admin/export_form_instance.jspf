@@ -62,6 +62,7 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 	<%
 	Calendar calendar = CalendarFactoryUtil.getCalendar(timeZone, locale);
 	%>
+
 <div class="hide" id="<portlet:namespace />dateRange">
 	<aui:fieldset>
 		<clay:row>

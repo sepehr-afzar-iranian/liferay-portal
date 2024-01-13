@@ -71,22 +71,29 @@ const getDataProviderOutputFromParameter = () => {
 		return mutDataProviderOutput;
 	};
 };
-const transformValidations = (validations, initialDataType, hasAdvancedFormBuilder) => {
+const transformValidations = (
+	validations,
+	initialDataType,
+	hasAdvancedFormBuilder
+) => {
 	const dataType = initialDataType == 'string' ? initialDataType : 'numeric';
 
-	return VALIDATIONS[dataType].filter((validation) => {
-		if (hasAdvancedFormBuilder) {
-			return true;
-		} else {
-			return validation.advanced !== true;
-		}
-	}).map((validation) => {
-		return {
-			...validation,
-			checked: false,
-			value: validation.name,
-		};
-	});
+	return VALIDATIONS[dataType]
+		.filter((validation) => {
+			if (hasAdvancedFormBuilder) {
+				return true;
+			}
+			else {
+				return validation.advanced !== true;
+			}
+		})
+		.map((validation) => {
+			return {
+				...validation,
+				checked: false,
+				value: validation.name,
+			};
+		});
 };
 
 const getValidation = (
@@ -234,17 +241,21 @@ export const transformData = ({
 	dataProviders,
 	defaultLanguageId,
 	editingLanguageId,
+	hasAdvancedFormBuilder,
 	initialDataType,
 	initialValidations,
 	validation,
 	value,
-	hasAdvancedFormBuilder,
 }) => {
 	const dataType =
 		validation && validation.dataType
 			? validation.dataType
 			: initialDataType;
-	const validations = transformValidations(initialValidations, dataType, hasAdvancedFormBuilder);
+	const validations = transformValidations(
+		initialValidations,
+		dataType,
+		hasAdvancedFormBuilder
+	);
 	const parsedValidation = getValidation(
 		defaultLanguageId,
 		editingLanguageId,

@@ -21,6 +21,8 @@ import com.liferay.dynamic.data.mapping.model.DDMFormFieldType;
  */
 public class DDMConstants {
 
+	public static final String ADVANCED_FORM_BUILDER = "advanced.form.builder";
+
 	public static final String AVAILABLE_FIELDS =
 		"Liferay.FormBuilder.AVAILABLE_FIELDS.DDM_STRUCTURE";
 
@@ -33,8 +35,6 @@ public class DDMConstants {
 
 	public static final String SERVICE_NAME =
 		"com.liferay.dynamic.data.mapping";
-
-	public static final String ADVANCED_FORM_BUILDER = "advanced.form.builder";
 
 	public static final String[] SUPPORTED_DDM_FORM_FIELD_TYPES = {
 		DDMFormFieldType.CHECKBOX, DDMFormFieldType.CHECKBOX_MULTIPLE,

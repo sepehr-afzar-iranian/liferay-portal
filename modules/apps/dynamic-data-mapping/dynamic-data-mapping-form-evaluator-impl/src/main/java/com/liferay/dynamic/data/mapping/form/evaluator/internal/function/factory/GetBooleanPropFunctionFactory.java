@@ -27,7 +27,8 @@ import org.osgi.service.component.annotations.Component;
 	property = "name=" + GetBooleanPropFunction.NAME,
 	service = DDMExpressionFunctionFactory.class
 )
-public class GetBooleanPropFunctionFactory implements DDMExpressionFunctionFactory {
+public class GetBooleanPropFunctionFactory
+	implements DDMExpressionFunctionFactory {
 
 	@Override
 	public DDMExpressionFunction create() {

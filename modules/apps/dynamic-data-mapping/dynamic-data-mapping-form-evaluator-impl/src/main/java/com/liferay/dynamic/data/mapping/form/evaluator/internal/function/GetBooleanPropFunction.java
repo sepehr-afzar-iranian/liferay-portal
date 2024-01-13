@@ -27,7 +27,6 @@ public class GetBooleanPropFunction
 
 	@Override
 	public Boolean apply(String field) {
-
 		return Boolean.parseBoolean(PropsUtil.get(field));
 	}
 

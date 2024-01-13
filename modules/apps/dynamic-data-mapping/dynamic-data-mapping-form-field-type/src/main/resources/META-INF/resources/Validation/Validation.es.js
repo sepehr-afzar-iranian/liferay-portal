@@ -320,11 +320,11 @@ const Main = ({
 		dataProviders,
 		defaultLanguageId,
 		editingLanguageId,
+		hasAdvancedFormBuilder,
 		initialDataType,
 		initialValidations,
 		validation,
 		value,
-		hasAdvancedFormBuilder,
 	});
 
 	return (
