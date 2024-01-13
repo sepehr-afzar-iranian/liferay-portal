@@ -14,6 +14,7 @@
 
 package com.liferay.dynamic.data.mapping.form.web.internal.display.context;
 
+import com.liferay.dynamic.data.mapping.constants.DDMConstants;
 import com.liferay.dynamic.data.mapping.constants.DDMPortletKeys;
 import com.liferay.dynamic.data.mapping.form.builder.context.DDMFormBuilderContextFactory;
 import com.liferay.dynamic.data.mapping.form.builder.context.DDMFormBuilderContextRequest;
@@ -64,6 +65,7 @@ import com.liferay.dynamic.data.mapping.util.comparator.DDMFormInstanceModifiedD
 import com.liferay.dynamic.data.mapping.util.comparator.DDMFormInstanceNameComparator;
 import com.liferay.frontend.js.loader.modules.extender.npm.NPMResolver;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
@@ -104,6 +106,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -258,7 +261,16 @@ public class DDMFormAdminDisplayContext {
 			return null;
 		}
 
-		return _getCreationMenu();
+		boolean hasAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
+
+		if (hasAdvancedFormBuilder) {
+			return _getCreationMenu();
+		}
+
+		return CreationMenuBuilder.addPrimaryDropdownItem(
+			getAddFormDropdownItem()
+		).build();
 	}
 
 	public String getCSVExport() {
