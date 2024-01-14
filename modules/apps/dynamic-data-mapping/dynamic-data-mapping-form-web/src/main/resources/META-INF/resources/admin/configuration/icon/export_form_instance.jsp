@@ -31,7 +31,9 @@ sb.append("javascript:");
 sb.append(liferayPortletResponse.getNamespace());
 sb.append("exportFormInstance('");
 sb.append(exportFormInstanceURL);
-sb.append("');");
+sb.append("', ");
+sb.append(Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER)));
+sb.append(");");
 %>
 
 <liferay-ui:icon
@@ -53,7 +55,9 @@ fSB.append(exportFormInstanceFilesURL);
 fSB.append("');");
 %>
 
-<liferay-ui:icon
-	message="export-files"
-	url="<%= fSB.toString() %>"
-/>
+<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER)) %>">
+	<liferay-ui:icon
+		message="export-files"
+		url="<%= fSB.toString() %>"
+	/>
+</c:if>
