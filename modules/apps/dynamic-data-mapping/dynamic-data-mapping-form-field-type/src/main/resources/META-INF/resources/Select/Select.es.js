@@ -287,7 +287,7 @@ const DropdownListWithSearch = ({
 	return (
 		<>
 			<ClayDropDown.Search
-				onChange={(event) => setQuery(event.target.value)}
+				onChange={(event) => setQuery(event.toString())}
 				value={query}
 			/>
 			{filteredOptions.length > 1 ? (
@@ -378,12 +378,13 @@ const Select = ({
 
 			const menuElementTop = height + scrollTop + top;
 
-			if (menuElementTop <= getDocumentHeight()) {
-				menuElementRef.current.style.setProperty(
-					'top',
-					`${menuElementTop}px`
-				);
-			}
+			//commented this block, because of not scrolled combo in chrome
+			// if (menuElementTop <= getDocumentHeight()) {
+			// 	menuElementRef.current.style.setProperty(
+			// 		'top',
+			// 		`${menuElementTop}px`
+			// 	);
+			// }
 		};
 
 		document.addEventListener('scroll', onScroll, true);
