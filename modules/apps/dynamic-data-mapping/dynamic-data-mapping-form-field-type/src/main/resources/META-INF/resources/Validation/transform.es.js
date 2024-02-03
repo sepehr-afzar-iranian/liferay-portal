@@ -74,14 +74,22 @@ const getDataProviderOutputFromParameter = () => {
 const transformValidations = (
 	validations,
 	initialDataType,
-	hasAdvancedFormBuilder
+	hasDataProviderAdvancedFormBuilder,
+	hasRegexValidationAdvancedFormBuilder,
+	hasListValidationAdvancedFormBuilder
 ) => {
 	const dataType = initialDataType == 'string' ? initialDataType : 'numeric';
 
 	return VALIDATIONS[dataType]
 		.filter((validation) => {
-			if (hasAdvancedFormBuilder) {
-				return true;
+			if (validation.name === 'isInList') {
+				return hasListValidationAdvancedFormBuilder;
+			}
+			else if (validation.name === 'dataprovider') {
+				return hasDataProviderAdvancedFormBuilder;
+			}
+			else if (hasRegexValidationAdvancedFormBuilder) {
+				return true
 			}
 			else {
 				return validation.advanced !== true;
@@ -241,7 +249,9 @@ export const transformData = ({
 	dataProviders,
 	defaultLanguageId,
 	editingLanguageId,
-	hasAdvancedFormBuilder,
+	hasDataProviderAdvancedFormBuilder,
+	hasRegexValidationAdvancedFormBuilder,
+	hasListValidationAdvancedFormBuilder,
 	initialDataType,
 	initialValidations,
 	validation,
@@ -254,7 +264,9 @@ export const transformData = ({
 	const validations = transformValidations(
 		initialValidations,
 		dataType,
-		hasAdvancedFormBuilder
+		hasDataProviderAdvancedFormBuilder,
+		hasRegexValidationAdvancedFormBuilder,
+		hasListValidationAdvancedFormBuilder
 	);
 	const parsedValidation = getValidation(
 		defaultLanguageId,

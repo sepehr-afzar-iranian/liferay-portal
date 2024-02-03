@@ -23,6 +23,12 @@ public class DDMConstants {
 
 	public static final String ADVANCED_FORM_BUILDER = "advanced.form.builder";
 
+	public static final String ADVANCED_FORM_BUILDER_LIST_VALIDATION = "advanced.form.builder.validation.list";
+
+	public static final String ADVANCED_FORM_BUILDER_REGEX_VALIDATION = "advanced.form.builder.validation.regex";
+
+	public static final String ADVANCED_FORM_BUILDER_DATA_PROVIDER = "advanced.form.builder.validation.dataprovider";
+
 	public static final String AVAILABLE_FIELDS =
 		"Liferay.FormBuilder.AVAILABLE_FIELDS.DDM_STRUCTURE";
 

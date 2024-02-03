@@ -69,11 +69,17 @@ public class ValidationDDMFormFieldTemplateContextContributor
 		DDMFormField ddmFormField,
 		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
-		boolean hasAdvancedFormBuilder = Boolean.parseBoolean(
-			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
+		boolean hasDataProviderAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_DATA_PROVIDER));
+
+		boolean hasRegexValidationAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_REGEX_VALIDATION));
+
+		boolean hasListValidationAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_LIST_VALIDATION));
 
 		try {
-			if (!hasAdvancedFormBuilder) {
+			if (!hasDataProviderAdvancedFormBuilder) {
 				throw new Exception();
 			}
 
@@ -151,7 +157,11 @@ public class ValidationDDMFormFieldTemplateContextContributor
 			return HashMapBuilder.<String, Object>put(
 				"dataProviders", dataproviders
 			).put(
-				"hasAdvancedFormBuilder", true
+				"hasDataProviderAdvancedFormBuilder", true
+			).put(
+				"hasRegexValidationAdvancedFormBuilder", hasRegexValidationAdvancedFormBuilder
+			).put(
+				"hasListValidationAdvancedFormBuilder", hasListValidationAdvancedFormBuilder
 			).put(
 				"value", getValue(ddmFormFieldRenderingContext)
 			).build();
@@ -159,7 +169,11 @@ public class ValidationDDMFormFieldTemplateContextContributor
 		catch (Exception exception1) {
 			try {
 				return HashMapBuilder.<String, Object>put(
-					"hasAdvancedFormBuilder", hasAdvancedFormBuilder
+					"hasDataProviderAdvancedFormBuilder", hasDataProviderAdvancedFormBuilder
+				).put(
+					"hasRegexValidationAdvancedFormBuilder", hasRegexValidationAdvancedFormBuilder
+				).put(
+					"hasListValidationAdvancedFormBuilder", hasListValidationAdvancedFormBuilder
 				).put(
 					"value", getValue(ddmFormFieldRenderingContext)
 				).build();
