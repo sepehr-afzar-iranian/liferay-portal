@@ -32,7 +32,7 @@ sb.append(liferayPortletResponse.getNamespace());
 sb.append("exportFormInstance('");
 sb.append(exportFormInstanceURL);
 sb.append("', ");
-sb.append(Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER)));
+sb.append(Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_EXPORT_FORM_RANGE_DATE)));
 sb.append(");");
 %>
 

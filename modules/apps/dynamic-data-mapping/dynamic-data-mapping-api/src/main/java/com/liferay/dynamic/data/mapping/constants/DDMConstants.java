@@ -21,8 +21,6 @@ import com.liferay.dynamic.data.mapping.model.DDMFormFieldType;
  */
 public class DDMConstants {
 
-	public static final String ADVANCED_FORM_BUILDER = "advanced.form.builder";
-
 	public static final String ADVANCED_FORM_BUILDER_LIST_VALIDATION = "advanced.form.builder.validation.list";
 
 	public static final String ADVANCED_FORM_BUILDER_PRICE_FIELD = "advanced.form.builder.pricefield";
@@ -38,6 +36,8 @@ public class DDMConstants {
 	public static final String ADVANCED_FORM_BUILDER_IMPORT_FORM_TEMPLATE = "advanced.form.builder.import.form.template";
 
 	public static final String ADVANCED_FORM_BUILDER_EXPORT_FORM_FILES = "advanced.form.builder.export.form.files";
+
+	public static final String ADVANCED_FORM_BUILDER_EXPORT_FORM_RANGE_DATE = "advanced.form.builder.export.form.range.date";
 
 	public static final String ADVANCED_FORM_BUILDER_REGEX_VALIDATION = "advanced.form.builder.validation.regex";
 
