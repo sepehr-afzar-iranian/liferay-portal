@@ -415,6 +415,7 @@ const Main = ({
 							.locale('en');
 						setGeoDate(geoDate);
 						setSelectedDay(value);
+						onChange({}, geoDate);
 					}}
 					renderInput={renderCustomInput}
 					shouldHighlightWeekends
