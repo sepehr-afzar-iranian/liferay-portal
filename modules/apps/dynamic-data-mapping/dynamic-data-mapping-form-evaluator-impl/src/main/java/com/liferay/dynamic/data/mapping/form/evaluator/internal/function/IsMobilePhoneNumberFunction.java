@@ -58,6 +58,6 @@ public class IsMobilePhoneNumberFunction
 	}
 
 	private static final Pattern _mobilePhoneNumberPattern = Pattern.compile(
-		"(\\+98|0)9(1\\d|3[1-9]|2[1-9])-?\\d{3}-?\\d{4}");
+		"(\\+98|0)9(1\\d|3[1-9]|2[1-9]|0[1-9])-?\\d{3}-?\\d{4}");
 
 }
