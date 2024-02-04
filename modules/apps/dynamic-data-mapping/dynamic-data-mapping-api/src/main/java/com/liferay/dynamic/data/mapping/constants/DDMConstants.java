@@ -33,6 +33,8 @@ public class DDMConstants {
 
 	public static final String ADVANCED_FORM_BUILDER_EMAIL_NOTIFICATION = "advanced.form.builder.email.notification";
 
+	public static final String ADVANCED_FORM_BUILDER_TRACKING_CODE = "advanced.form.builder.trackingcode";
+
 	public static final String ADVANCED_FORM_BUILDER_REGEX_VALIDATION = "advanced.form.builder.validation.regex";
 
 	public static final String ADVANCED_FORM_BUILDER_DATA_PROVIDER = "advanced.form.builder.validation.dataprovider";

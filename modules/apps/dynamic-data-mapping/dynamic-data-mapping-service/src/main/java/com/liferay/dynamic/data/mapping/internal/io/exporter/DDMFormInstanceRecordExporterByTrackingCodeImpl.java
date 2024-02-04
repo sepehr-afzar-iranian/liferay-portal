@@ -151,7 +151,7 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 					localizedValue.getString(locale));
 			});
 
-		if (_HAS_ADVANCED_FORM_BUILDER) {
+		if (_HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE) {
 			ddmFormFieldsLabel.put(
 				_TRACKING_CODE,
 				LanguageUtil.get(
@@ -231,7 +231,7 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 			DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion =
 				ddmFormInstanceRecord.getFormInstanceRecordVersion();
 
-			if (_HAS_ADVANCED_FORM_BUILDER) {
+			if (_HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE) {
 				ddmFormFieldsValue.put(
 					_TRACKING_CODE, ddmFormInstanceRecord.getTrackingCode());
 			}
@@ -449,8 +449,8 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 
 	private static final String _AUTHOR = "author";
 
-	private static final Boolean _HAS_ADVANCED_FORM_BUILDER =
-		Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
+	private static final Boolean _HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE =
+		Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE));
 
 	private static final String _MODIFIED_DATE = "modifiedDate";
 

@@ -69,7 +69,7 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 						<clay:container-fluid>
 							<h1 class="ddm-form-name"><%= HtmlUtil.escape(GetterUtil.getString(title.getString(displayLocale), title.getString(title.getDefaultLocale()))) %></h1>
 
-							<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER)) %>">
+							<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE)) %>">
 								<h2 class="ddm-form-description"><liferay-ui:message key="tracking-code-message" />: <%= ParamUtil.getString(request, "trackingCode") %></h2>
 							</c:if>
 
