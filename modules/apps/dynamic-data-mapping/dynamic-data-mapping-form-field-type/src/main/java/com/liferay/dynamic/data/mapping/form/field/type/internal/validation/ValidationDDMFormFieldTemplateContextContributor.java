@@ -14,6 +14,7 @@
 
 package com.liferay.dynamic.data.mapping.form.field.type.internal.validation;
 
+import com.liferay.dynamic.data.mapping.constants.DDMConstants;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProvider;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderInvoker;
 import com.liferay.dynamic.data.mapping.data.provider.DDMDataProviderOutputParametersSettings;
@@ -38,6 +39,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
@@ -67,7 +69,20 @@ public class ValidationDDMFormFieldTemplateContextContributor
 		DDMFormField ddmFormField,
 		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
+		boolean hasDataProviderAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_DATA_PROVIDER));
+
+		boolean hasRegexValidationAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_REGEX_VALIDATION));
+
+		boolean hasListValidationAdvancedFormBuilder = Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_LIST_VALIDATION));
+
 		try {
+			if (!hasDataProviderAdvancedFormBuilder) {
+				throw new Exception();
+			}
+
 			long groupId = portal.getScopeGroupId(
 				ddmFormFieldRenderingContext.getHttpServletRequest());
 
@@ -142,12 +157,29 @@ public class ValidationDDMFormFieldTemplateContextContributor
 			return HashMapBuilder.<String, Object>put(
 				"dataProviders", dataproviders
 			).put(
+				"hasDataProviderAdvancedFormBuilder", true
+			).put(
+				"hasListValidationAdvancedFormBuilder",
+				hasListValidationAdvancedFormBuilder
+			).put(
+				"hasRegexValidationAdvancedFormBuilder",
+				hasRegexValidationAdvancedFormBuilder
+			).put(
 				"value", getValue(ddmFormFieldRenderingContext)
 			).build();
 		}
 		catch (Exception exception1) {
 			try {
 				return HashMapBuilder.<String, Object>put(
+					"hasDataProviderAdvancedFormBuilder",
+					hasDataProviderAdvancedFormBuilder
+				).put(
+					"hasListValidationAdvancedFormBuilder",
+					hasListValidationAdvancedFormBuilder
+				).put(
+					"hasRegexValidationAdvancedFormBuilder",
+					hasRegexValidationAdvancedFormBuilder
+				).put(
 					"value", getValue(ddmFormFieldRenderingContext)
 				).build();
 			}

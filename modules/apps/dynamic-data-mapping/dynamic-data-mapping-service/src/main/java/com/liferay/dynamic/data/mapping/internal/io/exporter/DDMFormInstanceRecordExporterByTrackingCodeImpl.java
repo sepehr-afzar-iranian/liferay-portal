@@ -21,6 +21,7 @@ import com.ibm.icu.util.ULocale;
 
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.util.DLURLHelper;
+import com.liferay.dynamic.data.mapping.constants.DDMConstants;
 import com.liferay.dynamic.data.mapping.exception.FormInstanceRecordExporterException;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTypeServicesTracker;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueRenderer;
@@ -60,6 +61,7 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -149,12 +151,16 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 					localizedValue.getString(locale));
 			});
 
-		ddmFormFieldsLabel.put(
-			_TRACKING_CODE,
-			LanguageUtil.get(
-				ResourceBundleUtil.getBundle(
-					locale, DDMFormInstanceRecordExporterByTrackingCode.class),
-				"tracking-code"));
+		if (_HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE) {
+			ddmFormFieldsLabel.put(
+				_TRACKING_CODE,
+				LanguageUtil.get(
+					ResourceBundleUtil.getBundle(
+						locale,
+						DDMFormInstanceRecordExporterByTrackingCode.class),
+					"tracking-code"));
+		}
+
 		ddmFormFieldsLabel.put(_STATUS, LanguageUtil.get(locale, _STATUS));
 		ddmFormFieldsLabel.put(
 			_MODIFIED_DATE, LanguageUtil.get(locale, "modified-date"));
@@ -225,8 +231,10 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 			DDMFormInstanceRecordVersion ddmFormInstanceRecordVersion =
 				ddmFormInstanceRecord.getFormInstanceRecordVersion();
 
-			ddmFormFieldsValue.put(
-				_TRACKING_CODE, ddmFormInstanceRecord.getTrackingCode());
+			if (_HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE) {
+				ddmFormFieldsValue.put(
+					_TRACKING_CODE, ddmFormInstanceRecord.getTrackingCode());
+			}
 
 			ddmFormFieldsValue.put(
 				_STATUS,
@@ -440,6 +448,10 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 	}
 
 	private static final String _AUTHOR = "author";
+
+	private static final Boolean _HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE =
+		Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE));
 
 	private static final String _MODIFIED_DATE = "modifiedDate";
 

@@ -97,10 +97,12 @@ PortletURL portletURL = ddmFormViewFormInstanceRecordsDisplayContext.getPortletU
 				}
 				%>
 
-				<liferay-ui:search-container-column-text
-					name="tracking-code"
-					value="<%= formInstanceRecord.getTrackingCode() %>"
-				/>
+				<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE)) %>">
+					<liferay-ui:search-container-column-text
+						name="tracking-code"
+						value="<%= formInstanceRecord.getTrackingCode() %>"
+					/>
+				</c:if>
 
 				<liferay-ui:search-container-column-status
 					name="status"

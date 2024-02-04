@@ -71,16 +71,37 @@ const getDataProviderOutputFromParameter = () => {
 		return mutDataProviderOutput;
 	};
 };
-const transformValidations = (validations, initialDataType) => {
+const transformValidations = (
+	validations,
+	initialDataType,
+	hasDataProviderAdvancedFormBuilder,
+	hasRegexValidationAdvancedFormBuilder,
+	hasListValidationAdvancedFormBuilder
+) => {
 	const dataType = initialDataType == 'string' ? initialDataType : 'numeric';
 
-	return VALIDATIONS[dataType].map((validation) => {
-		return {
-			...validation,
-			checked: false,
-			value: validation.name,
-		};
-	});
+	return VALIDATIONS[dataType]
+		.filter((validation) => {
+			if (validation.name === 'isInList') {
+				return hasListValidationAdvancedFormBuilder;
+			}
+			else if (validation.name === 'dataprovider') {
+				return hasDataProviderAdvancedFormBuilder;
+			}
+			else if (hasRegexValidationAdvancedFormBuilder) {
+				return true;
+			}
+			else {
+				return validation.advanced !== true;
+			}
+		})
+		.map((validation) => {
+			return {
+				...validation,
+				checked: false,
+				value: validation.name,
+			};
+		});
 };
 
 const getValidation = (
@@ -228,6 +249,9 @@ export const transformData = ({
 	dataProviders,
 	defaultLanguageId,
 	editingLanguageId,
+	hasDataProviderAdvancedFormBuilder,
+	hasListValidationAdvancedFormBuilder,
+	hasRegexValidationAdvancedFormBuilder,
 	initialDataType,
 	initialValidations,
 	validation,
@@ -237,7 +261,13 @@ export const transformData = ({
 		validation && validation.dataType
 			? validation.dataType
 			: initialDataType;
-	const validations = transformValidations(initialValidations, dataType);
+	const validations = transformValidations(
+		initialValidations,
+		dataType,
+		hasDataProviderAdvancedFormBuilder,
+		hasRegexValidationAdvancedFormBuilder,
+		hasListValidationAdvancedFormBuilder
+	);
 	const parsedValidation = getValidation(
 		defaultLanguageId,
 		editingLanguageId,

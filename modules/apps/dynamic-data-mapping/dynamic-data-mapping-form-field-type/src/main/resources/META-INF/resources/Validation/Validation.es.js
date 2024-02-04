@@ -314,11 +314,17 @@ const Main = ({
 	value = {},
 	visible,
 	dataProviders,
+	hasDataProviderAdvancedFormBuilder,
+	hasRegexValidationAdvancedFormBuilder,
+	hasListValidationAdvancedFormBuilder,
 }) => {
 	const data = transformData({
 		dataProviders,
 		defaultLanguageId,
 		editingLanguageId,
+		hasDataProviderAdvancedFormBuilder,
+		hasListValidationAdvancedFormBuilder,
+		hasRegexValidationAdvancedFormBuilder,
 		initialDataType,
 		initialValidations,
 		validation,

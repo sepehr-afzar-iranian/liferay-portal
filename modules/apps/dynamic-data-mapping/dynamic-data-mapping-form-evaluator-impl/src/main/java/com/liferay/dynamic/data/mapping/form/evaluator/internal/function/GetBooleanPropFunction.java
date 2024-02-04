@@ -15,49 +15,24 @@
 package com.liferay.dynamic.data.mapping.form.evaluator.internal.function;
 
 import com.liferay.dynamic.data.mapping.expression.DDMExpressionFunction;
-import com.liferay.petra.string.CharPool;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 /**
  * @author Yousef Ghadiri
  */
-public class IsMobilePhoneNumberFunction
+public class GetBooleanPropFunction
 	implements DDMExpressionFunction.Function1<String, Boolean> {
 
-	public static final String NAME = "isMobilePhoneNumber";
+	public static final String NAME = "getBooleanProp";
 
 	@Override
-	public Boolean apply(String parameter) {
-		return Stream.of(
-			StringUtil.split(parameter, CharPool.COMMA)
-		).map(
-			String::trim
-		).allMatch(
-			this::_isMobilePhoneNumber
-		);
+	public Boolean apply(String field) {
+		return Boolean.parseBoolean(PropsUtil.get(field));
 	}
 
 	@Override
 	public String getName() {
 		return NAME;
 	}
-
-	private boolean _isMobilePhoneNumber(String mobilePhoneNumber) {
-		if (Validator.isNull(mobilePhoneNumber)) {
-			return false;
-		}
-
-		Matcher matcher = _mobilePhoneNumberPattern.matcher(mobilePhoneNumber);
-
-		return matcher.matches();
-	}
-
-	private static final Pattern _mobilePhoneNumberPattern = Pattern.compile(
-		"(\\+98|0)9(1\\d|3[1-9]|2[1-9]|0[1-9])-?\\d{3}-?\\d{4}");
 
 }

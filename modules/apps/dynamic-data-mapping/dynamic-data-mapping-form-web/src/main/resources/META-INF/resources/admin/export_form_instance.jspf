@@ -63,6 +63,7 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 	Calendar calendar = CalendarFactoryUtil.getCalendar(timeZone, locale);
 	%>
 
+<div class="hide" id="<portlet:namespace />dateRange">
 	<aui:fieldset>
 		<clay:row>
 			<clay:col>
@@ -133,16 +134,19 @@ boolean csvExportDisabled = StringUtil.equals("disabled", csvExport);
 				</aui:field-wrapper>
 			</clay:col>
 		</clay:row>
-	</aui:fieldset>
+	</aui:fieldset></div>
 </div>
 
 <aui:script>
 	Liferay.provide(
 		window,
 		'<portlet:namespace />exportFormInstance',
-		function (url) {
+		function (url, hasAdvancedFormBuilder) {
 			var A = AUI();
-
+			var showDateRange = A.one('#<portlet:namespace />dateRange');
+			if (hasAdvancedFormBuilder) {
+				showDateRange.show();
+			}
 			var form = A.Node.create('<form />');
 
 			form.attr('method', 'POST');
