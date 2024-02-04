@@ -450,7 +450,8 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 	private static final String _AUTHOR = "author";
 
 	private static final Boolean _HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE =
-		Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE));
+		Boolean.parseBoolean(
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE));
 
 	private static final String _MODIFIED_DATE = "modifiedDate";
 

@@ -159,9 +159,11 @@ public class ValidationDDMFormFieldTemplateContextContributor
 			).put(
 				"hasDataProviderAdvancedFormBuilder", true
 			).put(
-				"hasRegexValidationAdvancedFormBuilder", hasRegexValidationAdvancedFormBuilder
+				"hasListValidationAdvancedFormBuilder",
+				hasListValidationAdvancedFormBuilder
 			).put(
-				"hasListValidationAdvancedFormBuilder", hasListValidationAdvancedFormBuilder
+				"hasRegexValidationAdvancedFormBuilder",
+				hasRegexValidationAdvancedFormBuilder
 			).put(
 				"value", getValue(ddmFormFieldRenderingContext)
 			).build();
@@ -169,11 +171,14 @@ public class ValidationDDMFormFieldTemplateContextContributor
 		catch (Exception exception1) {
 			try {
 				return HashMapBuilder.<String, Object>put(
-					"hasDataProviderAdvancedFormBuilder", hasDataProviderAdvancedFormBuilder
+					"hasDataProviderAdvancedFormBuilder",
+					hasDataProviderAdvancedFormBuilder
 				).put(
-					"hasRegexValidationAdvancedFormBuilder", hasRegexValidationAdvancedFormBuilder
+					"hasListValidationAdvancedFormBuilder",
+					hasListValidationAdvancedFormBuilder
 				).put(
-					"hasListValidationAdvancedFormBuilder", hasListValidationAdvancedFormBuilder
+					"hasRegexValidationAdvancedFormBuilder",
+					hasRegexValidationAdvancedFormBuilder
 				).put(
 					"value", getValue(ddmFormFieldRenderingContext)
 				).build();

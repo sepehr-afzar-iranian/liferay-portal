@@ -21,27 +21,38 @@ import com.liferay.dynamic.data.mapping.model.DDMFormFieldType;
  */
 public class DDMConstants {
 
-	public static final String ADVANCED_FORM_BUILDER_LIST_VALIDATION = "advanced.form.builder.validation.list";
+	public static final String ADVANCED_FORM_BUILDER_CONFIRM_ON_SUBMIT =
+		"advanced.form.builder.confirmonsubmit";
 
-	public static final String ADVANCED_FORM_BUILDER_PRICE_FIELD = "advanced.form.builder.pricefield";
+	public static final String ADVANCED_FORM_BUILDER_DATA_PROVIDER =
+		"advanced.form.builder.validation.dataprovider";
 
-	public static final String ADVANCED_FORM_BUILDER_UNIQUE_FIELD = "advanced.form.builder.uniquefield";
+	public static final String ADVANCED_FORM_BUILDER_EMAIL_NOTIFICATION =
+		"advanced.form.builder.email.notification";
 
-	public static final String ADVANCED_FORM_BUILDER_CONFIRM_ON_SUBMIT = "advanced.form.builder.confirmonsubmit";
+	public static final String ADVANCED_FORM_BUILDER_EXPORT_FORM_FILES =
+		"advanced.form.builder.export.form.files";
 
-	public static final String ADVANCED_FORM_BUILDER_EMAIL_NOTIFICATION = "advanced.form.builder.email.notification";
+	public static final String ADVANCED_FORM_BUILDER_EXPORT_FORM_RANGE_DATE =
+		"advanced.form.builder.export.form.range.date";
 
-	public static final String ADVANCED_FORM_BUILDER_TRACKING_CODE = "advanced.form.builder.trackingcode";
+	public static final String ADVANCED_FORM_BUILDER_IMPORT_FORM_TEMPLATE =
+		"advanced.form.builder.import.form.template";
 
-	public static final String ADVANCED_FORM_BUILDER_IMPORT_FORM_TEMPLATE = "advanced.form.builder.import.form.template";
+	public static final String ADVANCED_FORM_BUILDER_LIST_VALIDATION =
+		"advanced.form.builder.validation.list";
 
-	public static final String ADVANCED_FORM_BUILDER_EXPORT_FORM_FILES = "advanced.form.builder.export.form.files";
+	public static final String ADVANCED_FORM_BUILDER_PRICE_FIELD =
+		"advanced.form.builder.pricefield";
 
-	public static final String ADVANCED_FORM_BUILDER_EXPORT_FORM_RANGE_DATE = "advanced.form.builder.export.form.range.date";
+	public static final String ADVANCED_FORM_BUILDER_REGEX_VALIDATION =
+		"advanced.form.builder.validation.regex";
 
-	public static final String ADVANCED_FORM_BUILDER_REGEX_VALIDATION = "advanced.form.builder.validation.regex";
+	public static final String ADVANCED_FORM_BUILDER_TRACKING_CODE =
+		"advanced.form.builder.trackingcode";
 
-	public static final String ADVANCED_FORM_BUILDER_DATA_PROVIDER = "advanced.form.builder.validation.dataprovider";
+	public static final String ADVANCED_FORM_BUILDER_UNIQUE_FIELD =
+		"advanced.form.builder.uniquefield";
 
 	public static final String AVAILABLE_FIELDS =
 		"Liferay.FormBuilder.AVAILABLE_FIELDS.DDM_STRUCTURE";

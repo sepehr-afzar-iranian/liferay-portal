@@ -89,7 +89,7 @@ const transformValidations = (
 				return hasDataProviderAdvancedFormBuilder;
 			}
 			else if (hasRegexValidationAdvancedFormBuilder) {
-				return true
+				return true;
 			}
 			else {
 				return validation.advanced !== true;
@@ -250,8 +250,8 @@ export const transformData = ({
 	defaultLanguageId,
 	editingLanguageId,
 	hasDataProviderAdvancedFormBuilder,
-	hasRegexValidationAdvancedFormBuilder,
 	hasListValidationAdvancedFormBuilder,
+	hasRegexValidationAdvancedFormBuilder,
 	initialDataType,
 	initialValidations,
 	validation,
