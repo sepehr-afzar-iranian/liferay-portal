@@ -29,6 +29,10 @@ public class DDMConstants {
 
 	public static final String ADVANCED_FORM_BUILDER_UNIQUE_FIELD = "advanced.form.builder.uniquefield";
 
+	public static final String ADVANCED_FORM_BUILDER_CONFIRM_ON_SUBMIT = "advanced.form.builder.confirmonsubmit";
+
+	public static final String ADVANCED_FORM_BUILDER_EMAIL_NOTIFICATION = "advanced.form.builder.email.notification";
+
 	public static final String ADVANCED_FORM_BUILDER_REGEX_VALIDATION = "advanced.form.builder.validation.regex";
 
 	public static final String ADVANCED_FORM_BUILDER_DATA_PROVIDER = "advanced.form.builder.validation.dataprovider";

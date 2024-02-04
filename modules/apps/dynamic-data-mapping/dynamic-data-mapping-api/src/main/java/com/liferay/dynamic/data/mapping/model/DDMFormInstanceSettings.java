@@ -31,9 +31,9 @@ import org.osgi.annotation.versioning.ProviderType;
 	rules = {
 		@DDMFormRule(
 			actions = {
-				"setVisible('sendEmailNotificationToFormCreator', getValue('sendEmailNotification') and getBooleanProp('advanced.form.builder'))",
-				"setVisible('sendEmailNotificationToUser', getValue('sendEmailNotification') and getBooleanProp('advanced.form.builder'))",
-				"setVisible('confirmOnSubmit', getBooleanProp('advanced.form.builder'))",
+				"setVisible('sendEmailNotificationToFormCreator', getValue('sendEmailNotification') and getBooleanProp('advanced.form.builder.email.notification'))",
+				"setVisible('sendEmailNotificationToUser', getValue('sendEmailNotification') and getBooleanProp('advanced.form.builder.email.notification'))",
+				"setVisible('confirmOnSubmit', getBooleanProp('advanced.form.builder.confirmonsubmit'))",
 				"setVisible('emailFromAddress', getValue('sendEmailNotification'))",
 				"setVisible('emailFromName', getValue('sendEmailNotification'))",
 				"setVisible('emailSubject', getValue('sendEmailNotification'))",
