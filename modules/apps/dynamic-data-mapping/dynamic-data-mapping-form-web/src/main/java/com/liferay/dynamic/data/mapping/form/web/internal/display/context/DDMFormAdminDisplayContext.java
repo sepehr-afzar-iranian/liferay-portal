@@ -262,7 +262,7 @@ public class DDMFormAdminDisplayContext {
 		}
 
 		boolean hasAdvancedFormBuilder = Boolean.parseBoolean(
-			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER));
+			PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_IMPORT_FORM_TEMPLATE));
 
 		if (hasAdvancedFormBuilder) {
 			return _getCreationMenu();
