@@ -96,7 +96,7 @@ FormInstancePermissionCheckerHelper formInstancePermissionCheckerHelper = ddmFor
 		/>
 	</c:if>
 
-	<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER)) && formInstancePermissionCheckerHelper.isShowExportIcon(formInstance) %>">
+	<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_EXPORT_FORM_FILES)) && formInstancePermissionCheckerHelper.isShowExportIcon(formInstance) %>">
 		<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="/dynamic_data_mapping_form/export_form_instance_files" var="exportFormInstanceFilesURL">
 			<portlet:param name="formInstanceId" value="<%= String.valueOf(formInstance.getFormInstanceId()) %>" />
 		</liferay-portlet:resourceURL>

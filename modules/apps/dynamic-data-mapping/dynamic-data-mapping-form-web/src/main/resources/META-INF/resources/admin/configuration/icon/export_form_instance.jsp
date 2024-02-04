@@ -55,7 +55,7 @@ fSB.append(exportFormInstanceFilesURL);
 fSB.append("');");
 %>
 
-<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER)) %>">
+<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_EXPORT_FORM_FILES)) %>">
 	<liferay-ui:icon
 		message="export-files"
 		url="<%= fSB.toString() %>"
