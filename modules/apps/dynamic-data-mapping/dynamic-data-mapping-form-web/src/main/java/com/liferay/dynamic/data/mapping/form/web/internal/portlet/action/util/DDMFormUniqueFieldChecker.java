@@ -67,6 +67,9 @@ public class DDMFormUniqueFieldChecker {
 
 		DDMFormField getDDMFormField = fieldValue.getDDMFormField();
 
+		long formInstanceId = ParamUtil.getLong(
+			actionRequest, "formInstanceId");
+
 		DDMForm ddmForm = getDDMFormField.getDDMForm();
 
 		String languageId = LanguageUtil.getLanguageId(actionRequest);
@@ -97,7 +100,9 @@ public class DDMFormUniqueFieldChecker {
 			getFieldValue.addString(locale, currentValue);
 		}
 
-		if (_isUnique(currentValue, fieldReference, fieldLang)) {
+		if (_isUnique(
+				currentValue, fieldReference, fieldLang, formInstanceId)) {
+
 			throw new DDMFormValuesValidationException.UniqueValue(fieldLabel);
 		}
 	}
@@ -113,6 +118,8 @@ public class DDMFormUniqueFieldChecker {
 				formInstanceRecordId);
 
 		DDMFormValues ddmFormValues = ddmFormInstanceRecord.getDDMFormValues();
+
+		long formInstanceId = ddmFormInstanceRecord.getFormInstanceId();
 
 		List<DDMFormFieldValue> ddmFormInstanceRecords =
 			ddmFormValues.getDDMFormFieldValues();
@@ -179,7 +186,10 @@ public class DDMFormUniqueFieldChecker {
 			}
 		}
 
-		if (!unique && _isUnique(uniqueValue, fieldReference, languageId)) {
+		if (!unique &&
+			_isUnique(
+				uniqueValue, fieldReference, languageId, formInstanceId)) {
+
 			DDMFormInstanceSettings formInstanceSettings =
 				ddmFormInstance.getSettingsModel();
 
@@ -200,24 +210,60 @@ public class DDMFormUniqueFieldChecker {
 	}
 
 	private boolean _isUnique(
-			String fieldValue, String fieldReference, String fieldLang)
+			String fieldValue, String fieldReference, String fieldLang,
+			long formInstanceId)
 		throws PortalException {
 
-		DynamicQuery dynamicQuery = _ddmContentLocalService.dynamicQuery();
+		fieldValue = String.format("%%%s%%", fieldValue);
+		fieldReference = String.format("%%%s%%", fieldReference);
 
-		String value = String.format("%%%s%%", fieldValue);
-		String reference = String.format("%%%s%%", fieldReference);
+		DynamicQuery dynamicQuery = _ddmContentLocalService.dynamicQuery();
 
 		dynamicQuery.setProjection(ProjectionFactoryUtil.property("data"));
 		dynamicQuery.add(
 			RestrictionsFactoryUtil.and(
-				RestrictionsFactoryUtil.like("data", value),
-				RestrictionsFactoryUtil.like("data", reference)));
+				RestrictionsFactoryUtil.like("data", fieldValue),
+				RestrictionsFactoryUtil.like("data", fieldReference)));
 
 		List<DDMContent> oldValues = _ddmContentLocalService.dynamicQuery(
 			dynamicQuery);
 
+		DynamicQuery dynamicQuery_storageId =
+			_ddmContentLocalService.dynamicQuery();
+
+		dynamicQuery_storageId.setProjection(
+			ProjectionFactoryUtil.property("contentId"));
+		dynamicQuery_storageId.add(
+			RestrictionsFactoryUtil.and(
+				RestrictionsFactoryUtil.like("data", fieldValue),
+				RestrictionsFactoryUtil.like("data", fieldReference)));
+
+		List<DDMContent> oldValues_storageId =
+			_ddmContentLocalService.dynamicQuery(dynamicQuery_storageId);
+
 		for (Object oldValue : oldValues) {
+			for (Object oldValue_storageId : oldValues_storageId) {
+				DynamicQuery instanceRecordQuery =
+					_ddmFormInstanceRecordLocalService.dynamicQuery();
+
+				instanceRecordQuery.setProjection(
+					ProjectionFactoryUtil.property("formInstanceId"));
+
+				instanceRecordQuery.add(
+					RestrictionsFactoryUtil.eq(
+						"storageId", oldValue_storageId));
+
+				List<Long> formInstanceRecords =
+					_ddmFormInstanceRecordLocalService.dynamicQuery(
+						instanceRecordQuery);
+
+				long recordId = formInstanceRecords.get(0);
+
+				if (recordId == formInstanceId) {
+					return true;
+				}
+			}
+
 			String jsonString = String.valueOf(oldValue);
 
 			JSONObject jsonObject = _jsonFactory.createJSONObject(jsonString);
