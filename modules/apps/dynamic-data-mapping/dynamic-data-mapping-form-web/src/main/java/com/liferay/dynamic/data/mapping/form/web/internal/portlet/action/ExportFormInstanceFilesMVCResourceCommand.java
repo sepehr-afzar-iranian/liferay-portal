@@ -20,16 +20,12 @@ import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
-import com.liferay.dynamic.data.mapping.model.DDMFormInstanceVersion;
-import com.liferay.dynamic.data.mapping.model.DDMStructureVersion;
 import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceVersionLocalService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
-import com.liferay.dynamic.data.mapping.util.comparator.FormInstanceVersionVersionComparator;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -40,23 +36,20 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCResourceCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.zip.ZipWriter;
-import com.liferay.portal.kernel.zip.ZipWriterFactoryUtil;
 
-import java.io.File;
-
-import java.nio.file.Files;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -86,19 +79,32 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		long formInstanceId = ParamUtil.getLong(
 			resourceRequest, "formInstanceId");
 
-		Map<String, DDMFormField> ddmFormFields = getDistinctFields(
-			formInstanceId);
-
 		Locale locale = resourceRequest.getLocale();
 
 		DDMFormInstance formInstance = _ddmFormInstanceService.getFormInstance(
 			formInstanceId);
 
+		DDMForm ddmForm = formInstance.getDDMForm();
+
+		ArrayList<String> fileFieldReferences = new ArrayList<>();
+
+		for (DDMFormField ddmFormField : ddmForm.getDDMFormFields()) {
+			String type = ddmFormField.getType();
+
+			if (type.equals("document_library") || type.equals("image")) {
+				fileFieldReferences.add(ddmFormField.getFieldReference());
+			}
+		}
+
 		List<DDMFormInstanceRecord> ddmFormInstanceRecords =
 			_ddmFormInstanceRecordService.getFormInstanceRecords(
 				formInstanceId);
 
-		ZipWriter zipWriter = ZipWriterFactoryUtil.getZipWriter();
+		ByteArrayOutputStream byteArrayOutputStream =
+			new ByteArrayOutputStream();
+
+		ZipOutputStream zipOutputStream = new ZipOutputStream(
+			byteArrayOutputStream);
 
 		for (DDMFormInstanceRecord ddmFormInstanceRecord :
 				ddmFormInstanceRecords) {
@@ -111,107 +117,50 @@ public class ExportFormInstanceFilesMVCResourceCommand
 			Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap =
 				ddmFormValues.getDDMFormFieldValuesReferencesMap(true);
 
-			for (Map.Entry<String, DDMFormField> entry :
-					ddmFormFields.entrySet()) {
+			for (String fieldReference : fileFieldReferences) {
+				List<DDMFormFieldValue> ddmFormFieldValues =
+					ddmFormFieldValuesMap.get(fieldReference);
 
-				DDMFormField ddmFormField = entry.getValue();
+				DDMFormFieldValue ddmFormFieldValue = ddmFormFieldValues.get(0);
 
-				String fieldReference = ddmFormField.getFieldReference();
+				FileEntry fileEntry = _getFileEntry(
+					_getValueJSONObject(ddmFormFieldValue, locale));
 
-				if (ddmFormFieldValuesMap.containsKey(fieldReference)) {
-					List<DDMFormFieldValue> ddmFormFieldValues =
-						ddmFormFieldValuesMap.get(fieldReference);
+				if (!Objects.equals(fileEntry, null)) {
+					String stringBuilder = _getFolderName(
+						trackingCode, ddmFormFieldValuesMap,
+						fileEntry.getFileName(), ddmForm.getDefaultLocale());
 
-					for (DDMFormFieldValue ddmFormFieldValue :
-							ddmFormFieldValues) {
+					ZipEntry zipEntry = new ZipEntry(stringBuilder);
 
-						FileEntry fileEntry = _getRender(
-							ddmFormFieldValue, locale);
+					zipOutputStream.putNextEntry(zipEntry);
 
-						StringBuilder stringBuilder = new StringBuilder();
+					InputStream inputStream = fileEntry.getContentStream();
+					ByteArrayOutputStream tempByteArrayOutputStream =
+						new ByteArrayOutputStream();
+					byte[] buffer = new byte[0xFFFF];
 
-						if (!Objects.equals(fileEntry, null)) {
-							stringBuilder.append(trackingCode);
-							stringBuilder.append(
-								_getValueByFieldReference(
-									ddmFormInstanceRecord, "firstName"));
-							stringBuilder.append(
-								_getValueByFieldReference(
-									ddmFormInstanceRecord, "lastName"));
-							stringBuilder.append(
-								_getValueByFieldReference(
-									ddmFormInstanceRecord, "nationalCode"));
-							stringBuilder.append("/");
-							stringBuilder.append(fileEntry.getFileName());
+					for (int len = inputStream.read(buffer); len != -1;
+						 len = inputStream.read(buffer)) {
 
-							zipWriter.addEntry(
-								stringBuilder.toString(),
-								fileEntry.getContentStream());
-						}
+						tempByteArrayOutputStream.write(buffer, 0, len);
 					}
+
+					zipOutputStream.write(
+						tempByteArrayOutputStream.toByteArray());
+					zipOutputStream.closeEntry();
 				}
 			}
 		}
 
-		File file = zipWriter.getFile();
+		zipOutputStream.close();
+
+		byte[] zipContent = byteArrayOutputStream.toByteArray();
 
 		PortletResponseUtil.sendFile(
 			resourceRequest, resourceResponse,
 			formInstance.getName(locale) + ".zip",
-			Files.newInputStream(file.toPath()), ContentTypes.APPLICATION_ZIP);
-	}
-
-	protected Map<String, DDMFormField> getDistinctFields(
-			long ddmFormInstanceId)
-		throws Exception {
-
-		List<DDMStructureVersion> ddmStructureVersions = getStructureVersions(
-			ddmFormInstanceId);
-
-		Map<String, DDMFormField> ddmFormFields = new LinkedHashMap<>();
-
-		Stream<DDMStructureVersion> stream = ddmStructureVersions.stream();
-
-		stream.map(
-			this::getNontransientDDMFormFieldsReferencesMap
-		).forEach(
-			map -> map.forEach(ddmFormFields::putIfAbsent)
-		);
-
-		return ddmFormFields;
-	}
-
-	protected Map<String, DDMFormField>
-		getNontransientDDMFormFieldsReferencesMap(
-			DDMStructureVersion ddmStructureVersion) {
-
-		DDMForm ddmForm = ddmStructureVersion.getDDMForm();
-
-		return ddmForm.getNontransientDDMFormFieldsReferencesMap(true);
-	}
-
-	protected List<DDMStructureVersion> getStructureVersions(
-			long ddmFormInstanceId)
-		throws Exception {
-
-		List<DDMFormInstanceVersion> ddmFormInstanceVersions =
-			ddmFormInstanceVersionLocalService.getFormInstanceVersions(
-				ddmFormInstanceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-
-		ddmFormInstanceVersions = ListUtil.sort(
-			ddmFormInstanceVersions,
-			new FormInstanceVersionVersionComparator());
-
-		List<DDMStructureVersion> ddmStructureVersions = new ArrayList<>();
-
-		for (DDMFormInstanceVersion ddmFormInstanceVersion :
-				ddmFormInstanceVersions) {
-
-			ddmStructureVersions.add(
-				ddmFormInstanceVersion.getStructureVersion());
-		}
-
-		return ddmStructureVersions;
+			new ByteArrayInputStream(zipContent), ContentTypes.APPLICATION_ZIP);
 	}
 
 	@Reference
@@ -224,17 +173,7 @@ public class ExportFormInstanceFilesMVCResourceCommand
 	@Reference
 	protected JSONFactory jsonFactory;
 
-	private FileEntry _getRender(
-		DDMFormFieldValue ddmFormFieldValue, Locale locale) {
-
-		String type = ddmFormFieldValue.getType();
-
-		if (!type.equals("document_library") && !type.equals("image")) {
-			return null;
-		}
-
-		JSONObject jsonObject = _getValueJSONObject(ddmFormFieldValue, locale);
-
+	private FileEntry _getFileEntry(JSONObject jsonObject) {
 		String uuid = jsonObject.getString("uuid");
 		long groupId = jsonObject.getLong("groupId");
 
@@ -250,42 +189,44 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		}
 	}
 
-	private String _getValueByFieldReference(
-			DDMFormInstanceRecord ddmFormInstanceRecord, String fieldReference)
-		throws Exception {
+	private String _getFolderName(
+		String trackingCode,
+		Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap,
+		String fileName, Locale locale) {
 
-		DDMFormValues ddmFormValues = ddmFormInstanceRecord.getDDMFormValues();
+		StringBuilder stringBuilder = new StringBuilder();
 
-		List<DDMFormFieldValue> ddmFormFieldValues =
-			ddmFormValues.getDDMFormFieldValues();
+		stringBuilder.append(trackingCode);
 
-		DDMFormFieldValue targetField = null;
+		for (String fieldReference :
+				new String[] {"firstName", "lastName", "nationalCode"}) {
 
-		for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
-			if (Objects.equals(
-					ddmFormFieldValue.getFieldReference(), fieldReference)) {
+			if (ddmFormFieldValuesMap.containsKey(fieldReference)) {
+				List<DDMFormFieldValue> ddmFormFieldValues =
+					ddmFormFieldValuesMap.get(fieldReference);
 
-				targetField = ddmFormFieldValue;
+				DDMFormFieldValue ddmFormFieldValue = ddmFormFieldValues.get(0);
 
-				break;
+				Value fieldValue = ddmFormFieldValue.getValue();
+
+				Map<Locale, String> values = fieldValue.getValues();
+
+				String value = values.get(locale);
+
+				if (Validator.isNotNull(value)) {
+					stringBuilder.append(
+						"_"
+					).append(
+						value
+					);
+				}
 			}
 		}
 
-		if (!Objects.equals(targetField, null)) {
-			Value targetFieldValue = targetField.getValue();
+		stringBuilder.append("/");
+		stringBuilder.append(fileName);
 
-			Map<Locale, String> targetFieldValues =
-				targetFieldValue.getValues();
-
-			String value = targetFieldValues.get(
-				ddmFormValues.getDefaultLocale());
-
-			if (Validator.isNotNull(value)) {
-				return "_" + value;
-			}
-		}
-
-		return "";
+		return stringBuilder.toString();
 	}
 
 	private JSONObject _getValueJSONObject(
