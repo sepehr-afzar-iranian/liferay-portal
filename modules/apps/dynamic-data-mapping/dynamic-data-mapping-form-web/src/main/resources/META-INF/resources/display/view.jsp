@@ -89,13 +89,21 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 				DDMForm ddmForm = ddmStructure.getDDMForm();
 
 				boolean formHasPriceField = false;
+
+				boolean formHasMobileField = false;
+
 				List<DDMFormField> ddmFormFieldList = ddmForm.getDDMFormFields();
 
-				for (DDMFormField ddmFormField : ddmFormFieldList) {
-					if (Validator.isNotNull(ddmFormField.getProperty("priceField")) && (Boolean)ddmFormField.getProperty("priceField")) {
-						formHasPriceField = true;
+				String mobileFieldName = "";
 
-						break;
+				for (DDMFormField ddmFormField : ddmFormFieldList) {
+					if (!formHasPriceField && Validator.isNotNull(ddmFormField.getProperty("priceField")) && (Boolean)ddmFormField.getProperty("priceField")) {
+						formHasPriceField = true;
+					}
+
+					if (!formHasMobileField && Validator.isNotNull(ddmFormField.getProperty("mobileField")) && (Boolean)ddmFormField.getProperty("mobileField")) {
+						formHasMobileField = true;
+						mobileFieldName = ddmFormField.getName();
 					}
 				}
 
@@ -156,6 +164,10 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 						<liferay-ui:error exception="<%= NoSuchStructureException.class %>" message="unable-to-retrieve-the-definition-of-the-selected-form" />
 						<liferay-ui:error exception="<%= NoSuchStructureLayoutException.class %>" message="unable-to-retrieve-the-layout-of-the-selected-form" />
 						<liferay-ui:error exception="<%= StorageException.class %>" message="there-was-an-error-when-accessing-the-data-storage" />
+						<liferay-ui:error exception="<%= StorageException.class %>" message="there-was-an-error-when-accessing-the-data-storage" />
+						<liferay-ui:error key="noSMSMessageWithThisMobile" message="no-sms-message-with-this-mobile" />
+						<liferay-ui:error key="verficationCodeError" message="verification-code-error" />
+						<liferay-ui:error key="verficationCodeExpire" message="verification-code-expire" />
 
 						<liferay-ui:error-principal />
 
@@ -223,10 +235,32 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 
 							<%= ddmFormDisplayContext.getDDMFormHTML(false, submitLabel) %>
 
+							<c:if test="<%= formHasMobileField %>">
+								<div id="<portlet:namespace />mobileFieldDiv">
+									<aui:row>
+										<aui:col width="<%= 25 %>">
+											<aui:input inlineField="<%= true %>" label="verification-code" name="verificationCode" type="text" value="" />
+										</aui:col>
+
+										<aui:col width="<%= 75 %>">
+											<aui:button cssClass="sendCodeBtn" inlineField="true" name="sendCodeBtn" value="send-verification-code" />
+
+											<span id="<portlet:namespace />smsCountDownDiv" style="padding-right: 20px;"></span>
+										</aui:col>
+									</aui:row>
+
+									<div id="<portlet:namespace />smsResponseMessage"></div>
+								</div>
+							</c:if>
+
 							<aui:input name="empty" type="hidden" value="" />
 						</clay:container-fluid>
 					</aui:form>
 				</div>
+
+				<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" id="/definition_sms/send_code" var="sendSMSCodeURL">
+					<portlet:param name="languageId" value="<%= languageId %>" />
+				</liferay-portlet:resourceURL>
 
 				<aui:script use="aui-base">
 					function <portlet:namespace />clearInterval(intervalId) {
@@ -324,6 +358,31 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 						container.classList.remove('ddm-form-builder-app-not-ready');
 					}
 
+					function <portlet:namespace />smsCountDown() {
+						var distance = 300000;
+
+						var x = setInterval(function () {
+							distance = distance - 1000;
+							var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+							var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+							if (seconds < 10) seconds = '0' + seconds;
+							document.getElementById(
+								'<portlet:namespace />smsCountDownDiv'
+							).innerHTML = '(' + minutes + ':' + seconds + ') ';
+
+							if (distance == 0) {
+								clearInterval(x);
+								document.getElementById(
+									'<portlet:namespace />smsCountDownDiv'
+								).innerHTML = '';
+								document.getElementById(
+									'<portlet:namespace />smsResponseMessage'
+								).innerHTML =
+									'<div class="alert alert-danger m-2"><%=LanguageUtil.get(request,"sms-code-expired") %></div>';
+							}
+						}, 1000);
+					}
+
 					function <portlet:namespace />initForm() {
 						<portlet:namespace />enableForm();
 						<portlet:namespace />fireFormView();
@@ -331,6 +390,99 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 						if ('<%=formHasPriceField%>' == 'true') {
 							document.getElementById('<portlet:namespace />sumOfFields').innerHTML =
 								'<%=LanguageUtil.get(request,"sum-of-payment") %>: 0';
+						}
+						if ('<%=formHasMobileField%>' == 'true') {
+							document.getElementById(
+								'<portlet:namespace />mobileCodeFields'
+							).innerHTML = document.getElementById(
+								'<portlet:namespace />mobileFieldDiv'
+							).innerHTML;
+							document.getElementById(
+								'<portlet:namespace />mobileFieldDiv'
+							).innerHTML = '';
+							var sendSMSMessageSuccess =
+								'<%=LanguageUtil.get(request,"sms-message-send-successfully") %>';
+							var captchaError =
+								'<%=LanguageUtil.get(request,"captcha-verification-failed") %>';
+							var sendSMSError = '<%=LanguageUtil.get(request,"send-sms-error") %>';
+							var sendCodeBtn = A.one('#<portlet:namespace />sendCodeBtn');
+							sendCodeBtn.on('click', function (event) {
+								document.getElementById(
+									'<portlet:namespace />smsCountDownDiv'
+								).innerHTML = '';
+								document.getElementById(
+									'<portlet:namespace />smsResponseMessage'
+								).innerHTML =
+									'<div class="alert alert-success m-2"><%=LanguageUtil.get(request,"request-send-sms-message") %></div>';
+								var formInputNodes = document.querySelectorAll(
+									'input[name^="<portlet:namespace />ddm$$<%=mobileFieldName%>"]'
+								);
+								var mobileFieldValue;
+								Array.prototype.forEach.call(formInputNodes, function (
+									formInputNode
+								) {
+									mobileFieldValue = formInputNode.value;
+								});
+								var captchaFieldValue = '';
+								try {
+									captchaFieldValue = document.getElementById(
+										'<portlet:namespace />captchaText'
+									).value;
+								}
+								catch (e) {}
+
+								var data = new URLSearchParams({
+									<portlet:namespace />formInstanceId: <%= formInstanceId %>,
+									<portlet:namespace />mobileFieldValue: mobileFieldValue,
+									<portlet:namespace />captchaText: captchaFieldValue,
+								});
+								Liferay.Util.fetch('<%= sendSMSCodeURL.toString() %>', {
+									body: data,
+									method: 'POST',
+								})
+									.then(function (response) {
+										return response.text();
+									})
+									.then(function (response) {
+										var responseMessage = '';
+										if (response == 'success') {
+											try {
+												document
+													.getElementById(
+														'<portlet:namespace />refreshCaptcha'
+													)
+													.click();
+											}
+											catch (e) {}
+											<portlet:namespace />smsCountDown();
+											responseMessage =
+												'<div class="alert alert-success m-2">';
+											responseMessage += sendSMSMessageSuccess;
+										}
+										else if (response == 'captchaError') {
+											responseMessage =
+												'<div class="alert alert-danger m-2">';
+											responseMessage += captchaError;
+										}
+										else if (response == 'sendSMSError') {
+											try {
+												document
+													.getElementById(
+														'<portlet:namespace />refreshCaptcha'
+													)
+													.click();
+											}
+											catch (e) {}
+											responseMessage =
+												'<div class="alert alert-danger m-2">';
+											responseMessage += sendSMSError;
+										}
+										responseMessage += '</div>';
+										document.getElementById(
+											'<portlet:namespace />smsResponseMessage'
+										).innerHTML = responseMessage;
+									});
+							});
 						}
 						<c:choose>
 							<c:when test="<%= ddmFormDisplayContext.isAutosaveEnabled() %>">

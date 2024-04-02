@@ -54,7 +54,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 							size = 12,
 							value = {
 								"label", "tip", "required", "showAsSwitcher",
-								"options", "priceField", "amountValues"
+								"options"
 							}
 						)
 					}
@@ -74,7 +74,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 								"validation", "fieldNamespace", "indexType",
 								"localizable", "nativeField", "readOnly",
 								"dataType", "type", "showLabel", "repeatable",
-								"inline"
+								"priceField", "amountValues", "inline"
 							}
 						)
 					}

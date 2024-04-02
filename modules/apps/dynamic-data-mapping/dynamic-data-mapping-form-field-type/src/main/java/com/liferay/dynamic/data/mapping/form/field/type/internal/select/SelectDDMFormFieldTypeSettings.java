@@ -73,8 +73,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 							value = {
 								"label", "tip", "required", "dataSourceType",
 								"options", "ddmDataProviderInstanceId",
-								"ddmDataProviderInstanceOutput", "priceField",
-								"amountValues"
+								"ddmDataProviderInstanceOutput"
 							}
 						)
 					}
@@ -93,8 +92,8 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 								"visibilityExpression", "validation",
 								"fieldNamespace", "indexType", "localizable",
 								"nativeField", "readOnly", "dataType", "type",
-								"showLabel", "repeatable", "multiple",
-								"alphabeticalOrder"
+								"showLabel", "repeatable", "priceField",
+								"amountValues", "multiple", "alphabeticalOrder"
 							}
 						)
 					}

@@ -80,6 +80,9 @@ public class TextDDMFormFieldTemplateContextContributor
 		}
 
 		parameters.put(
+			"mobileField",
+			GetterUtil.getBoolean(ddmFormField.getProperty("mobileField")));
+		parameters.put(
 			"portletNamespace",
 			ddmFormFieldRenderingContext.getPortletNamespace());
 		parameters.put(

@@ -52,10 +52,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 					{
 						@DDMFormLayoutColumn(
 							size = 12,
-							value = {
-								"label", "tip", "required", "options",
-								"priceField", "amountValues"
-							}
+							value = {"label", "tip", "required", "options"}
 						)
 					}
 				)
@@ -73,7 +70,8 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 								"visibilityExpression", "validation",
 								"fieldNamespace", "indexType", "localizable",
 								"nativeField", "readOnly", "dataType", "type",
-								"showLabel", "repeatable", "inline"
+								"showLabel", "repeatable", "priceField",
+								"amountValues", "inline"
 							}
 						)
 					}
