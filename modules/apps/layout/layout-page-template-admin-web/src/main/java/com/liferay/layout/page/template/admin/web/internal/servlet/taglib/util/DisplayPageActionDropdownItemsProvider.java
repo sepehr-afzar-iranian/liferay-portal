@@ -130,6 +130,15 @@ public class DisplayPageActionDropdownItemsProvider {
 				hasUpdatePermission,
 			_getMarkAsDefaultDisplayPageActionUnsafeConsumer()
 		).add(
+			() ->
+				_layoutPageTemplateEntry.isApproved() &&
+				Objects.equals(
+					_layoutPageTemplateEntry.getType(),
+					LayoutPageTemplateEntryTypeConstants.TYPE_DISPLAY_PAGE) &&
+				(_layoutPageTemplateEntry.getClassNameId() > 0) &&
+				hasUpdatePermission,
+			_getCorrectLayoutFriendlyURLSDisplayPageActionUnsafeConsumer()
+		).add(
 			() -> hasUpdatePermission && _isShowDiscardDraftAction(),
 			_getDiscardDraftActionUnsafeConsumer()
 		).add(
@@ -171,6 +180,39 @@ public class DisplayPageActionDropdownItemsProvider {
 
 			dropdownItem.setLabel(
 				LanguageUtil.get(_httpServletRequest, "configure"));
+		};
+	}
+
+	private UnsafeConsumer<DropdownItem, Exception>
+		_getCorrectLayoutFriendlyURLSDisplayPageActionUnsafeConsumer() {
+
+		PortletURL correctLayoutFriendlyURLSURL =
+			_renderResponse.createActionURL();
+
+		correctLayoutFriendlyURLSURL.setParameter(
+			ActionRequest.ACTION_NAME,
+			"/layout_page_template/edit_layout_page_template_friendly_urls");
+
+		correctLayoutFriendlyURLSURL.setParameter(
+			"redirect", _themeDisplay.getURLCurrent());
+		correctLayoutFriendlyURLSURL.setParameter(
+			"layoutPageTemplateEntryId",
+			String.valueOf(
+				_layoutPageTemplateEntry.getLayoutPageTemplateEntryId()));
+
+		return dropdownItem -> {
+			dropdownItem.putData("action", "correctLayoutFriendlyURLS");
+			dropdownItem.putData(
+				"correctLayoutFriendlyURLSURL",
+				correctLayoutFriendlyURLSURL.toString());
+
+			dropdownItem.putData(
+				"message",
+				LanguageUtil.get(_httpServletRequest, "correct-friendly-urls"));
+
+			String label = "correct-friendly-urls";
+
+			dropdownItem.setLabel(LanguageUtil.get(_httpServletRequest, label));
 		};
 	}
 
@@ -385,7 +427,8 @@ public class DisplayPageActionDropdownItemsProvider {
 				_layoutPageTemplateEntry.isDefaultTemplate()) {
 
 				message = LanguageUtil.get(
-					_httpServletRequest, "unmark-default-confirmation");
+					_httpServletRequest,
+					"do-you-want-to-correct-friendly-urls");
 			}
 
 			dropdownItem.putData("message", message);

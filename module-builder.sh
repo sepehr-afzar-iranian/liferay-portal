@@ -35,6 +35,7 @@ apps:journal:journal-taglib:$1 \
 apps:journal:journal-web:$1 \
 apps:layout:layout-admin-web:$1 \
 apps:layout:layout-impl:$1 \
+apps:layout:layout-page-template-admin-web:$1 \
 apps:layout:layout-seo-web-test:$1 \
 apps:layout:layout-seo-web:$1 \
 apps:login:login-web:$1 \

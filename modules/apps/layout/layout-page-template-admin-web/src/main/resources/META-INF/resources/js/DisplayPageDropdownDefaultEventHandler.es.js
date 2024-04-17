@@ -58,6 +58,17 @@ class DisplayPageDropdownDefaultEventHandler extends DefaultEventHandler {
 		}
 	}
 
+	correctLayoutFriendlyURLS(itemData) {
+		if (itemData.message !== '') {
+			if (confirm(Liferay.Language.get(itemData.message))) {
+				this._send(itemData.correctLayoutFriendlyURLSURL);
+			}
+		}
+		else {
+			this._send(itemData.correctLayoutFriendlyURLSURL);
+		}
+	}
+
 	permissionsDisplayPage(itemData) {
 		openModal({
 			title: Liferay.Language.get('permissions'),
