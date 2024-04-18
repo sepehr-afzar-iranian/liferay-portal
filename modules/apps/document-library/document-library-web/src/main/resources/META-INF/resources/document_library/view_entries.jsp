@@ -258,7 +258,7 @@ if (portletTitleBasedNavigation && (folderId != DLFolderConstants.DEFAULT_PARENT
 												fileVersion="<%= latestFileVersion %>"
 											/>
 
-											<aui:a href="<%= rowURL.toString() %>"><%= latestFileVersion.getTitle() %></aui:a>
+											<aui:a href="<%= DLURLHelperUtil.getDownloadURL(fileEntry, latestFileVersion, themeDisplay, StringPool.BLANK, false, true) %>"><%= latestFileVersion.getTitle() %></aui:a>
 
 											<c:if test="<%= fileEntry.hasLock() || fileEntry.isCheckedOut() %>">
 												<span class="inline-item inline-item-after state-icon">
