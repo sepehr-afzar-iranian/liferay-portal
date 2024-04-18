@@ -10,6 +10,7 @@ apps:commerce:commerce-lang:$1 \
 apps:commerce:commerce-product-definitions-web:$1 \
 apps:data-engine:data-engine-taglib:$1 \
 apps:document-library:document-library-item-selector-web:$1 \
+apps:document-library:document-library-web:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-api:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-form-evaluator-impl:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-form-field-type:$1 \
