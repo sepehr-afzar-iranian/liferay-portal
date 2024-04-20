@@ -58,7 +58,16 @@ public class GridDDMFormFieldValueAccessor
 
 		Value value = ddmFormFieldValue.getValue();
 
-		return createJSONObject(value.getString(locale));
+		String localeValue = "";
+
+		try {
+			localeValue = value.getString(locale);
+		}
+		catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		return createJSONObject(localeValue);
 	}
 
 	@Override
