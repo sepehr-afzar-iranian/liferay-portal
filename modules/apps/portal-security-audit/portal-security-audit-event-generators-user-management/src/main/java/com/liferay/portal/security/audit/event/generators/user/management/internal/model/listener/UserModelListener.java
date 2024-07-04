@@ -21,8 +21,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageClassNameUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -38,6 +41,74 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(immediate = true, service = ModelListener.class)
 public class UserModelListener extends BaseModelListener<User> {
+
+	public void onAfterAddAssociation(Object classPK, String associationClassName,
+									  Object associationClassP) {
+		try{
+			String additName = _auditMessageClassNameUtil.getName(associationClassName);
+			String additValue = _auditMessageClassNameUtil.getValue(associationClassName, associationClassP);
+
+			AuditMessage auditMessage =
+				AuditMessageBuilder.buildAuditMessage(
+					EventTypes.UPDATE, User.class.getName(),
+					(long)associationClassP, null);
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			additionalInfoJSONObject.put(
+				"associationType", EventTypes.ADD
+			).put(
+				"associationName", additName
+			).put(
+				"associationValue", additValue
+			).put(
+				"groupId", serviceContext.getScopeGroupId()
+			);
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception e){
+			System.out.println("e = " + e);
+		}
+	}
+
+	public void onAfterRemoveAssociation(Object classPK, String associationClassName,
+									  Object associationClassP) {
+		try{
+			String additName = _auditMessageClassNameUtil.getName(associationClassName);
+			String additValue = _auditMessageClassNameUtil.getValue(associationClassName, associationClassP);
+
+			AuditMessage auditMessage =
+				AuditMessageBuilder.buildAuditMessage(
+					EventTypes.UPDATE, User.class.getName(),
+					(long)associationClassP, null);
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			additionalInfoJSONObject.put(
+				"associationType", EventTypes.DELETE
+			).put(
+				"associationName", additName
+			).put(
+				"associationValue", additValue
+			).put(
+				"groupId", serviceContext.getScopeGroupId()
+			);
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception e){
+			System.out.println("e = " + e);
+		}
+	}
 
 	public void onBeforeCreate(User user) throws ModelListenerException {
 		auditOnCreateOrRemove(EventTypes.ADD, user);
@@ -60,6 +131,21 @@ public class UserModelListener extends BaseModelListener<User> {
 						EventTypes.UPDATE, User.class.getName(),
 						newUser.getUserId(), attributes);
 
+				JSONObject additionalInfoJSONObject =
+					auditMessage.getAdditionalInfo();
+
+				additionalInfoJSONObject.put(
+					"emailAddress", newUser.getEmailAddress()
+				).put(
+					"screenName", newUser.getScreenName()
+				).put(
+					"userId", newUser.getUserId()
+				).put(
+					"userName", newUser.getFullName()
+				).put(
+					"groupId", newUser.getGroupId()
+				);
+
 				_auditRouter.route(auditMessage);
 			}
 		}
@@ -72,8 +158,9 @@ public class UserModelListener extends BaseModelListener<User> {
 		throws ModelListenerException {
 
 		try {
+			long userId = user.getUserId();
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, User.class.getName(), user.getUserId(), null);
+				eventType, User.class.getName(), userId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -83,9 +170,11 @@ public class UserModelListener extends BaseModelListener<User> {
 			).put(
 				"screenName", user.getScreenName()
 			).put(
-				"userId", user.getUserId()
+				"userId", userId
 			).put(
 				"userName", user.getFullName()
+			).put(
+				"groupId", user.getGroupId()
 			);
 
 			_auditRouter.route(auditMessage);
@@ -125,5 +214,8 @@ public class UserModelListener extends BaseModelListener<User> {
 
 	@Reference
 	private UserLocalService _userLocalService;
+
+	@Reference
+	private AuditMessageClassNameUtil _auditMessageClassNameUtil;
 
 }
