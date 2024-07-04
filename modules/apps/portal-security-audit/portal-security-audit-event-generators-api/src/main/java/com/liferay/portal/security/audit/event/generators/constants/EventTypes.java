@@ -40,4 +40,10 @@ public interface EventTypes {
 
 	public static final String UPDATE = "UPDATE";
 
+	public static final String PERMISSION_ADD = "ADD PERMISSION";
+
+	public static final String PERMISSION_DELETE = "DELETE PERMISSION";
+
+	public static final String PERMISSION_UPDATE = "UPDATE PERMISSION";
+
 }
