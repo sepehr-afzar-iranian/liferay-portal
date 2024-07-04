@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -99,13 +101,18 @@ public class GroupModelListener extends BaseModelListener<Group> {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, Group.class.getName(), groupId, null);
 
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"userName", group.getName()
+				"groupId", serviceContext.getScopeGroupId()
 			).put(
-				"groupId", groupId
+				"ModelGroupId", groupId
+			).put(
+				"GroupName", group.getName()
 			);
 
 			_auditRouter.route(auditMessage);
