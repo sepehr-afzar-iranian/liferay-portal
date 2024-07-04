@@ -27,4 +27,5 @@ dependencies {
 	compileOnly project(":apps:blogs:blogs-api")
 	compileOnly project(":apps:portal-background-task:portal-background-task-api")
 	compileOnly project(":apps:layout:layout-page-template-api")
+	compileOnly project(":apps:account:account-api")
 }
