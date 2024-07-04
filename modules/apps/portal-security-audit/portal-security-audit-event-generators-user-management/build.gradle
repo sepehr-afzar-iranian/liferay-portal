@@ -25,4 +25,5 @@ dependencies {
 	compileOnly project(":apps:dynamic-data-lists:dynamic-data-lists-api")
 	compileOnly project(":apps:journal:journal-api")
 	compileOnly project(":apps:blogs:blogs-api")
+	compileOnly project(":apps:portal-background-task:portal-background-task-api")
 }
