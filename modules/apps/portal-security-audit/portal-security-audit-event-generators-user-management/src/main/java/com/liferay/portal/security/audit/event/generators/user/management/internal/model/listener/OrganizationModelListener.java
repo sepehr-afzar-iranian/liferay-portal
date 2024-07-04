@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -85,11 +87,21 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 				newOrganization, oldOrganization);
 
 			if (!attributes.isEmpty()) {
+				long organizationId = newOrganization.getOrganizationId();
 				AuditMessage auditMessage =
 					AuditMessageBuilder.buildAuditMessage(
 						EventTypes.UPDATE, Organization.class.getName(),
 						newOrganization.getOrganizationId(), attributes);
+				ServiceContext serviceContext =
+					ServiceContextThreadLocal.getServiceContext();
 
+				JSONObject additionalInfoJSONObject =
+					auditMessage.getAdditionalInfo();
+
+				additionalInfoJSONObject.put(
+					"groupId", serviceContext.getScopeGroupId()).put(
+					"organizationId", organizationId).put(
+					"organizationName", newOrganization.getName());
 				_auditRouter.route(auditMessage);
 			}
 		}
@@ -99,8 +111,8 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 	}
 
 	protected void auditOnAddorRemoveAssociation(
-			String eventType, Object classPK, String associationClassName,
-			Object associationClassPK)
+		String eventType, Object classPK, String associationClassName,
+		Object associationClassPK)
 		throws ModelListenerException {
 
 		if (!associationClassName.equals(User.class.getName())) {
@@ -109,13 +121,13 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 
 		try {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, associationClassName, (Long)associationClassPK,
+				eventType, associationClassName, (Long) associationClassPK,
 				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
-			long organizationId = (Long)classPK;
+			long organizationId = (Long) classPK;
 
 			additionalInfoJSONObject.put("organizationId", organizationId);
 
@@ -133,13 +145,27 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 	}
 
 	protected void auditOnCreateOrRemove(
-			String eventType, Organization organization)
+		String eventType, Organization organization)
 		throws ModelListenerException {
 
 		try {
+			long organizationId = organization.getOrganizationId();
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, Organization.class.getName(),
-				organization.getOrganizationId(), null);
+				organizationId, null);
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"groupId", serviceContext.getScopeGroupId()
+			).put(
+				"organizationId", organizationId
+			).put(
+				"organizationName", organization.getName()
+			);
 
 			_auditRouter.route(auditMessage);
 		}
