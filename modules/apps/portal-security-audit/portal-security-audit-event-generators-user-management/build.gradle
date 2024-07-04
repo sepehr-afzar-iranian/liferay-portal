@@ -23,4 +23,5 @@ dependencies {
 	compileOnly project(":apps:oauth2-provider:oauth2-provider-api")
 	compileOnly project(":apps:portal-security:portal-security-service-access-policy-api")
 	compileOnly project(":apps:dynamic-data-lists:dynamic-data-lists-api")
+	compileOnly project(":apps:journal:journal-api")
 }
