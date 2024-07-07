@@ -67,19 +67,25 @@ public class DDMStructureModelListener
 				AuditMessageBuilder.buildAuditMessage(eventType,
 					DDMStructure.class.getName(), ddmStructureId,
 					null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"ddmStructureId", ddmStructureId
 			).put(
 				"ddmStructureName", ddmStructure.getName()
 			);
+
+			try {
+				ServiceContext serviceContext =
+					ServiceContextThreadLocal.getServiceContext();
+				additionalInfoJSONObject.put(
+					"groupId", serviceContext.getScopeGroupId()
+				);
+			} catch (Exception ignored) {
+
+			}
 
 			_auditRouter.route(auditMessage);
 		}
