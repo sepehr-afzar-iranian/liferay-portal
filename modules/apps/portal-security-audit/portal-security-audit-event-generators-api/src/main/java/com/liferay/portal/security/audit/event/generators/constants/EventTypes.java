@@ -42,4 +42,6 @@ public interface EventTypes {
 
 	public static final String PERMISSION_UPDATE = "UPDATE PERMISSION";
 
+	public static final String CONFIGURATION_SAVE = "SAVE CONFIGURATION";
+
 }
