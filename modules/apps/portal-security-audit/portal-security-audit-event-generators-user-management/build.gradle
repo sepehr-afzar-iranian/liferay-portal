@@ -32,4 +32,5 @@ dependencies {
 	compileOnly project(":apps:static:portal-configuration:portal-configuration-persistence-api")
 	compileOnly project(":apps:segments:segments-api")
 	compileOnly project(":apps:redirect:redirect-api")
+	compileOnly project(":apps:commerce:commerce-account-api")
 }
