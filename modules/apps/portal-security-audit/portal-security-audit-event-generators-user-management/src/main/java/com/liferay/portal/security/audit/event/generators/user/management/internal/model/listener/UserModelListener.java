@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageClassNameUtil;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageUserAssociationUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -45,8 +45,8 @@ public class UserModelListener extends BaseModelListener<User> {
 	public void onAfterAddAssociation(Object classPK, String associationClassName,
 									  Object associationClassP) {
 		try{
-			String additName = _auditMessageClassNameUtil.getName(associationClassName);
-			String additValue = _auditMessageClassNameUtil.getValue(associationClassName, associationClassP);
+			String additName = _auditMessageUserAssociationUtil.getName(associationClassName);
+			String additValue = _auditMessageUserAssociationUtil.getValue(associationClassName, associationClassP);
 
 			AuditMessage auditMessage =
 				AuditMessageBuilder.buildAuditMessage(
@@ -66,6 +66,8 @@ public class UserModelListener extends BaseModelListener<User> {
 			).put(
 				"associationValue", additValue
 			).put(
+				"associationClassName", associationClassName
+			).put(
 				"groupId", serviceContext.getScopeGroupId()
 			);
 
@@ -79,8 +81,8 @@ public class UserModelListener extends BaseModelListener<User> {
 	public void onAfterRemoveAssociation(Object classPK, String associationClassName,
 									  Object associationClassP) {
 		try{
-			String additName = _auditMessageClassNameUtil.getName(associationClassName);
-			String additValue = _auditMessageClassNameUtil.getValue(associationClassName, associationClassP);
+			String additName = _auditMessageUserAssociationUtil.getName(associationClassName);
+			String additValue = _auditMessageUserAssociationUtil.getValue(associationClassName, associationClassP);
 
 			AuditMessage auditMessage =
 				AuditMessageBuilder.buildAuditMessage(
@@ -99,6 +101,8 @@ public class UserModelListener extends BaseModelListener<User> {
 				"associationName", additName
 			).put(
 				"associationValue", additValue
+			).put(
+				"associationClassName", associationClassName
 			).put(
 				"groupId", serviceContext.getScopeGroupId()
 			);
@@ -216,6 +220,6 @@ public class UserModelListener extends BaseModelListener<User> {
 	private UserLocalService _userLocalService;
 
 	@Reference
-	private AuditMessageClassNameUtil _auditMessageClassNameUtil;
+	private AuditMessageUserAssociationUtil _auditMessageUserAssociationUtil;
 
 }

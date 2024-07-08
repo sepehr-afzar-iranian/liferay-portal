@@ -4,7 +4,9 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.service.TeamLocalService;
 import com.liferay.portal.kernel.service.UserGroupLocalService;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -13,8 +15,8 @@ import java.util.Objects;
 /**
  * @author Yousef Ghadiri
  */
-@Component(service = AuditMessageClassNameUtil.class)
-public class AuditMessageClassNameUtil {
+@Component(service = AuditMessageUserAssociationUtil.class)
+public class AuditMessageUserAssociationUtil {
 	public String getName(String className) {
 		String[] classPath = className.split("\\.");
 		String name = classPath[classPath.length-1];
@@ -29,6 +31,9 @@ public class AuditMessageClassNameUtil {
 		}
 		if (Objects.equals(name, "UserGroup")) {
 			return "USER GROUP";
+		}
+		if (Objects.equals(name, "Team")) {
+			return "TEAM";
 		}
 		return "";
 	}
@@ -47,6 +52,9 @@ public class AuditMessageClassNameUtil {
 		}
 		if (Objects.equals(name, "UserGroup")) {
 			return getUserGroupName((long)classP);
+		}
+		if (Objects.equals(name, "Team")) {
+			return getTeamName((long)classP);
 		}
 		return "";
 	}
@@ -67,6 +75,10 @@ public class AuditMessageClassNameUtil {
 		return _userGroupLocalService.getUserGroup(userGroupId).getName();
 	}
 
+	private String getTeamName(long teamId) throws PortalException {
+		return _teamLocalService.getTeam(teamId).getName();
+	}
+
 	@Reference
 	private RoleLocalService _roleLocalService;
 
@@ -78,4 +90,7 @@ public class AuditMessageClassNameUtil {
 
 	@Reference
 	private UserGroupLocalService _userGroupLocalService;
+
+	@Reference
+	private TeamLocalService _teamLocalService;
 }
