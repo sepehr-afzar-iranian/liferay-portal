@@ -22,7 +22,7 @@ COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/lib/ext/portal-kerne
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/util-taglib.jar	/opt/liferay/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/util-taglib.jar
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_date/page.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_date/page.jsp
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_field/page.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_field/page.jsp
-COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/page_iterator/lexicon/start.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/page_iterator/lexicon/start.jsp
+COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/page_iterator/start.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/page_iterator/start.jsp
 COPY --chown=1000:1000 ./portal-bundle.properties /opt/liferay/
 COPY ./scripts/extension_mover.sh /usr/local/liferay/scripts/pre-configure/
 
