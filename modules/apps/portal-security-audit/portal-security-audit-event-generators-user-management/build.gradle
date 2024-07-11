@@ -34,4 +34,5 @@ dependencies {
 	compileOnly project(":apps:redirect:redirect-api")
 	compileOnly project(":apps:commerce:commerce-account-api")
 	compileOnly project(":apps:wiki:wiki-api")
+	compileOnly project(":apps:subscription:subscription-api")
 }
