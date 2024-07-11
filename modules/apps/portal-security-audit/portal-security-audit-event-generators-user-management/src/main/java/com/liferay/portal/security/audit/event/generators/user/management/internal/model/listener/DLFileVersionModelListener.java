@@ -14,7 +14,9 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFileVersion;
+import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -24,6 +26,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -81,9 +84,23 @@ public class DLFileVersionModelListener
 				"fileVersion", dlFileVersion.getVersion()
 			).put(
 				"dlFileVersionFolderId", dlFileVersion.getFolderId()
-			).put(
-				"dlFileVersionFolderName", dlFileVersion.getFolder().getName()
 			);
+
+			DLFolder dlFolder = dlFileVersion.getFolder();
+
+			if (Validator.isNotNull(dlFolder)) {
+				additionalInfoJSONObject.put(
+					"dlFileEntryFolderName", dlFolder.getName()
+				);
+			}
+
+			DLFileEntry dlFileEntry = dlFileVersion.getFileEntry();
+
+			if (Validator.isNotNull(dlFileEntry)) {
+				additionalInfoJSONObject.put(
+					"dlFileEntryIsCheckedOut", dlFileEntry.isCheckedOut()
+				);
+			}
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
