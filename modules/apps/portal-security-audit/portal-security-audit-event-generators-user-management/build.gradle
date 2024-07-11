@@ -37,4 +37,5 @@ dependencies {
 	compileOnly project(":apps:subscription:subscription-api")
 	compileOnly project(":apps:knowledge-base:knowledge-base-api")
 	compileOnly project(":apps:message-boards:message-boards-api")
+	compileOnly project(":apps:polls:polls-api")
 }
