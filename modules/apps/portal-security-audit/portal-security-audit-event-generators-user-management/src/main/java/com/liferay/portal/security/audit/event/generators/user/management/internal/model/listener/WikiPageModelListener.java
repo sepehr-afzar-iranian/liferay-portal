@@ -22,8 +22,10 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+import com.liferay.wiki.model.WikiNode;
 import com.liferay.wiki.model.WikiPage;
 
 import org.osgi.service.component.annotations.Component;
@@ -74,9 +76,15 @@ public class WikiPageModelListener extends BaseModelListener<WikiPage> {
 				"wikiPageTitle", wikiPage.getTitle()
 			).put(
 				"wikiNodeId", wikiPage.getNodeId()
-			).put(
-				"wikiNodeName", wikiPage.getNode().getName()
 			);
+
+			WikiNode wikiNode = wikiPage.getNode();
+
+			if (Validator.isNotNull(wikiNode)) {
+				additionalInfoJSONObject.put(
+					"wikiNodeName", wikiNode.getName()
+				);
+			}
 
 			_auditRouter.route(auditMessage);
 		}

@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
@@ -23,6 +24,7 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -68,15 +70,22 @@ public class DDMFormInstanceRecordModelListener
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
+			DDMFormInstance ddmFormInstance =
+				ddmFormInstanceRecord.getFormInstance();
+
 			additionalInfoJSONObject.put(
 				"groupId", serviceContext.getScopeGroupId()
 			).put(
 				"formInstanceRecordId", formInstanceRecordId
 			).put(
 				"formInstanceId", ddmFormInstanceRecord.getFormInstanceId()
-			).put(
-				"formInstanceName", ddmFormInstanceRecord.getFormInstance().getName()
 			);
+
+			if (Validator.isNotNull(ddmFormInstance)) {
+				additionalInfoJSONObject.put(
+					"formInstanceName", ddmFormInstance.getName()
+				);
+			}
 
 			_auditRouter.route(auditMessage);
 		}
