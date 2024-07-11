@@ -1,82 +1,103 @@
 package com.liferay.portal.security.audit.event.generators.user.management.util;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Organization;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.Team;
+import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.TeamLocalService;
 import com.liferay.portal.kernel.service.UserGroupLocalService;
 
+import com.liferay.portal.kernel.util.Validator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.Objects;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(service = AuditMessageUserAssociationUtil.class)
 public class AuditMessageUserAssociationUtil {
-	public String getName(String className) {
-		String[] classPath = className.split("\\.");
-		String name = classPath[classPath.length-1];
-		if (Objects.equals(name, "Role")) {
+	public String getName(String associationClassName) {
+		if (associationClassName.equals(Role.class.getName())) {
 			return "REGULAR ROLE";
 		}
-		if (Objects.equals(name, "Organization")) {
+		if (associationClassName.equals(Organization.class.getName())) {
 			return "ORGANIZATION";
 		}
-		if (Objects.equals(name, "Group")) {
+		if (associationClassName.equals(Group.class.getName())) {
 			return "SITE";
 		}
-		if (Objects.equals(name, "UserGroup")) {
+		if (associationClassName.equals(UserGroup.class.getName())) {
 			return "USER GROUP";
 		}
-		if (Objects.equals(name, "Team")) {
+		if (associationClassName.equals(Team.class.getName())) {
 			return "TEAM";
 		}
-		return "";
+		return null;
 	}
-	public String getValue(String className, Object classP)
+	public String getValue(String associationClassName, Object associationclassP)
 		throws PortalException {
-		String[] classPath = className.split("\\.");
-		String name = classPath[classPath.length-1];
-		if (Objects.equals(name, "Role")) {
-			return getRoleName((long)classP);
+		if (associationClassName.equals(Role.class.getName())) {
+			return getRoleName((long)associationclassP);
 		}
-		if (Objects.equals(name, "Organization")) {
-			return getOrganiztionName((long)classP);
+		if (associationClassName.equals(Organization.class.getName())) {
+			return getOrganiztionName((long)associationclassP);
 		}
-		if (Objects.equals(name, "Group")) {
-			return getGroupName((long)classP);
+		if (associationClassName.equals(Group.class.getName())) {
+			return getGroupName((long)associationclassP);
 		}
-		if (Objects.equals(name, "UserGroup")) {
-			return getUserGroupName((long)classP);
+		if (associationClassName.equals(UserGroup.class.getName())) {
+			return getUserGroupName((long)associationclassP);
 		}
-		if (Objects.equals(name, "Team")) {
-			return getTeamName((long)classP);
+		if (associationClassName.equals(Team.class.getName())) {
+			return getTeamName((long)associationclassP);
 		}
-		return "";
+		return null;
 	}
 
 	private String getRoleName(long roleId) throws PortalException {
-		return _roleLocalService.getRole(roleId).getName();
+		Role role = _roleLocalService.fetchRole(roleId);
+		if (Validator.isNotNull(role)) {
+			return role.getName();
+		}
+		return null;
 	}
 
 	private String getOrganiztionName(long organizationId) throws PortalException {
-		return _organizationLocalService.getOrganization(organizationId).getName();
+		Organization organization =
+			_organizationLocalService.fetchOrganization(organizationId);
+		if (Validator.isNotNull(organization)) {
+			return organization.getName();
+		}
+		return null;
 	}
 
 	private String getGroupName(long groupId) throws PortalException {
-		return _groupLocalService.getGroup(groupId).getDescriptiveName();
+		Group group = _groupLocalService.fetchGroup(groupId);
+		if (Validator.isNotNull(group)) {
+			return group.getDescriptiveName();
+		}
+		return null;
 	}
 
 	private String getUserGroupName(long userGroupId) throws PortalException {
-		return _userGroupLocalService.getUserGroup(userGroupId).getName();
+		UserGroup userGroup = _userGroupLocalService.fetchUserGroup(userGroupId);
+		if (Validator.isNotNull(userGroup)) {
+			return userGroup.getName();
+		}
+		return null;
 	}
 
 	private String getTeamName(long teamId) throws PortalException {
-		return _teamLocalService.getTeam(teamId).getName();
+		Team team = _teamLocalService.fetchTeam(teamId);
+		if (Validator.isNotNull(team)) {
+			return team.getName();
+		}
+		return null;
 	}
 
 	@Reference

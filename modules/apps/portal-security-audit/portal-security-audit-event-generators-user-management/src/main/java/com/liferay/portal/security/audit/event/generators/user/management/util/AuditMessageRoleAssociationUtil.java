@@ -1,50 +1,55 @@
 package com.liferay.portal.security.audit.event.generators.user.management.util;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 
+import com.liferay.portal.kernel.util.Validator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.Objects;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(service = AuditMessageRoleAssociationUtil.class)
 public class AuditMessageRoleAssociationUtil {
-	public String getName(String className) {
-		String[] classPath = className.split("\\.");
-		String name = classPath[classPath.length-1];
-		if (Objects.equals(name, "Group")) {
+	public String getName(String associationClassName) {
+		if (associationClassName.equals(Group.class.getName())) {
 			return "GROUP";
 		}
-		if (Objects.equals(name, "User")) {
+		if (associationClassName.equals(User.class.getName())) {
 			return "USER";
 		}
-		return "";
+		return null;
 	}
 
-	public String getValue(String className, Object classP)
+	public String getValue(String associationClassName, Object associationClassP)
 		throws PortalException {
-		String[] classPath = className.split("\\.");
-		String name = classPath[classPath.length-1];
-		if (Objects.equals(name, "Group")) {
-			return getGroupName((long)classP);
+		if (associationClassName.equals(Group.class.getName())) {
+			return getGroupName((long)associationClassP);
 		}
-		if (Objects.equals(name, "User")) {
-			return getUserName((long)classP);
+		if (associationClassName.equals(User.class.getName())) {
+			return getUserName((long)associationClassP);
 		}
-		return "";
+		return null;
 	}
 
 	private String getGroupName(long groupId) throws PortalException {
-		return _groupLocalService.getGroup(groupId).getDescriptiveName();
+		Group group = _groupLocalService.fetchGroup(groupId);
+		if (Validator.isNotNull(group)) {
+			return group.getDescriptiveName();
+		}
+		return null;
 	}
 
 	private String getUserName(long userId) throws PortalException {
-		return _userLocalService.getUser(userId).getFullName();
+		User user = _userLocalService.fetchUser(userId);
+		if (Validator.isNotNull(user)) {
+			return user.getFullName();
+		}
+		return null;
 	}
 
 	@Reference
