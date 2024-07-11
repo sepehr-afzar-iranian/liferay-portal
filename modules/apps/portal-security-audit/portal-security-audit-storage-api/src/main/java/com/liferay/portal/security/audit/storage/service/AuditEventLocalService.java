@@ -77,6 +77,7 @@ public interface AuditEventLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public AuditEvent addAuditEvent(AuditEvent auditEvent);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public AuditEvent addAuditEvent(AuditMessage auditMessage);
 
 	/**
