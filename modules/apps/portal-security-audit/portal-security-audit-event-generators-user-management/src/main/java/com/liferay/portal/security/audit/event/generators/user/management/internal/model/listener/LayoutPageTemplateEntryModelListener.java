@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import org.osgi.service.component.annotations.Component;
@@ -81,8 +82,9 @@ public class LayoutPageTemplateEntryModelListener
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
-			LayoutPageTemplateCollection layoutPageTemplateCollection = _layoutPageTemplateCollectionLocalService.getLayoutPageTemplateCollection(
-				layoutPageTemplateEntry.getLayoutPageTemplateCollectionId());
+			long layoutPageTemplateCollectionId = layoutPageTemplateEntry.getLayoutPageTemplateCollectionId();
+
+			LayoutPageTemplateCollection layoutPageTemplateCollection = _layoutPageTemplateCollectionLocalService.fetchLayoutPageTemplateCollection(layoutPageTemplateCollectionId);
 
 			additionalInfoJSONObject.put(
 				"groupId", serviceContext.getScopeGroupId()
@@ -90,11 +92,15 @@ public class LayoutPageTemplateEntryModelListener
 				"layoutPageTemplateEntryId", layoutPageTemplateEntryId
 			).put(
 				"layoutPageTemplateEntryName", layoutPageTemplateEntry.getName()
-			).put(
-				"layoutPageTemplateEntryCollectionId", layoutPageTemplateEntry.getLayoutPageTemplateCollectionId()
-			).put(
-				"layoutPageTemplateEntryCollectionName", layoutPageTemplateCollection.getName()
 			);
+
+			if (Validator.isNotNull(layoutPageTemplateCollection)) {
+				additionalInfoJSONObject.put(
+					"layoutPageTemplateEntryCollectionId", layoutPageTemplateCollectionId
+				).put(
+					"layoutPageTemplateEntryCollectionName", layoutPageTemplateCollection.getName()
+				);
+			}
 
 			_auditRouter.route(auditMessage);
 		}

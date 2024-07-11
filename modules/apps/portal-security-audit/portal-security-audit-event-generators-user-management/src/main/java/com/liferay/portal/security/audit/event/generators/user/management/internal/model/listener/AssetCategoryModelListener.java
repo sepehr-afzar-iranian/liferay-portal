@@ -15,6 +15,7 @@
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
@@ -69,6 +70,9 @@ public class AssetCategoryModelListener
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
+			AssetVocabulary assetVocabulary =
+				_assetVocabularyLocalService.fetchAssetVocabulary(assetCategoryId);
 			
 			long assetVocabularyId = assetCategory.getVocabularyId();
 			
@@ -78,11 +82,15 @@ public class AssetCategoryModelListener
 				"assetCategoryId", assetCategoryId
 			).put(
 				"assetCategoryName", assetCategory.getName()
-			).put(
-				"assetVocabularyId", assetVocabularyId
-			).put(
-				"assetVocabularyName", _assetVocabularyLocalService.getAssetVocabulary(assetVocabularyId).getName()
 			);
+
+			if (Validator.isNotNull(assetVocabulary)) {
+				additionalInfoJSONObject.put(
+					"assetVocabularyId", assetVocabularyId
+				).put(
+					"assetVocabularyName", assetVocabulary.getName()
+				);
+			}
 
 			AssetCategory parentAssetCategory = assetCategory.getParentCategory();
 

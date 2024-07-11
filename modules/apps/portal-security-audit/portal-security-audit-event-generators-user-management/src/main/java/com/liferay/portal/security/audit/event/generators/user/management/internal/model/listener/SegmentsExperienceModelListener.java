@@ -22,8 +22,10 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.service.SegmentsEntryLocalService;
 
@@ -71,17 +73,24 @@ public class SegmentsExperienceModelListener
 
 			long segmentsEntryId = segmentsExperience.getSegmentsEntryId();
 
+			SegmentsEntry segmentsEntry =
+				_segmentsEntryLocalService.fetchSegmentsEntry(segmentsEntryId);
+
 			additionalInfoJSONObject.put(
 				"groupId", serviceContext.getScopeGroupId()
 			).put(
 				"segmentsExperienceId", segmentsExperienceId
 			).put(
 				"segmentsExperienceName", segmentsExperience.getName()
-			).put(
-				"segmentsEntryId", segmentsEntryId
-			).put(
-				"segmentsEntryName", _segmentsEntryLocalService.fetchSegmentsEntry(segmentsEntryId).getName()
 			);
+
+			if (Validator.isNotNull(segmentsEntry)) {
+				additionalInfoJSONObject.put(
+					"segmentsEntryId", segmentsEntryId
+				).put(
+					"segmentsEntryName", segmentsEntry.getName()
+				);
+			}
 
 			_auditRouter.route(auditMessage);
 		}
