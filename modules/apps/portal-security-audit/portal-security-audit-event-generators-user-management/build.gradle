@@ -36,4 +36,5 @@ dependencies {
 	compileOnly project(":apps:wiki:wiki-api")
 	compileOnly project(":apps:subscription:subscription-api")
 	compileOnly project(":apps:knowledge-base:knowledge-base-api")
+	compileOnly project(":apps:message-boards:message-boards-api")
 }
