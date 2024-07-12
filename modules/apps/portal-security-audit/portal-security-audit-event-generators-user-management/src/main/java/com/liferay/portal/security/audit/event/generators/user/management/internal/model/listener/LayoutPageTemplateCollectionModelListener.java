@@ -21,10 +21,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -39,7 +39,6 @@ public class LayoutPageTemplateCollectionModelListener
 	public void onAfterCreate(
 		LayoutPageTemplateCollection layoutPageTemplateCollection)
 		throws ModelListenerException {
-
 		audit(EventTypes.ADD, layoutPageTemplateCollection);
 
 	}
@@ -48,7 +47,6 @@ public class LayoutPageTemplateCollectionModelListener
 	public void onAfterUpdate(
 		LayoutPageTemplateCollection layoutPageTemplateCollection)
 		throws ModelListenerException {
-
 		audit(EventTypes.UPDATE, layoutPageTemplateCollection);
 
 	}
@@ -57,7 +55,6 @@ public class LayoutPageTemplateCollectionModelListener
 	public void onBeforeRemove(
 		LayoutPageTemplateCollection layoutPageTemplateCollection)
 		throws ModelListenerException {
-
 		audit(EventTypes.DELETE, layoutPageTemplateCollection);
 	}
 
@@ -71,15 +68,11 @@ public class LayoutPageTemplateCollectionModelListener
 				AuditMessageBuilder.buildAuditMessage(eventType,
 					LayoutPageTemplateCollection.class.getName(), layoutPageTemplateCollectionId,
 					null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"layoutPageTemplateCollectionId", layoutPageTemplateCollectionId
 			).put(
 				"layoutPageTemplateCollectionName", layoutPageTemplateCollection.getName()

@@ -20,8 +20,7 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.segments.model.SegmentsEntry;
@@ -62,14 +61,9 @@ public class SegmentsEntryModelListener
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, SegmentsEntry.class.getName(), segmentsEntryId, null);
 
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"segmentsEntryId", segmentsEntryId
 			).put(
 				"segmentsEntryName", segmentsEntry.getName()

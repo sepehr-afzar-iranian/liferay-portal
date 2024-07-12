@@ -23,8 +23,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.List;
 
@@ -56,6 +59,15 @@ public class AuditMessageBuilder {
 
 		JSONObject additionalInfoJSONObject =
 			JSONFactoryUtil.createJSONObject();
+
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		if (Validator.isNotNull(serviceContext)) {
+			additionalInfoJSONObject.put(
+				"groupId", serviceContext.getScopeGroupId()
+			);
+		}
 
 		if ((realUserId > 0) && (userId != realUserId)) {
 			additionalInfoJSONObject.put(

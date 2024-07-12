@@ -22,8 +22,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
@@ -62,8 +61,6 @@ public class MBBanModelListener extends BaseModelListener<MBBan> {
 				AuditMessageBuilder.buildAuditMessage(eventType,
 					MBBan.class.getName(), mbBanId,
 					null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -73,8 +70,6 @@ public class MBBanModelListener extends BaseModelListener<MBBan> {
 			User banUser = _userLocalService.fetchUser(banUserId);
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"mbBanId", mbBanId
 			).put(
 				"banUserId", banUserId

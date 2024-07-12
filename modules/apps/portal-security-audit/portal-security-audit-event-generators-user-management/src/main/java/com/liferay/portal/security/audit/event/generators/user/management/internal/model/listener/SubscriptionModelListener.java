@@ -20,8 +20,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.subscription.model.Subscription;
@@ -57,14 +55,9 @@ public class SubscriptionModelListener extends BaseModelListener<Subscription> {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, Subscription.class.getName(), subscriptionId, null);
 
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"subscriptionId", subscriptionId
 			).put(
 				"userId", subscription.getUserId()

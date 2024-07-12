@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import org.osgi.service.component.annotations.Component;
@@ -63,15 +61,11 @@ public class OAuth2ApplicationModelListener extends BaseModelListener<OAuth2Appl
 				AuditMessageBuilder.buildAuditMessage(eventType,
 					OAuth2Application.class.getName(), oAuth2ApplicationId,
 					null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"oAuth2ApplicationId", oAuth2ApplicationId
 			).put(
 				"oAuth2ApplicationName", oAuth2Application.getName()

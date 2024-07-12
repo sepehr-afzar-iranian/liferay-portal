@@ -19,8 +19,7 @@ import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import org.osgi.service.component.annotations.Component;
@@ -351,15 +350,8 @@ public class ConfigurationAuditModelListener
 				EventTypes.CONFIGURATION_SAVE, pid, (long) properties.get(
 					":org.apache.felix.configadmin.revision:"), null);
 
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
-
-			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			);
 
 			Enumeration<String> keys = properties.keys();
 

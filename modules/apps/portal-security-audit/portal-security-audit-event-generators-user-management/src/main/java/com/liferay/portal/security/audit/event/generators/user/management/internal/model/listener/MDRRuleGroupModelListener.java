@@ -21,8 +21,7 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -64,15 +63,11 @@ public class MDRRuleGroupModelListener
 				AuditMessageBuilder.buildAuditMessage(eventType,
 					MDRRuleGroup.class.getName(), mdrRuleGroupId,
 					null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"mdrRuleGroupId",mdrRuleGroupId
 			).put(
 				"mdrRuleGroupName", mdrRuleGroup.getName()

@@ -27,8 +27,7 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.service.RoleServiceUtil;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.sync.model.SyncDLObject;
@@ -143,9 +142,6 @@ public class ResourcePermissionModelListener
 				ResourcePermission.class.getName(),
 				resourcePermissionId, null);
 
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
 			long roleId = resourcePermission.getRoleId();
 			String resourcePermissionName = resourcePermission.getName();
 
@@ -166,8 +162,6 @@ public class ResourcePermissionModelListener
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"resourcePermissionId", resourcePermissionId
 			).put(
 				"resourcePermissionName", resourcePermissionName

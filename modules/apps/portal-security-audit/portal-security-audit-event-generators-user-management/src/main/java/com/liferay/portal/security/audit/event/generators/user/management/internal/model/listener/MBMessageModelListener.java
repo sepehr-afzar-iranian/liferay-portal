@@ -23,8 +23,7 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -64,22 +63,16 @@ public class MBMessageModelListener
 					MBMessage.class.getName(), mbMessageId,
 					null);
 
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
-			MBThread mbThread = mbMessage.getThread();
-			MBCategory mbCategory = mbMessage.getCategory();
-
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"mbMessageId", mbMessageId
 			).put(
 				"mbMessageBody", mbMessage.getBody()
 			);
+
+			MBCategory mbCategory = mbMessage.getCategory();
 			
 			if (Validator.isNotNull(mbCategory)) {
 				additionalInfoJSONObject.put(
@@ -88,6 +81,8 @@ public class MBMessageModelListener
 					"mbCategoryName", mbCategory.getName()
 				);
 			}
+
+			MBThread mbThread = mbMessage.getThread();
 
 			if (Validator.isNotNull(mbThread)) {
 				additionalInfoJSONObject.put(

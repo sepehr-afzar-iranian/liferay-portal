@@ -21,8 +21,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageUserAssociationUtil;
@@ -44,74 +42,12 @@ public class UserModelListener extends BaseModelListener<User> {
 
 	public void onAfterAddAssociation(Object classPK, String associationClassName,
 									  Object associationClassP) {
-		try{
-			String additName = _auditMessageUserAssociationUtil.getName(associationClassName);
-			String additValue = _auditMessageUserAssociationUtil.getValue(associationClassName, associationClassP);
-
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(
-					EventTypes.UPDATE, User.class.getName(),
-					(long)associationClassP, null);
-
-			JSONObject additionalInfoJSONObject =
-				auditMessage.getAdditionalInfo();
-
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
-			additionalInfoJSONObject.put(
-				"associationType", EventTypes.ADD
-			).put(
-				"associationName", additName
-			).put(
-				"associationValue", additValue
-			).put(
-				"associationClassName", associationClassName
-			).put(
-				"groupId", serviceContext.getScopeGroupId()
-			);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception e){
-			System.out.println("e = " + e);
-		}
+		associationAudit(associationClassName, associationClassP, EventTypes.ADD);
 	}
 
 	public void onAfterRemoveAssociation(Object classPK, String associationClassName,
 									  Object associationClassP) {
-		try{
-			String additName = _auditMessageUserAssociationUtil.getName(associationClassName);
-			String additValue = _auditMessageUserAssociationUtil.getValue(associationClassName, associationClassP);
-
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(
-					EventTypes.UPDATE, User.class.getName(),
-					(long)associationClassP, null);
-
-			JSONObject additionalInfoJSONObject =
-				auditMessage.getAdditionalInfo();
-
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
-			additionalInfoJSONObject.put(
-				"associationType", EventTypes.DELETE
-			).put(
-				"associationName", additName
-			).put(
-				"associationValue", additValue
-			).put(
-				"associationClassName", associationClassName
-			).put(
-				"groupId", serviceContext.getScopeGroupId()
-			);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception e){
-			System.out.println("e = " + e);
-		}
+		associationAudit(associationClassName, associationClassP, EventTypes.DELETE);
 	}
 
 	public void onBeforeCreate(User user) throws ModelListenerException {
@@ -147,7 +83,7 @@ public class UserModelListener extends BaseModelListener<User> {
 				).put(
 					"userName", newUser.getFullName()
 				).put(
-					"groupId", newUser.getGroupId()
+					"userGroupId", newUser.getGroupId()
 				);
 
 				_auditRouter.route(auditMessage);
@@ -178,13 +114,45 @@ public class UserModelListener extends BaseModelListener<User> {
 			).put(
 				"userName", user.getFullName()
 			).put(
-				"groupId", user.getGroupId()
+				"userGroupId", user.getGroupId()
 			);
 
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
 			throw new ModelListenerException(exception);
+		}
+	}
+
+	protected void associationAudit(
+		String associationClassName,
+		Object associationClassP, String eventType) {
+		try{
+			String additName = _auditMessageUserAssociationUtil.getName(associationClassName);
+			String additValue = _auditMessageUserAssociationUtil.getValue(associationClassName, associationClassP);
+
+			AuditMessage auditMessage =
+				AuditMessageBuilder.buildAuditMessage(
+					EventTypes.UPDATE, User.class.getName(),
+					(long)associationClassP, null);
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"associationType", eventType
+			).put(
+				"associationName", additName
+			).put(
+				"associationValue", additValue
+			).put(
+				"associationClassName", associationClassName
+			);
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception e){
+			System.out.println("e = " + e);
 		}
 	}
 

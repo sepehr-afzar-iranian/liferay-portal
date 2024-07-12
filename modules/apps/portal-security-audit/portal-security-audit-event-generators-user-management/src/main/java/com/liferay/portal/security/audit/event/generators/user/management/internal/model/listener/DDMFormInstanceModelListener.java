@@ -23,9 +23,6 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
-
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -64,15 +61,11 @@ public class DDMFormInstanceModelListener
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, DDMFormInstance.class.getName(),
 				formInstanceId, null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"formInstanceId", formInstanceId
 			).put(
 				"formInstanceName", ddmFormInstance.getName()

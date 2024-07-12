@@ -23,8 +23,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.PasswordPolicy;
 import com.liferay.portal.kernel.model.PasswordPolicyRel;
 import com.liferay.portal.kernel.service.PasswordPolicyLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -68,8 +67,6 @@ public class PasswordPolicyRelModelListener
 				AuditMessageBuilder.buildAuditMessage(eventType,
 					PasswordPolicyRel.class.getName(), passwordPolicyRelId,
 					null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			long passwordPolicyId = passwordPolicyRel.getPasswordPolicyId();
 
@@ -81,8 +78,6 @@ public class PasswordPolicyRelModelListener
 					passwordPolicyId);
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"passwordPolicyRelId", passwordPolicyRelId
 			);
 

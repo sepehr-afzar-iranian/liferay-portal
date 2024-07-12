@@ -23,8 +23,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -92,14 +91,11 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 					AuditMessageBuilder.buildAuditMessage(
 						EventTypes.UPDATE, Organization.class.getName(),
 						newOrganization.getOrganizationId(), attributes);
-				ServiceContext serviceContext =
-					ServiceContextThreadLocal.getServiceContext();
 
 				JSONObject additionalInfoJSONObject =
 					auditMessage.getAdditionalInfo();
 
 				additionalInfoJSONObject.put(
-					"groupId", serviceContext.getScopeGroupId()).put(
 					"organizationId", organizationId).put(
 					"organizationName", newOrganization.getName());
 				_auditRouter.route(auditMessage);
@@ -153,15 +149,11 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, Organization.class.getName(),
 				organizationId, null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"organizationId", organizationId
 			).put(
 				"organizationName", organization.getName()

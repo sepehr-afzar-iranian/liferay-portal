@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.RepositoryEntry;
 
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -65,15 +63,11 @@ public class RepositoryEntryModelListener
 				AuditMessageBuilder.buildAuditMessage(eventType,
 					RepositoryEntry.class.getName(), repositoryEntryId,
 					null);
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"repositoryEntryId", repositoryEntryId
 			).put(
 				"repositoryId", repositoryEntry.getRepositoryId()

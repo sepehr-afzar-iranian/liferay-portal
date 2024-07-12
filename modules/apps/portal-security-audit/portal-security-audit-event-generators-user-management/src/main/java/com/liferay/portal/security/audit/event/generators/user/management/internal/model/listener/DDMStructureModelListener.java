@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import org.osgi.service.component.annotations.Component;
@@ -76,16 +74,6 @@ public class DDMStructureModelListener
 			).put(
 				"ddmStructureName", ddmStructure.getName()
 			);
-
-			try {
-				ServiceContext serviceContext =
-					ServiceContextThreadLocal.getServiceContext();
-				additionalInfoJSONObject.put(
-					"groupId", serviceContext.getScopeGroupId()
-				);
-			} catch (Exception ignored) {
-
-			}
 
 			_auditRouter.route(auditMessage);
 		}

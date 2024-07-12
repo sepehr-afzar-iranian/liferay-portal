@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.Role;
 
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageRoleAssociationUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -40,81 +38,13 @@ public class RoleModelListener extends BaseModelListener<Role> {
 	public void onAfterAddAssociation(
 		Object classPK, String associationClassName,
 		Object associationClassP) {
-		try {
-			String additName =
-				_auditMessageRoleAssociationUtil.getName(associationClassName);
-			String additValue =
-				_auditMessageRoleAssociationUtil.getValue(associationClassName,
-					associationClassP);
-
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(
-					EventTypes.UPDATE, Role.class.getName(),
-					(long) associationClassP, null);
-
-			JSONObject additionalInfoJSONObject =
-				auditMessage.getAdditionalInfo();
-
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
-			additionalInfoJSONObject.put(
-				"associationType", EventTypes.ADD
-			).put(
-				"associationName", additName
-			).put(
-				"associationValue", additValue
-			).put(
-				"associationClassName", associationClassName
-			).put(
-				"groupId", serviceContext.getScopeGroupId()
-			);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception e) {
-			System.out.println("e = " + e);
-		}
+		associationAudit(associationClassName, associationClassP, EventTypes.ADD);
 	}
 
 	public void onAfterRemoveAssociation(
 		Object classPK, String associationClassName,
 		Object associationClassP) {
-		try {
-			String additName =
-				_auditMessageRoleAssociationUtil.getName(associationClassName);
-			String additValue =
-				_auditMessageRoleAssociationUtil.getValue(associationClassName,
-					associationClassP);
-
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(
-					EventTypes.UPDATE, Role.class.getName(),
-					(long) associationClassP, null);
-
-			JSONObject additionalInfoJSONObject =
-				auditMessage.getAdditionalInfo();
-
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
-			additionalInfoJSONObject.put(
-				"associationType", EventTypes.DELETE
-			).put(
-				"associationName", additName
-			).put(
-				"associationValue", additValue
-			).put(
-				"associationClassName", associationClassName
-			).put(
-				"groupId", serviceContext.getScopeGroupId()
-			);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception e) {
-			System.out.println("e = " + e);
-		}
+		associationAudit(associationClassName, associationClassP, EventTypes.DELETE);
 	}
 
 	@Override
@@ -140,14 +70,9 @@ public class RoleModelListener extends BaseModelListener<Role> {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, Role.class.getName(), roleId, null);
 
-			ServiceContext serviceContext =
-				ServiceContextThreadLocal.getServiceContext();
-
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			).put(
 				"roleId", roleId
 			).put(
 				"roleName", role.getRoleId()
@@ -157,6 +82,35 @@ public class RoleModelListener extends BaseModelListener<Role> {
 		}
 		catch (Exception exception) {
 			throw new ModelListenerException(exception);
+		}
+	}
+
+	protected void associationAudit(
+		String associationClassName,
+		Object associationClassP, String eventType) {
+		try {
+			AuditMessage auditMessage =
+				AuditMessageBuilder.buildAuditMessage(
+					EventTypes.UPDATE, Role.class.getName(),
+					(long) associationClassP, null);
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"associationType", eventType
+			).put(
+				"associationName", _auditMessageRoleAssociationUtil.getName(associationClassName)
+			).put(
+				"associationValue", _auditMessageRoleAssociationUtil.getValue(associationClassName, associationClassP)
+			).put(
+				"associationClassName", associationClassName
+			);
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception e) {
+			System.out.println("e = " + e);
 		}
 	}
 
