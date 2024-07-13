@@ -68,6 +68,8 @@ public class MBThreadModelListener extends BaseModelListener<MBThread> {
 				"mbThreadId", mbThreadId
 			).put(
 				"mbThreadTitle", mbThread.getTitle()
+			).put(
+				"mbThreadPriority", mbThread.getPriority()
 			);
 
 			MBCategory mbCategory = mbThread.getCategory();

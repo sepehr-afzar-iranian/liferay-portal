@@ -70,6 +70,8 @@ public class MBMessageModelListener
 				"mbMessageId", mbMessageId
 			).put(
 				"mbMessageBody", mbMessage.getBody()
+			).put(
+				"isMBMessageReply", mbMessage.isReply()
 			);
 
 			MBCategory mbCategory = mbMessage.getCategory();
