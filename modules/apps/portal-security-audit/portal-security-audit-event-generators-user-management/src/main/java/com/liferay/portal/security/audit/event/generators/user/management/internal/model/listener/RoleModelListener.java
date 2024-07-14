@@ -102,7 +102,7 @@ public class RoleModelListener extends BaseModelListener<Role> {
 			).put(
 				"associationName", _auditMessageRoleAssociationUtil.getName(associationClassName)
 			).put(
-				"associationValue", _auditMessageRoleAssociationUtil.getValue(associationClassName, associationClassP)
+				"associationValue", _auditMessageRoleAssociationUtil.getValue(associationClassName, (long)associationClassP)
 			).put(
 				"associationClassName", associationClassName
 			);

@@ -128,9 +128,6 @@ public class UserModelListener extends BaseModelListener<User> {
 		String associationClassName,
 		Object associationClassP, String eventType) {
 		try{
-			String additName = _auditMessageUserAssociationUtil.getName(associationClassName);
-			String additValue = _auditMessageUserAssociationUtil.getValue(associationClassName, associationClassP);
-
 			AuditMessage auditMessage =
 				AuditMessageBuilder.buildAuditMessage(
 					EventTypes.UPDATE, User.class.getName(),
@@ -142,9 +139,9 @@ public class UserModelListener extends BaseModelListener<User> {
 			additionalInfoJSONObject.put(
 				"associationType", eventType
 			).put(
-				"associationName", additName
+				"associationName", _auditMessageUserAssociationUtil.getName(associationClassName)
 			).put(
-				"associationValue", additValue
+				"associationValue", _auditMessageUserAssociationUtil.getValue(associationClassName, (long)associationClassP)
 			).put(
 				"associationClassName", associationClassName
 			);

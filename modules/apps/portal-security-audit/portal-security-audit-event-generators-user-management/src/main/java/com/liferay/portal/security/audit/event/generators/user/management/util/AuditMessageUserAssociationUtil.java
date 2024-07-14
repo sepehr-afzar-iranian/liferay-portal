@@ -39,27 +39,27 @@ public class AuditMessageUserAssociationUtil {
 		}
 		return null;
 	}
-	public String getValue(String associationClassName, Object associationclassP)
+	public String getValue(String associationClassName, long associationclassP)
 		throws PortalException {
 		if (associationClassName.equals(Role.class.getName())) {
-			return getRoleName((long)associationclassP);
+			return getRoleName(associationclassP);
 		}
 		if (associationClassName.equals(Organization.class.getName())) {
-			return getOrganiztionName((long)associationclassP);
+			return getOrganiztionName(associationclassP);
 		}
 		if (associationClassName.equals(Group.class.getName())) {
-			return getGroupName((long)associationclassP);
+			return getGroupName(associationclassP);
 		}
 		if (associationClassName.equals(UserGroup.class.getName())) {
-			return getUserGroupName((long)associationclassP);
+			return getUserGroupName(associationclassP);
 		}
 		if (associationClassName.equals(Team.class.getName())) {
-			return getTeamName((long)associationclassP);
+			return getTeamName(associationclassP);
 		}
 		return null;
 	}
 
-	private String getRoleName(long roleId) throws PortalException {
+	private String getRoleName(long roleId) {
 		Role role = _roleLocalService.fetchRole(roleId);
 		if (Validator.isNotNull(role)) {
 			return role.getName();
@@ -67,7 +67,7 @@ public class AuditMessageUserAssociationUtil {
 		return null;
 	}
 
-	private String getOrganiztionName(long organizationId) throws PortalException {
+	private String getOrganiztionName(long organizationId) {
 		Organization organization =
 			_organizationLocalService.fetchOrganization(organizationId);
 		if (Validator.isNotNull(organization)) {
@@ -84,7 +84,7 @@ public class AuditMessageUserAssociationUtil {
 		return null;
 	}
 
-	private String getUserGroupName(long userGroupId) throws PortalException {
+	private String getUserGroupName(long userGroupId) {
 		UserGroup userGroup = _userGroupLocalService.fetchUserGroup(userGroupId);
 		if (Validator.isNotNull(userGroup)) {
 			return userGroup.getName();
@@ -92,7 +92,7 @@ public class AuditMessageUserAssociationUtil {
 		return null;
 	}
 
-	private String getTeamName(long teamId) throws PortalException {
+	private String getTeamName(long teamId) {
 		Team team = _teamLocalService.fetchTeam(teamId);
 		if (Validator.isNotNull(team)) {
 			return team.getName();

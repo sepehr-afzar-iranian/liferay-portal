@@ -25,13 +25,13 @@ public class AuditMessageRoleAssociationUtil {
 		return null;
 	}
 
-	public String getValue(String associationClassName, Object associationClassP)
+	public String getValue(String associationClassName, long associationClassP)
 		throws PortalException {
 		if (associationClassName.equals(Group.class.getName())) {
-			return getGroupName((long)associationClassP);
+			return getGroupName(associationClassP);
 		}
 		if (associationClassName.equals(User.class.getName())) {
-			return getUserName((long)associationClassP);
+			return getUserName(associationClassP);
 		}
 		return null;
 	}
@@ -44,7 +44,7 @@ public class AuditMessageRoleAssociationUtil {
 		return null;
 	}
 
-	private String getUserName(long userId) throws PortalException {
+	private String getUserName(long userId) {
 		User user = _userLocalService.fetchUser(userId);
 		if (Validator.isNotNull(user)) {
 			return user.getFullName();
