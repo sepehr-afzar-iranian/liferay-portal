@@ -81,7 +81,7 @@ public class NavItem implements Serializable {
 
 					iterator.remove();
 				}
-				else if(!_showInCurrentLanguage(childLayout, themeDisplay)) {
+				else if (!_showInCurrentLanguage(childLayout, themeDisplay)) {
 					iterator.remove();
 				}
 			}
@@ -95,6 +95,7 @@ public class NavItem implements Serializable {
 
 			if (_isContentLayoutDraft(parentLayout) ||
 				!_showInCurrentLanguage(parentLayout, themeDisplay)) {
+
 				continue;
 			}
 
@@ -410,27 +411,26 @@ public class NavItem implements Serializable {
 		return true;
 	}
 
+	private static boolean _showInCurrentLanguage(
+		Layout layout, ThemeDisplay themeDisplay) {
 
-	private  static boolean _showInCurrentLanguage(Layout layout, ThemeDisplay themeDisplay) {
-		UnicodeProperties layoutTypeSettings =
+		UnicodeProperties layoutTypeSettingsUnicodeProperties =
 			layout.getTypeSettingsProperties();
 
 		boolean showInAllLanguages = GetterUtil.getBoolean(
-			layoutTypeSettings.getProperty("show-in-all-languages"),
+			layoutTypeSettingsUnicodeProperties.getProperty(
+				"show-in-all-languages"),
 			true);
-
 
 		if (showInAllLanguages) {
 			return true;
 		}
-		else {
-			return GetterUtil.getBoolean(layoutTypeSettings.getProperty("show-in-" + themeDisplay.getLanguageId()),true);
-		}
 
-
-
+		return GetterUtil.getBoolean(
+			layoutTypeSettingsUnicodeProperties.getProperty(
+				"show-in-" + themeDisplay.getLanguageId()),
+			true);
 	}
-
 
 	private NavItem(
 		HttpServletRequest httpServletRequest, ThemeDisplay themeDisplay,
@@ -457,10 +457,10 @@ public class NavItem implements Serializable {
 		List<NavItem> navItems = new ArrayList<>(layouts.size());
 
 		for (Layout layout : layouts) {
-
 			if (!_showInCurrentLanguage(layout, themeDisplay)) {
 				continue;
 			}
+
 			navItems.add(
 				new NavItem(
 					httpServletRequest, themeDisplay, layout, contextObjects));
