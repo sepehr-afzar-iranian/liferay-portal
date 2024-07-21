@@ -204,11 +204,11 @@ NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
 							for (int i = pagesIteratorBegin; i <= pagesIteratorEnd; i++) {
 							%>
 
-								<liferay-ui:icon
-									message="<%= String.valueOf(i) %>"
-									onClick='<%= forcePost ? _getOnClick(namespace, curParam, i) : "" %>'
-									url='<%= HtmlUtil.escapeJSLink(url + namespace + curParam + "=" + i + urlAnchor) %>'
-								/>
+							<liferay-ui:icon
+								message="<%= String.valueOf(i) %>"
+								onClick='<%= forcePost ? _getOnClick(namespace, curParam, i) : "" %>'
+								url="<%= HtmlUtil.escapeJSLink(HttpUtil.setParameter(HttpUtil.removeParameter(url, curParam), namespace + curParam, i + urlAnchor)) %>"
+							/>
 
 							<%
 							}
