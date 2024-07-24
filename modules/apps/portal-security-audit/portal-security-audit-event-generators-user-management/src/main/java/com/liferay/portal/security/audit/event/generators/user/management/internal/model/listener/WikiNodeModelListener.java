@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.wiki.model.WikiNode;
@@ -49,15 +48,14 @@ public class WikiNodeModelListener extends BaseModelListener<WikiNode> {
 		audit(EventTypes.UPDATE, wikiNode);
 	}
 
-	protected void audit(
-		String eventType, WikiNode wikiNode)
+	protected void audit(String eventType, WikiNode wikiNode)
 		throws ModelListenerException {
+
 		try {
 			long wikiNodeId = wikiNode.getNodeId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					WikiNode.class.getName(), wikiNodeId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, WikiNode.class.getName(), wikiNodeId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

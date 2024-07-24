@@ -23,10 +23,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -39,46 +39,48 @@ public class LayoutPageTemplateEntryModelListener
 	extends BaseModelListener<LayoutPageTemplateEntry> {
 
 	@Override
-	public void onAfterCreate(
-		LayoutPageTemplateEntry layoutPageTemplateEntry)
+	public void onAfterCreate(LayoutPageTemplateEntry layoutPageTemplateEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, layoutPageTemplateEntry);
-
 	}
 
 	@Override
-	public void onAfterUpdate(
-		LayoutPageTemplateEntry layoutPageTemplateEntry)
+	public void onAfterUpdate(LayoutPageTemplateEntry layoutPageTemplateEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, layoutPageTemplateEntry);
-
 	}
 
 	@Override
-	public void onBeforeRemove(
-		LayoutPageTemplateEntry layoutPageTemplateEntry)
+	public void onBeforeRemove(LayoutPageTemplateEntry layoutPageTemplateEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, layoutPageTemplateEntry);
 	}
 
 	protected void audit(
-		String eventType, LayoutPageTemplateEntry layoutPageTemplateEntry)
+			String eventType, LayoutPageTemplateEntry layoutPageTemplateEntry)
 		throws ModelListenerException {
 
 		try {
 			long layoutPageTemplateEntryId =
 				layoutPageTemplateEntry.getLayoutPageTemplateEntryId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					LayoutPageTemplateEntry.class.getName(), layoutPageTemplateEntryId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, LayoutPageTemplateEntry.class.getName(),
+				layoutPageTemplateEntryId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
-			long layoutPageTemplateCollectionId = layoutPageTemplateEntry.getLayoutPageTemplateCollectionId();
+			long layoutPageTemplateCollectionId =
+				layoutPageTemplateEntry.getLayoutPageTemplateCollectionId();
 
-			LayoutPageTemplateCollection layoutPageTemplateCollection = _layoutPageTemplateCollectionLocalService.fetchLayoutPageTemplateCollection(layoutPageTemplateCollectionId);
+			LayoutPageTemplateCollection layoutPageTemplateCollection =
+				_layoutPageTemplateCollectionLocalService.
+					fetchLayoutPageTemplateCollection(
+						layoutPageTemplateCollectionId);
 
 			additionalInfoJSONObject.put(
 				"layoutPageTemplateEntryId", layoutPageTemplateEntryId
@@ -86,11 +88,13 @@ public class LayoutPageTemplateEntryModelListener
 				"layoutPageTemplateEntryName", layoutPageTemplateEntry.getName()
 			);
 
-			if (Validator.isNotNull(layoutPageTemplateCollection)) {
+			if (!Objects.equals(layoutPageTemplateCollection, null)) {
 				additionalInfoJSONObject.put(
-					"layoutPageTemplateEntryCollectionId", layoutPageTemplateCollectionId
+					"layoutPageTemplateEntryCollectionId",
+					layoutPageTemplateCollectionId
 				).put(
-					"layoutPageTemplateEntryCollectionName", layoutPageTemplateCollection.getName()
+					"layoutPageTemplateEntryCollectionName",
+					layoutPageTemplateCollection.getName()
 				);
 			}
 

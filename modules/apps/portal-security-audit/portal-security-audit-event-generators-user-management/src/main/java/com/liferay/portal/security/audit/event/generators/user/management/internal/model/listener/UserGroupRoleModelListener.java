@@ -20,10 +20,14 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,37 +35,54 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class UserGroupRoleModelListener extends BaseModelListener<UserGroupRole> {
+public class UserGroupRoleModelListener
+	extends BaseModelListener<UserGroupRole> {
 
 	public void onBeforeCreate(UserGroupRole userGroupRole)
 		throws ModelListenerException {
+
 		auditOnCreateOrRemove(EventTypes.ADD, userGroupRole);
 	}
 
 	public void onBeforeRemove(UserGroupRole userGroupRole)
 		throws ModelListenerException {
+
 		auditOnCreateOrRemove(EventTypes.DELETE, userGroupRole);
 	}
 
-	protected void auditOnCreateOrRemove(String eventType, UserGroupRole userGroupRole)
+	protected void auditOnCreateOrRemove(
+			String eventType, UserGroupRole userGroupRole)
 		throws ModelListenerException {
+
 		try {
 			long userGroupRoleId = userGroupRole.getUserGroupRoleId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, UserGroupRole.class.getName(), userGroupRoleId, null);
+				eventType, UserGroupRole.class.getName(), userGroupRoleId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"userGroupRoleId",userGroupRoleId
+				"roleId", userGroupRole.getRoleId()
 			).put(
-				"roleId", userGroupRole.getRole().getName()
+				"userGroupRoleId", userGroupRoleId
 			).put(
 				"userID", userGroupRole.getUserId()
-			).put(
-				"userName", userGroupRole.getUser().getFullName()
 			);
+
+			Role role = userGroupRole.getRole();
+
+			if (!Objects.equals(role, null)) {
+				additionalInfoJSONObject.put("roleName", role.getName());
+			}
+
+			User user = userGroupRole.getUser();
+
+			if (!Objects.equals(user, null)) {
+				additionalInfoJSONObject.put("userName", user.getFullName());
+			}
 
 			_auditRouter.route(auditMessage);
 		}
@@ -72,4 +93,5 @@ public class UserGroupRoleModelListener extends BaseModelListener<UserGroupRole>
 
 	@Reference
 	private AuditRouter _auditRouter;
+
 }

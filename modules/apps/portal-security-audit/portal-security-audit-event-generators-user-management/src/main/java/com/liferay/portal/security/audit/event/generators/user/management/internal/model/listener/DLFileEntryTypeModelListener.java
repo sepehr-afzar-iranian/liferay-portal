@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -38,18 +37,21 @@ public class DLFileEntryTypeModelListener
 	@Override
 	public void onAfterCreate(DLFileEntryType dlFileEntryType)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, dlFileEntryType);
 	}
 
 	@Override
 	public void onAfterRemove(DLFileEntryType dlFileEntryType)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, dlFileEntryType);
 	}
 
 	@Override
 	public void onAfterUpdate(DLFileEntryType dlFileEntryType)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, dlFileEntryType);
 	}
 
@@ -58,8 +60,10 @@ public class DLFileEntryTypeModelListener
 
 		try {
 			long dlFileEntryTypeId = dlFileEntryType.getFileEntryTypeId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, DLFileEntryType.class.getName(), dlFileEntryTypeId, null);
+				eventType, DLFileEntryType.class.getName(), dlFileEntryTypeId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -69,6 +73,7 @@ public class DLFileEntryTypeModelListener
 			).put(
 				"dlFileEntryTypeName", dlFileEntryType.getName()
 			);
+
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {

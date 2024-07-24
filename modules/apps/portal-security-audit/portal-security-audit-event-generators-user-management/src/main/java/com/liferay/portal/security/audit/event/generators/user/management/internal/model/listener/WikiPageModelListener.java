@@ -20,11 +20,12 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.wiki.model.WikiNode;
 import com.liferay.wiki.model.WikiPage;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -32,7 +33,6 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Yousef Ghadiri
  */
-
 @Component(immediate = true, service = ModelListener.class)
 public class WikiPageModelListener extends BaseModelListener<WikiPage> {
 
@@ -51,33 +51,31 @@ public class WikiPageModelListener extends BaseModelListener<WikiPage> {
 		audit(EventTypes.UPDATE, wikiPage);
 	}
 
-	protected void audit(
-		String eventType, WikiPage wikiPage)
+	protected void audit(String eventType, WikiPage wikiPage)
 		throws ModelListenerException {
+
 		try {
 			long wikiPageId = wikiPage.getPageId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					WikiPage.class.getName(), wikiPageId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, WikiPage.class.getName(), wikiPageId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
+				"wikiNodeId", wikiPage.getNodeId()
+			).put(
 				"wikiPageId", wikiPageId
 			).put(
 				"wikiPageTitle", wikiPage.getTitle()
-			).put(
-				"wikiNodeId", wikiPage.getNodeId()
 			);
 
 			WikiNode wikiNode = wikiPage.getNode();
 
-			if (Validator.isNotNull(wikiNode)) {
+			if (!Objects.equals(wikiNode, null)) {
 				additionalInfoJSONObject.put(
-					"wikiNodeName", wikiNode.getName()
-				);
+					"wikiNodeName", wikiNode.getName());
 			}
 
 			_auditRouter.route(auditMessage);

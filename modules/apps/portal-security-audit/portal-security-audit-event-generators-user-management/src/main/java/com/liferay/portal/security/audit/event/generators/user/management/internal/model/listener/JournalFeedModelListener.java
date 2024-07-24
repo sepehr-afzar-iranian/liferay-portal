@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -32,8 +31,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class JournalFeedModelListener
-	extends BaseModelListener<JournalFeed> {
+public class JournalFeedModelListener extends BaseModelListener<JournalFeed> {
 
 	@Override
 	public void onAfterCreate(JournalFeed journalFeed)
@@ -56,16 +54,14 @@ public class JournalFeedModelListener
 		audit(EventTypes.UPDATE, journalFeed);
 	}
 
-	protected void audit(
-		String eventType, JournalFeed journalFeed)
+	protected void audit(String eventType, JournalFeed journalFeed)
 		throws ModelListenerException {
 
 		try {
 			long id = journalFeed.getId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					JournalFeed.class.getName(), id,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, JournalFeed.class.getName(), id, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -75,9 +71,9 @@ public class JournalFeedModelListener
 			).put(
 				"journalFeedId", journalFeed.getFeedId()
 			).put(
-				"journalFeedName", journalFeed.getName()
-			).put(
 				"journalFeedId", journalFeed.getFeedId()
+			).put(
+				"journalFeedName", journalFeed.getName()
 			);
 
 			_auditRouter.route(auditMessage);

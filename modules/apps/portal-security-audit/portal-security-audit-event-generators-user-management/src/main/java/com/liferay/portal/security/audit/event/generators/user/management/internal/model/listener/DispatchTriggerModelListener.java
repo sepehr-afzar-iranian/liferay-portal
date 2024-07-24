@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,33 +31,36 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class DispatchTriggerModelListener extends BaseModelListener<DispatchTrigger> {
+public class DispatchTriggerModelListener
+	extends BaseModelListener<DispatchTrigger> {
 
 	public void onAfterCreate(DispatchTrigger dispatchTrigger)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, dispatchTrigger);
 	}
 
 	public void onAfterRemove(DispatchTrigger dispatchTrigger)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, dispatchTrigger);
 	}
 
 	public void onAfterUpdate(DispatchTrigger dispatchTrigger)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, dispatchTrigger);
 	}
 
-	protected void audit(
-		String eventType, DispatchTrigger dispatchTrigger)
+	protected void audit(String eventType, DispatchTrigger dispatchTrigger)
 		throws ModelListenerException {
 
 		try {
 			long dispatchTriggerId = dispatchTrigger.getDispatchTriggerId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					DispatchTrigger.class.getName(), dispatchTriggerId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, DispatchTrigger.class.getName(), dispatchTriggerId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

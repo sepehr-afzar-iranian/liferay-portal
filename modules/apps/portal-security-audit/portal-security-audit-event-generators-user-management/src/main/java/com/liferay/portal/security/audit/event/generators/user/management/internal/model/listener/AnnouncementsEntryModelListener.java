@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,36 +31,40 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class AnnouncementsEntryModelListener extends BaseModelListener<AnnouncementsEntry> {
+public class AnnouncementsEntryModelListener
+	extends BaseModelListener<AnnouncementsEntry> {
 
 	@Override
 	public void onAfterCreate(AnnouncementsEntry announcementsEntry)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, announcementsEntry);
-	}
 
-	@Override
-	public void onAfterUpdate(AnnouncementsEntry announcementsEntry)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, announcementsEntry);
+		audit(EventTypes.ADD, announcementsEntry);
 	}
 
 	@Override
 	public void onAfterRemove(AnnouncementsEntry announcementsEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, announcementsEntry);
 	}
 
+	@Override
+	public void onAfterUpdate(AnnouncementsEntry announcementsEntry)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, announcementsEntry);
+	}
+
 	protected void audit(
-		String eventType, AnnouncementsEntry announcementsEntry)
+			String eventType, AnnouncementsEntry announcementsEntry)
 		throws ModelListenerException {
 
 		try {
 			long announcementsEntryId = announcementsEntry.getEntryId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					AnnouncementsEntry.class.getName(), announcementsEntryId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, AnnouncementsEntry.class.getName(),
+				announcementsEntryId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

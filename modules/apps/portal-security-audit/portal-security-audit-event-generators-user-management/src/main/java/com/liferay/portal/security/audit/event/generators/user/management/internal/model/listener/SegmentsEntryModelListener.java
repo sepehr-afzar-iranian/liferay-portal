@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.segments.model.SegmentsEntry;
@@ -38,18 +37,21 @@ public class SegmentsEntryModelListener
 	@Override
 	public void onAfterCreate(SegmentsEntry segmentsEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, segmentsEntry);
 	}
 
 	@Override
 	public void onAfterRemove(SegmentsEntry segmentsEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, segmentsEntry);
 	}
 
 	@Override
 	public void onAfterUpdate(SegmentsEntry segmentsEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, segmentsEntry);
 	}
 
@@ -58,11 +60,14 @@ public class SegmentsEntryModelListener
 
 		try {
 			long segmentsEntryId = segmentsEntry.getSegmentsEntryId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, SegmentsEntry.class.getName(), segmentsEntryId, null);
+				eventType, SegmentsEntry.class.getName(), segmentsEntryId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
 				"segmentsEntryId", segmentsEntryId
 			).put(

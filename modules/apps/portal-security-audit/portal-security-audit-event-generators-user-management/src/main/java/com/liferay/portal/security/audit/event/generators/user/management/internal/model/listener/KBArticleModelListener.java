@@ -23,10 +23,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -35,24 +35,26 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class KBArticleModelListener
-	extends BaseModelListener<KBArticle> {
+public class KBArticleModelListener extends BaseModelListener<KBArticle> {
 
 	@Override
 	public void onAfterCreate(KBArticle kbArticle)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, kbArticle);
 	}
 
 	@Override
 	public void onAfterRemove(KBArticle kbArticle)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, kbArticle);
 	}
 
 	@Override
 	public void onAfterUpdate(KBArticle kbArticle)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, kbArticle);
 	}
 
@@ -61,11 +63,13 @@ public class KBArticleModelListener
 
 		try {
 			long kbArticleId = kbArticle.getKbArticleId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, KBArticle.class.getName(), kbArticleId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
 				"kbArticleId", kbArticleId
 			).put(
@@ -73,9 +77,10 @@ public class KBArticleModelListener
 			);
 
 			long kbFolderId = kbArticle.getKbFolderId();
+
 			KBFolder kbFolder = _kbFolderLocalService.fetchKBFolder(kbFolderId);
 
-			if (Validator.isNotNull(kbFolder)) {
+			if (!Objects.equals(kbFolder, null)) {
 				additionalInfoJSONObject.put(
 					"kbFolderId", kbFolderId
 				).put(
@@ -85,7 +90,7 @@ public class KBArticleModelListener
 
 			KBArticle parentKBArticle = kbArticle.getParentKBArticle();
 
-			if (Validator.isNotNull(parentKBArticle)) {
+			if (!Objects.equals(parentKBArticle, null)) {
 				additionalInfoJSONObject.put(
 					"parentKBArticleId", parentKBArticle.getKbArticleId()
 				).put(

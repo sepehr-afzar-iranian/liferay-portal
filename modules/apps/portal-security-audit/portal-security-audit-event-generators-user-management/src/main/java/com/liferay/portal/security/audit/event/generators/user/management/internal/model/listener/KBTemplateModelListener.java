@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -32,24 +31,26 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class KBTemplateModelListener
-	extends BaseModelListener<KBTemplate> {
+public class KBTemplateModelListener extends BaseModelListener<KBTemplate> {
 
 	@Override
 	public void onAfterCreate(KBTemplate kbTemplate)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, kbTemplate);
 	}
 
 	@Override
 	public void onAfterRemove(KBTemplate kbTemplate)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, kbTemplate);
 	}
 
 	@Override
 	public void onAfterUpdate(KBTemplate kbTemplate)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, kbTemplate);
 	}
 
@@ -58,6 +59,7 @@ public class KBTemplateModelListener
 
 		try {
 			long kbTemplateId = kbTemplate.getKbTemplateId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, KBTemplate.class.getName(), kbTemplateId, null);
 

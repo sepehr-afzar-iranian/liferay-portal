@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,17 +31,14 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class AssetListEntryModelListener extends BaseModelListener<AssetListEntry> {
+public class AssetListEntryModelListener
+	extends BaseModelListener<AssetListEntry> {
 
 	@Override
-	public void onAfterCreate(AssetListEntry assetListEntry) throws ModelListenerException {
-		audit(EventTypes.ADD, assetListEntry);
-	}
-
-	@Override
-	public void onAfterUpdate(AssetListEntry assetListEntry)
+	public void onAfterCreate(AssetListEntry assetListEntry)
 		throws ModelListenerException {
-		audit(EventTypes.UPDATE, assetListEntry);
+
+		audit(EventTypes.ADD, assetListEntry);
 	}
 
 	@Override
@@ -49,17 +46,22 @@ public class AssetListEntryModelListener extends BaseModelListener<AssetListEntr
 		audit(EventTypes.DELETE, assetListEntry);
 	}
 
-	protected void audit(
-		String eventType, AssetListEntry assetListEntry)
+	@Override
+	public void onAfterUpdate(AssetListEntry assetListEntry)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, assetListEntry);
+	}
+
+	protected void audit(String eventType, AssetListEntry assetListEntry)
 		throws ModelListenerException {
 
 		try {
 			long assetListEntryId = assetListEntry.getAssetListEntryId();
 
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					AssetListEntry.class.getName(), assetListEntryId,
-					null);
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, AssetListEntry.class.getName(), assetListEntryId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

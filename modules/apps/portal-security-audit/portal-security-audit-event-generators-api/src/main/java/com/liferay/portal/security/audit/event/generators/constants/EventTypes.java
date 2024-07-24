@@ -26,6 +26,8 @@ public interface EventTypes {
 
 	public static final String ASSIGN = "ASSIGN";
 
+	public static final String CONFIGURATION_SAVE = "SAVE CONFIGURATION";
+
 	public static final String DELETE = "DELETE";
 
 	public static final String IMPERSONATE = "IMPERSONATE";
@@ -36,12 +38,10 @@ public interface EventTypes {
 
 	public static final String LOGOUT = "LOGOUT";
 
+	public static final String PERMISSION_UPDATE = "UPDATE PERMISSION";
+
 	public static final String UNASSIGN = "UNASSIGN";
 
 	public static final String UPDATE = "UPDATE";
-
-	public static final String PERMISSION_UPDATE = "UPDATE PERMISSION";
-
-	public static final String CONFIGURATION_SAVE = "SAVE CONFIGURATION";
 
 }

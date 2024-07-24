@@ -23,9 +23,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -40,18 +41,21 @@ public class AssetCategoryModelListener
 	@Override
 	public void onAfterCreate(AssetCategory assetCategory)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, assetCategory);
 	}
 
 	@Override
 	public void onAfterRemove(AssetCategory assetCategory)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, assetCategory);
 	}
 
 	@Override
 	public void onAfterUpdate(AssetCategory assetCategory)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, assetCategory);
 	}
 
@@ -60,24 +64,27 @@ public class AssetCategoryModelListener
 
 		try {
 			long assetCategoryId = assetCategory.getCategoryId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, AssetCategory.class.getName(), assetCategoryId, null);
+				eventType, AssetCategory.class.getName(), assetCategoryId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			AssetVocabulary assetVocabulary =
-				_assetVocabularyLocalService.fetchAssetVocabulary(assetCategoryId);
-			
+				_assetVocabularyLocalService.fetchAssetVocabulary(
+					assetCategoryId);
+
 			long assetVocabularyId = assetCategory.getVocabularyId();
-			
+
 			additionalInfoJSONObject.put(
 				"assetCategoryId", assetCategoryId
 			).put(
 				"assetCategoryName", assetCategory.getName()
 			);
 
-			if (Validator.isNotNull(assetVocabulary)) {
+			if (!Objects.equals(assetVocabulary, null)) {
 				additionalInfoJSONObject.put(
 					"assetVocabularyId", assetVocabularyId
 				).put(
@@ -85,9 +92,10 @@ public class AssetCategoryModelListener
 				);
 			}
 
-			AssetCategory parentAssetCategory = assetCategory.getParentCategory();
+			AssetCategory parentAssetCategory =
+				assetCategory.getParentCategory();
 
-			if (Validator.isNotNull(parentAssetCategory)) {
+			if (!Objects.equals(parentAssetCategory, null)) {
 				additionalInfoJSONObject.put(
 					"parentAssetCategoryId", parentAssetCategory.getCategoryId()
 				).put(
@@ -103,9 +111,9 @@ public class AssetCategoryModelListener
 	}
 
 	@Reference
-	private AuditRouter _auditRouter;
-	
-	@Reference
 	private AssetVocabularyLocalService _assetVocabularyLocalService;
+
+	@Reference
+	private AuditRouter _auditRouter;
 
 }

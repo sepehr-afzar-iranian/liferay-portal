@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -38,27 +37,32 @@ public class DDMDataProviderInstanceModelListener
 	@Override
 	public void onAfterCreate(DDMDataProviderInstance ddmDataProviderInstance)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, ddmDataProviderInstance);
 	}
 
 	@Override
 	public void onAfterRemove(DDMDataProviderInstance ddmDataProviderInstance)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, ddmDataProviderInstance);
 	}
 
 	@Override
 	public void onAfterUpdate(DDMDataProviderInstance ddmDataProviderInstance)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, ddmDataProviderInstance);
 	}
 
 	protected void audit(
-		String eventType, DDMDataProviderInstance ddmDataProviderInstance)
+			String eventType, DDMDataProviderInstance ddmDataProviderInstance)
 		throws ModelListenerException {
 
 		try {
-			long ddmDataProviderInstanceId = ddmDataProviderInstance.getDataProviderInstanceId();
+			long ddmDataProviderInstanceId =
+				ddmDataProviderInstance.getDataProviderInstanceId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, DDMDataProviderInstance.class.getName(),
 				ddmDataProviderInstanceId, null);

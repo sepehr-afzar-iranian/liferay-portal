@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -37,31 +36,32 @@ public class BlogsEntryModelListener extends BaseModelListener<BlogsEntry> {
 	@Override
 	public void onAfterCreate(BlogsEntry blogsEntry)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, blogsEntry);
-	}
 
-	@Override
-	public void onAfterUpdate(BlogsEntry blogsEntry)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, blogsEntry);
+		audit(EventTypes.ADD, blogsEntry);
 	}
 
 	@Override
 	public void onAfterRemove(BlogsEntry blogsEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, blogsEntry);
 	}
 
-	protected void audit(
-		String eventType, BlogsEntry blogsEntry)
+	@Override
+	public void onAfterUpdate(BlogsEntry blogsEntry)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, blogsEntry);
+	}
+
+	protected void audit(String eventType, BlogsEntry blogsEntry)
 		throws ModelListenerException {
 
 		try {
 			long blogsEntryId = blogsEntry.getEntryId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					BlogsEntry.class.getName(), blogsEntryId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, BlogsEntry.class.getName(), blogsEntryId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

@@ -20,14 +20,12 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.redirect.model.RedirectEntry;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
 
 /**
  * @author Yousef Ghadiri
@@ -39,36 +37,43 @@ public class RedirectEntryModelListener
 	@Override
 	public void onAfterCreate(RedirectEntry redirectEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, redirectEntry);
 	}
 
 	@Override
 	public void onAfterRemove(RedirectEntry redirectEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, redirectEntry);
 	}
 
 	@Override
 	public void onAfterUpdate(RedirectEntry redirectEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, redirectEntry);
 	}
 
 	protected void audit(String eventType, RedirectEntry redirectEntry)
 		throws ModelListenerException {
+
 		try {
 			long redirectEntryId = redirectEntry.getRedirectEntryId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, RedirectEntry.class.getName(), redirectEntryId, null);
+				eventType, RedirectEntry.class.getName(), redirectEntryId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
+				"redirectEntryDestinationURL", redirectEntry.getDestinationURL()
+			).put(
 				"redirectEntryId", redirectEntryId
 			).put(
 				"redirectEntrySourceURL", redirectEntry.getSourceURL()
-			).put(
-				"redirectEntryDestinationURL", redirectEntry.getDestinationURL()
 			);
 
 			_auditRouter.route(auditMessage);

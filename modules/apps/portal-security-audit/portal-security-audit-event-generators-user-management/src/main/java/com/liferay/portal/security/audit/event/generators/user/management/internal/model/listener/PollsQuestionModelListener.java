@@ -22,9 +22,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -41,18 +41,21 @@ public class PollsQuestionModelListener
 	@Override
 	public void onAfterCreate(PollsQuestion pollsQuestion)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, pollsQuestion);
 	}
 
 	@Override
 	public void onAfterRemove(PollsQuestion pollsQuestion)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, pollsQuestion);
 	}
 
 	@Override
 	public void onAfterUpdate(PollsQuestion pollsQuestion)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, pollsQuestion);
 	}
 
@@ -61,33 +64,36 @@ public class PollsQuestionModelListener
 
 		try {
 			long pollsQuestionId = pollsQuestion.getQuestionId();
-			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, PollsQuestion.class.getName(), pollsQuestionId, null);
 
-			JSONArray choices = JSONFactoryUtil.createJSONArray();
-			
-			for (PollsChoice pollsChoice: pollsQuestion.getChoices()) {
-				JSONObject choice = JSONFactoryUtil.createJSONObject();
-				choice.put(
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, PollsQuestion.class.getName(), pollsQuestionId,
+				null);
+
+			JSONArray choicesJSONArray = JSONFactoryUtil.createJSONArray();
+
+			for (PollsChoice pollsChoice : pollsQuestion.getChoices()) {
+				JSONObject choiceJSONObject = JSONUtil.put(
+					"choiceDescription", pollsChoice.getDescription()
+				).put(
 					"choiceId", pollsChoice.getChoiceId()
 				).put(
 					"choiceName", pollsChoice.getName()
-				).put(
-					"choiceDescription", pollsChoice.getDescription()
 				);
-				choices.put(choice);
+
+				choicesJSONArray.put(choiceJSONObject);
 			}
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
-				"pollsQuestionId", pollsQuestionId
-			).put(
-				"pollsQuestionTitle", pollsQuestion.getTitle()
+				"pollsQuestionChoices", choicesJSONArray
 			).put(
 				"pollsQuestionDescription", pollsQuestion.getDescription()
 			).put(
-				"pollsQuestionChoices", choices
+				"pollsQuestionId", pollsQuestionId
+			).put(
+				"pollsQuestionTitle", pollsQuestion.getTitle()
 			);
 
 			_auditRouter.route(auditMessage);

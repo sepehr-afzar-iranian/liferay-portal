@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -32,8 +31,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class DDMTemplateModelListener
-	extends BaseModelListener<DDMTemplate> {
+public class DDMTemplateModelListener extends BaseModelListener<DDMTemplate> {
 
 	@Override
 	public void onAfterCreate(DDMTemplate ddmTemplate)
@@ -56,16 +54,14 @@ public class DDMTemplateModelListener
 		audit(EventTypes.UPDATE, ddmTemplate);
 	}
 
-	protected void audit(
-		String eventType, DDMTemplate ddmTemplate)
+	protected void audit(String eventType, DDMTemplate ddmTemplate)
 		throws ModelListenerException {
 
 		try {
 			long ddmTemplateId = ddmTemplate.getTemplateId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					DDMTemplate.class.getName(), ddmTemplateId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, DDMTemplate.class.getName(), ddmTemplateId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

@@ -22,11 +22,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
-
 import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -52,15 +52,14 @@ public class MBBanModelListener extends BaseModelListener<MBBan> {
 		audit(EventTypes.UPDATE, mbBan);
 	}
 
-	protected void audit(
-		String eventType, MBBan mbBan)
+	protected void audit(String eventType, MBBan mbBan)
 		throws ModelListenerException {
+
 		try {
 			long mbBanId = mbBan.getBanId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					MBBan.class.getName(), mbBanId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, MBBan.class.getName(), mbBanId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -70,15 +69,14 @@ public class MBBanModelListener extends BaseModelListener<MBBan> {
 			User banUser = _userLocalService.fetchUser(banUserId);
 
 			additionalInfoJSONObject.put(
-				"mbBanId", mbBanId
-			).put(
 				"banUserId", banUserId
+			).put(
+				"mbBanId", mbBanId
 			);
 
-			if (Validator.isNotNull(banUser)) {
+			if (!Objects.equals(banUser, null)) {
 				additionalInfoJSONObject.put(
-					"banUserName", banUser.getFullName()
-				);
+					"banUserName", banUser.getFullName());
 			}
 
 			_auditRouter.route(auditMessage);

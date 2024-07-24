@@ -22,10 +22,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -51,15 +51,14 @@ public class MBThreadModelListener extends BaseModelListener<MBThread> {
 		audit(EventTypes.UPDATE, mbThread);
 	}
 
-	protected void audit(
-		String eventType, MBThread mbThread)
+	protected void audit(String eventType, MBThread mbThread)
 		throws ModelListenerException {
+
 		try {
 			long mbThreadId = mbThread.getThreadId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					MBThread.class.getName(), mbThreadId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, MBThread.class.getName(), mbThreadId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -67,14 +66,14 @@ public class MBThreadModelListener extends BaseModelListener<MBThread> {
 			additionalInfoJSONObject.put(
 				"mbThreadId", mbThreadId
 			).put(
-				"mbThreadTitle", mbThread.getTitle()
-			).put(
 				"mbThreadPriority", mbThread.getPriority()
+			).put(
+				"mbThreadTitle", mbThread.getTitle()
 			);
 
 			MBCategory mbCategory = mbThread.getCategory();
 
-			if (Validator.isNotNull(mbCategory)) {
+			if (!Objects.equals(mbCategory, null)) {
 				additionalInfoJSONObject.put(
 					"mbThreadCategoryId", mbThread.getCategoryId()
 				).put(

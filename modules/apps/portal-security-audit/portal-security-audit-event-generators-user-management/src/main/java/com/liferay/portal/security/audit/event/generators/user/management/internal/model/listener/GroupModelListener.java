@@ -22,16 +22,15 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.GroupLocalService;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
+import java.util.List;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.List;
 
 /**
  * @author Yousef Ghadiri
@@ -40,23 +39,20 @@ import java.util.List;
 public class GroupModelListener extends BaseModelListener<Group> {
 
 	@Override
-	public void onAfterCreate(Group group)
-		throws ModelListenerException {
+	public void onAfterCreate(Group group) throws ModelListenerException {
 		audit(EventTypes.ADD, group);
 	}
 
 	@Override
-	public void onAfterRemove(Group group)
-		throws ModelListenerException {
+	public void onAfterRemove(Group group) throws ModelListenerException {
 		audit(EventTypes.DELETE, group);
 	}
 
 	@Override
-	public void onBeforeUpdate(Group newGroup)
-		throws ModelListenerException {
-
+	public void onBeforeUpdate(Group newGroup) throws ModelListenerException {
 		try {
 			long groupId = newGroup.getGroupId();
+
 			Group oldGroup = _groupLocalService.getGroup(groupId);
 
 			List<Attribute> attributes = getModifiedAttributes(
@@ -69,9 +65,34 @@ public class GroupModelListener extends BaseModelListener<Group> {
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"userName", newGroup.getName()
-			).put(
 				"groupId", groupId
+			).put(
+				"userName", newGroup.getName()
+			);
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception exception) {
+			throw new ModelListenerException(exception);
+		}
+	}
+
+	protected void audit(String eventType, Group group)
+		throws ModelListenerException {
+
+		try {
+			long groupId = group.getGroupId();
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, Group.class.getName(), groupId, null);
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"GroupName", group.getName()
+			).put(
+				"ModelGroupId", groupId
 			);
 
 			_auditRouter.route(auditMessage);
@@ -90,30 +111,6 @@ public class GroupModelListener extends BaseModelListener<Group> {
 		attributesBuilder.add("name");
 
 		return attributesBuilder.getAttributes();
-	}
-
-	protected void audit(String eventType, Group group)
-		throws ModelListenerException {
-
-		try {
-			long groupId = group.getGroupId();
-			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, Group.class.getName(), groupId, null);
-
-			JSONObject additionalInfoJSONObject =
-				auditMessage.getAdditionalInfo();
-
-			additionalInfoJSONObject.put(
-				"ModelGroupId", groupId
-			).put(
-				"GroupName", group.getName()
-			);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception exception) {
-			throw new ModelListenerException(exception);
-		}
 	}
 
 	@Reference

@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,36 +31,40 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class OAuth2ApplicationModelListener extends BaseModelListener<OAuth2Application> {
+public class OAuth2ApplicationModelListener
+	extends BaseModelListener<OAuth2Application> {
 
 	@Override
 	public void onAfterCreate(OAuth2Application oAuth2Application)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, oAuth2Application);
 	}
 
 	@Override
 	public void onAfterRemove(OAuth2Application oAuth2Application)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, oAuth2Application);
 	}
 
 	@Override
 	public void onAfterUpdate(OAuth2Application oAuth2Application)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, oAuth2Application);
 	}
 
-	protected void audit(
-		String eventType, OAuth2Application oAuth2Application)
+	protected void audit(String eventType, OAuth2Application oAuth2Application)
 		throws ModelListenerException {
 
 		try {
-			long oAuth2ApplicationId = oAuth2Application.getOAuth2ApplicationId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					OAuth2Application.class.getName(), oAuth2ApplicationId,
-					null);
+			long oAuth2ApplicationId =
+				oAuth2Application.getOAuth2ApplicationId();
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, OAuth2Application.class.getName(),
+				oAuth2ApplicationId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -70,7 +74,8 @@ public class OAuth2ApplicationModelListener extends BaseModelListener<OAuth2Appl
 			).put(
 				"oAuth2ApplicationName", oAuth2Application.getName()
 			).put(
-				"oAuth2ApplicationRedirectURIs", oAuth2Application.getRedirectURIs()
+				"oAuth2ApplicationRedirectURIs",
+				oAuth2Application.getRedirectURIs()
 			);
 
 			_auditRouter.route(auditMessage);

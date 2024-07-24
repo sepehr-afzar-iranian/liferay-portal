@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,8 +31,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class DDMStructureModelListener
-	extends BaseModelListener<DDMStructure> {
+public class DDMStructureModelListener extends BaseModelListener<DDMStructure> {
 
 	@Override
 	public void onAfterCreate(DDMStructure ddmStructure)
@@ -55,16 +54,14 @@ public class DDMStructureModelListener
 		audit(EventTypes.UPDATE, ddmStructure);
 	}
 
-	protected void audit(
-		String eventType, DDMStructure ddmStructure)
+	protected void audit(String eventType, DDMStructure ddmStructure)
 		throws ModelListenerException {
 
 		try {
 			long ddmStructureId = ddmStructure.getStructureId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					DDMStructure.class.getName(), ddmStructureId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, DDMStructure.class.getName(), ddmStructureId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

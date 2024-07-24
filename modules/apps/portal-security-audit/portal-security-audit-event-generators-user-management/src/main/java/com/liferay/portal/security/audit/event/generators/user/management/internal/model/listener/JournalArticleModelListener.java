@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -54,6 +54,7 @@ public class JournalArticleModelListener
 
 		try {
 			long id = journalArticle.getId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, JournalArticle.class.getName(), id, null);
 
@@ -61,9 +62,9 @@ public class JournalArticleModelListener
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"id", id
-			).put(
 				"ArticleId", journalArticle.getArticleId()
+			).put(
+				"id", id
 			).put(
 				"journalArticleTitle", journalArticle.getTitle()
 			);

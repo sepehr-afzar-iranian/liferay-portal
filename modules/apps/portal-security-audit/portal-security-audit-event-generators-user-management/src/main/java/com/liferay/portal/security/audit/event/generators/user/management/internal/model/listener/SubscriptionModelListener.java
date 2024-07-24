@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.subscription.model.Subscription;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -33,17 +34,23 @@ import org.osgi.service.component.annotations.Reference;
 public class SubscriptionModelListener extends BaseModelListener<Subscription> {
 
 	@Override
-	public void onAfterCreate(Subscription subscription) throws ModelListenerException {
+	public void onAfterCreate(Subscription subscription)
+		throws ModelListenerException {
+
 		audit(EventTypes.ADD, subscription);
 	}
 
 	@Override
-	public void onAfterRemove(Subscription subscription) throws ModelListenerException {
+	public void onAfterRemove(Subscription subscription)
+		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, subscription);
 	}
 
 	@Override
-	public void onAfterUpdate(Subscription subscription) throws ModelListenerException {
+	public void onAfterUpdate(Subscription subscription)
+		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, subscription);
 	}
 
@@ -52,21 +59,23 @@ public class SubscriptionModelListener extends BaseModelListener<Subscription> {
 
 		try {
 			long subscriptionId = subscription.getSubscriptionId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, Subscription.class.getName(), subscriptionId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
+				"subscriptionClassName", subscription.getClassName()
+			).put(
+				"subscriptionClassPK", subscription.getClassPK()
+			).put(
 				"subscriptionId", subscriptionId
 			).put(
 				"userId", subscription.getUserId()
 			).put(
 				"userName", subscription.getUserName()
-			).put(
-				"subscriptionClassName", subscription.getClassName()
-			).put(
-				"subscriptionClassPK", subscription.getClassPK()
 			);
 
 			_auditRouter.route(auditMessage);

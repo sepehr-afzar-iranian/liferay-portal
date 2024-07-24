@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -38,56 +37,57 @@ public class BackgroundTaskModelListener
 	@Override
 	public void onAfterCreate(BackgroundTask backgroundTask)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, backgroundTask);
-	}
 
-	@Override
-	public void onAfterUpdate(BackgroundTask backgroundTask)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, backgroundTask);
+		audit(EventTypes.ADD, backgroundTask);
 	}
 
 	@Override
 	public void onAfterRemove(BackgroundTask backgroundTask)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, backgroundTask);
 	}
 
-	protected void audit(
-		String eventType, BackgroundTask backgroundTask)
+	@Override
+	public void onAfterUpdate(BackgroundTask backgroundTask)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, backgroundTask);
+	}
+
+	protected void audit(String eventType, BackgroundTask backgroundTask)
 		throws ModelListenerException {
 
 		try {
 			long backgroundTaskId = backgroundTask.getBackgroundTaskId();
 
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					BackgroundTask.class.getName(), backgroundTaskId,
-					null);
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, BackgroundTask.class.getName(), backgroundTaskId,
+				null);
 
-			boolean isBackgroundTaskCompleted = backgroundTask.isCompleted();
+			boolean backgroundTaskCompleted = backgroundTask.isCompleted();
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
+				"backgroundTaskCompleted", backgroundTaskCompleted
+			).put(
+				"backgroundTaskExecutorClassName",
+				backgroundTask.getTaskExecutorClassName()
+			).put(
 				"backgroundTaskId", backgroundTaskId
 			).put(
 				"backgroundTaskName", backgroundTask.getName()
 			).put(
-				"backgroundTaskExecutorClassName", backgroundTask.getTaskExecutorClassName()
-			).put(
 				"backgroundTaskStatusLabel", backgroundTask.getStatusLabel()
 			).put(
 				"backgroundTaskStatusMessage", backgroundTask.getStatusMessage()
-			).put(
-				"isBackgroundTaskCompleted", isBackgroundTaskCompleted
 			);
 
-			if (isBackgroundTaskCompleted) {
+			if (backgroundTaskCompleted) {
 				additionalInfoJSONObject.put(
-					"completionDate", backgroundTask.getCompletionDate()
-				);
+					"completionDate", backgroundTask.getCompletionDate());
 			}
 
 			_auditRouter.route(auditMessage);
@@ -99,4 +99,5 @@ public class BackgroundTaskModelListener
 
 	@Reference
 	private AuditRouter _auditRouter;
+
 }

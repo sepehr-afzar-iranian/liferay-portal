@@ -22,10 +22,10 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.repository.model.Folder;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -40,18 +40,21 @@ public class DLFileShortcutModelListener
 	@Override
 	public void onAfterCreate(DLFileShortcut dlFileShortcut)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, dlFileShortcut);
 	}
 
 	@Override
 	public void onAfterRemove(DLFileShortcut dlFileShortcut)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, dlFileShortcut);
 	}
 
 	@Override
 	public void onAfterUpdate(DLFileShortcut dlFileShortcut)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, dlFileShortcut);
 	}
 
@@ -60,27 +63,29 @@ public class DLFileShortcutModelListener
 
 		try {
 			long dlFileShortcutId = dlFileShortcut.getFileShortcutId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, DLFileShortcut.class.getName(), dlFileShortcutId, null);
+				eventType, DLFileShortcut.class.getName(), dlFileShortcutId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
+				"dlFileShortcutFolderId", dlFileShortcut.getFolderId()
+			).put(
 				"dlFileShortcutId", dlFileShortcutId
 			).put(
 				"dlFileShortcutTitle", dlFileShortcut.getToTitle()
-			).put(
-				"dlFileShortcutFolderId", dlFileShortcut.getFolderId()
 			);
 
 			Folder folder = dlFileShortcut.getFolder();
 
-			if (Validator.isNotNull(folder)) {
+			if (!Objects.equals(folder, null)) {
 				additionalInfoJSONObject.put(
-					"dlFileShortcutFolderName", folder.getName()
-				);
+					"dlFileShortcutFolderName", folder.getName());
 			}
+
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {

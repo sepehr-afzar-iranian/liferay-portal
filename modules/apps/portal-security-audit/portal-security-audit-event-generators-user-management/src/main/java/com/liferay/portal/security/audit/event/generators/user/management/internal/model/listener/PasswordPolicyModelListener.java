@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.PasswordPolicy;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -37,31 +37,33 @@ public class PasswordPolicyModelListener
 	@Override
 	public void onAfterCreate(PasswordPolicy passwordPolicy)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, passwordPolicy);
-	}
 
-	@Override
-	public void onAfterUpdate(PasswordPolicy passwordPolicy)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, passwordPolicy);
+		audit(EventTypes.ADD, passwordPolicy);
 	}
 
 	@Override
 	public void onAfterRemove(PasswordPolicy passwordPolicy)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, passwordPolicy);
 	}
 
-	protected void audit(
-		String eventType, PasswordPolicy passwordPolicy)
+	@Override
+	public void onAfterUpdate(PasswordPolicy passwordPolicy)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, passwordPolicy);
+	}
+
+	protected void audit(String eventType, PasswordPolicy passwordPolicy)
 		throws ModelListenerException {
 
 		try {
 			long passwordPolicyId = passwordPolicy.getPasswordPolicyId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					PasswordPolicy.class.getName(), passwordPolicyId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, PasswordPolicy.class.getName(), passwordPolicyId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

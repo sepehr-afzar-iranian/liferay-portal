@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -36,31 +36,32 @@ public class DDLRecordSetModelListener extends BaseModelListener<DDLRecordSet> {
 	@Override
 	public void onAfterCreate(DDLRecordSet ddlRecordSet)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, ddlRecordSet);
-	}
 
-	@Override
-	public void onAfterUpdate(DDLRecordSet ddlRecordSet)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, ddlRecordSet);
+		audit(EventTypes.ADD, ddlRecordSet);
 	}
 
 	@Override
 	public void onAfterRemove(DDLRecordSet ddlRecordSet)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, ddlRecordSet);
 	}
 
-	protected void audit(
-		String eventType, DDLRecordSet ddlRecordSet)
+	@Override
+	public void onAfterUpdate(DDLRecordSet ddlRecordSet)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, ddlRecordSet);
+	}
+
+	protected void audit(String eventType, DDLRecordSet ddlRecordSet)
 		throws ModelListenerException {
 
 		try {
 			long ddlRecordSetId = ddlRecordSet.getRecordSetId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					DDLRecordSet.class.getName(), ddlRecordSetId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, DDLRecordSet.class.getName(), ddlRecordSetId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

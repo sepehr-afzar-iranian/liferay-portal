@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -33,24 +32,26 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class PollsVoteModelListener
-	extends BaseModelListener<PollsVote> {
+public class PollsVoteModelListener extends BaseModelListener<PollsVote> {
 
 	@Override
 	public void onAfterCreate(PollsVote pollsVote)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, pollsVote);
 	}
 
 	@Override
 	public void onAfterRemove(PollsVote pollsVote)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, pollsVote);
 	}
 
 	@Override
 	public void onAfterUpdate(PollsVote pollsVote)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, pollsVote);
 	}
 
@@ -59,27 +60,30 @@ public class PollsVoteModelListener
 
 		try {
 			long pollsVoteId = pollsVote.getVoteId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, PollsVote.class.getName(), pollsVoteId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
-			additionalInfoJSONObject.put(
-				"pollsVoteId", pollsVoteId
-			);
+
+			additionalInfoJSONObject.put("pollsVoteId", pollsVoteId);
 
 			PollsChoice pollsChoice = null;
 
 			try {
 				pollsChoice = pollsVote.getChoice();
+
 				additionalInfoJSONObject.put(
+					"pollsChoiceDescription", pollsChoice.getDescription()
+				).put(
 					"pollsChoiceId", pollsChoice.getChoiceId()
 				).put(
 					"pollsChoiceName", pollsChoice.getName()
-				).put(
-					"pollsChoiceDescription", pollsChoice.getDescription()
 				);
-			} catch (Exception ignored) {}
+			}
+			catch (Exception exception) {
+			}
 
 			_auditRouter.route(auditMessage);
 		}

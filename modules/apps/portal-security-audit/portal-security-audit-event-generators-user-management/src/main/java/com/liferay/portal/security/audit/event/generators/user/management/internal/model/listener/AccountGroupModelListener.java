@@ -36,12 +36,14 @@ public class AccountGroupModelListener extends BaseModelListener<AccountGroup> {
 	@Override
 	public void onAfterCreate(AccountGroup accountGroup)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, accountGroup);
 	}
 
 	@Override
 	public void onAfterRemove(AccountGroup accountGroup)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, accountGroup);
 	}
 
@@ -55,11 +57,13 @@ public class AccountGroupModelListener extends BaseModelListener<AccountGroup> {
 
 		try {
 			long accountGroupId = accountGroup.getAccountGroupId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, AccountGroup.class.getName(), accountGroupId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
 				"accountGroupId", accountGroupId
 			).put(

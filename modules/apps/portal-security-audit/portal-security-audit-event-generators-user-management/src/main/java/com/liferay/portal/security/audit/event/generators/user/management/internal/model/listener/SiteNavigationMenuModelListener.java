@@ -20,10 +20,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.site.navigation.model.SiteNavigationMenu;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,35 +31,47 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(service = ModelListener.class)
-public class SiteNavigationMenuModelListener extends BaseModelListener<SiteNavigationMenu> {
+public class SiteNavigationMenuModelListener
+	extends BaseModelListener<SiteNavigationMenu> {
 
 	@Override
-	public void onAfterCreate(SiteNavigationMenu siteNavigationMenu) throws ModelListenerException {
+	public void onAfterCreate(SiteNavigationMenu siteNavigationMenu)
+		throws ModelListenerException {
+
 		audit(EventTypes.ADD, siteNavigationMenu);
 	}
 
 	@Override
-	public void onAfterUpdate(SiteNavigationMenu siteNavigationMenu) throws ModelListenerException {
+	public void onAfterUpdate(SiteNavigationMenu siteNavigationMenu)
+		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, siteNavigationMenu);
 	}
 
 	@Override
-	public void onBeforeRemove(SiteNavigationMenu siteNavigationMenu) throws ModelListenerException {
+	public void onBeforeRemove(SiteNavigationMenu siteNavigationMenu)
+		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, siteNavigationMenu);
 	}
 
-	protected void audit(String eventType, SiteNavigationMenu siteNavigationMenu)
+	protected void audit(
+			String eventType, SiteNavigationMenu siteNavigationMenu)
 		throws ModelListenerException {
 
 		try {
-			long siteNavigationMenuId = siteNavigationMenu.getSiteNavigationMenuId();
+			long siteNavigationMenuId =
+				siteNavigationMenu.getSiteNavigationMenuId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, SiteNavigationMenu.class.getName(), siteNavigationMenuId, null);
+				eventType, SiteNavigationMenu.class.getName(),
+				siteNavigationMenuId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
-				"siteNavigationMenuId",siteNavigationMenuId
+				"siteNavigationMenuId", siteNavigationMenuId
 			).put(
 				"siteNavigationMenuName", siteNavigationMenu.getName()
 			);

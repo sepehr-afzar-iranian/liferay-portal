@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -37,37 +36,41 @@ public class LayoutPageTemplateCollectionModelListener
 
 	@Override
 	public void onAfterCreate(
-		LayoutPageTemplateCollection layoutPageTemplateCollection)
+			LayoutPageTemplateCollection layoutPageTemplateCollection)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, layoutPageTemplateCollection);
 
+		audit(EventTypes.ADD, layoutPageTemplateCollection);
 	}
 
 	@Override
 	public void onAfterUpdate(
-		LayoutPageTemplateCollection layoutPageTemplateCollection)
+			LayoutPageTemplateCollection layoutPageTemplateCollection)
 		throws ModelListenerException {
-		audit(EventTypes.UPDATE, layoutPageTemplateCollection);
 
+		audit(EventTypes.UPDATE, layoutPageTemplateCollection);
 	}
 
 	@Override
 	public void onBeforeRemove(
-		LayoutPageTemplateCollection layoutPageTemplateCollection)
+			LayoutPageTemplateCollection layoutPageTemplateCollection)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, layoutPageTemplateCollection);
 	}
 
 	protected void audit(
-		String eventType, LayoutPageTemplateCollection layoutPageTemplateCollection)
+			String eventType,
+			LayoutPageTemplateCollection layoutPageTemplateCollection)
 		throws ModelListenerException {
 
 		try {
-			long layoutPageTemplateCollectionId = layoutPageTemplateCollection.getLayoutPageTemplateCollectionId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					LayoutPageTemplateCollection.class.getName(), layoutPageTemplateCollectionId,
-					null);
+			long layoutPageTemplateCollectionId =
+				layoutPageTemplateCollection.
+					getLayoutPageTemplateCollectionId();
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, LayoutPageTemplateCollection.class.getName(),
+				layoutPageTemplateCollectionId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -75,7 +78,8 @@ public class LayoutPageTemplateCollectionModelListener
 			additionalInfoJSONObject.put(
 				"layoutPageTemplateCollectionId", layoutPageTemplateCollectionId
 			).put(
-				"layoutPageTemplateCollectionName", layoutPageTemplateCollection.getName()
+				"layoutPageTemplateCollectionName",
+				layoutPageTemplateCollection.getName()
 			);
 
 			_auditRouter.route(auditMessage);

@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -36,36 +35,37 @@ public class LayoutSetPrototypeModelListener
 	extends BaseModelListener<LayoutSetPrototype> {
 
 	@Override
-	public void onAfterCreate(
-		LayoutSetPrototype layoutSetPrototype)
+	public void onAfterCreate(LayoutSetPrototype layoutSetPrototype)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, layoutSetPrototype);
 	}
 
 	@Override
-	public void onAfterRemove(
-		LayoutSetPrototype layoutSetPrototype)
+	public void onAfterRemove(LayoutSetPrototype layoutSetPrototype)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, layoutSetPrototype);
 	}
 
 	@Override
-	public void onAfterUpdate(
-		LayoutSetPrototype layoutSetPrototype)
+	public void onAfterUpdate(LayoutSetPrototype layoutSetPrototype)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, layoutSetPrototype);
 	}
 
 	protected void audit(
-		String eventType, LayoutSetPrototype layoutSetPrototype)
+			String eventType, LayoutSetPrototype layoutSetPrototype)
 		throws ModelListenerException {
+
 		try {
 			long layoutSetPrototypeId =
 				layoutSetPrototype.getLayoutSetPrototypeId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					LayoutSetPrototype.class.getName(), layoutSetPrototypeId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, LayoutSetPrototype.class.getName(),
+				layoutSetPrototypeId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

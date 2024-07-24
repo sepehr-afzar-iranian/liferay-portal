@@ -21,10 +21,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -33,33 +33,37 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class MBCategoryModelListener
-	extends BaseModelListener<MBCategory> {
+public class MBCategoryModelListener extends BaseModelListener<MBCategory> {
 
 	@Override
-	public void onAfterCreate(MBCategory mbCategory) throws ModelListenerException {
+	public void onAfterCreate(MBCategory mbCategory)
+		throws ModelListenerException {
+
 		audit(EventTypes.ADD, mbCategory);
 	}
 
 	@Override
-	public void onAfterRemove(MBCategory mbCategory) throws ModelListenerException {
+	public void onAfterRemove(MBCategory mbCategory)
+		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, mbCategory);
 	}
 
 	@Override
-	public void onAfterUpdate(MBCategory mbCategory) throws ModelListenerException {
+	public void onAfterUpdate(MBCategory mbCategory)
+		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, mbCategory);
 	}
 
-	protected void audit(
-		String eventType, MBCategory mbCategory)
+	protected void audit(String eventType, MBCategory mbCategory)
 		throws ModelListenerException {
+
 		try {
 			long mbCategoryId = mbCategory.getCategoryId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					MBCategory.class.getName(), mbCategoryId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, MBCategory.class.getName(), mbCategoryId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -72,7 +76,7 @@ public class MBCategoryModelListener
 				"mbCategoryName", mbCategory.getName()
 			);
 
-			if (Validator.isNotNull(parentMBCategory)) {
+			if (!Objects.equals(parentMBCategory, null)) {
 				additionalInfoJSONObject.put(
 					"parentMBCategoryId", parentMBCategory.getCategoryId()
 				).put(

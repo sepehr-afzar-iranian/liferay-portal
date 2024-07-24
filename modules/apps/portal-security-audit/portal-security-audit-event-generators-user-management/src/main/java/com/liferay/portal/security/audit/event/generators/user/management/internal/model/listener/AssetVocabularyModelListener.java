@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -38,18 +37,21 @@ public class AssetVocabularyModelListener
 	@Override
 	public void onAfterCreate(AssetVocabulary assetVocabulary)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, assetVocabulary);
 	}
 
 	@Override
 	public void onAfterRemove(AssetVocabulary assetVocabulary)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, assetVocabulary);
 	}
 
 	@Override
 	public void onAfterUpdate(AssetVocabulary assetVocabulary)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, assetVocabulary);
 	}
 
@@ -58,11 +60,14 @@ public class AssetVocabularyModelListener
 
 		try {
 			long assetVocabularyId = assetVocabulary.getVocabularyId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, AssetVocabulary.class.getName(), assetVocabularyId, null);
+				eventType, AssetVocabulary.class.getName(), assetVocabularyId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
 				"assetVocabularyId", assetVocabularyId
 			).put(

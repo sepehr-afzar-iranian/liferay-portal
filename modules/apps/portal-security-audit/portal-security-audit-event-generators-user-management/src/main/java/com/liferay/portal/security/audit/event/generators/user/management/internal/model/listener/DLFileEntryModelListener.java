@@ -22,10 +22,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -34,25 +34,27 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(service = ModelListener.class)
-public class DLFileEntryModelListener
-	extends BaseModelListener<DLFileEntry> {
+public class DLFileEntryModelListener extends BaseModelListener<DLFileEntry> {
 
 	@Override
 	public void onAfterCreate(DLFileEntry dlFileEntry)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, dlFileEntry);
-	}
 
-	@Override
-	public void onAfterUpdate(DLFileEntry dlFileEntry)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, dlFileEntry);
+		audit(EventTypes.ADD, dlFileEntry);
 	}
 
 	@Override
 	public void onAfterRemove(DLFileEntry dlFileEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, dlFileEntry);
+	}
+
+	@Override
+	public void onAfterUpdate(DLFileEntry dlFileEntry)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, dlFileEntry);
 	}
 
 	protected void audit(String eventType, DLFileEntry dlFileEntry)
@@ -60,6 +62,7 @@ public class DLFileEntryModelListener
 
 		try {
 			long dlFileEntryId = dlFileEntry.getFileEntryId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, DLFileEntry.class.getName(), dlFileEntryId, null);
 
@@ -67,23 +70,22 @@ public class DLFileEntryModelListener
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"dlFileEntryId", dlFileEntryId
-			).put(
 				"dlEntryName", dlFileEntry.getName()
 			).put(
 				"dlFileEntryFolderId", dlFileEntry.getFolderId()
 			).put(
-				"dlFileEntryName", dlFileEntry.getFileName()
+				"dlFileEntryId", dlFileEntryId
 			).put(
 				"dlFileEntryIsCheckedOut", dlFileEntry.isCheckedOut()
+			).put(
+				"dlFileEntryName", dlFileEntry.getFileName()
 			);
 
 			DLFolder dlFolder = dlFileEntry.getFolder();
 
-			if (Validator.isNotNull(dlFolder)) {
+			if (!Objects.equals(dlFolder, null)) {
 				additionalInfoJSONObject.put(
-					"dlFileEntryFolderName", dlFolder.getName()
-				);
+					"dlFileEntryFolderName", dlFolder.getName());
 			}
 
 			_auditRouter.route(auditMessage);

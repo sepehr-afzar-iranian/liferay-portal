@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -32,45 +31,39 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class MDRRuleInstanceModelListener
-	extends BaseModelListener<MDRRule> {
+public class MDRRuleInstanceModelListener extends BaseModelListener<MDRRule> {
 
 	@Override
-	public void onAfterCreate(MDRRule mdrRule)
-		throws ModelListenerException {
+	public void onAfterCreate(MDRRule mdrRule) throws ModelListenerException {
 		audit(EventTypes.ADD, mdrRule);
 	}
 
 	@Override
-	public void onAfterRemove(MDRRule mdrRule)
-		throws ModelListenerException {
+	public void onAfterRemove(MDRRule mdrRule) throws ModelListenerException {
 		audit(EventTypes.DELETE, mdrRule);
 	}
 
 	@Override
-	public void onAfterUpdate(MDRRule mdrRule)
-		throws ModelListenerException {
+	public void onAfterUpdate(MDRRule mdrRule) throws ModelListenerException {
 		audit(EventTypes.UPDATE, mdrRule);
 	}
 
-	protected void audit(
-		String eventType, MDRRule mdrRule)
+	protected void audit(String eventType, MDRRule mdrRule)
 		throws ModelListenerException {
 
 		try {
 			long ruleId = mdrRule.getRuleId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					MDRRule.class.getName(), ruleId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, MDRRule.class.getName(), ruleId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"ruleId",ruleId
-			).put(
 				"mdrRuleName", mdrRule.getName()
+			).put(
+				"ruleId", ruleId
 			);
 
 			_auditRouter.route(auditMessage);

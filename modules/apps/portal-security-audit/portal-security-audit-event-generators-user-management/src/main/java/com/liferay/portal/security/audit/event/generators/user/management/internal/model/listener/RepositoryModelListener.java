@@ -21,9 +21,9 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.Repository;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,37 +31,37 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(service = ModelListener.class)
-public class RepositoryModelListener
-	extends BaseModelListener<Repository> {
+public class RepositoryModelListener extends BaseModelListener<Repository> {
 
 	@Override
 	public void onAfterCreate(Repository repository)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, repository);
 	}
 
 	@Override
 	public void onAfterRemove(Repository repository)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, repository);
 	}
 
 	@Override
 	public void onAfterUpdate(Repository repository)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, repository);
 	}
 
-	protected void audit(
-		String eventType, Repository repository)
+	protected void audit(String eventType, Repository repository)
 		throws ModelListenerException {
 
 		try {
 			long repositoryId = repository.getRepositoryId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					Repository.class.getName(), repositoryId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, Repository.class.getName(), repositoryId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

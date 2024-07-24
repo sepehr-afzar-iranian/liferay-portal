@@ -23,10 +23,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,19 +41,22 @@ public class DLFileVersionModelListener
 	@Override
 	public void onAfterCreate(DLFileVersion dlFileVersion)
 		throws ModelListenerException {
-		audit(EventTypes.ADD, dlFileVersion);
-	}
 
-	@Override
-	public void onAfterUpdate(DLFileVersion dlFileVersion)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, dlFileVersion);
+		audit(EventTypes.ADD, dlFileVersion);
 	}
 
 	@Override
 	public void onAfterRemove(DLFileVersion dlFileVersion)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, dlFileVersion);
+	}
+
+	@Override
+	public void onAfterUpdate(DLFileVersion dlFileVersion)
+		throws ModelListenerException {
+
+		audit(EventTypes.UPDATE, dlFileVersion);
 	}
 
 	protected void audit(String eventType, DLFileVersion dlFileVersion)
@@ -61,13 +64,17 @@ public class DLFileVersionModelListener
 
 		try {
 			long dlFileVersionId = dlFileVersion.getFileVersionId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, DLFileVersion.class.getName(), dlFileVersionId, null);
+				eventType, DLFileVersion.class.getName(), dlFileVersionId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
+				"dlFileVersionFolderId", dlFileVersion.getFolderId()
+			).put(
 				"dlFileVersionId", dlFileVersionId
 			).put(
 				"dlFolderId", dlFileVersion.getFolderId()
@@ -75,25 +82,22 @@ public class DLFileVersionModelListener
 				"fileName", dlFileVersion.getFileName()
 			).put(
 				"fileVersion", dlFileVersion.getVersion()
-			).put(
-				"dlFileVersionFolderId", dlFileVersion.getFolderId()
 			);
 
 			DLFolder dlFolder = dlFileVersion.getFolder();
 
-			if (Validator.isNotNull(dlFolder)) {
+			if (!Objects.equals(dlFolder, null)) {
 				additionalInfoJSONObject.put(
-					"dlFileEntryFolderName", dlFolder.getName()
-				);
+					"dlFileEntryFolderName", dlFolder.getName());
 			}
 
 			DLFileEntry dlFileEntry = dlFileVersion.getFileEntry();
 
-			if (Validator.isNotNull(dlFileEntry)) {
+			if (!Objects.equals(dlFileEntry, null)) {
 				additionalInfoJSONObject.put(
-					"dlFileEntryIsCheckedOut", dlFileEntry.isCheckedOut()
-				);
+					"dlFileEntryIsCheckedOut", dlFileEntry.isCheckedOut());
 			}
+
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {

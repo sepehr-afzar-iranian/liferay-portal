@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.RepositoryEntry;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -38,31 +37,33 @@ public class RepositoryEntryModelListener
 	@Override
 	public void onAfterCreate(RepositoryEntry repositoryEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, repositoryEntry);
 	}
 
 	@Override
 	public void onAfterRemove(RepositoryEntry repositoryEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, repositoryEntry);
 	}
 
 	@Override
 	public void onAfterUpdate(RepositoryEntry repositoryEntry)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, repositoryEntry);
 	}
 
-	protected void audit(
-		String eventType, RepositoryEntry repositoryEntry)
+	protected void audit(String eventType, RepositoryEntry repositoryEntry)
 		throws ModelListenerException {
 
 		try {
 			long repositoryEntryId = repositoryEntry.getRepositoryEntryId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					RepositoryEntry.class.getName(), repositoryEntryId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, RepositoryEntry.class.getName(), repositoryEntryId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

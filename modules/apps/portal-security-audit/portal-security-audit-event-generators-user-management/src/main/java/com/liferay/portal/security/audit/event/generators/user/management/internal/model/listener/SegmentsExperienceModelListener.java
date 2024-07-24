@@ -20,13 +20,13 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.service.SegmentsEntryLocalService;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,28 +41,35 @@ public class SegmentsExperienceModelListener
 	@Override
 	public void onAfterCreate(SegmentsExperience segmentsExperience)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, segmentsExperience);
 	}
 
 	@Override
 	public void onAfterRemove(SegmentsExperience segmentsExperience)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, segmentsExperience);
 	}
 
 	@Override
 	public void onAfterUpdate(SegmentsExperience segmentsExperience)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, segmentsExperience);
 	}
 
-	protected void audit(String eventType, SegmentsExperience segmentsExperience)
+	protected void audit(
+			String eventType, SegmentsExperience segmentsExperience)
 		throws ModelListenerException {
 
 		try {
-			long segmentsExperienceId = segmentsExperience.getSegmentsExperienceId();
+			long segmentsExperienceId =
+				segmentsExperience.getSegmentsExperienceId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, SegmentsExperience.class.getName(), segmentsExperienceId, null);
+				eventType, SegmentsExperience.class.getName(),
+				segmentsExperienceId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -78,7 +85,7 @@ public class SegmentsExperienceModelListener
 				"segmentsExperienceName", segmentsExperience.getName()
 			);
 
-			if (Validator.isNotNull(segmentsEntry)) {
+			if (!Objects.equals(segmentsEntry, null)) {
 				additionalInfoJSONObject.put(
 					"segmentsEntryId", segmentsEntryId
 				).put(

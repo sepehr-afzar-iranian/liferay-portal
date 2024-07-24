@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -39,47 +38,57 @@ public class LayoutPageTemplateStructureRelModelListener
 	public void onAfterCreate(
 			LayoutPageTemplateStructureRel layoutPageTemplateStructureRel)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, layoutPageTemplateStructureRel);
 	}
 
 	@Override
 	public void onAfterRemove(
-		LayoutPageTemplateStructureRel layoutPageTemplateStructureRel)
+			LayoutPageTemplateStructureRel layoutPageTemplateStructureRel)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, layoutPageTemplateStructureRel);
 	}
 
 	@Override
 	public void onAfterUpdate(
-		LayoutPageTemplateStructureRel layoutPageTemplateStructureRel)
+			LayoutPageTemplateStructureRel layoutPageTemplateStructureRel)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, layoutPageTemplateStructureRel);
 	}
 
 	protected void audit(
-		String eventType, LayoutPageTemplateStructureRel layoutPageTemplateStructureRel)
+			String eventType,
+			LayoutPageTemplateStructureRel layoutPageTemplateStructureRel)
 		throws ModelListenerException {
+
 		try {
-			long layoutPageTemplateStructureRelId = layoutPageTemplateStructureRel.getLayoutPageTemplateStructureRelId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					LayoutPageTemplateStructureRel.class.getName(), layoutPageTemplateStructureRelId,
-					null);
+			long layoutPageTemplateStructureRelId =
+				layoutPageTemplateStructureRel.
+					getLayoutPageTemplateStructureRelId();
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, LayoutPageTemplateStructureRel.class.getName(),
+				layoutPageTemplateStructureRelId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"layoutPageTemplateStructureRelId", layoutPageTemplateStructureRelId
+				"layoutPageTemplateStructureId",
+				layoutPageTemplateStructureRel.
+					getLayoutPageTemplateStructureId()
 			).put(
-				"layoutPageTemplateStructureId", layoutPageTemplateStructureRel.getLayoutPageTemplateStructureId()
+				"layoutPageTemplateStructureRelId",
+				layoutPageTemplateStructureRelId
 			);
 
 			_auditRouter.route(auditMessage);
-	}
-	catch (Exception exception) {
-		throw new ModelListenerException(exception);
-	}
+		}
+		catch (Exception exception) {
+			throw new ModelListenerException(exception);
+		}
 	}
 
 	@Reference

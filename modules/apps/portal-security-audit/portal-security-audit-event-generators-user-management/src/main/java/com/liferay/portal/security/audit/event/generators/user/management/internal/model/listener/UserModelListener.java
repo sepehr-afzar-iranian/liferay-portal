@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageUserAssociationUtil;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageUserAssociationHelper;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -40,14 +40,18 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = ModelListener.class)
 public class UserModelListener extends BaseModelListener<User> {
 
-	public void onAfterAddAssociation(Object classPK, String associationClassName,
-									  Object associationClassP) {
-		associationAudit(associationClassName, associationClassP, EventTypes.ADD);
+	public void onAfterAddAssociation(
+		Object classPK, String associationClassName, Object associationClassP) {
+
+		associationAudit(
+			associationClassName, associationClassP, EventTypes.ADD);
 	}
 
-	public void onAfterRemoveAssociation(Object classPK, String associationClassName,
-									  Object associationClassP) {
-		associationAudit(associationClassName, associationClassP, EventTypes.DELETE);
+	public void onAfterRemoveAssociation(
+		Object classPK, String associationClassName, Object associationClassP) {
+
+		associationAudit(
+			associationClassName, associationClassP, EventTypes.DELETE);
 	}
 
 	public void onBeforeCreate(User user) throws ModelListenerException {
@@ -79,11 +83,11 @@ public class UserModelListener extends BaseModelListener<User> {
 				).put(
 					"screenName", newUser.getScreenName()
 				).put(
+					"userGroupId", newUser.getGroupId()
+				).put(
 					"userId", newUser.getUserId()
 				).put(
 					"userName", newUser.getFullName()
-				).put(
-					"userGroupId", newUser.getGroupId()
 				);
 
 				_auditRouter.route(auditMessage);
@@ -94,11 +98,44 @@ public class UserModelListener extends BaseModelListener<User> {
 		}
 	}
 
+	protected void associationAudit(
+		String associationClassName, Object associationClassP,
+		String eventType) {
+
+		try {
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				EventTypes.UPDATE, User.class.getName(),
+				(long)associationClassP, null);
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"associationClassName", associationClassName
+			).put(
+				"associationName",
+				_auditMessageUserAssociationHelper.getName(associationClassName)
+			).put(
+				"associationType", eventType
+			).put(
+				"associationValue",
+				_auditMessageUserAssociationHelper.getValue(
+					associationClassName, (long)associationClassP)
+			);
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception exception) {
+			System.out.println("e = " + exception);
+		}
+	}
+
 	protected void auditOnCreateOrRemove(String eventType, User user)
 		throws ModelListenerException {
 
 		try {
 			long userId = user.getUserId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, User.class.getName(), userId, null);
 
@@ -110,46 +147,17 @@ public class UserModelListener extends BaseModelListener<User> {
 			).put(
 				"screenName", user.getScreenName()
 			).put(
+				"userGroupId", user.getGroupId()
+			).put(
 				"userId", userId
 			).put(
 				"userName", user.getFullName()
-			).put(
-				"userGroupId", user.getGroupId()
 			);
 
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
 			throw new ModelListenerException(exception);
-		}
-	}
-
-	protected void associationAudit(
-		String associationClassName,
-		Object associationClassP, String eventType) {
-		try{
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(
-					EventTypes.UPDATE, User.class.getName(),
-					(long)associationClassP, null);
-
-			JSONObject additionalInfoJSONObject =
-				auditMessage.getAdditionalInfo();
-
-			additionalInfoJSONObject.put(
-				"associationType", eventType
-			).put(
-				"associationName", _auditMessageUserAssociationUtil.getName(associationClassName)
-			).put(
-				"associationValue", _auditMessageUserAssociationUtil.getValue(associationClassName, (long)associationClassP)
-			).put(
-				"associationClassName", associationClassName
-			);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception e){
-			System.out.println("e = " + e);
 		}
 	}
 
@@ -179,12 +187,13 @@ public class UserModelListener extends BaseModelListener<User> {
 	}
 
 	@Reference
+	private AuditMessageUserAssociationHelper
+		_auditMessageUserAssociationHelper;
+
+	@Reference
 	private AuditRouter _auditRouter;
 
 	@Reference
 	private UserLocalService _userLocalService;
-
-	@Reference
-	private AuditMessageUserAssociationUtil _auditMessageUserAssociationUtil;
 
 }

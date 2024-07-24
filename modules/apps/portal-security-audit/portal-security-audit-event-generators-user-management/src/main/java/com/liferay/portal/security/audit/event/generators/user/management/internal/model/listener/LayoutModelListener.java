@@ -19,11 +19,13 @@ import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -53,26 +55,33 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		throws ModelListenerException {
 
 		try {
-			if (layout.getPriority() == 0){
+			if (layout.getPriority() == 0) {
 				return;
 			}
+
 			long layoutId = layout.getLayoutId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
 				eventType, Layout.class.getName(), layoutId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
+
 			additionalInfoJSONObject.put(
+				"isPublicLayout", layout.isPublicLayout()
+			).put(
 				"layoutId", layoutId
 			).put(
 				"layoutName", layout.getName()
 			).put(
 				"siteId", layout.getGroupId()
-			).put(
-				"siteName", layout.getGroup().getName()
-			).put(
-				"isPublicLayout", layout.isPublicLayout()
 			);
+
+			Group group = layout.getGroup();
+
+			if (!Objects.equals(group, null)) {
+				additionalInfoJSONObject.put("siteName", group.getName());
+			}
 
 			_auditRouter.route(auditMessage);
 		}

@@ -23,10 +23,10 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -35,48 +35,52 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class MBMessageModelListener
-	extends BaseModelListener<MBMessage> {
+public class MBMessageModelListener extends BaseModelListener<MBMessage> {
 
 	@Override
-	public void onAfterCreate(MBMessage mbMessage) throws ModelListenerException {
+	public void onAfterCreate(MBMessage mbMessage)
+		throws ModelListenerException {
+
 		audit(EventTypes.ADD, mbMessage);
 	}
 
 	@Override
-	public void onAfterRemove(MBMessage mbMessage) throws ModelListenerException {
+	public void onAfterRemove(MBMessage mbMessage)
+		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, mbMessage);
 	}
 
 	@Override
-	public void onAfterUpdate(MBMessage mbMessage) throws ModelListenerException {
+	public void onAfterUpdate(MBMessage mbMessage)
+		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, mbMessage);
 	}
 
-	protected void audit(
-		String eventType, MBMessage mbMessage)
+	protected void audit(String eventType, MBMessage mbMessage)
 		throws ModelListenerException {
+
 		try {
 			long mbMessageId = mbMessage.getMessageId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					MBMessage.class.getName(), mbMessageId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, MBMessage.class.getName(), mbMessageId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"mbMessageId", mbMessageId
+				"isMBMessageReply", mbMessage.isReply()
 			).put(
 				"mbMessageBody", mbMessage.getBody()
 			).put(
-				"isMBMessageReply", mbMessage.isReply()
+				"mbMessageId", mbMessageId
 			);
 
 			MBCategory mbCategory = mbMessage.getCategory();
-			
-			if (Validator.isNotNull(mbCategory)) {
+
+			if (!Objects.equals(mbCategory, null)) {
 				additionalInfoJSONObject.put(
 					"mbCategoryId", mbCategory.getCategoryId()
 				).put(
@@ -86,7 +90,7 @@ public class MBMessageModelListener
 
 			MBThread mbThread = mbMessage.getThread();
 
-			if (Validator.isNotNull(mbThread)) {
+			if (!Objects.equals(mbThread, null)) {
 				additionalInfoJSONObject.put(
 					"mbThreadId", mbThread.getThreadId()
 				).put(

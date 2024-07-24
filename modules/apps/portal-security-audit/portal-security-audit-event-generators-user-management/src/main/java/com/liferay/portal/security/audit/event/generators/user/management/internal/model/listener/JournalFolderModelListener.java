@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -56,16 +55,15 @@ public class JournalFolderModelListener
 		audit(EventTypes.UPDATE, journalFolder);
 	}
 
-	protected void audit(
-		String eventType, JournalFolder journalFolder)
+	protected void audit(String eventType, JournalFolder journalFolder)
 		throws ModelListenerException {
 
 		try {
 			long journalFolderId = journalFolder.getFolderId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					JournalFolder.class.getName(), journalFolderId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, JournalFolder.class.getName(), journalFolderId,
+				null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();

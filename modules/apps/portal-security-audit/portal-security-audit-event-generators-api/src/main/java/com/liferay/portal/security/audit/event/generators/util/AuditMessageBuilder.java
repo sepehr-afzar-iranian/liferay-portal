@@ -27,9 +27,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mika Koivisto
@@ -63,10 +63,9 @@ public class AuditMessageBuilder {
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		if (Validator.isNotNull(serviceContext)) {
+		if (!Objects.equals(serviceContext, null)) {
 			additionalInfoJSONObject.put(
-				"groupId", serviceContext.getScopeGroupId()
-			);
+				"groupId", serviceContext.getScopeGroupId());
 		}
 
 		if ((realUserId > 0) && (userId != realUserId)) {

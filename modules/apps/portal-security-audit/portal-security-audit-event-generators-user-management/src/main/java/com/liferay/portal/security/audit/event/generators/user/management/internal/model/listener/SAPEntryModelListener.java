@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.portal.security.service.access.policy.model.SAPEntry;
@@ -32,43 +31,37 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class SAPEntryModelListener
-	extends BaseModelListener<SAPEntry> {
+public class SAPEntryModelListener extends BaseModelListener<SAPEntry> {
 
 	@Override
-	public void onAfterCreate(SAPEntry sapEntry)
-		throws ModelListenerException {
+	public void onAfterCreate(SAPEntry sapEntry) throws ModelListenerException {
 		audit(EventTypes.ADD, sapEntry);
 	}
 
 	@Override
-	public void onAfterUpdate(SAPEntry sapEntry)
-		throws ModelListenerException {
-		audit(EventTypes.UPDATE, sapEntry);
-	}
-
-	@Override
-	public void onAfterRemove(SAPEntry sapEntry)
-		throws ModelListenerException {
+	public void onAfterRemove(SAPEntry sapEntry) throws ModelListenerException {
 		audit(EventTypes.DELETE, sapEntry);
 	}
 
-	protected void audit(
-		String eventType, SAPEntry sapEntry)
+	@Override
+	public void onAfterUpdate(SAPEntry sapEntry) throws ModelListenerException {
+		audit(EventTypes.UPDATE, sapEntry);
+	}
+
+	protected void audit(String eventType, SAPEntry sapEntry)
 		throws ModelListenerException {
 
 		try {
 			long sapEntryId = sapEntry.getSapEntryId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					SAPEntry.class.getName(), sapEntryId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, SAPEntry.class.getName(), sapEntryId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"sapEntryId",sapEntryId
+				"sapEntryId", sapEntryId
 			).put(
 				"sapEntryName", sapEntry.getName()
 			).put(

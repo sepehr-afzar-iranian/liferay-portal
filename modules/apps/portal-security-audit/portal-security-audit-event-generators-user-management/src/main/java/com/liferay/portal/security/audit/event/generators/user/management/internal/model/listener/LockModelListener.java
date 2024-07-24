@@ -20,9 +20,9 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.lock.model.Lock;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
-import com.liferay.portal.lock.model.Lock;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -48,31 +48,30 @@ public class LockModelListener extends BaseModelListener<Lock> {
 		audit(EventTypes.DELETE, lock);
 	}
 
-	protected void audit(
-		String eventType, Lock lock)
+	protected void audit(String eventType, Lock lock)
 		throws ModelListenerException {
+
 		try {
 			long lockId = lock.getLockId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					Lock.class.getName(), lockId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, Lock.class.getName(), lockId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"lockId", lockId
+				"isLockExpired", lock.isExpired()
 			).put(
-				"lockClassName", lock.getClassName()
+				"isLockInheritable", lock.isInheritable()
 			).put(
 				"lockClassKey", lock.getKey()
 			).put(
-				"isLockInheritable", lock.getInheritable()
+				"lockClassName", lock.getClassName()
 			).put(
 				"lockExpirationDate", lock.getExpirationDate()
 			).put(
-				"isLockExpired", lock.isExpired()
+				"lockId", lockId
 			);
 
 			_auditRouter.route(auditMessage);

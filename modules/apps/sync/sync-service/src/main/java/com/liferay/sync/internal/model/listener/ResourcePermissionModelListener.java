@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -26,14 +26,14 @@ import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
-import com.liferay.portal.kernel.service.RoleServiceUtil;
-
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.sync.model.SyncDLObject;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+import com.liferay.sync.model.SyncDLObject;
 
 import java.util.Date;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -44,6 +44,65 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = ModelListener.class)
 public class ResourcePermissionModelListener
 	extends SyncBaseModelListener<ResourcePermission> {
+
+	@Override
+	public void onAfterUpdate(ResourcePermission resourcePermission)
+		throws ModelListenerException {
+
+		try {
+			long resourcePermissionId =
+				resourcePermission.getResourcePermissionId();
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				EventTypes.PERMISSION_UPDATE,
+				ResourcePermission.class.getName(), resourcePermissionId, null);
+
+			String resourcePermissionName = resourcePermission.getName();
+
+			JSONObject permissionsJSONObject =
+				JSONFactoryUtil.createJSONObject();
+
+			for (ResourceAction resourceAction :
+					_resourceActionLocalService.getResourceActions(
+						resourcePermissionName)) {
+
+				permissionsJSONObject.put(
+					resourceAction.getActionId(),
+					resourcePermission.hasActionId(
+						resourceAction.getActionId()));
+			}
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"permissions", permissionsJSONObject
+			).put(
+				"resourcePermissionId", resourcePermissionId
+			).put(
+				"resourcePermissionName", resourcePermissionName
+			).put(
+				"resourcePermissionPrimKey", resourcePermission.getPrimKey()
+			);
+
+			long roleId = resourcePermission.getRoleId();
+
+			Role role = _roleLocalService.fetchRole(roleId);
+
+			if (!Objects.equals(role, null)) {
+				additionalInfoJSONObject.put(
+					"roleId", roleId
+				).put(
+					"roleName", role.getName()
+				);
+			}
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception exception) {
+			throw new ModelListenerException(exception);
+		}
+	}
 
 	@Override
 	public void onBeforeCreate(ResourcePermission resourcePermission)
@@ -130,62 +189,13 @@ public class ResourcePermissionModelListener
 		}
 	}
 
-	@Override
-	public void onAfterUpdate(ResourcePermission resourcePermission)
-		throws ModelListenerException {
-		try {
-			long resourcePermissionId =
-				resourcePermission.getResourcePermissionId();
-
-			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				EventTypes.PERMISSION_UPDATE,
-				ResourcePermission.class.getName(),
-				resourcePermissionId, null);
-
-			long roleId = resourcePermission.getRoleId();
-			String resourcePermissionName = resourcePermission.getName();
-
-			JSONObject permissions = JSONFactoryUtil.createJSONObject();
-
-			for (ResourceAction resourceAction : _resourceActionLocalService.getResourceActions(
-				resourcePermissionName)) {
-				permissions.put(
-					resourceAction.getActionId(),
-					resourcePermission.hasActionId(
-						resourceAction.getActionId()));
-			}
-
-			Role role =
-				RoleServiceUtil.fetchRole(roleId);
-
-			JSONObject additionalInfoJSONObject =
-				auditMessage.getAdditionalInfo();
-
-			additionalInfoJSONObject.put(
-				"resourcePermissionId", resourcePermissionId
-			).put(
-				"resourcePermissionName", resourcePermissionName
-			).put(
-				"resourcePermissionPrimKey", resourcePermission.getPrimKey()
-			).put(
-				"roleId", roleId
-			).put(
-				"roleName", role.getName()
-			).put(
-				"permissions", permissions
-			);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception exception) {
-			throw new ModelListenerException(exception);
-		}
-	}
-
 	@Reference
 	private AuditRouter _auditRouter;
 
 	@Reference
 	private ResourceActionLocalService _resourceActionLocalService;
+
+	@Reference
+	private RoleLocalService _roleLocalService;
 
 }

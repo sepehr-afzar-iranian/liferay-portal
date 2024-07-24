@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -51,20 +50,22 @@ public class CommerceAccountGroupModelListener
 	}
 
 	protected void audit(
-		String eventType, CommerceAccountGroup commerceAccountGroup)
+			String eventType, CommerceAccountGroup commerceAccountGroup)
 		throws ModelListenerException {
+
 		try {
-			long commerceAccountGroupId = commerceAccountGroup.getCommerceAccountGroupId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					CommerceAccountGroup.class.getName(), commerceAccountGroupId,
-					null);
+			long commerceAccountGroupId =
+				commerceAccountGroup.getCommerceAccountGroupId();
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, CommerceAccountGroup.class.getName(),
+				commerceAccountGroupId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"commerceAccountGroupId",commerceAccountGroupId
+				"commerceAccountGroupId", commerceAccountGroupId
 			).put(
 				"commerceAccountGroupName", commerceAccountGroup.getName()
 			);

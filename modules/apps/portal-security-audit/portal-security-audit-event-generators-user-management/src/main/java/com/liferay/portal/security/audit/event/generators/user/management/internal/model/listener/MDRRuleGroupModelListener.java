@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -32,43 +31,43 @@ import org.osgi.service.component.annotations.Reference;
  * @author Yousef Ghadiri
  */
 @Component(immediate = true, service = ModelListener.class)
-public class MDRRuleGroupModelListener
-	extends BaseModelListener<MDRRuleGroup> {
+public class MDRRuleGroupModelListener extends BaseModelListener<MDRRuleGroup> {
 
 	@Override
 	public void onAfterCreate(MDRRuleGroup mdrRuleGroup)
 		throws ModelListenerException {
+
 		audit(EventTypes.ADD, mdrRuleGroup);
 	}
 
 	@Override
 	public void onAfterRemove(MDRRuleGroup mdrRuleGroup)
 		throws ModelListenerException {
+
 		audit(EventTypes.DELETE, mdrRuleGroup);
 	}
 
 	@Override
 	public void onAfterUpdate(MDRRuleGroup mdrRuleGroup)
 		throws ModelListenerException {
+
 		audit(EventTypes.UPDATE, mdrRuleGroup);
 	}
 
-	protected void audit(
-		String eventType, MDRRuleGroup mdrRuleGroup)
+	protected void audit(String eventType, MDRRuleGroup mdrRuleGroup)
 		throws ModelListenerException {
 
 		try {
 			long mdrRuleGroupId = mdrRuleGroup.getRuleGroupId();
-			AuditMessage auditMessage =
-				AuditMessageBuilder.buildAuditMessage(eventType,
-					MDRRuleGroup.class.getName(), mdrRuleGroupId,
-					null);
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				eventType, MDRRuleGroup.class.getName(), mdrRuleGroupId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
 			additionalInfoJSONObject.put(
-				"mdrRuleGroupId",mdrRuleGroupId
+				"mdrRuleGroupId", mdrRuleGroupId
 			).put(
 				"mdrRuleGroupName", mdrRuleGroup.getName()
 			);
