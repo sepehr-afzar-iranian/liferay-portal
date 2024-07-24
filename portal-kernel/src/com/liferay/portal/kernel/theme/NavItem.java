@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.webserver.WebServerServletTokenUtil;
@@ -80,6 +81,9 @@ public class NavItem implements Serializable {
 
 					iterator.remove();
 				}
+				else if (!_showInCurrentLanguage(childLayout, themeDisplay)) {
+					iterator.remove();
+				}
 			}
 		}
 
@@ -89,7 +93,9 @@ public class NavItem implements Serializable {
 			List<Layout> childLayouts = layoutChildLayouts.get(
 				parentLayout.getPlid());
 
-			if (_isContentLayoutDraft(parentLayout)) {
+			if (_isContentLayoutDraft(parentLayout) ||
+				!_showInCurrentLanguage(parentLayout, themeDisplay)) {
+
 				continue;
 			}
 
@@ -405,6 +411,27 @@ public class NavItem implements Serializable {
 		return true;
 	}
 
+	private static boolean _showInCurrentLanguage(
+		Layout layout, ThemeDisplay themeDisplay) {
+
+		UnicodeProperties layoutTypeSettingsUnicodeProperties =
+			layout.getTypeSettingsProperties();
+
+		boolean showInAllLanguages = GetterUtil.getBoolean(
+			layoutTypeSettingsUnicodeProperties.getProperty(
+				"show-in-all-languages"),
+			true);
+
+		if (showInAllLanguages) {
+			return true;
+		}
+
+		return GetterUtil.getBoolean(
+			layoutTypeSettingsUnicodeProperties.getProperty(
+				"show-in-" + themeDisplay.getLanguageId()),
+			true);
+	}
+
 	private NavItem(
 		HttpServletRequest httpServletRequest, ThemeDisplay themeDisplay,
 		Layout layout, List<Layout> childLayouts,
@@ -430,6 +457,10 @@ public class NavItem implements Serializable {
 		List<NavItem> navItems = new ArrayList<>(layouts.size());
 
 		for (Layout layout : layouts) {
+			if (!_showInCurrentLanguage(layout, themeDisplay)) {
+				continue;
+			}
+
 			navItems.add(
 				new NavItem(
 					httpServletRequest, themeDisplay, layout, contextObjects));

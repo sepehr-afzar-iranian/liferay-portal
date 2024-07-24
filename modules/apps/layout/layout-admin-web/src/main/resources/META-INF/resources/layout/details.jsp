@@ -26,6 +26,10 @@ LayoutType selLayoutType = selLayout.getLayoutType();
 Locale defaultLocale = LocaleUtil.getDefault();
 
 String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+UnicodeProperties layoutTypeSettings = selLayout.getTypeSettingsProperties();
+
+boolean showInAllLanguages = GetterUtil.getBoolean(layoutTypeSettings.getProperty("show-in-all-languages"), true);
 %>
 
 <liferay-ui:error-marker
@@ -86,6 +90,26 @@ String friendlyURLBase = StringPool.BLANK;
 
 			<div class="form-group">
 				<aui:input helpMessage="hidden-from-navigation-menu-widget-help-message" label="hidden-from-navigation-menu-widget" name="hidden" type="toggle-switch" value="<%= selLayout.isHidden() %>" />
+			</div>
+
+			<div class="form-group">
+				<aui:input helpMessage="show-in-navigation-menu-in-all-language" label="show-in-navigation-menu-in-all-language" name="TypeSettingsProperties--show-in-all-languages--" type="toggle-switch" value="<%= showInAllLanguages %>" />
+
+			<div class="show-in-language-container <%= showInAllLanguages ? "hide" : StringPool.BLANK %>">
+				<p class="small text-secondary">
+					<liferay-ui:message key="show-only-in-selected-lanaguages" />
+				</p>
+
+				<%
+				for (Locale availableLocale : LanguageUtil.getAvailableLocales(group.getGroupId())) {
+				%>
+
+				<aui:input cssClass="layout-show-in-language" label="<%= availableLocale.getDisplayName() %>" name='<%= "TypeSettingsProperties--show-in-" + LocaleUtil.toLanguageId(availableLocale) + "--" %>' type="checkbox" value='<%= !showInAllLanguages ? GetterUtil.getBoolean(layoutTypeSettings.getProperty("show-in-" + LocaleUtil.toLanguageId(availableLocale)), true) : true %>' />
+
+				<%
+				}
+				%>
+
 			</div>
 		</c:if>
 
@@ -213,8 +237,38 @@ String friendlyURLBase = StringPool.BLANK;
 	);
 
 	var layoutPrototypeLinkEnabled = document.getElementById(
-		'<portlet:namespace />layoutPrototypeLinkEnabled'
+	'<portlet:namespace />layoutPrototypeLinkEnabled');
+
+	var showInAllLanguages = document.getElementById(
+		'<portlet:namespace />show-in-all-languages'
 	);
+
+	if (showInAllLanguages) {
+	showInAllLanguages.addEventListener('change', function (event) {
+
+	var showInAllLanguagesChecked = event.currentTarget.checked;
+
+	var layoutShowInLanguageFields = document.querySelectorAll(
+	'#<portlet:namespace />editLayoutFm .layout-show-in-language'
+	);
+
+	var layoutShowInLanguageFieldsContainer = document.querySelector(
+	'#<portlet:namespace />editLayoutFm .show-in-language-container'
+	);
+
+	dom.toggleClasses(layoutShowInLanguageFieldsContainer, 'hide');
+
+	Array.prototype.forEach.call(layoutShowInLanguageFields, function (
+	field,
+	index
+	) {
+	Liferay.Util.toggleDisabled(field, showInAllLanguagesChecked);
+
+	});
+
+	});
+
+	}
 
 	if (layoutPrototypeLinkEnabled) {
 		layoutPrototypeLinkEnabled.addEventListener('change', function (event) {
