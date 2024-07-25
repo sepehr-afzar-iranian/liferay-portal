@@ -1,0 +1,51 @@
+jobs:
+    Build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+            - name: Set up JDK 8
+              uses: actions/setup-java@v2
+              with:
+                  distribution: "adopt"
+                  java-version: "8"
+            - name: Cache Gradle packages # cache gradle and ant files for quick builds.
+              uses: actions/cache@v2
+              with:
+                  key: ${{runner.os}}-gradle-caches
+                  path: |
+                      .m2
+                      .gradle
+                      /home/runner/.liferay
+            - name: Set SAIN_DOCKER_VERSION env # this version comes from release-sain.properties
+              run: >
+                  echo "SAIN_DOCKER_VERSION="$(grep "sain.docker.release.version" release-sain.properties |
+                  cut -d'=' -f2) >> $GITHUB_ENV
+            - name: Echo SAIN_DOCKER_VERSION # we print it to be sure that is set correctly
+              run: echo ${{env.SAIN_DOCKER_VERSION}}
+            - name: Set SAIN_EXTENSION_NEXUS_URL env # this version comes from release-sain.properties
+              run: >
+                  echo "SAIN_EXTENSION_NEXUS_URL="$(grep "sain.extensions.nexus.url" release-sain.properties |
+                  cut -d'=' -f2) >> $GITHUB_ENV
+            - name: Set Release Info variables # these variables come from release-sain.properties
+              run: |
+                  echo release.info.date=$(grep "release.info.date" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
+                  echo release.info.name=$(grep "release.info.name" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
+                  echo release.info.version.display.name=$(grep "release.info.version.display.name" release-sain.properties | cut -d'=' -f2) SP ${{env.SAIN_DOCKER_VERSION}} >> release.$USER.properties
+            - name: Echo SAIN_EXTENSION_NEXUS_URL # we print it to be sure that is set correctly
+              run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
+            - name: Create backup from build.properties file
+              run: mv build.properties build.properties.bak
+            - name: Change Some Values in build.properties File
+              run: >
+                  cat build.properties.bak |
+                  sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ;
+                  s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
+                  s/jsp.precompile=on/jsp.precompile=off/g ;
+                  s/org.gradle.daemon=true/org.gradle.daemon=false/g'
+                  > build.properties
+name: "Liferay CI Build Docker Image - No Marketplace"
+on:
+  push:
+    branches:
+      - 'sain-7.3.x-no-marketplace-build'
