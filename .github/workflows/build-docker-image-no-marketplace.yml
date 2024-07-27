@@ -2,17 +2,10 @@ jobs:
     Build:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repository
-              uses: actions/checkout@v2
-            - name: Set up JDK 8
-              uses: actions/setup-java@v2
-              with:
-                  distribution: "adopt"
-                  java-version: "8"
             - name: Free Disk Space
               uses: endersonmenezes/free-disk-space@v2
               with:
-                remove_android: false
+                remove_android: true
                 remove_dotnet: true
                 remove_haskell: true
                 remove_tool_cache: true
@@ -21,6 +14,13 @@ jobs:
                 remove_packages_one_command: true
                 remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell"
                 testing: false
+            - name: Checkout repository
+              uses: actions/checkout@v2
+            - name: Set up JDK 8
+              uses: actions/setup-java@v2
+              with:
+                  distribution: "adopt"
+                  java-version: "8"
             - name: Cache Gradle packages # cache gradle and ant files for quick builds.
               uses: actions/cache@v2
               with:
