@@ -44,6 +44,60 @@ jobs:
                   s/jsp.precompile=on/jsp.precompile=off/g ;
                   s/org.gradle.daemon=true/org.gradle.daemon=false/g'
                   > build.properties
+            - env:
+                ANT_OPTS: "-Xmx2g"
+              name: Ant Compile and Install Portal Snapshots
+              run: ant compile install-portal-snapshots
+            - env:
+                ANT_OPTS: "-Xmx4g"
+              name: Ant deploy all portal modules
+              run: ant deploy
+            - name: Move files to SAIN-Bundles # before create docker image, we should move those files to here.
+              run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
+            - name: Download modules
+              run: >
+                bash module-downloader.sh release-sain.properties
+                ${{secrets.SAIN_REPO_URL}} ${{secrets.SAIN_FTP_USER}}
+                ${{secrets.SAIN_FTP_PASS}} ${{env.SAIN_EXTENSION_NEXUS_URL}}
+            - name: Login to Docker Hub
+              uses: docker/login-action@v1
+              with:
+                password: ${{secrets.DOCKER_HUB_PASSWORD}}
+                username: ${{secrets.DOCKER_HUB_USERNAME}}
+            - name: Login to SAIN repository
+              uses: docker/login-action@v1
+              with:
+                password: ${{secrets.SAIN_REPO_PASSWORD}}
+                registry: ${{secrets.SAIN_REPO_URL}}
+                username: ${{secrets.SAIN_REPO_USERNAME}}
+            - id: buildx
+              name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v1
+            - id: docker_build_pre
+              if: ${{github.event_name == 'release' && github.event.action == 'prereleased'}}
+              name: Build and push with version tag
+              uses: docker/build-push-action@v2
+              with:
+                context: ./
+                file: ./Dockerfile.pure
+                push: true
+                tags: ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8-no-marketplace:${{env.SAIN_DOCKER_VERSION}}
+            - id: docker_build
+              if: ${{github.event_name == 'release' && github.event.action == 'released'}}
+              name: Build and push with latest tag (Runs ONLY in published releases)
+              uses: docker/build-push-action@v2
+              with:
+                context: ./
+                file: ./Dockerfile.pure
+                push: true
+                tags: |
+                  ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8-no-marketplace:latest
+                  ${{secrets.SAIN_REPO_URL}}/liferay/portal-737-ga8-no-marketplace:${{env.SAIN_DOCKER_VERSION}}
+            - if: ${{github.event_name == 'release' && github.event.action == 'released'}}
+              name: Build bundle artifact
+              run: >
+                curl -X POST ${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_URL}}
+                -F token=${{secrets.SAIN_GIT_BUNDLE_BUILDER_REPO_TOKEN}} -F ref=master
 name: "Liferay CI Build Docker Image - No Marketplace"
 on:
   push:
