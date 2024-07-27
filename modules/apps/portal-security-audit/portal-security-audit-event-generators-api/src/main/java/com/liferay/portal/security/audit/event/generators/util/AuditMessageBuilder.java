@@ -21,8 +21,10 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -64,8 +66,21 @@ public class AuditMessageBuilder {
 			ServiceContextThreadLocal.getServiceContext();
 
 		if (!Objects.equals(serviceContext, null)) {
+			long groupId = serviceContext.getScopeGroupId();
+
 			additionalInfoJSONObject.put(
 				"groupId", serviceContext.getScopeGroupId());
+
+			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+			if (!Objects.equals(group, null)) {
+				try {
+					additionalInfoJSONObject.put(
+						"siteName", group.getDescriptiveName());
+				}
+				catch (Exception exception) {
+				}
+			}
 		}
 
 		if ((realUserId > 0) && (userId != realUserId)) {
