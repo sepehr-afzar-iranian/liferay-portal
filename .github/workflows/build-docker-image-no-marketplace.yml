@@ -12,7 +12,7 @@ jobs:
             - name: Free Disk Space
               uses: endersonmenezes/free-disk-space@v2
               with:
-                remove_android: true
+                remove_android: false
                 remove_dotnet: true
                 remove_haskell: true
                 remove_tool_cache: true
