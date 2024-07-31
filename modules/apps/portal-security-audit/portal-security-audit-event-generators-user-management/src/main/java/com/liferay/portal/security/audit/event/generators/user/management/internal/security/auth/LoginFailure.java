@@ -1,15 +1,15 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
- * The contents of this file are subject to the terms of the Liferay Enterprise
- * Subscription License ("License"). You may not use this file except in
- * compliance with the License. You can obtain a copy of the License by
- * contacting Liferay, Inc. See the License for the specific language governing
- * permissions and limitations under the License, including but not limited to
- * distribution rights of the Software.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- *
- *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.security.auth;
@@ -24,10 +24,11 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.AuthFailure;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.Map;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
@@ -44,8 +45,10 @@ public class LoginFailure implements AuthFailure {
 
 		User user = _userLocalService.fetchUserByEmailAddress(
 			companyId, emailAddress);
-		headerMap.put("emailAddress", new String[]{emailAddress});
-		audit(user, headerMap, "Failed to authenticate by email address");
+
+		audit(
+			user, headerMap, "Failed to authenticate by email address",
+			"emailAddress", emailAddress);
 	}
 
 	@Override
@@ -55,33 +58,46 @@ public class LoginFailure implements AuthFailure {
 
 		User user = _userLocalService.fetchUserByScreenName(
 			companyId, screenName);
-		headerMap.put("screenName", new String[]{screenName});
-		audit(user, headerMap, "Failed to authenticate by screen name");
+
+		audit(
+			user, headerMap, "Failed to authenticate by screen name",
+			"screenName", screenName);
 	}
 
 	@Override
 	public void onFailureByUserId(
 		long companyId, long userId, Map<String, String[]> headerMap,
 		Map<String, String[]> parameterMap) {
+
 		User user = null;
+
 		try {
 			user = _userLocalService.getUserById(companyId, userId);
 		}
 		catch (Exception exception) {
 		}
-		headerMap.put("userId", new String[]{String.valueOf(userId)});
-		audit(user, headerMap, "Failed to authenticate by user ID");
+
+		audit(
+			user, headerMap, "Failed to authenticate by user ID", "userId",
+			String.valueOf(userId));
 	}
 
 	protected void audit(
-		User user, Map<String, String[]> headerMap, String reason) {
+		User user, Map<String, String[]> headerMap, String reason, String type,
+		String typeValue) {
+
 		try {
-			JSONObject additionalInfoJSONObject = _jsonFactory.createJSONObject();
+			JSONObject additionalInfoJSONObject =
+				_jsonFactory.createJSONObject();
 
 			additionalInfoJSONObject.put(
+				type, typeValue
+			).put(
 				"headers", _jsonFactory.serialize(headerMap)
 			).put(
 				"reason", reason
+			).put(
+				"type", type
 			);
 
 			AuditMessage auditMessage = new AuditMessage(
@@ -89,8 +105,10 @@ public class LoginFailure implements AuthFailure {
 				user.getFullName(), User.class.getName(),
 				String.valueOf(user.getPrimaryKey()), null,
 				additionalInfoJSONObject);
+
 			_auditRouter.route(auditMessage);
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
 				_log.warn("Unable to route audit message", exception);
 			}
