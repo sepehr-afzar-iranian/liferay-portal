@@ -15,13 +15,20 @@
 package com.liferay.portal.security.audit.web.internal;
 
 import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.security.audit.AuditEvent;
+
 import com.liferay.portal.security.audit.AuditEventManager;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.liferay.portal.security.audit.storage.model.AuditEvent;
+import com.liferay.portal.security.audit.web.internal.portlet.AuditField;
+
+
+import com.liferay.portal.security.audit.storage.service.AuditEventLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -32,60 +39,66 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = {})
 public class AuditEventManagerUtil {
 
-	public static AuditEvent addAuditEvent(AuditMessage auditMessage) {
-		return _auditEventManager.addAuditEvent(auditMessage);
-	}
-
-	public static AuditEvent fetchAuditEvent(long auditEventId) {
-		return _auditEventManager.fetchAuditEvent(auditEventId);
-	}
-
 	public static List<AuditEvent> getAuditEvents(
-		long companyId, int start, int end,
-		OrderByComparator
-			<com.liferay.portal.security.audit.storage.model.AuditEvent>
-				orderByComparator) {
+		long companyId, String keywords,String userId, String userName,
+		 String eventType, String className, String classPK,
+		String clientHost, String clientIP, String serverName, String serverPort,
+		String sessionID, int cur, int delta) {
+		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
-		return _auditEventManager.getAuditEvents(
-			companyId, start, end, orderByComparator);
+		params.put(
+				AuditField.USER_ID,userId);
+
+		params.put(
+				AuditField.USER_NAME,userName);
+
+		params.put(
+				AuditField.CLASS_NAME, className);
+
+		params.put(
+				AuditField.CLASS_PK,classPK);
+
+		params.put(
+				AuditField.CLIENT_HOST, clientHost);
+
+		params.put(
+				AuditField.CLIENT_IP, clientIP);
+
+		params.put(
+				AuditField.EVENT_TYPE, eventType);
+
+		params.put(
+				AuditField.SERVER_NAME, serverName);
+		;
+		params.put(
+				AuditField.SERVER_PORT, serverPort);
+
+		params.put(
+				AuditField.SESSION_ID, sessionID);
+		BaseModelSearchResult<AuditEvent> result =  _auditEventLocalService.search(
+				companyId,keywords,params,cur,delta,null,false);
+
+		return result.getBaseModels();
 	}
 
-	public static List<AuditEvent> getAuditEvents(
-		long companyId, long userId, String userName, Date createDateGT,
-		Date createDateLT, String eventType, String className, String classPK,
-		String clientHost, String clientIP, String serverName, int serverPort,
-		String sessionID, boolean andSearch, int start, int end,
-		OrderByComparator
-			<com.liferay.portal.security.audit.storage.model.AuditEvent>
-				orderByComparator) {
-
-		return _auditEventManager.getAuditEvents(
-			companyId, userId, userName, createDateGT, createDateLT, eventType,
-			className, classPK, clientHost, clientIP, serverName, serverPort,
-			sessionID, andSearch, start, end, orderByComparator);
-	}
-
-	public static int getAuditEventsCount(long companyId) {
-		return _auditEventManager.getAuditEventsCount(companyId);
-	}
-
-	public static int getAuditEventsCount(
-		long companyId, long userId, String userName, Date createDateGT,
-		Date createDateLT, String eventType, String className, String classPK,
-		String clientHost, String clientIP, String serverName, int serverPort,
-		String sessionID, boolean andSearch) {
-
-		return _auditEventManager.getAuditEventsCount(
-			companyId, userId, userName, createDateGT, createDateLT, eventType,
-			className, classPK, clientHost, clientIP, serverName, serverPort,
-			sessionID, andSearch);
+	public static int getAuditEventsCount(long companyId, String keywords,String userId, String userName,
+												  String eventType, String className, String classPK,
+												  String clientHost, String clientIP, String serverName, String serverPort,
+												  String sessionID){
+		List<AuditEvent> auditEvents= getAuditEvents(
+				companyId,keywords,userId,userName,eventType,
+				className,classPK,clientHost,clientIP,serverName,
+				serverPort,sessionID,-1,-1);
+		return auditEvents.size();
 	}
 
 	@Reference(unbind = "-")
-	protected void set_auditEventManager(AuditEventManager auditEventManager) {
-		_auditEventManager = auditEventManager;
-	}
+	protected void setAuditEventLocalService(
+			AuditEventLocalService auditEventLocalService) {
 
-	private static AuditEventManager _auditEventManager;
+		_auditEventLocalService =
+				auditEventLocalService;
+	}
+	private static AuditEventLocalService _auditEventLocalService;
 
 }

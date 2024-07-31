@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.security.audit.storage.internal.search.AuditField;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
@@ -41,20 +42,24 @@ public class AuditEventModelDocumentContributor
 	@Override
 	public void contribute(
 		Document document, AuditEvent auditEvent) {
+		/*System.out.println("contributing " + auditEvent);*/
 
 		try {
 			document.addKeyword(
 				Field.CLASS_NAME_ID,
 				classNameLocalService.getClassNameId(AuditEvent.class));
 			document.addKeyword(
-				Field.CLASS_PK, auditEvent.getAuditEventId());
+				Field.CLASS_PK, auditEvent.getClassPK());
+			document.addKeyword(
+					AuditField.CLASS_NAME, auditEvent.getClassName());
 			document.addNumber(
 					Field.USER_ID, auditEvent.getUserId());
-			document.addKeyword(
-					Field.USER_NAME, auditEvent.getUserName());
+			String userName = portal.getUserName(
+					auditEvent.getUserId(), auditEvent.getUserName());
+			document.addKeyword(Field.USER_NAME, userName, true);
 			document.addKeyword(
 				Field.COMPANY_ID, auditEvent.getCompanyId());
-			document.addDate(
+			document.addDateSortable(
 				Field.CREATE_DATE, auditEvent.getCreateDate());
 			document.addKeyword(
 				AuditField.EVENT_TYPE, auditEvent.getEventType());
@@ -68,8 +73,8 @@ public class AuditEventModelDocumentContributor
 				AuditField.SERVER_NAME,auditEvent.getServerName());
 			document.addNumber(
 				AuditField.SERVER_PORT,auditEvent.getServerPort());
-			document.addNumber(
-				AuditField.SESSION_ID,auditEvent.getServerPort());
+			document.addKeyword(
+				AuditField.SESSION_ID,auditEvent.getSessionID());
 
 		}
 		catch (Exception exception) {
@@ -84,4 +89,6 @@ public class AuditEventModelDocumentContributor
 	private static final Log _log = LogFactoryUtil.getLog(
 			AuditEventModelDocumentContributor.class);
 
+	@Reference
+	protected Portal portal;
 }

@@ -56,28 +56,39 @@ public class AuditEventModelPreFilterContributor
 	public void contribute(
 			BooleanFilter booleanFilter, ModelSearchSettings modelSearchSettings,
 			SearchContext searchContext) {
+		/*System.out.println("contributing " + booleanFilter);*/
 
-		_filterByUserId(booleanFilter, searchContext);
-		_filterByEventType(booleanFilter, searchContext);
-
-		String groupId = (String)searchContext.getAttribute(Field.GROUP_ID);
-
-		if (groupId != null) {
-			booleanFilter.addRequiredTerm(Field.GROUP_ID, groupId);
-		}
+		//_filterByUserId(booleanFilter, searchContext);
+		_filterByClientIp(booleanFilter,searchContext);
+		//_filterByEventType(booleanFilter, searchContext);
 	}
 
-	private void _filterByUserId(
+	/*private void _filterByUserId(
 			BooleanFilter booleanFilter, SearchContext searchContext) {
 
-		long[] userIds = (long[])searchContext.getAttribute(Field.USER_ID);
+		long userId = (long)searchContext.getAttribute(Field.USER_ID);
+		//String[] userIds = (String[])searchContext.getAttribute(Field.USER_ID);
 
-		if (ArrayUtil.isNotEmpty(userIds)) {
+		if (Validator.isNotNull(userId)) {
 			TermsFilter userIdTermsFilter = new TermsFilter(Field.USER_ID);
 
-			userIdTermsFilter.addValues(ArrayUtil.toStringArray(userIds));
+			userIdTermsFilter.addValues(String.valueOf(userId));
 
 			booleanFilter.add(userIdTermsFilter, BooleanClauseOccur.MUST);
+		}
+	}*/
+
+	private void _filterByClientIp(
+			BooleanFilter booleanFilter, SearchContext searchContext) {
+
+		String[] clientIps = (String[])searchContext.getAttribute(AuditField.CLIENT_IP);
+
+		if (ArrayUtil.isNotEmpty(clientIps)) {
+			TermsFilter clientIpTermsFilter = new TermsFilter(AuditField.CLIENT_IP);
+
+			clientIpTermsFilter.addValues(clientIps);
+
+			booleanFilter.add(clientIpTermsFilter, BooleanClauseOccur.MUST);
 		}
 	}
 
@@ -94,8 +105,5 @@ public class AuditEventModelPreFilterContributor
 			booleanFilter.add(eventTypeTermsFilter, BooleanClauseOccur.MUST);
 		}
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		AuditEventModelPreFilterContributor.class);
 
 }

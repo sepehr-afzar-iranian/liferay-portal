@@ -44,7 +44,7 @@ DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 
 
     </aui:select>
-	<aui:input label="user-id" name="userId" value="<%= (userId != 0) ? String.valueOf(userId) : StringPool.BLANK %>" />
+	<aui:input label="user-id" name="userId" value="<%= userId %>" />
 
 	<aui:input label="user-name" name="userName" value="<%= userName %>" />
 
@@ -62,9 +62,9 @@ DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 
 	<aui:input label="server-name" name="serverName" value="<%= serverName %>" />
 
-	<aui:input label="server-port" name="serverPort" value="<%= (serverPort != 0) ? String.valueOf(serverPort) : StringPool.BLANK %>" />
+	<aui:input label="server-port" name="serverPort" value="<%= serverPort %>" />
 
-	<aui:field-wrapper label="start-date">
+<%--	<aui:field-wrapper label="start-date">
 		<liferay-ui:input-date
 			dayParam="startDateDay"
 			dayValue="<%= startDateDay %>"
@@ -103,5 +103,6 @@ DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 			minuteValue="<%= endDateMinute %>"
 		/>
 	</aui:field-wrapper>
+	--%>
 </liferay-ui:search-toggle>
 

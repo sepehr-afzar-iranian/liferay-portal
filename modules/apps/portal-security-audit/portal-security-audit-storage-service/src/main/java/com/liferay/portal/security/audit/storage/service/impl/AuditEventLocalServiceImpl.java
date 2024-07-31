@@ -17,24 +17,39 @@ package com.liferay.portal.security.audit.storage.service.impl;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.audit.AuditMessage;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.Junction;
-import com.liferay.portal.kernel.dao.orm.Property;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.search.Indexable;
-import com.liferay.portal.kernel.search.IndexableType;
-import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.search.hits.SearchHits;
+import com.liferay.portal.kernel.search.BaseModelSearchResult;
+import com.liferay.portal.search.sort.FieldSort;
+import com.liferay.portal.search.sort.SortFieldBuilder;
+import com.liferay.portal.search.sort.SortOrder;
+import com.liferay.portal.search.sort.Sorts;
+import com.liferay.portal.kernel.search.Sort;
+
+import com.liferay.portal.security.audit.storage.internal.search.AuditField;
+import com.liferay.portal.vulcan.util.TransformUtil;
+import com.liferay.portal.search.searcher.SearchRequest;
+import com.liferay.portal.search.searcher.SearchRequestBuilder;
+import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
+import com.liferay.portal.search.searcher.SearchResponse;
+import com.liferay.portal.search.searcher.Searcher;
 import com.liferay.portal.security.audit.storage.comparator.AuditEventCreateDateComparator;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.security.audit.storage.service.base.AuditEventLocalServiceBaseImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Brian Wing Shun Chan
@@ -248,5 +263,225 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 
 		return dynamicQuery.add(junction);
 	}
+
+
+	public List<AuditEvent> searchAuditEvents(long companyId, String keywords, int start, int end, Sort[] sorts){
+		Indexer<AuditEvent> indexer = IndexerRegistryUtil.nullSafeGetIndexer(AuditEvent.class);
+
+		SearchContext searchContext = new SearchContext();
+		searchContext.setCompanyId(companyId);
+		/*searchContext.setStart(start);
+		searchContext.setEnd(end);*/
+		searchContext.setSorts(sorts);
+
+		if (Validator.isNotNull(keywords)) {
+			searchContext.setKeywords(keywords);
+		}
+
+		QueryConfig queryConfig = searchContext.getQueryConfig();
+		queryConfig.setHighlightEnabled(false);
+		queryConfig.setScoreEnabled(false);
+
+        Hits hits = null;
+        try {
+            hits = indexer.search(searchContext);
+        } catch (SearchException e) {
+            throw new RuntimeException(e);
+        }
+
+        List<AuditEvent> auditEvents = new ArrayList<>();
+
+
+		for (Document document : hits.toList()) {
+			long auditEventId = GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK));
+
+			AuditEvent auditEvent = fetchAuditEvent(auditEventId);
+
+			if (auditEvent != null) {
+				auditEvents.add(auditEvent);
+			}
+		}
+
+		return auditEvents;
+	}
+
+	public int searchAuditEventsCount(long companyId, String keywords) {
+		Indexer<AuditEvent> indexer = IndexerRegistryUtil.nullSafeGetIndexer(AuditEvent.class);
+
+		SearchContext searchContext = new SearchContext();
+		searchContext.setCompanyId(companyId);
+
+		if (Validator.isNotNull(keywords)) {
+			searchContext.setKeywords(keywords);
+		}
+
+		QueryConfig queryConfig = searchContext.getQueryConfig();
+		queryConfig.setHighlightEnabled(false);
+		queryConfig.setScoreEnabled(false);
+
+        try {
+            return (int) indexer.searchCount(searchContext);
+        } catch (SearchException e) {
+            throw new RuntimeException(e);
+        }
+    }
+	@Override
+	public BaseModelSearchResult<AuditEvent> search(
+			long companyId, String keywords, LinkedHashMap<String, Object> params,int cur,
+			int delta,String orderByField, boolean reverse) {
+
+		SearchResponse searchResponse = _searcher.search(
+				_getSearchRequest(
+						companyId, keywords, params,cur,delta, orderByField,
+						reverse));
+
+		SearchHits searchHits = searchResponse.getSearchHits();
+
+		List<AuditEvent> accountEntries = TransformUtil.transform(
+				searchHits.getSearchHits(),
+				searchHit -> {
+					com.liferay.portal.search.document.Document document = searchHit.getDocument();
+
+					long auditEventId = document.getLong(Field.ENTRY_CLASS_PK);
+
+					AuditEvent auditEvent = fetchAuditEvent(auditEventId);
+
+					if (auditEvent == null) {
+						Indexer<AuditEvent> indexer =
+								IndexerRegistryUtil.getIndexer(AuditEvent.class);
+
+						indexer.delete(auditEvent);
+					}
+
+					return auditEvent;
+				});
+
+		return new BaseModelSearchResult<>(
+				accountEntries, searchResponse.getTotalHits());
+	}
+
+	private SearchRequest _getSearchRequest(
+			long companyId, String keywords, LinkedHashMap<String, Object> params,
+			int cur,int delta, String orderByField, boolean reverse) {
+
+		SearchRequestBuilder searchRequestBuilder =
+				_searchRequestBuilderFactory.builder();
+
+		searchRequestBuilder.entryClassNames(
+				AuditEvent.class.getName()
+		).emptySearchEnabled(
+				true
+		).highlightEnabled(
+				false
+		).withSearchContext(
+				searchContext -> _populateSearchContext(
+						searchContext, companyId, keywords, params)
+		);
+
+		if (cur != QueryUtil.ALL_POS) {
+			searchRequestBuilder.from(cur);
+			searchRequestBuilder.size(delta);
+		}
+
+		if (Validator.isNotNull(orderByField)) {
+			SortOrder sortOrder = SortOrder.ASC;
+
+			if (reverse) {
+				sortOrder = SortOrder.DESC;
+			}
+
+			FieldSort fieldSort = _sorts.field(
+					_sortFieldBuilder.getSortField(
+							AuditEvent.class.getName(), orderByField),
+					sortOrder);
+
+			searchRequestBuilder.sorts(fieldSort);
+		}
+
+		return searchRequestBuilder.build();
+	}
+
+	private void _populateSearchContext(
+			SearchContext searchContext, long companyId, String keywords,
+			LinkedHashMap<String, Object> params) {
+
+		searchContext.setCompanyId(companyId);
+		/*searchContext.setStart(start);
+		searchContext.setEnd(end);*/
+
+		if (Validator.isNotNull(keywords)) {
+			searchContext.setKeywords(keywords);
+		}
+
+		if (MapUtil.isEmpty(params)) {
+			return;
+		}
+
+		String eventType = (String) params.get(AuditField.EVENT_TYPE);
+		if (Validator.isNotNull(eventType)) {
+			searchContext.setAttribute(AuditField.EVENT_TYPE, eventType);
+		}
+
+		String userId = (String) params.get(AuditField.USER_ID);
+		if (Validator.isNotNull(userId)) {
+			searchContext.setAttribute(AuditField.USER_ID, Long.valueOf(userId));
+		}
+
+		String userName = (String) params.get(Field.USER_NAME);
+		if (Validator.isNotNull(userName)) {
+			searchContext.setAttribute(Field.USER_NAME, userName);
+		}
+
+		String classPK = (String) params.get(AuditField.CLASS_PK);
+		if (Validator.isNotNull(classPK)) {
+			searchContext.setAttribute(AuditField.CLASS_PK, classPK);
+		}
+
+		String className = (String) params.get(AuditField.CLASS_NAME);
+		if (Validator.isNotNull(className)) {
+			searchContext.setAttribute(AuditField.CLASS_NAME, className);
+		}
+
+
+		String sessionId = (String) params.get(AuditField.SESSION_ID);
+		if (Validator.isNotNull(sessionId)) {
+			searchContext.setAttribute(AuditField.SESSION_ID, sessionId);
+		}
+
+		String clientIP = (String) params.get(AuditField.CLIENT_IP);
+		if (Validator.isNotNull(clientIP)) {
+			searchContext.setAttribute(AuditField.CLIENT_IP, clientIP);
+		}
+
+		String clientHost = (String) params.get(AuditField.CLIENT_HOST);
+		if (Validator.isNotNull(clientHost)) {
+			searchContext.setAttribute(AuditField.CLIENT_HOST, clientHost);
+		}
+
+
+		String serverName = (String) params.get(AuditField.SERVER_NAME);
+		if (Validator.isNotNull(serverName)) {
+			searchContext.setAttribute(AuditField.SERVER_NAME, serverName);
+		}
+
+		String serverPort = (String) params.get(AuditField.SERVER_PORT);
+		if (Validator.isNotNull(serverPort)) {
+			searchContext.setAttribute(AuditField.SERVER_PORT, Integer.valueOf(serverPort));
+		}
+
+	}
+
+	@Reference
+	private Searcher _searcher;
+
+	@Reference
+	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
+
+	@Reference
+	private Sorts _sorts;
+
+	@Reference
+	private SortFieldBuilder _sortFieldBuilder;
+
 
 }

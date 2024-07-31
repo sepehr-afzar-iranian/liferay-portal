@@ -341,6 +341,28 @@ public class AuditEventLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static com.liferay.portal.kernel.search.BaseModelSearchResult
+		<AuditEvent> search(
+			long companyId, String keywords,
+			java.util.LinkedHashMap<String, Object> params, int cur, int delta,
+			String orderByField, boolean reverse) {
+
+		return getService().search(
+			companyId, keywords, params, cur, delta, orderByField, reverse);
+	}
+
+	public static List<AuditEvent> searchAuditEvents(
+		long companyId, String keywords, int start, int end,
+		com.liferay.portal.kernel.search.Sort[] sorts) {
+
+		return getService().searchAuditEvents(
+			companyId, keywords, start, end, sorts);
+	}
+
+	public static int searchAuditEventsCount(long companyId, String keywords) {
+		return getService().searchAuditEventsCount(companyId, keywords);
+	}
+
 	/**
 	 * Updates the audit event in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

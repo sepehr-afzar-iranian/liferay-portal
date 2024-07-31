@@ -60,7 +60,7 @@ public class AuditEventReindexerImpl
 			indexableActionableDynamicQuery.performActions();
 		}
 		catch (PortalException portalException) {
-			Logger.getLogger(AuditEventReindexerImpl.class.getName()).log(Level.SEVERE, null, portalException);
+			Logger.getLogger(AuditEventReindexer.class.getName()).log(Level.SEVERE, null, portalException);
 		}
 	}
 

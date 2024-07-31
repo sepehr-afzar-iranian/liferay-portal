@@ -22,6 +22,8 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface EventTypes {
 
+	public static final String ALL = "";
+
 	public static final String ADD = "ADD";
 
 	public static final String ASSIGN = "ASSIGN";

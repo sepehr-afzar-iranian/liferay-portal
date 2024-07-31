@@ -21,6 +21,9 @@
 <clay:container-fluid
 	cssClass="container-view"
 >
+	<%
+		System.out.println(100);
+	%>
 	<aui:form action="<%= searchURL %>" method="get" name="fm">
 		<liferay-portlet:renderURLParams varImpl="searchURL" />
 
@@ -29,30 +32,20 @@
 			<portlet:param name="classPK" value="<%= classPK %>" />
 			<portlet:param name="clientHost" value="<%= clientHost %>" />
 			<portlet:param name="clientIP" value="<%= clientIP %>" />
-			<portlet:param name="endDateAmPm" value="<%= String.valueOf(endDateAmPm) %>" />
-			<portlet:param name="endDateDay" value="<%= String.valueOf(endDateDay) %>" />
-			<portlet:param name="endDateHour" value="<%= String.valueOf(endDateHour) %>" />
-			<portlet:param name="endDateMinute" value="<%= String.valueOf(endDateMinute) %>" />
-			<portlet:param name="endDateMonth" value="<%= String.valueOf(endDateMonth) %>" />
-			<portlet:param name="endDateYear" value="<%= String.valueOf(endDateYear) %>" />
 			<portlet:param name="eventType" value="<%= eventType %>" />
 			<portlet:param name="serverName" value="<%= serverName %>" />
-			<portlet:param name="serverPort" value="<%= String.valueOf(serverPort) %>" />
+			<portlet:param name="serverPort" value="<%= serverPort %>" />
 			<portlet:param name="sessionID" value="<%= sessionID %>" />
-			<portlet:param name="startDateAmPm" value="<%= String.valueOf(startDateAmPm) %>" />
-			<portlet:param name="startDateDay" value="<%= String.valueOf(startDateDay) %>" />
-			<portlet:param name="startDateHour" value="<%= String.valueOf(startDateHour) %>" />
-			<portlet:param name="startDateMinute" value="<%= String.valueOf(startDateMinute) %>" />
-			<portlet:param name="startDateMonth" value="<%= String.valueOf(startDateMonth) %>" />
-			<portlet:param name="startDateYear" value="<%= String.valueOf(startDateYear) %>" />
-			<portlet:param name="userId" value="<%= String.valueOf(userId) %>" />
+			<portlet:param name="userId" value="<%= userId %>" />
 			<portlet:param name="userName" value="<%= userName %>" />
 		</liferay-portlet:renderURL>
 
+		<%
+			System.out.println(101);
+		%>
 		<liferay-ui:search-container
 			displayTerms="<%= new DisplayTerms(renderRequest) %>"
 			emptyResultsMessage="there-are-no-events"
-			headerNames="user-id,user-name,resource-id,resource-name,resource-action,client-ip,create-date"
 			iteratorURL="<%= iteratorURL %>"
 		>
 			<liferay-ui:search-form
@@ -61,36 +54,57 @@
 			/>
 
 			<%
-				int endDateDayHour = (endDateAmPm != Calendar.PM) ? endDateHour : endDateHour + 12;
-				int startDateDayHour = (startDateAmPm != Calendar.PM) ? startDateHour : startDateHour + 12;
 
-				Date endDate = PortalUtil.getDate(endDateMonth, endDateDay, endDateYear, endDateDayHour, endDateMinute, timeZone, null);
-				Date startDate = PortalUtil.getDate(startDateMonth, startDateDay, startDateYear, startDateDayHour, startDateMinute, timeZone, null);
-
+				/*searchContainer.setDelta(20);
+				searchContainer.setDeltaConfigurable(false);*/
 				DisplayTerms displayTerms = searchContainer.getDisplayTerms();
+				List<AuditEvent> auditEvents;
 
 				if (displayTerms.isAdvancedSearch()) {
-					total = AuditEventManagerUtil.getAuditEventsCount(themeDisplay.getCompanyId(), userId, userName, startDate, endDate, eventType, className, classPK, clientHost, clientIP, serverName, serverPort, sessionID, displayTerms.isAndOperator());
-
+					total = AuditEventManagerUtil.getAuditEventsCount(
+							themeDisplay.getCompanyId(),"",userId,userName,eventType,className,classPK,
+							clientHost,clientIP,serverName,serverPort,sessionID);
 					searchContainer.setTotal(total);
 
-					searchContainer.setResults(AuditEventManagerUtil.getAuditEvents(themeDisplay.getCompanyId(), userId, userName, startDate, endDate, eventType, className, classPK, clientHost, clientIP, serverName, serverPort, sessionID, displayTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), new AuditEventCreateDateComparator()));
+					auditEvents=AuditEventManagerUtil.getAuditEvents(
+							themeDisplay.getCompanyId(),"",userId,userName,eventType,className,classPK,
+							clientHost,clientIP,serverName,serverPort,sessionID,searchContainer.getStart(),searchContainer.getDelta());
+					searchContainer.setResults(auditEvents);
 				}
 				else {
 					String keywords = displayTerms.getKeywords();
 
-					String number = Validator.isNumber(keywords) ? keywords : String.valueOf(0);
-
-					total = AuditEventManagerUtil.getAuditEventsCount(themeDisplay.getCompanyId(), Long.valueOf(number), keywords, null, null, keywords, keywords, keywords, keywords, keywords, keywords, Integer.valueOf(number), keywords, false);
-
+					total = AuditEventManagerUtil.getAuditEventsCount(
+							themeDisplay.getCompanyId(),keywords,"","","","","",
+							"","","","","");
 					searchContainer.setTotal(total);
 
-					searchContainer.setResults(AuditEventManagerUtil.getAuditEvents(themeDisplay.getCompanyId(), Long.valueOf(number), keywords, null, null, keywords, keywords, keywords, keywords, keywords, keywords, Integer.valueOf(number), keywords, false, searchContainer.getStart(), searchContainer.getEnd(), new AuditEventCreateDateComparator()));
+					auditEvents=AuditEventManagerUtil.getAuditEvents(
+							themeDisplay.getCompanyId(),keywords,"","","","","",
+							"","","","","",searchContainer.getStart(),searchContainer.getDelta());
+					searchContainer.setResults(auditEvents);
 				}
+				/*searchContainer.setOrderByCol("createDate");
+				searchContainer.setOrderByType("asc");
+				String keywords = displayTerms.getKeywords();
+				keywords = keywords.trim();
+				*//*if (Validator.isNotNull(keywords)) {
+					keywords = "*" + keywords + "*";
+				}*//*
+
+				total = AuditEventManagerUtil.getAuditEventsCount(
+						themeDisplay.getCompanyId(),keywords,"","","","","",
+						"","","","","");
+				auditEvents=AuditEventManagerUtil.getAuditEvents(
+						themeDisplay.getCompanyId(),keywords,"","","","","",
+						"","","","","",searchContainer.getStart(),searchContainer.getDelta());
+				searchContainer.setTotal(total);
+				searchContainer.setResults(auditEvents);*/
+
 			%>
 
 			<liferay-ui:search-container-row
-				className="com.liferay.portal.security.audit.AuditEvent"
+				className="com.liferay.portal.security.audit.storage.model.AuditEvent"
 				escapedModel="<%= true %>"
 				keyProperty="auditEventId"
 				modelVar="event"

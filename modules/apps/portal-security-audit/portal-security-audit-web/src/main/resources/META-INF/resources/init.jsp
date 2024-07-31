@@ -28,6 +28,11 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 page import="com.liferay.petra.string.StringPool" %><%@
 page import="com.liferay.portal.kernel.dao.search.DisplayTerms" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchContainer" %><%@
+page import="com.liferay.portal.kernel.search.SearchContext" %><%@
+page import="com.liferay.portal.kernel.search.SearchContextFactory" %><%@
+page import="com.liferay.portal.kernel.search.Indexer" %><%@
+page import="com.liferay.portal.kernel.search.IndexerRegistryUtil" %><%@
+page import="com.liferay.portal.kernel.search.Hits" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
 page import="com.liferay.portal.kernel.util.CalendarFactoryUtil" %><%@
 page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil" %><%@
@@ -38,7 +43,7 @@ page import="com.liferay.portal.kernel.util.PortalClassLoaderUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
-page import="com.liferay.portal.security.audit.AuditEvent" %><%@
+page import="com.liferay.portal.security.audit.storage.model.AuditEvent" %><%@
 page import="com.liferay.portal.security.audit.storage.comparator.AuditEventCreateDateComparator" %><%@
 page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %><%@
 page import="com.liferay.portal.kernel.json.JSONUtil" %><%@
@@ -51,6 +56,11 @@ page import="com.liferay.portal.kernel.json.JSONObject" %>
 <%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
 <%@ page import="java.text.Format" %>
 
+<%@ page import="com.liferay.portal.kernel.search.*" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.liferay.portal.security.audit.web.internal.constants.AuditPortletKeys" %>
+
 <%@ page import="java.util.Calendar" %><%@
 page import="java.util.Date" %>
 <%@ page import="com.liferay.portal.security.audit.web.internal.display.context.AuditEventContext" %>
@@ -60,7 +70,9 @@ page import="java.util.Date" %>
 <portlet:defineObjects />
 
 <%
-AuditEventContext auditEventContext = new AuditEventContext(request,renderResponse,liferayPortletRequest,liferayPortletResponse);
+//AuditEventContext auditEventContext = new AuditEventContext(request,renderRequest,renderResponse,liferayPortletRequest,liferayPortletResponse);
+AuditEventContext auditEventContext = new AuditEventContext();
+
 Calendar today = CalendarFactoryUtil.getCalendar(timeZone, locale);
 
 Calendar yesterday = CalendarFactoryUtil.getCalendar(timeZone, locale);
@@ -74,23 +86,23 @@ String clientIP = ParamUtil.getString(request, "clientIP");
 String eventType = ParamUtil.getString(request, "eventType");
 String sessionID = ParamUtil.getString(request, "sessionID");
 String serverName = ParamUtil.getString(request, "serverName");
-int serverPort = ParamUtil.getInteger(request, "serverPort");
-long userId = ParamUtil.getLong(request, "userId");
+String serverPort = ParamUtil.getString(request, "serverPort");
+String userId = ParamUtil.getString(request, "userId");
 String userName = ParamUtil.getString(request, "userName");
 
-int endDateAmPm = ParamUtil.getInteger(request, "endDateAmPm", today.get(Calendar.AM_PM));
+/*int endDateAmPm = ParamUtil.getInteger(request, "endDateAmPm", today.get(Calendar.AM_PM));
 int endDateDay = ParamUtil.getInteger(request, "endDateDay", today.get(Calendar.DATE));
 int endDateHour = ParamUtil.getInteger(request, "endDateHour", today.get(Calendar.HOUR));
 int endDateMinute = ParamUtil.getInteger(request, "endDateMinute", today.get(Calendar.MINUTE));
 int endDateMonth = ParamUtil.getInteger(request, "endDateMonth", today.get(Calendar.MONTH));
-int endDateYear = ParamUtil.getInteger(request, "endDateYear", today.get(Calendar.YEAR));
+int endDateYear = ParamUtil.getInteger(request, "endDateYear", today.get(Calendar.YEAR));*/
 
-int startDateAmPm = ParamUtil.getInteger(request, "startDateAmPm", yesterday.get(Calendar.AM_PM));
+/*int startDateAmPm = ParamUtil.getInteger(request, "startDateAmPm", yesterday.get(Calendar.AM_PM));
 int startDateDay = ParamUtil.getInteger(request, "startDateDay", yesterday.get(Calendar.DATE));
 int startDateHour = ParamUtil.getInteger(request, "startDateHour", yesterday.get(Calendar.HOUR));
 int startDateMinute = ParamUtil.getInteger(request, "startDateMinute", yesterday.get(Calendar.MINUTE));
 int startDateMonth = ParamUtil.getInteger(request, "startDateMonth", yesterday.get(Calendar.MONTH));
-int startDateYear = ParamUtil.getInteger(request, "startDateYear", yesterday.get(Calendar.YEAR));
+int startDateYear = ParamUtil.getInteger(request, "startDateYear", yesterday.get(Calendar.YEAR));*/
 String[] eventTypes = auditEventContext.getEventTypes();
 
 Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);

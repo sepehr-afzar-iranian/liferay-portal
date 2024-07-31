@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.liferay.portal.security.audit.storage.service.AuditEventLocalServiceUtil" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -20,14 +20,14 @@
 String referrer = (String)request.getAttribute(WebKeys.REFERER);
 
 long auditEventId = ParamUtil.getLong(request, "auditEventId");
+System.out.println("auditEventId = " + auditEventId);
 
 AuditEvent auditEvent = null;
 
 String eventTypeAction = StringPool.BLANK;
 
 if (auditEventId > 0) {
-	auditEvent = AuditEventManagerUtil.fetchAuditEvent(auditEventId);
-
+	auditEvent = AuditEventLocalServiceUtil.fetchAuditEvent(auditEventId);
 	if (auditEvent != null) {
 		auditEvent = auditEvent.toEscapedModel();
 

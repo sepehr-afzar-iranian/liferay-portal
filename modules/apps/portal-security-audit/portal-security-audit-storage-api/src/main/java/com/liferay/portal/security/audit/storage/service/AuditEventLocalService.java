@@ -16,6 +16,7 @@ package com.liferay.portal.security.audit.storage.service;
 
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -23,19 +24,24 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 
 import java.io.Serializable;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -290,6 +296,18 @@ public interface AuditEventLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<AuditEvent> search(
+		long companyId, String keywords, LinkedHashMap<String, Object> params,
+		int cur, int delta, String orderByField, boolean reverse);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<AuditEvent> searchAuditEvents(
+		long companyId, String keywords, int start, int end, Sort[] sorts);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int searchAuditEventsCount(long companyId, String keywords);
 
 	/**
 	 * Updates the audit event in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

@@ -15,13 +15,24 @@
 package com.liferay.portal.security.audit.web.internal.portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.security.audit.AuditEventManager;
+import com.liferay.portal.security.audit.storage.model.AuditEvent;
+import com.liferay.portal.security.audit.storage.service.AuditEventLocalService;
 import com.liferay.portal.security.audit.web.internal.constants.AuditPortletKeys;
 
-import javax.portlet.Portlet;
+import javax.portlet.*;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Brian Greenwald
@@ -43,8 +54,5 @@ import org.osgi.service.component.annotations.Reference;
 	service = Portlet.class
 )
 public class AuditPortlet extends MVCPortlet {
-
-	@Reference
-	private AuditEventManager _auditEventManager;
 
 }

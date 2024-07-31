@@ -14,11 +14,6 @@
 
 package com.liferay.portal.security.audit.storage.internal.search.spi.model.index.contributor;
 
-
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.Property;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.search.batch.BatchIndexingActionable;
 import com.liferay.portal.search.batch.DynamicQueryBatchIndexingActionableFactory;
 import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterContributor;
@@ -44,19 +39,6 @@ public class AuditEventModelIndexerWriterContributor
 		BatchIndexingActionable batchIndexingActionable,
 		ModelIndexerWriterDocumentHelper modelIndexerWriterDocumentHelper) {
 
-		batchIndexingActionable.setAddCriteriaMethod(
-			dynamicQuery -> {
-				Property auditEventIdProperty =
-					PropertyFactoryUtil.forName("auditEventId");
-
-				DynamicQuery auditEventDynamicQuery =
-						auditEventLocalService.dynamicQuery();
-
-				auditEventDynamicQuery.setProjection(
-						ProjectionFactoryUtil.property("auditEventId"));
-				dynamicQuery.add(
-						auditEventIdProperty.in(auditEventDynamicQuery));
-			});
 		batchIndexingActionable.setPerformActionMethod(
 			(AuditEvent auditEvent) ->
 				batchIndexingActionable.addDocuments(

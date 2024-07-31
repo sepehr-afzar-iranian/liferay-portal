@@ -397,6 +397,34 @@ public class AuditEventLocalServiceWrapper
 		return _auditEventLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.search.BaseModelSearchResult
+		<com.liferay.portal.security.audit.storage.model.AuditEvent> search(
+			long companyId, String keywords,
+			java.util.LinkedHashMap<String, Object> params, int cur, int delta,
+			String orderByField, boolean reverse) {
+
+		return _auditEventLocalService.search(
+			companyId, keywords, params, cur, delta, orderByField, reverse);
+	}
+
+	@Override
+	public java.util.List
+		<com.liferay.portal.security.audit.storage.model.AuditEvent>
+			searchAuditEvents(
+				long companyId, String keywords, int start, int end,
+				com.liferay.portal.kernel.search.Sort[] sorts) {
+
+		return _auditEventLocalService.searchAuditEvents(
+			companyId, keywords, start, end, sorts);
+	}
+
+	@Override
+	public int searchAuditEventsCount(long companyId, String keywords) {
+		return _auditEventLocalService.searchAuditEventsCount(
+			companyId, keywords);
+	}
+
 	/**
 	 * Updates the audit event in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

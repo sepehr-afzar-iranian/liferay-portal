@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.security.audit.storage.internal.search;
+package com.liferay.portal.security.audit.web.internal.portlet;
 
 import com.liferay.portal.kernel.search.Field;
 
@@ -22,7 +22,6 @@ public class AuditField extends Field {
 	public static final String EVENT_TYPE = "eventType";
 
 	public static final String CLASS_NAME = "className";
-	public static final String SHORT_CLASS_NAME = "shortClassName";
 
 	public static final String MESSAGE = "message";
 
