@@ -16,25 +16,26 @@ package com.liferay.portal.security.audit.storage.internal.search;
 
 import com.liferay.portal.kernel.search.Field;
 
-/** @author Fatemeh Akbari */
+/** @author Mohammad Mehdi Tamehri */
 public class AuditField extends Field {
 
-	public static final String EVENT_TYPE = "eventType";
-
 	public static final String CLASS_NAME = "className";
-	public static final String SHORT_CLASS_NAME = "shortClassName";
-
-	public static final String MESSAGE = "message";
 
 	public static final String CLIENT_HOST = "clientHost";
 
 	public static final String CLIENT_IP = "clientIP";
+
+	public static final String EVENT_TYPE = "eventType";
+
+	public static final String MESSAGE = "message";
 
 	public static final String SERVER_NAME = "serverName";
 
 	public static final String SERVER_PORT = "serverPort";
 
 	public static final String SESSION_ID = "sessionID";
+
+	public static final String SHORT_CLASS_NAME = "shortClassName";
 
 	public AuditField(String name) {
 		super(name);

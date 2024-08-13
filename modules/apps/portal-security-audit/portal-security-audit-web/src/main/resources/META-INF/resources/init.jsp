@@ -2,15 +2,15 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
- * The contents of this file are subject to the terms of the Liferay Enterprise
- * Subscription License ("License"). You may not use this file except in
- * compliance with the License. You can obtain a copy of the License by
- * contacting Liferay, Inc. See the License for the specific language governing
- * permissions and limitations under the License, including but not limited to
- * distribution rights of the Software.
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- *
- *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
  */
 --%>
 
@@ -26,34 +26,25 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.petra.lang.ClassResolverUtil" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
+page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.kernel.dao.search.DisplayTerms" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchContainer" %><%@
-page import="com.liferay.portal.kernel.search.SearchContext" %><%@
-page import="com.liferay.portal.kernel.search.SearchContextFactory" %><%@
-page import="com.liferay.portal.kernel.search.Indexer" %><%@
-page import="com.liferay.portal.kernel.search.IndexerRegistryUtil" %><%@
-page import="com.liferay.portal.kernel.search.Hits" %><%@
+page import="com.liferay.portal.kernel.json.JSONFactoryUtil" %><%@
+page import="com.liferay.portal.kernel.json.JSONObject" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
+page import="com.liferay.portal.kernel.search.*" %><%@
 page import="com.liferay.portal.kernel.util.CalendarFactoryUtil" %><%@
 page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil" %><%@
+page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.portal.kernel.util.MethodKey" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalClassInvoker" %><%@
 page import="com.liferay.portal.kernel.util.PortalClassLoaderUtil" %><%@
-page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
-page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.security.audit.storage.model.AuditEvent" %><%@
-page import="com.liferay.portal.security.audit.storage.comparator.AuditEventCreateDateComparator" %><%@
-page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %><%@
-page import="com.liferay.portal.kernel.json.JSONUtil" %><%@
-page import="com.liferay.portal.kernel.json.JSONObject" %>
-<%@ page import="com.liferay.portal.kernel.json.JSONUtil" %>
-<%@ page import="com.liferay.portal.kernel.json.JSONObject" %>
-<%@ page import="com.liferay.portal.kernel.json.JSONFactoryUtil" %>
-<%@ page import="com.liferay.portal.kernel.json.JSONArray" %>
-<%@ page import="com.liferay.portal.kernel.util.Validator" %>
-<%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
+page import="com.liferay.portal.security.audit.storage.service.AuditEventLocalServiceUtil" %><%@
+page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %>
+
 <%@ page import="java.text.Format" %>
 <%@ page import="com.liferay.portal.kernel.audit.AuditMessage" %>
 <%@ page import="com.liferay.portal.kernel.audit.AuditRouterUtil" %>
@@ -65,15 +56,13 @@ page import="com.liferay.portal.kernel.json.JSONObject" %>
 <%@ page import="com.liferay.portal.security.audit.web.internal.constants.AuditPortletKeys" %>
 
 <%@ page import="java.util.Calendar" %><%@
-page import="java.util.Date" %>
-
+page import="java.util.List" %>
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
 
 <%
-
 Calendar today = CalendarFactoryUtil.getCalendar(timeZone, locale);
 
 Calendar yesterday = CalendarFactoryUtil.getCalendar(timeZone, locale);

@@ -12,22 +12,18 @@
  * details.
  */
 
-
 package com.liferay.portal.security.audit.storage.internal.search.spi.model.query.contributor;
 
-import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.spi.model.query.contributor.ModelPreFilterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
-import org.osgi.service.component.annotations.Component;
 
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Rafael Praxedes
  */
-
 @Component(
 	immediate = true,
 	property = "indexer.class.name=com.liferay.portal.security.audit.storage.model.AuditEvent",
@@ -38,16 +34,17 @@ public class AuditEventModelPreFilterContributor
 
 	@Override
 	public void contribute(
-			BooleanFilter booleanFilter, ModelSearchSettings modelSearchSettings,
-			SearchContext searchContext) {
-/*long endDate = GetterUtil.getLong(
-				searchContext.getAttribute("endDate"));
-		long startDate = GetterUtil.getLong(
-				searchContext.getAttribute("startDate"));
+		BooleanFilter booleanFilter, ModelSearchSettings modelSearchSettings,
+		SearchContext searchContext) {
 
-		if ((endDate > 0) && (startDate > 0)) {
-			booleanFilter.addRangeTerm(Field.MODIFIED_DATE, startDate, endDate);
-		}*/
+		/*long endDate = GetterUtil.getLong(
+						searchContext.getAttribute("endDate"));
+				long startDate = GetterUtil.getLong(
+						searchContext.getAttribute("startDate"));
+
+				if ((endDate > 0) && (startDate > 0)) {
+					booleanFilter.addRangeTerm(Field.MODIFIED_DATE, startDate, endDate);
+				}*/
 
 	}
 

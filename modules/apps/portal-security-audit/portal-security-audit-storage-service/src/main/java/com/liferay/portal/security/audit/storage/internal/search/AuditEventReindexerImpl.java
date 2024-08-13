@@ -20,56 +20,53 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
-
 import com.liferay.portal.security.audit.storage.service.AuditEventLocalService;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * This class reindexes AuditEvent entities.
- */
-@Component(
-		immediate = true,
-		service = AuditEventReindexer.class
-)
-public class AuditEventReindexerImpl
-		implements AuditEventReindexer {
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+/** @author Mohammad Mehdi Tamehri */
+@Component(immediate = true, service = AuditEventReindexer.class)
+public class AuditEventReindexerImpl implements AuditEventReindexer {
 
 	@Override
 	public void reindex(long auditEventId, long companyId) {
 		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-				_auditEventLocalService.getIndexableActionableDynamicQuery();
+			auditEventLocalService.getIndexableActionableDynamicQuery();
 
 		indexableActionableDynamicQuery.setAddCriteriaMethod(
-				dynamicQuery -> {
-					Property auditEventIdProperty =
-							PropertyFactoryUtil.forName("auditEventId");
-					dynamicQuery.add(
-							auditEventIdProperty.eq(auditEventId));
-				});
+			dynamicQuery -> {
+				Property auditEventIdProperty = PropertyFactoryUtil.forName(
+					"auditEventId");
+
+				dynamicQuery.add(auditEventIdProperty.eq(auditEventId));
+			});
 		indexableActionableDynamicQuery.setCompanyId(companyId);
 		indexableActionableDynamicQuery.setPerformActionMethod(
-				(AuditEvent auditEvent) ->
-						indexableActionableDynamicQuery.addDocuments(
-								_indexer.getDocument(auditEvent)));
+			(AuditEvent auditEvent) ->
+				indexableActionableDynamicQuery.addDocuments(
+					indexer.getDocument(auditEvent)));
 
 		try {
 			indexableActionableDynamicQuery.performActions();
 		}
 		catch (PortalException portalException) {
-			Logger.getLogger(AuditEventReindexer.class.getName()).log(Level.SEVERE, null, portalException);
+			_logger.log(Level.SEVERE, null, portalException);
 		}
 	}
 
-	@Reference(
-			target = "(indexer.class.name=com.liferay.portal.security.audit.storage.model.AuditEvent)"
-	)
-	protected Indexer<AuditEvent> _indexer;
-
 	@Reference
-	protected AuditEventLocalService _auditEventLocalService;
+	protected AuditEventLocalService auditEventLocalService;
+
+	@Reference(
+		target = "(indexer.class.name=com.liferay.portal.security.audit.storage.model.AuditEvent)"
+	)
+	protected Indexer<AuditEvent> indexer;
+
+	private static final Logger _logger = Logger.getLogger(
+		AuditEventReindexer.class.getName());
 
 }

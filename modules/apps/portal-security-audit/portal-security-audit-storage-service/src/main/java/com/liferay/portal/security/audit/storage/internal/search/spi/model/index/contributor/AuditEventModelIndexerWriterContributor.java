@@ -20,6 +20,7 @@ import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterC
 import com.liferay.portal.search.spi.model.index.contributor.helper.ModelIndexerWriterDocumentHelper;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.security.audit.storage.service.AuditEventLocalService;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -40,18 +41,15 @@ public class AuditEventModelIndexerWriterContributor
 		ModelIndexerWriterDocumentHelper modelIndexerWriterDocumentHelper) {
 
 		batchIndexingActionable.setPerformActionMethod(
-			(AuditEvent auditEvent) ->
-				batchIndexingActionable.addDocuments(
-					modelIndexerWriterDocumentHelper.getDocument(
-							auditEvent)));
+			(AuditEvent auditEvent) -> batchIndexingActionable.addDocuments(
+				modelIndexerWriterDocumentHelper.getDocument(auditEvent)));
 	}
 
 	@Override
 	public BatchIndexingActionable getBatchIndexingActionable() {
 		return dynamicQueryBatchIndexingActionableFactory.
 			getBatchIndexingActionable(
-					auditEventLocalService.
-					getIndexableActionableDynamicQuery());
+				auditEventLocalService.getIndexableActionableDynamicQuery());
 	}
 
 	@Override
@@ -59,10 +57,8 @@ public class AuditEventModelIndexerWriterContributor
 		return auditEvent.getCompanyId();
 	}
 
-
 	@Reference
-	protected AuditEventLocalService
-		auditEventLocalService;
+	protected AuditEventLocalService auditEventLocalService;
 
 	@Reference
 	protected DynamicQueryBatchIndexingActionableFactory

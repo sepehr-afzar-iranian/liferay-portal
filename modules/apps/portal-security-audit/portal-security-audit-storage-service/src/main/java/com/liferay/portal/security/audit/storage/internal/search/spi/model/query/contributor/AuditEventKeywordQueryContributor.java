@@ -15,14 +15,13 @@
 package com.liferay.portal.security.audit.storage.internal.search.spi.model.query.contributor;
 
 import com.liferay.portal.kernel.search.BooleanQuery;
-import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.QueryConfig;
-
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.search.query.QueryHelper;
 import com.liferay.portal.search.spi.model.query.contributor.KeywordQueryContributor;
 import com.liferay.portal.search.spi.model.query.contributor.helper.KeywordQueryContributorHelper;
 import com.liferay.portal.security.audit.storage.internal.search.AuditField;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -41,36 +40,29 @@ public class AuditEventKeywordQueryContributor
 	public void contribute(
 		String keywords, BooleanQuery booleanQuery,
 		KeywordQueryContributorHelper keywordQueryContributorHelper) {
+
 		SearchContext searchContext =
-				keywordQueryContributorHelper.getSearchContext();
+			keywordQueryContributorHelper.getSearchContext();
 
 		queryHelper.addSearchTerm(
-			booleanQuery, searchContext,
-			Field.USER_NAME, false);
+			booleanQuery, searchContext, Field.USER_NAME, false);
 		queryHelper.addSearchTerm(
-				booleanQuery, searchContext,
-				Field.USER_ID, false);
+			booleanQuery, searchContext, Field.USER_ID, false);
 
 		queryHelper.addSearchTerm(
-			booleanQuery, searchContext,
-				AuditField.CLASS_PK, false);
+			booleanQuery, searchContext, AuditField.CLASS_PK, false);
 
 		queryHelper.addSearchTerm(
-				booleanQuery, searchContext,
-				AuditField.CLASS_NAME, false);
+			booleanQuery, searchContext, AuditField.CLASS_NAME, false);
 
 		queryHelper.addSearchTerm(
-				booleanQuery, searchContext,
-				AuditField.SHORT_CLASS_NAME, false);
+			booleanQuery, searchContext, AuditField.SHORT_CLASS_NAME, false);
 
 		queryHelper.addSearchTerm(
-				booleanQuery, searchContext,
-				AuditField.EVENT_TYPE, false);
+			booleanQuery, searchContext, AuditField.EVENT_TYPE, false);
 
 		queryHelper.addSearchTerm(
-				booleanQuery, searchContext,
-				AuditField.CLIENT_IP, false);
-
+			booleanQuery, searchContext, AuditField.CLIENT_IP, false);
 	}
 
 	@Reference

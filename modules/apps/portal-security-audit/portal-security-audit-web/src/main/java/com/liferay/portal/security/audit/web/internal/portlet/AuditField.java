@@ -19,15 +19,15 @@ import com.liferay.portal.kernel.search.Field;
 /** @author Fatemeh Akbari */
 public class AuditField extends Field {
 
-	public static final String EVENT_TYPE = "eventType";
-
 	public static final String CLASS_NAME = "className";
-
-	public static final String MESSAGE = "message";
 
 	public static final String CLIENT_HOST = "clientHost";
 
 	public static final String CLIENT_IP = "clientIP";
+
+	public static final String EVENT_TYPE = "eventType";
+
+	public static final String MESSAGE = "message";
 
 	public static final String SERVER_NAME = "serverName";
 

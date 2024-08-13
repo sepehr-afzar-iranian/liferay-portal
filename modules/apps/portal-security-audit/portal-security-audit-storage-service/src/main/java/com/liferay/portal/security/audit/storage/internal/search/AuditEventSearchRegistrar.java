@@ -14,11 +14,11 @@
 
 package com.liferay.portal.security.audit.storage.internal.search;
 
-import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchRegistrarHelper;
-//import com.liferay.portal.search.spi.model.result.contributor.ModelSummaryContributor;
+import com.liferay.portal.security.audit.storage.model.AuditEvent;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
@@ -35,12 +35,12 @@ public class AuditEventSearchRegistrar {
 	@Activate
 	protected void activate(BundleContext bundleContext) {
 		_serviceRegistration = modelSearchRegistrarHelper.register(
-				AuditEvent.class, bundleContext,
+			AuditEvent.class, bundleContext,
 			modelSearchDefinition -> {
 				modelSearchDefinition.setDefaultSelectedFieldNames(
-						Field.ASSET_TAG_NAMES, Field.COMPANY_ID,
-						Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK,
-						Field.CREATE_DATE);
+					Field.ASSET_TAG_NAMES, Field.COMPANY_ID,
+					Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK,
+					Field.CREATE_DATE);
 
 				modelSearchDefinition.setModelIndexWriteContributor(
 					modelIndexWriterContributor);
@@ -63,10 +63,10 @@ public class AuditEventSearchRegistrar {
 	@Reference
 	protected ModelSearchRegistrarHelper modelSearchRegistrarHelper;
 
-/*	@Reference(
-		target = "(indexer.class.name=com.liferay.portal.security.audit.storage.model.AuditEvent)"
-	)
-	protected ModelSummaryContributor modelSummaryContributor;*/
+	/*	@Reference(
+			target = "(indexer.class.name=com.liferay.portal.security.audit.storage.model.AuditEvent)"
+		)
+		protected ModelSummaryContributor modelSummaryContributor;*/
 
 	private ServiceRegistration<?> _serviceRegistration;
 
