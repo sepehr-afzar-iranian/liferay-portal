@@ -55,7 +55,10 @@ page import="com.liferay.portal.kernel.json.JSONObject" %>
 <%@ page import="com.liferay.portal.kernel.util.Validator" %>
 <%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
 <%@ page import="java.text.Format" %>
-
+<%@ page import="com.liferay.portal.kernel.audit.AuditMessage" %>
+<%@ page import="com.liferay.portal.kernel.audit.AuditRouterUtil" %>
+<%@ page import="com.liferay.portal.security.audit.event.generators.constants.EventTypes" %>
+<%@ page import="com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder" %>
 <%@ page import="com.liferay.portal.kernel.search.*" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>

@@ -40,6 +40,8 @@ public interface EventTypes {
 
 	public static final String LOGOUT = "LOGOUT";
 
+	public static final String CHECK_AUDIT = "CHECK AUDIT";
+
 	public static final String PERMISSION_UPDATE = "UPDATE PERMISSION";
 
 	public static final String UNASSIGN = "UNASSIGN";

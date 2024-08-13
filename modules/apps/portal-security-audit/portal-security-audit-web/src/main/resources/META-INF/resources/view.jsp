@@ -15,15 +15,23 @@
 --%>
 
 <%@ include file="/init.jsp" %>
-
+<%
+	AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+			EventTypes.CHECK_AUDIT, AuditEvent.class.getName(), 0,
+			null);
+	try {
+		AuditRouterUtil.route(auditMessage);
+	}
+	catch (Exception exception) {
+		throw new RuntimeException(exception);
+	}
+%>
 <liferay-portlet:renderURL varImpl="searchURL" />
 
 <clay:container-fluid
 	cssClass="container-view"
 >
-	<%
-		System.out.println(100);
-	%>
+
 	<aui:form action="<%= searchURL %>" method="get" name="fm">
 		<liferay-portlet:renderURLParams varImpl="searchURL" />
 
@@ -40,9 +48,6 @@
 			<portlet:param name="userName" value="<%= userName %>" />
 		</liferay-portlet:renderURL>
 
-		<%
-			System.out.println(101);
-		%>
 		<liferay-ui:search-container
 			displayTerms="<%= new DisplayTerms(renderRequest) %>"
 			emptyResultsMessage="there-are-no-events"
