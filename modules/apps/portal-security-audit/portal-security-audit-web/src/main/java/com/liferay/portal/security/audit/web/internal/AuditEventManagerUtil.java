@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.security.audit.web.internal.portlet.AuditField;
 
@@ -43,7 +44,7 @@ public class AuditEventManagerUtil {
 		long companyId, String keywords,String userId, String userName,
 		 String eventType, String className, String classPK,
 		String clientHost, String clientIP, String serverName, String serverPort,
-		String sessionID, int cur, int delta) {
+		int cur, int delta) {
 		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
 		params.put(
@@ -73,24 +74,34 @@ public class AuditEventManagerUtil {
 		params.put(
 				AuditField.SERVER_PORT, serverPort);
 
-		params.put(
-				AuditField.SESSION_ID, sessionID);
 		BaseModelSearchResult<AuditEvent> result =  _auditEventLocalService.search(
-				companyId,keywords,params,cur,delta,null,false);
+				companyId,keywords,params,cur,delta,"createDate",true);
 
 		return result.getBaseModels();
 	}
 
 	public static int getAuditEventsCount(long companyId, String keywords,String userId, String userName,
 												  String eventType, String className, String classPK,
-												  String clientHost, String clientIP, String serverName, String serverPort,
-												  String sessionID){
+												  String clientHost, String clientIP, String serverName, String serverPort
+												  ){
 		List<AuditEvent> auditEvents= getAuditEvents(
 				companyId,keywords,userId,userName,eventType,
 				className,classPK,clientHost,clientIP,serverName,
-				serverPort,sessionID,-1,-1);
+				serverPort,-1,-1);
 		return auditEvents.size();
 	}
+
+	public static String[]  getEventTypes(){
+		return _eventTypes;
+	}
+
+
+	private static final String[] _eventTypes = {
+			EventTypes.ALL,
+			EventTypes.ADD, EventTypes.ASSIGN, EventTypes.DELETE,
+			EventTypes.IMPERSONATE, EventTypes.LOGIN, EventTypes.LOGIN_FAILURE,
+			EventTypes.LOGOUT, EventTypes.UNASSIGN, EventTypes.UPDATE
+	};
 
 	@Reference(unbind = "-")
 	protected void setAuditEventLocalService(

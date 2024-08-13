@@ -52,10 +52,6 @@ DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 
 	<aui:input label="class-name" name="className" value="<%= className %>" />
 
-<%--	<aui:input label="resource-action" name="eventType" value="<%= eventType %>" />--%>
-
-	<aui:input label="session-id" name="sessionID" value="<%= sessionID %>" />
-
 	<aui:input label="client-ip" name="clientIP" value="<%= clientIP %>" />
 
 	<aui:input label="client-host" name="clientHost" value="<%= clientHost %>" />
@@ -64,7 +60,7 @@ DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 
 	<aui:input label="server-port" name="serverPort" value="<%= serverPort %>" />
 
-<%--	<aui:field-wrapper label="start-date">
+<%--<aui:field-wrapper label="start-date">
 		<liferay-ui:input-date
 			dayParam="startDateDay"
 			dayValue="<%= startDateDay %>"
@@ -102,7 +98,6 @@ DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 			minuteParam="endDateMinute"
 			minuteValue="<%= endDateMinute %>"
 		/>
-	</aui:field-wrapper>
-	--%>
+	</aui:field-wrapper>--%>
 </liferay-ui:search-toggle>
 

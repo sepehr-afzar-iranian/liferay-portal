@@ -32,30 +32,25 @@
 	property="classPK"
 />
 
+<%
+	String resourceName = event.getClassName();
+%>
 <liferay-ui:search-container-column-text
 	href="<%= rowURL %>"
 	name="resource-name"
-	title="<%=event.getClassName()%>"
-	value='<%=(String)PortalClassInvoker.invoke(new MethodKey(ClassResolverUtil.resolve("com.liferay.portal.kernel.security.permission.ResourceActionsUtil", PortalClassLoaderUtil.getClassLoader()), "getModelResource", HttpServletRequest.class, String.class), request, event.getClassName()) %>'
+	value='<%=Validator.isNotNull(resourceName)?resourceName.substring(resourceName.lastIndexOf('.') + 1):null %>'
 />
 
 <liferay-ui:search-container-column-text
 	href="<%= rowURL %>"
 	name="resource-action"
-	title="<%= event.getEventType()%>"
-	value="<%= (String)PortalClassInvoker.invoke(new MethodKey(ClassResolverUtil.resolve("com.liferay.portal.kernel.security.permission.ResourceActionsUtil", PortalClassLoaderUtil.getClassLoader()), "getAction", HttpServletRequest.class, String.class), request, event.getEventType())  %>"
+	value="<%= event.getEventType()%>"
 />
 
 <liferay-ui:search-container-column-text
 	href="<%= rowURL %>"
 	name="client-ip"
 	value="<%= Validator.isNotNull(event.getClientIP()) ? event.getClientIP() : StringPool.BLANK %>"
-/>
-
-<liferay-ui:search-container-column-text
-	href="<%= rowURL %>"
-	name="message"
-	value="<%= Validator.isNotNull(event.getMessage()) ? event.getMessage() : StringPool.BLANK %>"
 />
 
 <liferay-ui:search-container-column-date

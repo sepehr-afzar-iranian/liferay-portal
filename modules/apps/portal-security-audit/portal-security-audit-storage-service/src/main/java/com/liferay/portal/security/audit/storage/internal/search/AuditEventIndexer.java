@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.storage.internal.search;
 
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.*;
@@ -27,6 +28,7 @@ import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.security.audit.storage.service.AuditEventLocalService;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
@@ -41,15 +43,6 @@ public class AuditEventIndexer
 
 	public static final String CLASS_NAME =
 			AuditEvent.class.getName();
-
-	/*public AuditEventIndexer() {
-		System.out.println("hi");
-		setDefaultSelectedFieldNames(
-			Field.COMPANY_ID, Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK,
-			Field.UID);
-		setDefaultSelectedLocalizedFieldNames(Field.DESCRIPTION, Field.TITLE);
-		setPermissionAware(true);
-	}*/
 
 	@Override
 	public String getClassName() {
@@ -76,15 +69,25 @@ public class AuditEventIndexer
 
 		Document document = getBaseModelDocument(
 			CLASS_NAME, auditEvent);
+		document.addKeyword(
+				Field.CLASS_NAME_ID,
+				classNameLocalService.getClassNameId(AuditEvent.class));
+		document.addKeyword(
+				Field.CLASS_PK, auditEvent.getClassPK());
+		document.addKeyword(
+				AuditField.CLASS_NAME, auditEvent.getClassName());
 		document.addNumber(
 				Field.USER_ID, auditEvent.getUserId());
-		document.addKeyword(
-				Field.USER_NAME, auditEvent.getUserName());
+		String userName = portal.getUserName(
+				auditEvent.getUserId(), auditEvent.getUserName());
+		document.addKeyword(Field.USER_NAME, userName, true);
 		document.addKeyword(
 				Field.COMPANY_ID, auditEvent.getCompanyId());
 		document.addDate(
 				Field.CREATE_DATE, auditEvent.getCreateDate());
-		document.addKeyword(
+	/*	document.addKeyword(
+				Field.MODIFIED_DATE, auditEvent.getCreateDate().getTime());*/
+		document.addText(
 				AuditField.EVENT_TYPE, auditEvent.getEventType());
 		document.addText(
 				AuditField.MESSAGE,auditEvent.getMessage());
@@ -96,9 +99,8 @@ public class AuditEventIndexer
 				AuditField.SERVER_NAME,auditEvent.getServerName());
 		document.addNumber(
 				AuditField.SERVER_PORT,auditEvent.getServerPort());
-		document.addNumber(
-				AuditField.SESSION_ID,auditEvent.getServerPort());
-
+		document.addKeyword(
+				AuditField.SESSION_ID,auditEvent.getSessionID());
 		return document;
 	}
 
@@ -170,5 +172,9 @@ public class AuditEventIndexer
 
 	private static final Log _log = LogFactoryUtil.getLog(
 			AuditEventIndexer.class);
+	@Reference
+	protected Portal portal;
+	@Reference
+	protected ClassNameLocalService classNameLocalService;
 
 }

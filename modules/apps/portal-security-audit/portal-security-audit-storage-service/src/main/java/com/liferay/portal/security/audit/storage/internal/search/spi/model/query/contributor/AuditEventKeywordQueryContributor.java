@@ -14,19 +14,17 @@
 
 package com.liferay.portal.security.audit.storage.internal.search.spi.model.query.contributor;
 
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.search.*;
-import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.search.BooleanQuery;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.QueryConfig;
+
 import com.liferay.portal.search.query.QueryHelper;
-import com.liferay.portal.search.query.StringQuery;
 import com.liferay.portal.search.spi.model.query.contributor.KeywordQueryContributor;
 import com.liferay.portal.search.spi.model.query.contributor.helper.KeywordQueryContributorHelper;
 import com.liferay.portal.security.audit.storage.internal.search.AuditField;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.Set;
 
 /**
  * @author Rafael Praxedes
@@ -43,49 +41,35 @@ public class AuditEventKeywordQueryContributor
 	public void contribute(
 		String keywords, BooleanQuery booleanQuery,
 		KeywordQueryContributorHelper keywordQueryContributorHelper) {
-		/*System.out.println("contributing keywords " + keywords);*/
-		BooleanQuery booleanQuery1 = new BooleanQueryImpl();
-
-		queryHelper.addSearchTerm(
-			booleanQuery, keywordQueryContributorHelper.getSearchContext(),
-			Field.USER_NAME, false);
-		queryHelper.addSearchTerm(
-				booleanQuery, keywordQueryContributorHelper.getSearchContext(),
-				Field.USER_ID, false);
-
-		queryHelper.addSearchTerm(
-			booleanQuery, keywordQueryContributorHelper.getSearchContext(),
-				AuditField.CLASS_PK, false);
-
-		queryHelper.addSearchTerm(
-				booleanQuery, keywordQueryContributorHelper.getSearchContext(),
-				AuditField.CLASS_NAME, false);
-
-		/*queryHelper.addSearchTerm(
-				booleanQuery, keywordQueryContributorHelper.getSearchContext(),
-				AuditField.EVENT_TYPE, true);*/
-
-		queryHelper.addSearchTerm(
-				booleanQuery, keywordQueryContributorHelper.getSearchContext(),
-				AuditField.CLIENT_IP, false);
-
 		SearchContext searchContext =
 				keywordQueryContributorHelper.getSearchContext();
 
-		String name = (String)searchContext.getAttribute(AuditField.EVENT_TYPE);
+		queryHelper.addSearchTerm(
+			booleanQuery, searchContext,
+			Field.USER_NAME, false);
+		queryHelper.addSearchTerm(
+				booleanQuery, searchContext,
+				Field.USER_ID, false);
 
-		if (!Validator.isBlank(name)) {
-			BooleanQuery nameQuery = new BooleanQueryImpl();
+		queryHelper.addSearchTerm(
+			booleanQuery, searchContext,
+				AuditField.CLASS_PK, false);
 
-			queryHelper.addSearchTerm(
-					nameQuery, searchContext, AuditField.EVENT_TYPE, true);
+		queryHelper.addSearchTerm(
+				booleanQuery, searchContext,
+				AuditField.CLASS_NAME, false);
 
-			try {
-				booleanQuery.add(nameQuery, BooleanClauseOccur.SHOULD);
-			} catch (ParseException parseException) {
-				throw new SystemException(parseException);
-			}
-		}
+		queryHelper.addSearchTerm(
+				booleanQuery, searchContext,
+				AuditField.SHORT_CLASS_NAME, false);
+
+		queryHelper.addSearchTerm(
+				booleanQuery, searchContext,
+				AuditField.EVENT_TYPE, false);
+
+		queryHelper.addSearchTerm(
+				booleanQuery, searchContext,
+				AuditField.CLIENT_IP, false);
 
 	}
 

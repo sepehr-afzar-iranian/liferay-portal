@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.storage.internal.search.AuditField;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
@@ -27,6 +28,8 @@ import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContri
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import javax.xml.bind.ValidationEvent;
 
 /**
  * @author Mohammad Mehdi Tamehri
@@ -42,7 +45,6 @@ public class AuditEventModelDocumentContributor
 	@Override
 	public void contribute(
 		Document document, AuditEvent auditEvent) {
-		/*System.out.println("contributing " + auditEvent);*/
 
 		try {
 			document.addKeyword(
@@ -52,6 +54,7 @@ public class AuditEventModelDocumentContributor
 				Field.CLASS_PK, auditEvent.getClassPK());
 			document.addKeyword(
 					AuditField.CLASS_NAME, auditEvent.getClassName());
+			document.addKeyword(AuditField.SHORT_CLASS_NAME,getShortClassName(auditEvent.getClassName()));
 			document.addNumber(
 					Field.USER_ID, auditEvent.getUserId());
 			String userName = portal.getUserName(
@@ -59,9 +62,11 @@ public class AuditEventModelDocumentContributor
 			document.addKeyword(Field.USER_NAME, userName, true);
 			document.addKeyword(
 				Field.COMPANY_ID, auditEvent.getCompanyId());
-			document.addDateSortable(
+			document.addDate(
 				Field.CREATE_DATE, auditEvent.getCreateDate());
-			document.addKeyword(
+			/*document.addKeyword(
+					Field.MODIFIED_DATE, auditEvent.getCreateDate().getTime());*/
+			document.addText(
 				AuditField.EVENT_TYPE, auditEvent.getEventType());
 			document.addText(
 				AuditField.MESSAGE,auditEvent.getMessage());
@@ -73,8 +78,7 @@ public class AuditEventModelDocumentContributor
 				AuditField.SERVER_NAME,auditEvent.getServerName());
 			document.addNumber(
 				AuditField.SERVER_PORT,auditEvent.getServerPort());
-			document.addKeyword(
-				AuditField.SESSION_ID,auditEvent.getSessionID());
+
 
 		}
 		catch (Exception exception) {
@@ -83,6 +87,15 @@ public class AuditEventModelDocumentContributor
 			}
 		}
 	}
+
+	private String getShortClassName(String className) {
+		String shortClassName = null;
+		if(Validator.isNotNull(className)) {
+			shortClassName = className.substring(className.lastIndexOf('.') + 1);
+		}
+		return shortClassName;
+	}
+
 	@Reference
 	protected ClassNameLocalService classNameLocalService;
 

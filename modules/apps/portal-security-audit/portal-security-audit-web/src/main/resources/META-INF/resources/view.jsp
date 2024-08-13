@@ -43,7 +43,6 @@
 			<portlet:param name="eventType" value="<%= eventType %>" />
 			<portlet:param name="serverName" value="<%= serverName %>" />
 			<portlet:param name="serverPort" value="<%= serverPort %>" />
-			<portlet:param name="sessionID" value="<%= sessionID %>" />
 			<portlet:param name="userId" value="<%= userId %>" />
 			<portlet:param name="userName" value="<%= userName %>" />
 		</liferay-portlet:renderURL>
@@ -59,21 +58,18 @@
 			/>
 
 			<%
-
-				/*searchContainer.setDelta(20);
-				searchContainer.setDeltaConfigurable(false);*/
 				DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 				List<AuditEvent> auditEvents;
 
 				if (displayTerms.isAdvancedSearch()) {
 					total = AuditEventManagerUtil.getAuditEventsCount(
 							themeDisplay.getCompanyId(),"",userId,userName,eventType,className,classPK,
-							clientHost,clientIP,serverName,serverPort,sessionID);
+							clientHost,clientIP,serverName,serverPort);
 					searchContainer.setTotal(total);
 
 					auditEvents=AuditEventManagerUtil.getAuditEvents(
 							themeDisplay.getCompanyId(),"",userId,userName,eventType,className,classPK,
-							clientHost,clientIP,serverName,serverPort,sessionID,searchContainer.getStart(),searchContainer.getDelta());
+							clientHost,clientIP,serverName,serverPort,searchContainer.getStart(),searchContainer.getDelta());
 					searchContainer.setResults(auditEvents);
 				}
 				else {
@@ -81,31 +77,14 @@
 
 					total = AuditEventManagerUtil.getAuditEventsCount(
 							themeDisplay.getCompanyId(),keywords,"","","","","",
-							"","","","","");
+							"","","","");
 					searchContainer.setTotal(total);
 
 					auditEvents=AuditEventManagerUtil.getAuditEvents(
 							themeDisplay.getCompanyId(),keywords,"","","","","",
-							"","","","","",searchContainer.getStart(),searchContainer.getDelta());
+							"","","","",searchContainer.getStart(),searchContainer.getDelta());
 					searchContainer.setResults(auditEvents);
 				}
-				/*searchContainer.setOrderByCol("createDate");
-				searchContainer.setOrderByType("asc");
-				String keywords = displayTerms.getKeywords();
-				keywords = keywords.trim();
-				*//*if (Validator.isNotNull(keywords)) {
-					keywords = "*" + keywords + "*";
-				}*//*
-
-				total = AuditEventManagerUtil.getAuditEventsCount(
-						themeDisplay.getCompanyId(),keywords,"","","","","",
-						"","","","","");
-				auditEvents=AuditEventManagerUtil.getAuditEvents(
-						themeDisplay.getCompanyId(),keywords,"","","","","",
-						"","","","","",searchContainer.getStart(),searchContainer.getDelta());
-				searchContainer.setTotal(total);
-				searchContainer.setResults(auditEvents);*/
-
 			%>
 
 			<liferay-ui:search-container-row

@@ -329,6 +329,8 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 	public BaseModelSearchResult<AuditEvent> search(
 			long companyId, String keywords, LinkedHashMap<String, Object> params,int cur,
 			int delta,String orderByField, boolean reverse) {
+		if (Validator.isNotNull(keywords))
+			keywords = StringBundler.concat("\"", keywords, "\"");
 
 		SearchResponse searchResponse = _searcher.search(
 				_getSearchRequest(
@@ -337,7 +339,7 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 
 		SearchHits searchHits = searchResponse.getSearchHits();
 
-		List<AuditEvent> accountEntries = TransformUtil.transform(
+		List<AuditEvent> auditEvents = TransformUtil.transform(
 				searchHits.getSearchHits(),
 				searchHit -> {
 					com.liferay.portal.search.document.Document document = searchHit.getDocument();
@@ -357,7 +359,7 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 				});
 
 		return new BaseModelSearchResult<>(
-				accountEntries, searchResponse.getTotalHits());
+				auditEvents, searchResponse.getTotalHits());
 	}
 
 	private SearchRequest _getSearchRequest(
@@ -406,8 +408,6 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 			LinkedHashMap<String, Object> params) {
 
 		searchContext.setCompanyId(companyId);
-		/*searchContext.setStart(start);
-		searchContext.setEnd(end);*/
 
 		if (Validator.isNotNull(keywords)) {
 			searchContext.setKeywords(keywords);
@@ -440,12 +440,6 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 		String className = (String) params.get(AuditField.CLASS_NAME);
 		if (Validator.isNotNull(className)) {
 			searchContext.setAttribute(AuditField.CLASS_NAME, className);
-		}
-
-
-		String sessionId = (String) params.get(AuditField.SESSION_ID);
-		if (Validator.isNotNull(sessionId)) {
-			searchContext.setAttribute(AuditField.SESSION_ID, sessionId);
 		}
 
 		String clientIP = (String) params.get(AuditField.CLIENT_IP);
