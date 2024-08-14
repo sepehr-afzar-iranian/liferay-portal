@@ -17,8 +17,21 @@ package com.liferay.portal.security.audit.web.internal.application.list;
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouterUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.security.audit.web.internal.constants.AuditPortletKeys;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -42,6 +55,36 @@ public class AuditPanelApp extends BasePanelApp {
 	}
 
 	@Override
+	public PortletURL getPortletURL(HttpServletRequest httpServletRequest)
+		throws PortalException {
+
+		PortletURL portletURL = _portal.getControlPanelPortletURL(
+			httpServletRequest, getGroup(httpServletRequest), getPortletId(), 0,
+			0, PortletRequest.RENDER_PHASE);
+
+		Group group = groupProvider.getGroup(httpServletRequest);
+
+		AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				EventTypes.CHECK_AUDIT, AuditEvent.class.getName(), 0, null);
+
+		try {
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+
+		if (group == null) {
+			return portletURL;
+		}
+
+		portletURL.setParameter(
+			"p_v_l_s_g_id", String.valueOf(group.getGroupId()));
+
+		return portletURL;
+	}
+
+	@Override
 	@Reference(
 		target = "(javax.portlet.name=" + AuditPortletKeys.AUDIT + ")",
 		unbind = "-"
@@ -49,5 +92,8 @@ public class AuditPanelApp extends BasePanelApp {
 	public void setPortlet(Portlet portlet) {
 		super.setPortlet(portlet);
 	}
+
+	@Reference
+	private Portal _portal;
 
 }

@@ -15,17 +15,7 @@
 --%>
 
 <%@ include file="/init.jsp" %>
-<%
-	AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-			EventTypes.CHECK_AUDIT, AuditEvent.class.getName(), 0,
-			null);
-	try {
-		AuditRouterUtil.route(auditMessage);
-	}
-	catch (Exception exception) {
-		throw new RuntimeException(exception);
-	}
-%>
+
 <liferay-portlet:renderURL varImpl="searchURL" />
 
 <clay:container-fluid
