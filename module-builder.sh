@@ -42,5 +42,11 @@ apps:layout:layout-seo-web:$1 \
 apps:login:login-web:$1 \
 apps:portal-search-elasticsearch7:portal-search-elasticsearch7-impl:$1 \
 apps:portal-search:portal-search-web:$1 \
+apps:portal-security-audit:portal-security-audit-event-generators-api:$1 \
+apps:portal-security-audit:portal-security-audit-event-generators-user-management:$1 \
+apps:portal-security-audit:portal-security-audit-storage-api:$1 \
+apps:portal-security-audit:portal-security-audit-storage-service:$1 \
+apps:portal-security-audit:portal-security-audit-web:$1 \
 apps:site:site-browser-web:$1 \
-apps:site:site-memberships-web:$1
+apps:site:site-memberships-web:$1 \
+apps:sync:sync-service:$1
