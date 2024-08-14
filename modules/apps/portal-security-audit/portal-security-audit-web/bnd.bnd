@@ -1,0 +1,7 @@
+Bundle-Name: Liferay Portal Security Audit Web
+Bundle-SymbolicName: com.liferay.portal.security.audit.web
+Bundle-Version: 1.0.0
+Provide-Capability:\
+	liferay.resource.bundle;\
+		resource.bundle.base.name="content.Language"
+Web-ContextPath: /portal-security-audit-web

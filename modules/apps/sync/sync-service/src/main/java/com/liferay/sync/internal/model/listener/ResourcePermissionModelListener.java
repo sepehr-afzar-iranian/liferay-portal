@@ -15,16 +15,28 @@
 package com.liferay.sync.internal.model.listener;
 
 import com.liferay.petra.concurrent.NoticeableExecutorService;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.ResourcePermission;
+import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.ResourceActionLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.sync.model.SyncDLObject;
 
 import java.util.Date;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Shinn Lok
@@ -32,6 +44,65 @@ import org.osgi.service.component.annotations.Component;
 @Component(immediate = true, service = ModelListener.class)
 public class ResourcePermissionModelListener
 	extends SyncBaseModelListener<ResourcePermission> {
+
+	@Override
+	public void onAfterUpdate(ResourcePermission resourcePermission)
+		throws ModelListenerException {
+
+		try {
+			long resourcePermissionId =
+				resourcePermission.getResourcePermissionId();
+
+			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+				EventTypes.PERMISSION_UPDATE,
+				ResourcePermission.class.getName(), resourcePermissionId, null);
+
+			String resourcePermissionName = resourcePermission.getName();
+
+			JSONObject permissionsJSONObject =
+				JSONFactoryUtil.createJSONObject();
+
+			for (ResourceAction resourceAction :
+					_resourceActionLocalService.getResourceActions(
+						resourcePermissionName)) {
+
+				permissionsJSONObject.put(
+					resourceAction.getActionId(),
+					resourcePermission.hasActionId(
+						resourceAction.getActionId()));
+			}
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"permissions", permissionsJSONObject
+			).put(
+				"resourcePermissionId", resourcePermissionId
+			).put(
+				"resourcePermissionName", resourcePermissionName
+			).put(
+				"resourcePermissionPrimKey", resourcePermission.getPrimKey()
+			);
+
+			long roleId = resourcePermission.getRoleId();
+
+			Role role = _roleLocalService.fetchRole(roleId);
+
+			if (!Objects.equals(role, null)) {
+				additionalInfoJSONObject.put(
+					"roleId", roleId
+				).put(
+					"roleName", role.getName()
+				);
+			}
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception exception) {
+			throw new ModelListenerException(exception);
+		}
+	}
 
 	@Override
 	public void onBeforeCreate(ResourcePermission resourcePermission)
@@ -117,5 +188,14 @@ public class ResourcePermissionModelListener
 				});
 		}
 	}
+
+	@Reference
+	private AuditRouter _auditRouter;
+
+	@Reference
+	private ResourceActionLocalService _resourceActionLocalService;
+
+	@Reference
+	private RoleLocalService _roleLocalService;
 
 }

@@ -152,9 +152,19 @@ public class UserGroupModelListener extends BaseModelListener<UserGroup> {
 		throws ModelListenerException {
 
 		try {
+			long userGroupId = userGroup.getUserGroupId();
+
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, UserGroup.class.getName(),
-				userGroup.getUserGroupId(), null);
+				eventType, UserGroup.class.getName(), userGroupId, null);
+
+			JSONObject additionalInfoJSONObject =
+				auditMessage.getAdditionalInfo();
+
+			additionalInfoJSONObject.put(
+				"userGroupId", userGroupId
+			).put(
+				"userGroupName", userGroup.getName()
+			);
 
 			_auditRouter.route(auditMessage);
 		}
