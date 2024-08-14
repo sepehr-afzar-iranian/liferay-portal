@@ -26,7 +26,6 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.petra.lang.ClassResolverUtil" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
-page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.kernel.dao.search.DisplayTerms" %><%@
 page import="com.liferay.portal.kernel.dao.search.SearchContainer" %><%@
 page import="com.liferay.portal.kernel.json.JSONFactoryUtil" %><%@
@@ -41,15 +40,12 @@ page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalClassInvoker" %><%@
 page import="com.liferay.portal.kernel.util.PortalClassLoaderUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
+page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.security.audit.storage.model.AuditEvent" %><%@
 page import="com.liferay.portal.security.audit.storage.service.AuditEventLocalServiceUtil" %><%@
 page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %>
 
 <%@ page import="java.text.Format" %>
-<%@ page import="com.liferay.portal.kernel.search.*" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.liferay.portal.security.audit.web.internal.constants.AuditPortletKeys" %>
 
 <%@ page import="java.util.Calendar" %><%@
 page import="java.util.List" %>
@@ -81,7 +77,6 @@ int endDateHour = ParamUtil.getInteger(request, "endDateHour", today.get(Calenda
 int endDateMinute = ParamUtil.getInteger(request, "endDateMinute", today.get(Calendar.MINUTE));
 int endDateMonth = ParamUtil.getInteger(request, "endDateMonth", today.get(Calendar.MONTH));
 int endDateYear = ParamUtil.getInteger(request, "endDateYear", today.get(Calendar.YEAR));
-
 int startDateAmPm = ParamUtil.getInteger(request, "startDateAmPm", yesterday.get(Calendar.AM_PM));
 int startDateDay = ParamUtil.getInteger(request, "startDateDay", yesterday.get(Calendar.DATE));
 int startDateHour = ParamUtil.getInteger(request, "startDateHour", yesterday.get(Calendar.HOUR));

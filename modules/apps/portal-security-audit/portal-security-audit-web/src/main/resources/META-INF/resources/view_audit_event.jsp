@@ -17,7 +17,12 @@
 <%@ include file="/init.jsp" %>
 
 <%
-String referrer = (String)request.getAttribute(WebKeys.REFERER);
+String referer = null;
+String refererRequest = (String)request.getAttribute(WebKeys.REFERER);
+
+if (Validator.isNotNull(refererRequest)) {
+	referer = refererRequest;
+}
 
 long auditEventId = ParamUtil.getLong(request, "auditEventId");
 
@@ -41,7 +46,7 @@ if (auditEventId > 0) {
 >
 
 <liferay-ui:header
-	backURL='<%= Validator.isNotNull(referrer) ? referrer : "javascript:history.go(-1);" %>'
+	backURL='<%= Validator.isNotNull(referer) ? referer : "javascript:history.go(-1);" %>'
 	escapeXml="<%= false %>"
 	localizeTitle="<%= auditEvent == null %>"
 	title='<%= (auditEvent == null) ? "audit-event" : auditEvent.getEventType() + " (" + eventTypeAction + ")" %>'

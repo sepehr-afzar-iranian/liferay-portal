@@ -65,7 +65,7 @@ public class AuditPanelApp extends BasePanelApp {
 		Group group = groupProvider.getGroup(httpServletRequest);
 
 		AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				EventTypes.CHECK_AUDIT, AuditEvent.class.getName(), 0, null);
+			EventTypes.CHECK_AUDIT, AuditEvent.class.getName(), 0, null);
 
 		try {
 			AuditRouterUtil.route(auditMessage);
