@@ -43,7 +43,12 @@ page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.security.audit.storage.model.AuditEvent" %><%@
 page import="com.liferay.portal.security.audit.storage.service.AuditEventLocalServiceUtil" %><%@
-page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %>
+page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %><%@
+page import="java.util.Date" %><%@
+page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
+page import="javax.portlet.WindowState" %><%@
+page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
+
 
 <%@ page import="java.text.Format" %>
 
@@ -71,19 +76,23 @@ String serverPort = ParamUtil.getString(request, "serverPort");
 String userId = ParamUtil.getString(request, "userId");
 String userName = ParamUtil.getString(request, "userName");
 
-/*int endDateAmPm = ParamUtil.getInteger(request, "endDateAmPm", today.get(Calendar.AM_PM));
+int endDateAmPm = ParamUtil.getInteger(request, "endDateAmPm", today.get(Calendar.AM_PM));
 int endDateDay = ParamUtil.getInteger(request, "endDateDay", today.get(Calendar.DATE));
 int endDateHour = ParamUtil.getInteger(request, "endDateHour", today.get(Calendar.HOUR));
 int endDateMinute = ParamUtil.getInteger(request, "endDateMinute", today.get(Calendar.MINUTE));
 int endDateMonth = ParamUtil.getInteger(request, "endDateMonth", today.get(Calendar.MONTH));
 int endDateYear = ParamUtil.getInteger(request, "endDateYear", today.get(Calendar.YEAR));
+
 int startDateAmPm = ParamUtil.getInteger(request, "startDateAmPm", yesterday.get(Calendar.AM_PM));
 int startDateDay = ParamUtil.getInteger(request, "startDateDay", yesterday.get(Calendar.DATE));
 int startDateHour = ParamUtil.getInteger(request, "startDateHour", yesterday.get(Calendar.HOUR));
 int startDateMinute = ParamUtil.getInteger(request, "startDateMinute", yesterday.get(Calendar.MINUTE));
 int startDateMonth = ParamUtil.getInteger(request, "startDateMonth", yesterday.get(Calendar.MONTH));
-int startDateYear = ParamUtil.getInteger(request, "startDateYear", yesterday.get(Calendar.YEAR));*/
+int startDateYear = ParamUtil.getInteger(request, "startDateYear", yesterday.get(Calendar.YEAR));
+AuditEventManagerUtil.setAllAuditEvents(themeDisplay.getCompanyId());
 String[] eventTypes = AuditEventManagerUtil.getEventTypes();
+String[] resourceNames = AuditEventManagerUtil.getResourceNames();
+
 
 Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);
 %>
