@@ -79,9 +79,7 @@ public class AuditEventIndexer extends BaseIndexer<AuditEvent> {
 
 		document.addKeyword(Field.COMPANY_ID, auditEvent.getCompanyId());
 		document.addDate(Field.CREATE_DATE, auditEvent.getCreateDate());
-		/*	document.addKeyword(
-					Field.MODIFIED_DATE, auditEvent.getCreateDate().getTime());*/
-		document.addText(AuditField.EVENT_TYPE, auditEvent.getEventType());
+		document.addKeyword(AuditField.EVENT_TYPE, auditEvent.getEventType());
 		document.addText(AuditField.MESSAGE, auditEvent.getMessage());
 		document.addKeyword(AuditField.CLIENT_HOST, auditEvent.getClientHost());
 		document.addKeyword(AuditField.CLIENT_IP, auditEvent.getClientIP());
