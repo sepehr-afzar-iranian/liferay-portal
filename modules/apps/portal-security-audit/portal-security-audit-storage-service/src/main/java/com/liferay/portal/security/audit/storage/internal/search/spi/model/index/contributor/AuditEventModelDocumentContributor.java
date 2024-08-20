@@ -66,7 +66,8 @@ public class AuditEventModelDocumentContributor
 
 			document.addDate(Field.CREATE_DATE, auditEvent.getCreateDate());
 
-			document.addKeyword(AuditField.EVENT_TYPE, auditEvent.getEventType());
+			document.addKeyword(
+				AuditField.EVENT_TYPE, auditEvent.getEventType());
 
 			document.addText(AuditField.MESSAGE, auditEvent.getMessage());
 
