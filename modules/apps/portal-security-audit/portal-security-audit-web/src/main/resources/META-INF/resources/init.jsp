@@ -39,20 +39,17 @@ page import="com.liferay.portal.kernel.util.MethodKey" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalClassInvoker" %><%@
 page import="com.liferay.portal.kernel.util.PortalClassLoaderUtil" %><%@
+page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.security.audit.storage.model.AuditEvent" %><%@
 page import="com.liferay.portal.security.audit.storage.service.AuditEventLocalServiceUtil" %><%@
-page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %><%@
-page import="java.util.Date" %><%@
-page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
-page import="javax.portlet.WindowState" %><%@
-page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
-
+page import="com.liferay.portal.security.audit.web.internal.AuditEventManagerUtil" %>
 
 <%@ page import="java.text.Format" %>
 
 <%@ page import="java.util.Calendar" %><%@
+page import="java.util.Date" %><%@
 page import="java.util.List" %>
 
 <liferay-theme:defineObjects />
@@ -89,10 +86,12 @@ int startDateHour = ParamUtil.getInteger(request, "startDateHour", yesterday.get
 int startDateMinute = ParamUtil.getInteger(request, "startDateMinute", yesterday.get(Calendar.MINUTE));
 int startDateMonth = ParamUtil.getInteger(request, "startDateMonth", yesterday.get(Calendar.MONTH));
 int startDateYear = ParamUtil.getInteger(request, "startDateYear", yesterday.get(Calendar.YEAR));
-AuditEventManagerUtil.setAllAuditEvents(themeDisplay.getCompanyId());
-String[] eventTypes = AuditEventManagerUtil.getEventTypes();
-String[] resourceNames = AuditEventManagerUtil.getResourceNames();
 
+AuditEventManagerUtil.setAllAuditEvents(themeDisplay.getCompanyId());
+
+String[] eventTypes = AuditEventManagerUtil.getEventTypes();
+
+String[] resourceNames = AuditEventManagerUtil.getResourceNames();
 
 Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);
 %>
