@@ -44,6 +44,7 @@ apps:portal-search-elasticsearch7:portal-search-elasticsearch7-impl:$1 \
 apps:portal-search:portal-search-web:$1 \
 apps:portal-security-audit:portal-security-audit-event-generators-api:$1 \
 apps:portal-security-audit:portal-security-audit-event-generators-user-management:$1 \
+apps:portal-security-audit:portal-security-audit-router:$1 \
 apps:portal-security-audit:portal-security-audit-storage-api:$1 \
 apps:portal-security-audit:portal-security-audit-storage-service:$1 \
 apps:portal-security-audit:portal-security-audit-web:$1 \
