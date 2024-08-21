@@ -250,6 +250,7 @@ import org.osgi.service.component.annotations.Reference;
 		"model.class.name=com.liferay.portal.security.antisamy.configuration.AntiSamyClassNameConfiguration",
 		"model.class.name=com.liferay.portal.security.antisamy.configuration.AntiSamyConfiguration",
 		"model.class.name=com.liferay.portal.security.audit.configuration.AuditConfiguration",
+		"model.class.name=com.liferay.portal.security.audit.router.configuration.AuditMessageAutoDeleterConfiguration",
 		"model.class.name=com.liferay.portal.security.audit.router.configuration.CSVLogMessageFormatterConfiguration",
 		"model.class.name=com.liferay.portal.security.audit.router.configuration.LoggingAuditMessageProcessorConfiguration",
 		"model.class.name=com.liferay.portal.security.audit.router.configuration.PersistentAuditMessageProcessorConfiguration",
