@@ -15,6 +15,7 @@
 package com.liferay.portal.security.audit.router.configuration;
 
 import aQute.bnd.annotation.metatype.Meta;
+
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 /**
@@ -22,19 +23,24 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
  */
 @ExtendedObjectClassDefinition(category = "audit")
 @Meta.OCD(
-        id = "com.liferay.portal.security.audit.router.configuration.AuditMessageAutoDeleterConfiguration",
-        localization = "content/Language",
-        name = "audit-message-auto-deleter-configuration-name"
+	id = "com.liferay.portal.security.audit.router.configuration.AuditMessageAutoDeleterConfiguration",
+	localization = "content/Language",
+	name = "audit-message-auto-deleter-configuration-name"
 )
 public interface AuditMessageAutoDeleterConfiguration {
 
-    @Meta.AD(deflt = "true", name = "enabled", required = false)
-    public boolean enabled();
+	@Meta.AD(deflt = "true", name = "enabled", required = false)
+	public boolean enabled();
 
-    @Meta.AD(deflt = "3", name = "delete-audits-older-than-months", required = false)
-    public int month();
+	@Meta.AD(
+		deflt = "3", name = "delete-audits-older-than-months", required = false
+	)
+	public int month();
 
-    @Meta.AD(deflt = "0 0 12 1 * ?", name = "check-audits-timestamp-cron-expression", required = false)
-    public String CronExpression();
+	@Meta.AD(
+		deflt = "0 0 12 1 * ?", name = "check-audits-timestamp-cron-expression",
+		required = false
+	)
+	public String cronExpression();
 
 }

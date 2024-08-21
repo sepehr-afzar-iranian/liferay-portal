@@ -28,6 +28,8 @@ public interface EventTypes {
 
 	public static final String ASSIGN = "ASSIGN";
 
+	public static final String CHECK_AUDIT = "CHECK AUDIT";
+
 	public static final String CONFIGURATION_SAVE = "SAVE CONFIGURATION";
 
 	public static final String DELETE = "DELETE";
@@ -39,8 +41,6 @@ public interface EventTypes {
 	public static final String LOGIN_FAILURE = "LOGIN_FAILURE";
 
 	public static final String LOGOUT = "LOGOUT";
-
-	public static final String CHECK_AUDIT = "CHECK AUDIT";
 
 	public static final String PERMISSION_UPDATE = "UPDATE PERMISSION";
 
