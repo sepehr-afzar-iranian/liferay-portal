@@ -44,8 +44,6 @@ public class AuditEventSearchRegistrar {
 
 				modelSearchDefinition.setModelIndexWriteContributor(
 					modelIndexWriterContributor);
-				/*modelSearchDefinition.setModelSummaryContributor(
-					modelSummaryContributor);*/
 			});
 	}
 
@@ -62,11 +60,6 @@ public class AuditEventSearchRegistrar {
 
 	@Reference
 	protected ModelSearchRegistrarHelper modelSearchRegistrarHelper;
-
-	/*	@Reference(
-			target = "(indexer.class.name=com.liferay.portal.security.audit.storage.model.AuditEvent)"
-		)
-		protected ModelSummaryContributor modelSummaryContributor;*/
 
 	private ServiceRegistration<?> _serviceRegistration;
 

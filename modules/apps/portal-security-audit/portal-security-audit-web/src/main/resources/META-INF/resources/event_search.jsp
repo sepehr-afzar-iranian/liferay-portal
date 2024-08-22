@@ -25,13 +25,13 @@ SearchContainer<?> searchContainer = (SearchContainer<?>)request.getAttribute("l
 	displayTerms="<%= searchContainer.getDisplayTerms() %>"
 	id="toggle_id_audit_event_search"
 >
-	<aui:select name="eventType">
+	<aui:select label="event-type" name="eventType">
 
 		<%
 		for (String selEventType : eventTypes) {
 		%>
 
-		<aui:option label="<%= HtmlUtil.escapeAttribute(selEventType) %>" selected="<%= eventType.equals(selEventType) %>" value="<%= selEventType %>" />
+			<aui:option label="<%= HtmlUtil.escapeAttribute(selEventType) %>" selected="<%= eventType.equals(selEventType) %>" value="<%= selEventType %>" />
 
 		<%
 		}
@@ -45,7 +45,20 @@ SearchContainer<?> searchContainer = (SearchContainer<?>)request.getAttribute("l
 
 	<aui:input label="resource-id" name="classPK" value="<%= classPK %>" />
 
-	<aui:input label="class-name" name="className" value="<%= className %>" />
+	<%--<aui:input label="resource-name" name="className" value="<%= className %>" />--%>
+	<aui:select label="resource-name" name="className">
+
+		<%
+		for (String selResourceName : resourceNames) {
+		%>
+
+			<aui:option label="<%= HtmlUtil.escapeAttribute(selResourceName) %>" selected="<%= eventType.equals(selResourceName) %>" value="<%= selResourceName %>" />
+
+		<%
+		}
+		%>
+
+	</aui:select>
 
 	<aui:input label="client-ip" name="clientIP" value="<%= clientIP %>" />
 
@@ -55,12 +68,13 @@ SearchContainer<?> searchContainer = (SearchContainer<?>)request.getAttribute("l
 
 	<aui:input label="server-port" name="serverPort" value="<%= serverPort %>" />
 
-<%--<aui:field-wrapper label="start-date">
+	<aui:field-wrapper label="start-date">
 		<liferay-ui:input-date
 			dayParam="startDateDay"
 			dayValue="<%= startDateDay %>"
 			monthParam="startDateMonth"
 			monthValue="<%= startDateMonth %>"
+			name="startDate"
 			yearParam="startDateYear"
 			yearValue="<%= startDateYear %>"
 		/>
@@ -72,6 +86,7 @@ SearchContainer<?> searchContainer = (SearchContainer<?>)request.getAttribute("l
 			hourValue="<%= startDateHour %>"
 			minuteParam="startDateMinute"
 			minuteValue="<%= startDateMinute %>"
+			name="startDateTime"
 		/>
 	</aui:field-wrapper>
 
@@ -81,6 +96,7 @@ SearchContainer<?> searchContainer = (SearchContainer<?>)request.getAttribute("l
 			dayValue="<%= endDateDay %>"
 			monthParam="endDateMonth"
 			monthValue="<%= endDateMonth %>"
+			name="endDate"
 			yearParam="endDateYear"
 			yearValue="<%= endDateYear %>"
 		/>
@@ -92,6 +108,7 @@ SearchContainer<?> searchContainer = (SearchContainer<?>)request.getAttribute("l
 			hourValue="<%= endDateHour %>"
 			minuteParam="endDateMinute"
 			minuteValue="<%= endDateMinute %>"
+			name="endDateTime"
 		/>
-	</aui:field-wrapper>--%>
+	</aui:field-wrapper>
 </liferay-ui:search-toggle>

@@ -36,16 +36,6 @@ public class AuditEventModelPreFilterContributor
 	public void contribute(
 		BooleanFilter booleanFilter, ModelSearchSettings modelSearchSettings,
 		SearchContext searchContext) {
-
-		/*long endDate = GetterUtil.getLong(
-						searchContext.getAttribute("endDate"));
-				long startDate = GetterUtil.getLong(
-						searchContext.getAttribute("startDate"));
-
-				if ((endDate > 0) && (startDate > 0)) {
-					booleanFilter.addRangeTerm(Field.MODIFIED_DATE, startDate, endDate);
-				}*/
-
 	}
 
 }

@@ -219,8 +219,6 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 		SearchContext searchContext = new SearchContext();
 
 		searchContext.setCompanyId(companyId);
-		/*searchContext.setStart(start);
-		searchContext.setEnd(end);*/
 		searchContext.setSorts(sorts);
 
 		if (Validator.isNotNull(keywords)) {
@@ -473,7 +471,7 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 		String className = (String)params.get(AuditField.CLASS_NAME);
 
 		if (Validator.isNotNull(className)) {
-			searchContext.setAttribute(AuditField.CLASS_NAME, className);
+			searchContext.setAttribute(AuditField.SHORT_CLASS_NAME, className);
 		}
 
 		String clientIP = (String)params.get(AuditField.CLIENT_IP);
