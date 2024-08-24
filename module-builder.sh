@@ -26,6 +26,7 @@ apps:friendly-url:friendly-url-service:$1 \
 apps:frontend-editor:frontend-editor-ckeditor-web:$1 \
 apps:frontend-js:frontend-js-aui-web:$1 \
 apps:frontend-js:frontend-js-react-web:$1 \
+apps:frontend-js:frontend-js-spa-web:$1 \
 apps:frontend-js:frontend-js-web:$1 \
 apps:frontend-taglib:frontend-taglib-clay:$1 \
 apps:item-selector:item-selector-taglib:$1 \
