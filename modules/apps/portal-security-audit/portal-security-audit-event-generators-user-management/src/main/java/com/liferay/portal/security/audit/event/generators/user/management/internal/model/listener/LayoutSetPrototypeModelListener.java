@@ -18,6 +18,8 @@ import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
 import com.liferay.portal.kernel.model.ModelListener;
@@ -79,9 +81,14 @@ public class LayoutSetPrototypeModelListener
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
-			throw new ModelListenerException(exception);
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutSetPrototypeModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

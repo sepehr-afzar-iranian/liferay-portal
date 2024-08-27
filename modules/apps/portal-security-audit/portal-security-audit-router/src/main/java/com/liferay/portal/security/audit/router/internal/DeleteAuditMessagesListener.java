@@ -54,7 +54,6 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 	@Activate
 	@Modified
 	protected void activate(Map<String, Object> properties) {
-		System.out.println("properties = " + properties);
 		_auditMessageAutoDeleterConfiguration =
 			ConfigurableUtil.createConfigurable(
 				AuditMessageAutoDeleterConfiguration.class, properties);

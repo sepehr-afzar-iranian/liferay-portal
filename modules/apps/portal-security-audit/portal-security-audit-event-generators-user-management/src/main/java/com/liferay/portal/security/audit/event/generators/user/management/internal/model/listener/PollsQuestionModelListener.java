@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
@@ -99,9 +101,14 @@ public class PollsQuestionModelListener
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
-			throw new ModelListenerException(exception);
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PollsQuestionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;
