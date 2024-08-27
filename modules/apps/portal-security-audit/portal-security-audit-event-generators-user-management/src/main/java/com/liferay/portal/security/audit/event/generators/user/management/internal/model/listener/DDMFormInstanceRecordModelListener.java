@@ -92,7 +92,8 @@ public class DDMFormInstanceRecordModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DDMFormInstanceRecordModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DDMFormInstanceRecordModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -95,7 +95,8 @@ public class MBDiscussionModelListener extends BaseModelListener<MBDiscussion> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(MBDiscussionModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		MBDiscussionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

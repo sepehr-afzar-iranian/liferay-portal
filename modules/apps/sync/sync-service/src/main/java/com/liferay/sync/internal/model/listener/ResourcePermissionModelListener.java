@@ -193,7 +193,8 @@ public class ResourcePermissionModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(ResourcePermissionModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		ResourcePermissionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

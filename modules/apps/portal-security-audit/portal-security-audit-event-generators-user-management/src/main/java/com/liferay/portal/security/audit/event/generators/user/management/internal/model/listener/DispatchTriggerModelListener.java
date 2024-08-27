@@ -82,7 +82,8 @@ public class DispatchTriggerModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DispatchTriggerModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DispatchTriggerModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -108,8 +108,6 @@ public class GroupModelListener extends BaseModelListener<Group> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(GroupModelListener.class);
-
 	protected List<Attribute> getModifiedAttributes(
 		Group newGroup, Group oldGroup) {
 
@@ -120,6 +118,9 @@ public class GroupModelListener extends BaseModelListener<Group> {
 
 		return attributesBuilder.getAttributes();
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		GroupModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

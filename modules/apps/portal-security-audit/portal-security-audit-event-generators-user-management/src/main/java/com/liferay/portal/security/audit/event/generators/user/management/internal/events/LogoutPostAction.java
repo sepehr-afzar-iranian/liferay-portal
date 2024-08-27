@@ -69,7 +69,8 @@ public class LogoutPostAction extends Action {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(LogoutPostAction.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		LogoutPostAction.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

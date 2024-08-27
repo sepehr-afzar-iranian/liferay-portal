@@ -109,7 +109,8 @@ public class MBMessageModelListener extends BaseModelListener<MBMessage> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(MBMessageModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		MBMessageModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

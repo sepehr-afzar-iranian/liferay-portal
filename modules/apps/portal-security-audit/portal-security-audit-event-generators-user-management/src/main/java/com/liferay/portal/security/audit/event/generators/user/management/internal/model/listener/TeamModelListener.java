@@ -77,7 +77,8 @@ public class TeamModelListener extends BaseModelListener<Team> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(TeamModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		TeamModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

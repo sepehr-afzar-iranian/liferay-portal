@@ -108,10 +108,11 @@ public class ImpersonationAction extends Action {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(ImpersonationAction.class);
-
 	private static final String _IMPERSONATING_USER =
 		ImpersonationAction.class + ".IMPERSONATING_USER";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ImpersonationAction.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

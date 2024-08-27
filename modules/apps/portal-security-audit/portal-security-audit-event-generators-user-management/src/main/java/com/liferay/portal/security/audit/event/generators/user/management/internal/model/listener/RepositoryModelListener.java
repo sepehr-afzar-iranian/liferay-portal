@@ -85,7 +85,8 @@ public class RepositoryModelListener extends BaseModelListener<Repository> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(RepositoryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		RepositoryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

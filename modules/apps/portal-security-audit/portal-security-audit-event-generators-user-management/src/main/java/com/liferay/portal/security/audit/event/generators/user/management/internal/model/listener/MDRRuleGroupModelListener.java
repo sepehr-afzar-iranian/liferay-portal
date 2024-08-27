@@ -83,7 +83,8 @@ public class MDRRuleGroupModelListener extends BaseModelListener<MDRRuleGroup> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(MDRRuleGroupModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		MDRRuleGroupModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

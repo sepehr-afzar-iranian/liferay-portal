@@ -99,7 +99,8 @@ public class DLFileEntryModelListener extends BaseModelListener<DLFileEntry> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DLFileEntryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFileEntryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

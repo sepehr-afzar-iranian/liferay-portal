@@ -192,7 +192,8 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 		return attributesBuilder.getAttributes();
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(OrganizationModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		OrganizationModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

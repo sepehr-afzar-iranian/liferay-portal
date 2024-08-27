@@ -81,7 +81,8 @@ public class CommerceAccountGroupModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(CommerceAccountGroupModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		CommerceAccountGroupModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -89,7 +89,8 @@ public class WikiPageModelListener extends BaseModelListener<WikiPage> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(WikiPageModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		WikiPageModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

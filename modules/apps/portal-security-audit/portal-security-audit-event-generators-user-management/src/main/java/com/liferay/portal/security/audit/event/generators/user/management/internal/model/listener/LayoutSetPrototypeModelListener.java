@@ -87,7 +87,8 @@ public class LayoutSetPrototypeModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(LayoutSetPrototypeModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutSetPrototypeModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

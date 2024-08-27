@@ -190,7 +190,8 @@ public class UserModelListener extends BaseModelListener<User> {
 		return attributes;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(UserModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserModelListener.class);
 
 	@Reference
 	private AuditMessageUserAssociationHelper

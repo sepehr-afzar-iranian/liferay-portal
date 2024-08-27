@@ -85,7 +85,8 @@ public class DLFileEntryTypeModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DLFileEntryTypeModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFileEntryTypeModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

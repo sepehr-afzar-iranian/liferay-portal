@@ -107,7 +107,8 @@ public class PollsQuestionModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(PollsQuestionModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		PollsQuestionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

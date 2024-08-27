@@ -95,7 +95,8 @@ public class UserGroupRoleModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(UserGroupRoleModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserGroupRoleModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

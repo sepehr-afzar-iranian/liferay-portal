@@ -85,7 +85,8 @@ public class LockModelListener extends BaseModelListener<Lock> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(LockModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		LockModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

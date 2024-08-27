@@ -85,7 +85,8 @@ public class JournalFolderModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(JournalFolderModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		JournalFolderModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

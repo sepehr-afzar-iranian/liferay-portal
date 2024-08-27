@@ -77,7 +77,8 @@ public class MDRRuleInstanceModelListener extends BaseModelListener<MDRRule> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(MDRRuleInstanceModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		MDRRuleInstanceModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

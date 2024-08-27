@@ -80,7 +80,8 @@ public class JournalArticleModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(JournalArticleModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		JournalArticleModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

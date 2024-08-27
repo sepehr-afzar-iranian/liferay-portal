@@ -89,7 +89,8 @@ public class SubscriptionModelListener extends BaseModelListener<Subscription> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(SubscriptionModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		SubscriptionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

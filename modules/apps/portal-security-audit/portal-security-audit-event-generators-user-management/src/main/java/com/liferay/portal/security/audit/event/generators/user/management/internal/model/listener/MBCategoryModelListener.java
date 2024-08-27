@@ -95,7 +95,8 @@ public class MBCategoryModelListener extends BaseModelListener<MBCategory> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(MBCategoryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		MBCategoryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

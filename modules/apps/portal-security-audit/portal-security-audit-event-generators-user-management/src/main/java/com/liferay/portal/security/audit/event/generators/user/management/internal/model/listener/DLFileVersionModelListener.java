@@ -109,7 +109,8 @@ public class DLFileVersionModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DLFileVersionModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFileVersionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

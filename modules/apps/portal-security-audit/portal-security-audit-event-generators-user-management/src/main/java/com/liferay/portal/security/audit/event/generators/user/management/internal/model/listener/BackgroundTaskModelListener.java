@@ -101,7 +101,8 @@ public class BackgroundTaskModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(BackgroundTaskModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		BackgroundTaskModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

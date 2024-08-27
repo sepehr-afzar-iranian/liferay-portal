@@ -83,7 +83,8 @@ public class DDLRecordSetModelListener extends BaseModelListener<DDLRecordSet> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DDLRecordSetModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DDLRecordSetModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

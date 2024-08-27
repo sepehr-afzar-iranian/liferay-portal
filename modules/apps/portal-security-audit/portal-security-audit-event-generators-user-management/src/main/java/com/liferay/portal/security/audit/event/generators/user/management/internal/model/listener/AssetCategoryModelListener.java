@@ -114,7 +114,8 @@ public class AssetCategoryModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(AssetCategoryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AssetCategoryModelListener.class);
 
 	@Reference
 	private AssetVocabularyLocalService _assetVocabularyLocalService;

@@ -192,7 +192,8 @@ public class UserGroupModelListener extends BaseModelListener<UserGroup> {
 		return attributesBuilder.getAttributes();
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(UserGroupModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserGroupModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

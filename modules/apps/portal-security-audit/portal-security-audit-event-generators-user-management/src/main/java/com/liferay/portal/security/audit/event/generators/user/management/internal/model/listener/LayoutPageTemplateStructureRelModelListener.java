@@ -95,7 +95,8 @@ public class LayoutPageTemplateStructureRelModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(LayoutPageTemplateStructureRelModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutPageTemplateStructureRelModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

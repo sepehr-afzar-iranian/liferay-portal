@@ -86,7 +86,8 @@ public class AnnouncementsEntryModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(AnnouncementsEntryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AnnouncementsEntryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

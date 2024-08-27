@@ -109,7 +109,8 @@ public class KBArticleModelListener extends BaseModelListener<KBArticle> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(KBArticleModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		KBArticleModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

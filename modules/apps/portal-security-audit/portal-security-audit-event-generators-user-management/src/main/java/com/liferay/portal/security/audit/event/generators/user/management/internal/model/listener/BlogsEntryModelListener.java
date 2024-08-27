@@ -83,7 +83,8 @@ public class BlogsEntryModelListener extends BaseModelListener<BlogsEntry> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(BlogsEntryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		BlogsEntryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

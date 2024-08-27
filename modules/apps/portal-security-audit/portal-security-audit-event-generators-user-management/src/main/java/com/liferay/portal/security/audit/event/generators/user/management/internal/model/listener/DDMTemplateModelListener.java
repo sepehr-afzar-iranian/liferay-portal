@@ -83,7 +83,8 @@ public class DDMTemplateModelListener extends BaseModelListener<DDMTemplate> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DDMTemplateModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DDMTemplateModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

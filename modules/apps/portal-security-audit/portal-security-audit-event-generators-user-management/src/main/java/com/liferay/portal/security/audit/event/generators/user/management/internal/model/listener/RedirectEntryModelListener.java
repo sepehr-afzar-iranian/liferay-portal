@@ -87,7 +87,8 @@ public class RedirectEntryModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(RedirectEntryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		RedirectEntryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

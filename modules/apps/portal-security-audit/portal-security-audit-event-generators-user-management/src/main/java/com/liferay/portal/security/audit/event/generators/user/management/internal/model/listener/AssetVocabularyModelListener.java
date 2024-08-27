@@ -85,7 +85,8 @@ public class AssetVocabularyModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(AssetVocabularyModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AssetVocabularyModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

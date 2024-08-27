@@ -126,7 +126,8 @@ public class RoleModelListener extends BaseModelListener<Role> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(RoleModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		RoleModelListener.class);
 
 	@Reference
 	private AuditMessageRoleAssociationHelper

@@ -94,7 +94,8 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(LayoutModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

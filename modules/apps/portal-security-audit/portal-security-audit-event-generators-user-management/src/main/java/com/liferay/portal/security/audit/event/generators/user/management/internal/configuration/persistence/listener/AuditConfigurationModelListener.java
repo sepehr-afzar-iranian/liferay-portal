@@ -17,7 +17,6 @@ package com.liferay.portal.security.audit.event.generators.user.management.inter
 import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListener;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
-import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -374,7 +373,8 @@ public class AuditConfigurationModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(AuditConfigurationModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AuditConfigurationModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -90,7 +90,8 @@ public class MBBanModelListener extends BaseModelListener<MBBan> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(MBBanModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		MBBanModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

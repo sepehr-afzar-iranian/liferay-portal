@@ -87,7 +87,8 @@ public class SiteNavigationMenuModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(SiteNavigationMenuModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		SiteNavigationMenuModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

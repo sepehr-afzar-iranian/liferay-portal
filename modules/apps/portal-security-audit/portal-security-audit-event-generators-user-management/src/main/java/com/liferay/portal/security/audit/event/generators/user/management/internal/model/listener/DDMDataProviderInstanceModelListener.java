@@ -87,7 +87,8 @@ public class DDMDataProviderInstanceModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DDMDataProviderInstanceModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DDMDataProviderInstanceModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

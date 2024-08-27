@@ -96,7 +96,8 @@ public class PollsVoteModelListener extends BaseModelListener<PollsVote> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(PollsVoteModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		PollsVoteModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

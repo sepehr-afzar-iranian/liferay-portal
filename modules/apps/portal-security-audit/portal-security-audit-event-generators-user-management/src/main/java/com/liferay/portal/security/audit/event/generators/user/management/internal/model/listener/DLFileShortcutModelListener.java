@@ -97,7 +97,8 @@ public class DLFileShortcutModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DLFileShortcutModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFileShortcutModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

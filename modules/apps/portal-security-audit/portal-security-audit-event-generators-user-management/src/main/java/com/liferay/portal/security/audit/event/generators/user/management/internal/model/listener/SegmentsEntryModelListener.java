@@ -85,7 +85,8 @@ public class SegmentsEntryModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(SegmentsEntryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		SegmentsEntryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

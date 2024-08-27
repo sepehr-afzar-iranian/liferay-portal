@@ -85,7 +85,8 @@ public class AssetListEntryModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(AssetListEntryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AssetListEntryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

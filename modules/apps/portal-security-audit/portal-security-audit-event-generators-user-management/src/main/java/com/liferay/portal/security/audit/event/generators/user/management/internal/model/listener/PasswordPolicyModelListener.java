@@ -85,7 +85,8 @@ public class PasswordPolicyModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(PasswordPolicyModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		PasswordPolicyModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

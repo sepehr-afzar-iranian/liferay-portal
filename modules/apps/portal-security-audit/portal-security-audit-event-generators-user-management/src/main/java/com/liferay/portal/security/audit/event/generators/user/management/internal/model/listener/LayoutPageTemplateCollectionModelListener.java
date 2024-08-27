@@ -93,7 +93,8 @@ public class LayoutPageTemplateCollectionModelListener
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(LayoutPageTemplateCollectionModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutPageTemplateCollectionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

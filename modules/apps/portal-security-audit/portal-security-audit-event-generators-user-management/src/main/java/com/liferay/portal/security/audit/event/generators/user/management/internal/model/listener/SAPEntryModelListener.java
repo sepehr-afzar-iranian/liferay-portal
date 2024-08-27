@@ -79,7 +79,8 @@ public class SAPEntryModelListener extends BaseModelListener<SAPEntry> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(SAPEntryModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		SAPEntryModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

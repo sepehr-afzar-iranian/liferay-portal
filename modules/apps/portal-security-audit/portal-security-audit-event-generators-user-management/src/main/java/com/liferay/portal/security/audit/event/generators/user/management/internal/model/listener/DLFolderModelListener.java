@@ -94,7 +94,8 @@ public class DLFolderModelListener extends BaseModelListener<DLFolder> {
 		}
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DLFolderModelListener.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFolderModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;
