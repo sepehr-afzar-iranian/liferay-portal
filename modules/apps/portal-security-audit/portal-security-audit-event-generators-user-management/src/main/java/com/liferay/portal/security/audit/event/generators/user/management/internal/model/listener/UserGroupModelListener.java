@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.change.tracking.CTTransactionException;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
@@ -172,7 +174,9 @@ public class UserGroupModelListener extends BaseModelListener<UserGroup> {
 			throw ctTransactionException;
 		}
 		catch (Exception exception) {
-			throw new ModelListenerException(exception);
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
 
@@ -187,6 +191,8 @@ public class UserGroupModelListener extends BaseModelListener<UserGroup> {
 
 		return attributesBuilder.getAttributes();
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(UserGroupModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.events.ActionException;
 import com.liferay.portal.kernel.events.LifecycleAction;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -100,9 +102,13 @@ public class ImpersonationAction extends Action {
 			}
 		}
 		catch (Exception exception) {
-			throw new ActionException(exception);
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(ImpersonationAction.class);
 
 	private static final String _IMPERSONATING_USER =
 		ImpersonationAction.class + ".IMPERSONATING_USER";

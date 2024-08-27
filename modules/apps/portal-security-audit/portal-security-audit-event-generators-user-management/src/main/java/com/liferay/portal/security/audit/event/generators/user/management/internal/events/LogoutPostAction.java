@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.events.Action;
 import com.liferay.portal.kernel.events.ActionException;
 import com.liferay.portal.kernel.events.LifecycleAction;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
@@ -61,9 +63,13 @@ public class LogoutPostAction extends Action {
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
-			throw new ActionException(exception);
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(LogoutPostAction.class);
 
 	@Reference
 	private AuditRouter _auditRouter;

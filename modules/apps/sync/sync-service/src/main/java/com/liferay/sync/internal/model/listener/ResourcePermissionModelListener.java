@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.ResourcePermission;
@@ -100,7 +102,9 @@ public class ResourcePermissionModelListener
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
-			throw new ModelListenerException(exception);
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
 
@@ -188,6 +192,8 @@ public class ResourcePermissionModelListener
 				});
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(ResourcePermissionModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;
