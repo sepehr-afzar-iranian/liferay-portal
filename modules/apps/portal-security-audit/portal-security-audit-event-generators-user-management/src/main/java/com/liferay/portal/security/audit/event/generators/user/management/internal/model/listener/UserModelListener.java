@@ -85,8 +85,6 @@ public class UserModelListener extends BaseModelListener<User> {
 				).put(
 					"screenName", newUser.getScreenName()
 				).put(
-					"userGroupId", newUser.getGroupId()
-				).put(
 					"userId", newUser.getUserId()
 				).put(
 					"userName", newUser.getFullName()
@@ -96,7 +94,9 @@ public class UserModelListener extends BaseModelListener<User> {
 			}
 		}
 		catch (Exception exception) {
-			throw new ModelListenerException(exception);
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
 
@@ -138,10 +138,8 @@ public class UserModelListener extends BaseModelListener<User> {
 		throws ModelListenerException {
 
 		try {
-			long userId = user.getUserId();
-
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, User.class.getName(), userId, null);
+				eventType, User.class.getName(), user.getUserId(), null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -151,9 +149,7 @@ public class UserModelListener extends BaseModelListener<User> {
 			).put(
 				"screenName", user.getScreenName()
 			).put(
-				"userGroupId", user.getGroupId()
-			).put(
-				"userId", userId
+				"userId", user.getUserId()
 			).put(
 				"userName", user.getFullName()
 			);
