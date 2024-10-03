@@ -20,6 +20,7 @@ COPY --chown=1000:1000 ./SAIN-modules/bundles/osgi/modules/* /opt/liferay/extens
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/portal-impl.jar /opt/liferay/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/portal-impl.jar
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/lib/ext/portal-kernel.jar	/opt/liferay/tomcat-9.0.43/lib/ext/portal-kernel.jar
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/util-taglib.jar	/opt/liferay/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/util-taglib.jar
+COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF/liferay-web.xml	/opt/liferay/tomcat-9.0.43/webapps/ROOT/WEB-INF/liferay-web.xml
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_date/page.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_date/page.jsp
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_field/page.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/input_field/page.jsp
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/page_iterator/start.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/taglib/ui/page_iterator/start.jsp
