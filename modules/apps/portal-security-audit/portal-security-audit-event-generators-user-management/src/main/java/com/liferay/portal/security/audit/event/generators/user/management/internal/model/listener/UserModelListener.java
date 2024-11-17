@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageUserAssociationHelper;
+import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -100,6 +101,11 @@ public class UserModelListener extends BaseModelListener<User> {
 		}
 	}
 
+	@Override
+	public void onAfterUpdate(User user) throws ModelListenerException {
+		OnAfterUpdateUtil.update(User.class.getName(), user.getUserId());
+	}
+
 	protected void associationAudit(
 		String associationClassName, Object associationClassP,
 		String eventType) {
@@ -168,14 +174,36 @@ public class UserModelListener extends BaseModelListener<User> {
 			newUser, oldUser);
 
 		attributesBuilder.add("active");
-		attributesBuilder.add("agreedToTermsOfUse");
-		attributesBuilder.add("comments");
-		attributesBuilder.add("emailAddress");
-		attributesBuilder.add("languageId");
-		attributesBuilder.add("reminderQueryAnswer");
+		attributesBuilder.add("externalReferenceCode");
+		attributesBuilder.add("userId");
+		attributesBuilder.add("defaultUser");
+		attributesBuilder.add("contactId");
+		attributesBuilder.add("password");
+		attributesBuilder.add("passwordEncrypted");
+		attributesBuilder.add("passwordReset");
+		attributesBuilder.add("digest");
 		attributesBuilder.add("reminderQueryQuestion");
+		attributesBuilder.add("reminderQueryAnswer");
+		attributesBuilder.add("graceLoginCount");
 		attributesBuilder.add("screenName");
+		attributesBuilder.add("emailAddress");
+		attributesBuilder.add("facebookId");
+		attributesBuilder.add("googleUserId");
+		attributesBuilder.add("ldapServerId");
+		attributesBuilder.add("openId");
+		attributesBuilder.add("portraitId");
+		attributesBuilder.add("languageId");
 		attributesBuilder.add("timeZoneId");
+		attributesBuilder.add("greeting");
+		attributesBuilder.add("comments");
+		attributesBuilder.add("firstName");
+		attributesBuilder.add("middleName");
+		attributesBuilder.add("lastName");
+		attributesBuilder.add("jobTitle");
+		attributesBuilder.add("lockout");
+		attributesBuilder.add("agreedToTermsOfUse");
+		attributesBuilder.add("emailAddressVerified");
+		attributesBuilder.add("status");
 
 		List<Attribute> attributes = attributesBuilder.getAttributes();
 

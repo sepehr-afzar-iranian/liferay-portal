@@ -24,9 +24,14 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
+import com.liferay.portal.security.audit.event.generators.util.Attribute;
+import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
@@ -45,12 +50,43 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 
 	@Override
 	public void onAfterUpdate(Layout layout) throws ModelListenerException {
-		audit(EventTypes.UPDATE, layout);
+		OnAfterUpdateUtil.update(Layout.class.getName(), layout.getLayoutId());
 	}
 
 	@Override
 	public void onBeforeRemove(Layout layout) throws ModelListenerException {
 		audit(EventTypes.DELETE, layout);
+	}
+
+	@Override
+	public void onBeforeUpdate(Layout newLayout) throws ModelListenerException {
+		try {
+			if (newLayout.getPriority() == 0) {
+				return;
+			}
+
+			long layoutId = newLayout.getLayoutId();
+
+			Layout oldLayout = _layoutLocalService.getLayout(
+					layoutId);
+
+			List<Attribute> attributes = getModifiedAttributes(
+					newLayout, oldLayout);
+
+			if (!attributes.isEmpty()) {
+				AuditMessage auditMessage =
+						AuditMessageBuilder.buildAuditMessage(
+								EventTypes.UPDATE, Layout.class.getName(),
+								layoutId, attributes);
+
+				_auditRouter.route(auditMessage);
+			}
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
 	}
 
 	protected void audit(String eventType, Layout layout)
@@ -94,10 +130,53 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 		}
 	}
 
+	protected List<Attribute> getModifiedAttributes(
+			Layout newLayout, Layout oldLayout) {
+
+		AttributesBuilder attributesBuilder = new AttributesBuilder(
+				newLayout, oldLayout);
+
+		attributesBuilder.add("parentPlid");
+		attributesBuilder.add("privateLayout");
+		attributesBuilder.add("layoutId");
+		attributesBuilder.add("parentLayoutId");
+		attributesBuilder.add("name");
+		attributesBuilder.add("title");
+		attributesBuilder.add("description");
+		attributesBuilder.add("keywords");
+		attributesBuilder.add("robots");
+		attributesBuilder.add("type");
+		attributesBuilder.add("typeSettings");
+		attributesBuilder.add("hidden");
+		attributesBuilder.add("system");
+		attributesBuilder.add("friendlyURL");
+		attributesBuilder.add("iconImageId");
+		attributesBuilder.add("themeId");
+		attributesBuilder.add("colorSchemeId");
+		attributesBuilder.add("styleBookEntryId");
+		attributesBuilder.add("css");
+		attributesBuilder.add("priority");
+		attributesBuilder.add("masterLayoutPlid");
+		attributesBuilder.add("layoutPrototypeUuid");
+		attributesBuilder.add("layoutPrototypeLinkEnabled");
+		attributesBuilder.add("sourcePrototypeLayoutUuid");
+		attributesBuilder.add("publishDate");
+		attributesBuilder.add("lastPublishDate");
+		attributesBuilder.add("status");
+		attributesBuilder.add("statusByUserId");
+		attributesBuilder.add("statusByUserName");
+		attributesBuilder.add("statusDate");
+
+		return attributesBuilder.getAttributes();
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		LayoutModelListener.class);
 
 	@Reference
 	private AuditRouter _auditRouter;
+
+	@Reference
+	private LayoutLocalService _layoutLocalService;
 
 }

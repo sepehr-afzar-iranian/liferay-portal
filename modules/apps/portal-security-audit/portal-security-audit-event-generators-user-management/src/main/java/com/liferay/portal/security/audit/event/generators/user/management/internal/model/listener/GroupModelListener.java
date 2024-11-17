@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -48,6 +49,11 @@ public class GroupModelListener extends BaseModelListener<Group> {
 	@Override
 	public void onAfterRemove(Group group) throws ModelListenerException {
 		audit(EventTypes.DELETE, group);
+	}
+
+	@Override
+	public void onAfterUpdate(Group group) throws ModelListenerException {
+		OnAfterUpdateUtil.update(Group.class.getName(), group.getGroupId());
 	}
 
 	@Override
@@ -115,6 +121,24 @@ public class GroupModelListener extends BaseModelListener<Group> {
 			newGroup, oldGroup);
 
 		attributesBuilder.add("name");
+
+		attributesBuilder.add("groupId");
+		attributesBuilder.add("companyId");
+		attributesBuilder.add("parentGroupId");
+		attributesBuilder.add("liveGroupId");
+		attributesBuilder.add("treePath");
+		attributesBuilder.add("groupKey");
+		attributesBuilder.add("description");
+		attributesBuilder.add("type");
+		attributesBuilder.add("typeSettings");
+		attributesBuilder.add("manualMembership");
+		attributesBuilder.add("membershipRestriction");
+		attributesBuilder.add("friendlyURL");
+		attributesBuilder.add("site");
+		attributesBuilder.add("remoteStagingGroupCount");
+		attributesBuilder.add("inheritContent");
+		attributesBuilder.add("active");
+
 
 		return attributesBuilder.getAttributes();
 	}

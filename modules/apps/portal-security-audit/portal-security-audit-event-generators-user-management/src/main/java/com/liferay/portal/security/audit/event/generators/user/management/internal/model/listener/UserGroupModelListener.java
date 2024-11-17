@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.UserGroupLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -79,6 +80,12 @@ public class UserGroupModelListener extends BaseModelListener<UserGroup> {
 			associationClassPK);
 	}
 
+	@Override
+	public void onAfterUpdate(UserGroup userGroup) throws ModelListenerException {
+		OnAfterUpdateUtil.update(UserGroup.class.getName(), userGroup.getUserGroupId());
+	}
+
+	@Override
 	public void onBeforeUpdate(UserGroup newUserGroup)
 		throws ModelListenerException {
 
@@ -188,6 +195,11 @@ public class UserGroupModelListener extends BaseModelListener<UserGroup> {
 
 		attributesBuilder.add("description");
 		attributesBuilder.add("name");
+
+		attributesBuilder.add("externalReferenceCode");
+		attributesBuilder.add("userGroupId");
+		attributesBuilder.add("parentUserGroupId");
+		attributesBuilder.add("addedByLDAPImport");
 
 		return attributesBuilder.getAttributes();
 	}
