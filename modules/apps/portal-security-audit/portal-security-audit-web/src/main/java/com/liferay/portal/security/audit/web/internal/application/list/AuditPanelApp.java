@@ -17,15 +17,10 @@ package com.liferay.portal.security.audit.web.internal.application.list;
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
-import com.liferay.portal.kernel.audit.AuditMessage;
-import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
-import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.security.audit.web.internal.constants.AuditPortletKeys;
 
 import javax.portlet.PortletRequest;
@@ -63,16 +58,6 @@ public class AuditPanelApp extends BasePanelApp {
 			0, PortletRequest.RENDER_PHASE);
 
 		Group group = groupProvider.getGroup(httpServletRequest);
-
-		AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-			EventTypes.CHECK_AUDIT, AuditEvent.class.getName(), 0, null);
-
-		try {
-			AuditRouterUtil.route(auditMessage);
-		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
-		}
 
 		if (group == null) {
 			return portletURL;

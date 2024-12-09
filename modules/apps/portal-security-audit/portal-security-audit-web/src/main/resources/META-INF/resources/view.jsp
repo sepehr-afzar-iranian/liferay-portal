@@ -15,7 +15,17 @@
 --%>
 
 <%@ include file="/init.jsp" %>
+<%
+	AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
+		EventTypes.CHECK_AUDIT, AuditEvent.class.getName(), 0, null);
 
+	try {
+		AuditRouterUtil.route(auditMessage);
+	}
+	catch (Exception exception) {
+		_log.warn("Unable to route audit message", exception);
+	}
+%>
 <liferay-portlet:renderURL varImpl="searchURL" />
 
 <clay:container-fluid
@@ -112,3 +122,7 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </clay:container-fluid>
+
+<%!
+	private static Log _log = LogFactoryUtil.getLog("com_liferay_portal-security-audit-web.view_jsp");
+%>

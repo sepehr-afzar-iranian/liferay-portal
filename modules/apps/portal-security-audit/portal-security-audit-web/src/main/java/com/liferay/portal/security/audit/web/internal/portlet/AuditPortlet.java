@@ -36,7 +36,7 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.portlet-info.title=Audit",
 		"javax.portlet.portlet-mode=text/html;view",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=administrator,guest,power-user,user"
+		"javax.portlet.security-role-ref=administrator"
 	},
 	service = Portlet.class
 )
