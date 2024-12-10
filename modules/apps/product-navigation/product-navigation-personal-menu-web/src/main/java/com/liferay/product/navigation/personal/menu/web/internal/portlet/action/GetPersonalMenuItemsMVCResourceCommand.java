@@ -35,11 +35,13 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
 import com.liferay.product.navigation.personal.menu.constants.PersonalMenuPortletKeys;
 import com.liferay.product.navigation.personal.menu.util.PersonalApplicationURLUtil;
 import com.liferay.product.navigation.personal.menu.web.internal.PersonalMenuEntryRegistry;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -292,6 +294,27 @@ public class GetPersonalMenuItemsMVCResourceCommand
 			JSONObject jsonObject = (JSONObject)jsonArray.get(0);
 
 			jsonObject.put("label", user.getFullName());
+
+			JSONArray newItems = JSONFactoryUtil.createJSONArray();
+			Date lastLoginDate = user.getLastLoginDate();
+			Date lastFailedLoginDate = user.getLastFailedLoginDate();
+			if (Validator.isNotNull(lastLoginDate)) {
+				JSONObject lastLogin = JSONFactoryUtil.createJSONObject();
+				lastLogin.put("label", LanguageUtil.get(themeDisplay.getLocale(), "last-login") + StringPool.SPACE + lastLoginDate);
+				newItems.put(lastLogin);
+			}
+			if (Validator.isNotNull(lastFailedLoginDate)) {
+				JSONObject lastFailedLogin = JSONFactoryUtil.createJSONObject();
+				lastFailedLogin.put("label", LanguageUtil.get(themeDisplay.getLocale(), "last-failed-login") + StringPool.SPACE + lastFailedLoginDate);
+				newItems.put(lastFailedLogin);
+			}
+			if (newItems.length() != 0) {
+				JSONArray oldItems = jsonObject.getJSONArray("items");
+				for (int i = 0; i < oldItems.length(); i++) {
+					newItems.put(oldItems.getJSONObject(i));
+				}
+				jsonObject.put("items", newItems);
+			}
 		}
 
 		return jsonArray;
