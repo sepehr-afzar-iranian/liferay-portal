@@ -28,6 +28,8 @@ public interface EventTypes {
 
 	public static final String ASSIGN = "ASSIGN";
 
+	public static final String AUADIT_AUTO_DELETE = "AUDIT AUTO DELETE";
+
 	public static final String CHECK_AUDIT = "CHECK AUDIT";
 
 	public static final String CONFIGURATION_SAVE = "SAVE CONFIGURATION";
