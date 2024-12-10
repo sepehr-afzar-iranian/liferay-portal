@@ -18,8 +18,12 @@ import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.internal.security.permission.contributor.RoleCollectionImpl;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.exception.NoSuchResourcePermissionException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -210,6 +214,7 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 					group = layout.getGroup();
 				}
 				else if (group.isUserPersonalSite()) {
+					audit(group, false, name, primKey, actionId);
 					return false;
 				}
 
@@ -234,6 +239,7 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 			groupId, name, primKey, roleIds, actionId);
 
 		if (value != null) {
+			audit(group, value, name, primKey, actionId);
 			return value;
 		}
 
@@ -249,7 +255,7 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 
 		PermissionCacheUtil.putPermission(
 			groupId, name, primKey, roleIds, actionId, value);
-
+		audit(group, value, name, primKey, actionId);
 		return value;
 	}
 
@@ -1221,6 +1227,40 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 			});
 	}
 
+	private void audit(Group group, boolean hasPermission, String name, String primKey, String actionId) {
+		String className = name;
+		String classPK = primKey;
+		if (_isPortletPath(name)) {
+			classPK = "0";
+			className = name.replaceAll("^.*_([^_]+)_?$", "$1");
+		}
+		if (Validator.isNotNull(group) && !group.isGuest() && !hasPermission) {
+			try {
+				JSONObject additionalInfoJSONObject = JSONFactoryUtil.createJSONObject();
+				additionalInfoJSONObject.put(
+						"groupId", group.getGroupId()
+				).put(
+						"groupName", group.getName()
+				).put(
+						"name", name
+				).put(
+						"primKey", primKey
+				).put(
+						"actionId", actionId
+				);
+				AuditMessage auditMessage = new AuditMessage(
+						"UNAUTHORIZED ACCESS", getCompanyId(), getUserId(),
+						user.getFullName(), className, classPK,
+						null, additionalInfoJSONObject);
+				AuditRouterUtil.route(auditMessage);
+			} catch (Exception exception) {
+				if (_log.isWarnEnabled()) {
+					_log.warn("Unable to route audit message", exception);
+				}
+			}
+		}
+	}
+
 	private boolean _hasGuestPermission(
 		Group group, String name, String primKey, String actionId) {
 
@@ -1442,11 +1482,26 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 		return value;
 	}
 
+	private boolean _isPortletPath(String path) {
+		return (path != null) && !path.equals(_PATH_C) &&
+				!path.startsWith(_PATH_COMMON) &&
+				!path.contains(_PATH_J_SECURITY_CHECK) &&
+				!path.startsWith(_PATH_PORTAL);
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		AdvancedPermissionChecker.class);
 
 	private Map<Long, long[]> _contributedRoleIds;
 	private long _guestGroupId;
 	private RoleContributor[] _roleContributors;
+
+	private static final String _PATH_C = "/c";
+
+	private static final String _PATH_COMMON = "/common";
+
+	private static final String _PATH_J_SECURITY_CHECK = "/j_security_check";
+
+	private static final String _PATH_PORTAL = "/portal";
 
 }
