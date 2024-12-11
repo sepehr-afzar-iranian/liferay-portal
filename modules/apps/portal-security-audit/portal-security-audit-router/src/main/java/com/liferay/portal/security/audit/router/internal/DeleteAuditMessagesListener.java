@@ -30,10 +30,10 @@ import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.portal.security.audit.router.configuration.AuditMessageAutoDeleterConfiguration;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
-import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.storage.service.AuditEventLocalService;
 
 import java.sql.Timestamp;
@@ -110,9 +110,12 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 					_auditEventLocalService.deleteAuditEvent(
 						auditEvent.getAuditEventId()));
 			actionableDynamicQuery.performActions();
+
 			try {
-				AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-						EventTypes.AUADIT_AUTO_DELETE, User.class.getName(), 0, null);
+				AuditMessage auditMessage =
+					AuditMessageBuilder.buildAuditMessage(
+						EventTypes.AUADIT_AUTO_DELETE, User.class.getName(), 0,
+						null);
 
 				_auditRouter.route(auditMessage);
 			}
@@ -136,6 +139,9 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 	private volatile AuditMessageAutoDeleterConfiguration
 		_auditMessageAutoDeleterConfiguration;
 
+	@Reference
+	private AuditRouter _auditRouter;
+
 	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED)
 	private ModuleServiceLifecycle _moduleServiceLifecycle;
 
@@ -146,8 +152,5 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 
 	@Reference
 	private TriggerFactory _triggerFactory;
-
-	@Reference
-	private AuditRouter _auditRouter;
 
 }

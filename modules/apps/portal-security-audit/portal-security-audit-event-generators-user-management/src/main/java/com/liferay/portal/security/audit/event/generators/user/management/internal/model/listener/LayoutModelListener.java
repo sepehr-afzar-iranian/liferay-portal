@@ -67,17 +67,16 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 
 			long layoutId = newLayout.getLayoutId();
 
-			Layout oldLayout = _layoutLocalService.getLayout(
-					layoutId);
+			Layout oldLayout = _layoutLocalService.getLayout(layoutId);
 
 			List<Attribute> attributes = getModifiedAttributes(
-					newLayout, oldLayout);
+				newLayout, oldLayout);
 
 			if (!attributes.isEmpty()) {
 				AuditMessage auditMessage =
-						AuditMessageBuilder.buildAuditMessage(
-								EventTypes.UPDATE, Layout.class.getName(),
-								layoutId, attributes);
+					AuditMessageBuilder.buildAuditMessage(
+						EventTypes.UPDATE, Layout.class.getName(), layoutId,
+						attributes);
 
 				_auditRouter.route(auditMessage);
 			}
@@ -131,10 +130,10 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 	}
 
 	protected List<Attribute> getModifiedAttributes(
-			Layout newLayout, Layout oldLayout) {
+		Layout newLayout, Layout oldLayout) {
 
 		AttributesBuilder attributesBuilder = new AttributesBuilder(
-				newLayout, oldLayout);
+			newLayout, oldLayout);
 
 		attributesBuilder.add("parentPlid");
 		attributesBuilder.add("privateLayout");

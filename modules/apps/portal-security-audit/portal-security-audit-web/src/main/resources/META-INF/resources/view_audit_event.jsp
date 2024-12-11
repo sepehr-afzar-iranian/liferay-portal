@@ -190,22 +190,26 @@ if (auditEventId > 0) {
 											JSONObject additionalInfoJSON = JSONFactoryUtil.createJSONObject(str1);
 
 											for (String key : additionalInfoJSON.keySet()) {
-												if (key.equals("attributes")){
+												if (key.equals("attributes")) {
 													JSONArray attributes = additionalInfoJSON.getJSONArray("attributes");
+
 													for (int i = 0; i < attributes.length(); i++) {
 														JSONObject attributeObj = attributes.getJSONObject(i);
 											%>
+
 													<table class="table">
 														<tr>
 															<td><%= attributeObj.getString("name") %></td>
-															<td><%=attributeObj.getString("oldValue")%>   ->   <%=attributeObj.getString("newValue")%></td>
+															<td><%= attributeObj.getString("oldValue") %> -> <%= attributeObj.getString("newValue") %></td>
 														</tr>
 													</table>
+
 											<%
-													}
 												}
-												else {
+											}
+											else {
 											%>
+
 												<table class="table">
 													<tr>
 														<td><%= key %>

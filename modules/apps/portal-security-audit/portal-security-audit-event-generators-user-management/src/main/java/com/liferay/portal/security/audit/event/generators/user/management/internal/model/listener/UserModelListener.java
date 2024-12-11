@@ -57,6 +57,11 @@ public class UserModelListener extends BaseModelListener<User> {
 			associationClassName, associationClassP, EventTypes.DELETE);
 	}
 
+	@Override
+	public void onAfterUpdate(User user) throws ModelListenerException {
+		OnAfterUpdateUtil.update(User.class.getName(), user.getUserId());
+	}
+
 	public void onBeforeCreate(User user) throws ModelListenerException {
 		auditOnCreateOrRemove(EventTypes.ADD, user);
 	}
@@ -99,11 +104,6 @@ public class UserModelListener extends BaseModelListener<User> {
 				_log.warn("Unable to route audit message", exception);
 			}
 		}
-	}
-
-	@Override
-	public void onAfterUpdate(User user) throws ModelListenerException {
-		OnAfterUpdateUtil.update(User.class.getName(), user.getUserId());
 	}
 
 	protected void associationAudit(

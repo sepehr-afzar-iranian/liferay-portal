@@ -30,10 +30,10 @@ import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
+import java.util.List;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.List;
 
 /**
  * @author Yousef Ghadiri
@@ -59,35 +59,41 @@ public class PasswordPolicyModelListener
 	@Override
 	public void onAfterUpdate(PasswordPolicy passwordPolicy)
 		throws ModelListenerException {
-			OnAfterUpdateUtil.update(PasswordPolicy.class.getName(), passwordPolicy.getPasswordPolicyId());
+
+		OnAfterUpdateUtil.update(
+			PasswordPolicy.class.getName(),
+			passwordPolicy.getPasswordPolicyId());
 	}
 
 	@Override
 	public void onBeforeUpdate(PasswordPolicy newPasswordPolicy)
-			throws ModelListenerException {
+		throws ModelListenerException {
+
 		try {
 			long passwordPolicyId = newPasswordPolicy.getPasswordPolicyId();
 
-			PasswordPolicy oldPasswordPolicy = _passwordPolicyLocalService.getPasswordPolicy(passwordPolicyId);
+			PasswordPolicy oldPasswordPolicy =
+				_passwordPolicyLocalService.getPasswordPolicy(passwordPolicyId);
 
 			List<Attribute> attributes = getModifiedAttributes(
-					newPasswordPolicy, oldPasswordPolicy);
+				newPasswordPolicy, oldPasswordPolicy);
 
 			if (!attributes.isEmpty()) {
-				AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-					EventTypes.UPDATE, PasswordPolicy.class.getName(), passwordPolicyId,
-					attributes);
+				AuditMessage auditMessage =
+					AuditMessageBuilder.buildAuditMessage(
+						EventTypes.UPDATE, PasswordPolicy.class.getName(),
+						passwordPolicyId, attributes);
 
 				JSONObject additionalInfoJSONObject =
-						auditMessage.getAdditionalInfo();
+					auditMessage.getAdditionalInfo();
 
 				additionalInfoJSONObject.put(
-						"passwordPolicyId", passwordPolicyId
+					"passwordPolicyId", passwordPolicyId
 				).put(
-						"passwordPolicyName", newPasswordPolicy.getName()
+					"passwordPolicyName", newPasswordPolicy.getName()
 				);
 
-			_auditRouter.route(auditMessage);
+				_auditRouter.route(auditMessage);
 			}
 		}
 		catch (Exception exception) {
@@ -125,9 +131,11 @@ public class PasswordPolicyModelListener
 		}
 	}
 
-	protected List<Attribute> getModifiedAttributes(PasswordPolicy newPasswordPolicy, PasswordPolicy oldPasswordPolicy) {
+	protected List<Attribute> getModifiedAttributes(
+		PasswordPolicy newPasswordPolicy, PasswordPolicy oldPasswordPolicy) {
+
 		AttributesBuilder attributesBuilder = new AttributesBuilder(
-				newPasswordPolicy, oldPasswordPolicy);
+			newPasswordPolicy, oldPasswordPolicy);
 
 		attributesBuilder.add("passwordPolicyId");
 		attributesBuilder.add("defaultPolicy");

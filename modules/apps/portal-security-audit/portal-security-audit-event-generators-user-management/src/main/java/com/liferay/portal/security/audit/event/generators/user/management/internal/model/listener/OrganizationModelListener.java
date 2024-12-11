@@ -43,6 +43,14 @@ import org.osgi.service.component.annotations.Reference;
 public class OrganizationModelListener extends BaseModelListener<Organization> {
 
 	@Override
+	public void onAfterUpdate(Organization organization)
+		throws ModelListenerException {
+
+		OnAfterUpdateUtil.update(
+			Organization.class.getName(), organization.getOrganizationId());
+	}
+
+	@Override
 	public void onBeforeAddAssociation(
 			Object classPK, String associationClassName,
 			Object associationClassPK)
@@ -74,11 +82,6 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 		auditOnAddorRemoveAssociation(
 			EventTypes.UNASSIGN, classPK, associationClassName,
 			associationClassPK);
-	}
-
-	@Override
-	public void onAfterUpdate(Organization organization) throws ModelListenerException {
-		OnAfterUpdateUtil.update(Organization.class.getName(), organization.getOrganizationId());
 	}
 
 	public void onBeforeUpdate(Organization newOrganization)

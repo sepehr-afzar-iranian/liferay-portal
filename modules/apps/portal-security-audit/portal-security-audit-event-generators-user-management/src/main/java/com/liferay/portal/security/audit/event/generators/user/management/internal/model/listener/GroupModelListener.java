@@ -139,7 +139,6 @@ public class GroupModelListener extends BaseModelListener<Group> {
 		attributesBuilder.add("inheritContent");
 		attributesBuilder.add("active");
 
-
 		return attributesBuilder.getAttributes();
 	}
 

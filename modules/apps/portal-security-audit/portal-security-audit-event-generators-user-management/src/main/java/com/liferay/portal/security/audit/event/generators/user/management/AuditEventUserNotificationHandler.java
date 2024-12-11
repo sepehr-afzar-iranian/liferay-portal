@@ -21,15 +21,13 @@ import com.liferay.portal.kernel.notifications.BaseUserNotificationHandler;
 import com.liferay.portal.kernel.notifications.UserNotificationHandler;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.security.audit.event.generators.constants.AuditConstants;
+
 import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Akos Thurzo
  */
-@Component(
-	immediate = true,
-	service = UserNotificationHandler.class
-)
+@Component(immediate = true, service = UserNotificationHandler.class)
 public class AuditEventUserNotificationHandler
 	extends BaseUserNotificationHandler {
 
@@ -38,15 +36,18 @@ public class AuditEventUserNotificationHandler
 	}
 
 	@Override
-	protected String getBody(UserNotificationEvent userNotificationEvent,
-							 ServiceContext serviceContext) throws Exception {
+	protected String getBody(
+			UserNotificationEvent userNotificationEvent,
+			ServiceContext serviceContext)
+		throws Exception {
 
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
-				userNotificationEvent.getPayload());
+			userNotificationEvent.getPayload());
 
 		long counter = jsonObject.getLong("counter");
 
-		return String.format("Audit log table has reached %s records.", counter);
+		return String.format(
+			"Audit log table has reached %s records.", counter);
 	}
 
 }

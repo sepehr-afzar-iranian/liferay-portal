@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.exception.NoSuchResourcePermissionException;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -69,6 +69,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.lang.time.StopWatch;
@@ -214,7 +215,7 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 					group = layout.getGroup();
 				}
 				else if (group.isUserPersonalSite()) {
-					audit(group, false, name, primKey, actionId);
+					_audit(group, false, name, primKey, actionId);
 					return false;
 				}
 
@@ -239,7 +240,7 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 			groupId, name, primKey, roleIds, actionId);
 
 		if (value != null) {
-			audit(group, value, name, primKey, actionId);
+			_audit(group, value, name, primKey, actionId);
 			return value;
 		}
 
@@ -255,7 +256,7 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 
 		PermissionCacheUtil.putPermission(
 			groupId, name, primKey, roleIds, actionId, value);
-		audit(group, value, name, primKey, actionId);
+		_audit(group, value, name, primKey, actionId);
 		return value;
 	}
 
@@ -1227,17 +1228,18 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 			});
 	}
 
-	private void audit(Group group, boolean hasPermission, String name, String primKey, String actionId) {
+	private void _audit(Group group, boolean hasPermission, String name, String primKey, String actionId) {
 		String className = name;
 		String classPK = primKey;
+
 		if (_isPortletPath(name)) {
 			classPK = "0";
 			className = name.replaceAll("^.*_([^_]+)_?$", "$1");
 		}
-		if (Validator.isNotNull(group) && !group.isGuest() && !hasPermission) {
+
+		if (!Objects.equals(group, null) && !group.isGuest() && !hasPermission) {
 			try {
-				JSONObject additionalInfoJSONObject = JSONFactoryUtil.createJSONObject();
-				additionalInfoJSONObject.put(
+				JSONObject additionalInfoJSONObject = JSONUtil.put(
 						"groupId", group.getGroupId()
 				).put(
 						"groupName", group.getName()
@@ -1248,10 +1250,12 @@ public class AdvancedPermissionChecker extends BasePermissionChecker {
 				).put(
 						"actionId", actionId
 				);
+
 				AuditMessage auditMessage = new AuditMessage(
 						"UNAUTHORIZED ACCESS", getCompanyId(), getUserId(),
 						user.getFullName(), className, classPK,
 						null, additionalInfoJSONObject);
+
 				AuditRouterUtil.route(auditMessage);
 			} catch (Exception exception) {
 				if (_log.isWarnEnabled()) {

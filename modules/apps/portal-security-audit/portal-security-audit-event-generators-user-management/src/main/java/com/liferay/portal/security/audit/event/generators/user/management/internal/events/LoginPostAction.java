@@ -27,14 +27,15 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 
 import java.util.Collection;
-import javax.servlet.http.HttpSession;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.Objects;
 
 /**
  * @author Yousef Ghadiri
@@ -53,26 +54,37 @@ public class LoginPostAction extends Action {
 
 		try {
 			User user = _portal.getUser(httpServletRequest);
+
 			long userId = user.getUserId();
+
 			AuditMessage auditMessage = new AuditMessage(
 				EventTypes.LOGIN, user.getCompanyId(), userId,
 				user.getFullName(), User.class.getName(),
 				String.valueOf(userId));
+
 			_auditRouter.route(auditMessage);
 
 			Collection<HttpSession> sessions = PortalSessionContext.values();
-			sessions.stream()
-				.filter(session -> Objects.equals(userId, session.getAttribute("USER_ID")) &&
-						!Objects.equals(session, httpServletRequest.getSession()))
-				.forEach(session -> {
+
+			Stream<HttpSession> stream = sessions.stream();
+
+			stream.filter(
+				session ->
+					Objects.equals(userId, session.getAttribute("USER_ID")) &&
+					!Objects.equals(session, httpServletRequest.getSession())
+			).forEach(
+				session -> {
 					try {
 						session.invalidate();
-					} catch (Exception exception) {
+					}
+					catch (Exception exception) {
 						if (_log.isWarnEnabled()) {
-							_log.warn("Unable to invalidate session", exception);
+							_log.warn(
+								"Unable to invalidate session", exception);
 						}
 					}
-			});
+				}
+			);
 		}
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
