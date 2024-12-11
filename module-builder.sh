@@ -52,6 +52,7 @@ apps:portal-security-audit:portal-security-audit-storage-api:$1 \
 apps:portal-security-audit:portal-security-audit-storage-service:$1 \
 apps:portal-security-audit:portal-security-audit-web:$1 \
 apps:portal-security-audit:portal-security-audit-wiring:$1 \
+apps:product-navigation:product-navigation-personal-menu-web:$1 \
 apps:site:site-browser-web:$1 \
 apps:site:site-memberships-web:$1 \
 apps:sync:sync-api:$1 \
