@@ -14,7 +14,6 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.configuration.persistence.listener;
 
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListener;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
@@ -365,8 +364,7 @@ public class AuditConfigurationModelListener
 		String pid, Dictionary<String, Object> newProperties) {
 
 		try {
-			Configuration conf = _configurationAdmin.getConfiguration(
-				pid, StringPool.QUESTION);
+			Configuration conf = _configurationAdmin.getConfiguration(pid, "?");
 
 			Dictionary<String, Object> oldProperties = conf.getProperties();
 
