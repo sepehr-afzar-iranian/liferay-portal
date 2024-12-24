@@ -28,8 +28,8 @@
 
 <liferay-ui:search-container-column-text
 	href="<%= rowURL %>"
-	name="resource-id"
-	property="classPK"
+	name="message"
+	property="message"
 />
 
 <%
