@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.Objects;
@@ -70,6 +71,8 @@ public class MBBanModelListener extends BaseModelListener<MBBan> {
 
 			User banUser = _userLocalService.fetchUser(banUserId);
 
+			String userFullName = null;
+
 			additionalInfoJSONObject.put(
 				"banUserId", banUserId
 			).put(
@@ -77,9 +80,15 @@ public class MBBanModelListener extends BaseModelListener<MBBan> {
 			);
 
 			if (!Objects.equals(banUser, null)) {
-				additionalInfoJSONObject.put(
-					"banUserName", banUser.getFullName());
+				userFullName = banUser.getFullName();
+
+				additionalInfoJSONObject.put("banUserName", userFullName);
 			}
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), userFullName,
+					banUserId));
 
 			_auditRouter.route(auditMessage);
 		}

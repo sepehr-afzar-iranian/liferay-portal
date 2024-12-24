@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import org.osgi.service.component.annotations.Component;
@@ -79,6 +80,11 @@ public class OAuth2ApplicationModelListener
 				"oAuth2ApplicationRedirectURIs",
 				oAuth2Application.getRedirectURIs()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					oAuth2Application.getName(), oAuth2ApplicationId));
 
 			_auditRouter.route(auditMessage);
 		}

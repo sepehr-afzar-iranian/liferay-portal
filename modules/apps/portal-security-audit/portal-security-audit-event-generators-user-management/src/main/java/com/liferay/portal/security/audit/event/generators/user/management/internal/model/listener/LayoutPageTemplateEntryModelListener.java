@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.Objects;
@@ -99,6 +100,12 @@ public class LayoutPageTemplateEntryModelListener
 					layoutPageTemplateCollection.getName()
 				);
 			}
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					layoutPageTemplateEntry.getName(),
+					layoutPageTemplateEntryId));
 
 			_auditRouter.route(auditMessage);
 		}

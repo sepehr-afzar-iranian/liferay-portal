@@ -25,7 +25,9 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -78,6 +80,14 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 						EventTypes.UPDATE, Layout.class.getName(), layoutId,
 						attributes);
 
+				String defaultLanguageId = LocaleUtil.toLanguageId(
+					LocaleUtil.getSiteDefault());
+
+				auditMessage.setMessage(
+					AuditMessageHelperUtil.getMessage(
+						EventTypes.UPDATE, auditMessage.getClassName(),
+						newLayout.getName(defaultLanguageId), layoutId));
+
 				_auditRouter.route(auditMessage);
 			}
 		}
@@ -119,6 +129,14 @@ public class LayoutModelListener extends BaseModelListener<Layout> {
 			if (!Objects.equals(group, null)) {
 				additionalInfoJSONObject.put("siteName", group.getName());
 			}
+
+			String defaultLanguageId = LocaleUtil.toLanguageId(
+				LocaleUtil.getSiteDefault());
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					layout.getName(defaultLanguageId), layoutId));
 
 			_auditRouter.route(auditMessage);
 		}

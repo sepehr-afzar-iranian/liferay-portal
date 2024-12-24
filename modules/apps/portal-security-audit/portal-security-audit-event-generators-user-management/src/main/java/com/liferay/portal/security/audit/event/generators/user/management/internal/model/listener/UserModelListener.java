@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageUserAssociationHelper;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
@@ -96,6 +97,11 @@ public class UserModelListener extends BaseModelListener<User> {
 					"userName", newUser.getFullName()
 				);
 
+				auditMessage.setMessage(
+					AuditMessageHelperUtil.getMessage(
+						EventTypes.UPDATE, auditMessage.getClassName(),
+						newUser.getFullName(), newUser.getUserId()));
+
 				_auditRouter.route(auditMessage);
 			}
 		}
@@ -118,11 +124,13 @@ public class UserModelListener extends BaseModelListener<User> {
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
+			String associationName = _auditMessageUserAssociationHelper.getName(
+				associationClassName);
+
 			additionalInfoJSONObject.put(
 				"associationClassName", associationClassName
 			).put(
-				"associationName",
-				_auditMessageUserAssociationHelper.getName(associationClassName)
+				"associationName", associationName
 			).put(
 				"associationType", eventType
 			).put(
@@ -130,6 +138,11 @@ public class UserModelListener extends BaseModelListener<User> {
 				_auditMessageUserAssociationHelper.getValue(
 					associationClassName, (long)associationClassP)
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), associationName,
+					(long)associationClassP));
 
 			_auditRouter.route(auditMessage);
 		}
@@ -159,6 +172,11 @@ public class UserModelListener extends BaseModelListener<User> {
 			).put(
 				"userName", user.getFullName()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), user.getFullName(),
+					user.getUserId()));
 
 			_auditRouter.route(auditMessage);
 		}

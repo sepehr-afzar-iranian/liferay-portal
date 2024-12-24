@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.Repository;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import org.osgi.service.component.annotations.Component;
@@ -75,6 +76,11 @@ public class RepositoryModelListener extends BaseModelListener<Repository> {
 			).put(
 				"repositoryTypeSettings", repository.getTypeSettings()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					repository.getName(), repositoryId));
 
 			_auditRouter.route(auditMessage);
 		}

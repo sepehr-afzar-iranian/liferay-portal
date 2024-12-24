@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.portal.security.service.access.policy.model.SAPEntry;
 
@@ -69,6 +70,11 @@ public class SAPEntryModelListener extends BaseModelListener<SAPEntry> {
 			).put(
 				"sapEntryTitle", sapEntry.getTitle()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), sapEntry.getName(),
+					sapEntryId));
 
 			_auditRouter.route(auditMessage);
 		}

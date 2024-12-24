@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.servlet.PortalSessionContext;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -57,10 +58,13 @@ public class LoginPostAction extends Action {
 
 			long userId = user.getUserId();
 
+			String userFullName = user.getFullName();
+
 			AuditMessage auditMessage = new AuditMessage(
-				EventTypes.LOGIN, user.getCompanyId(), userId,
-				user.getFullName(), User.class.getName(),
-				String.valueOf(userId));
+				EventTypes.LOGIN, user.getCompanyId(), userId, userFullName,
+				User.class.getName(), String.valueOf(userId),
+				AuditMessageHelperUtil.getMessage(
+					EventTypes.LOGIN, null, userFullName, 0));
 
 			_auditRouter.route(auditMessage);
 

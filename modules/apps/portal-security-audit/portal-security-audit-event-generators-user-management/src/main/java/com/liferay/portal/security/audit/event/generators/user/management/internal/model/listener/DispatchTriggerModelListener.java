@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import org.osgi.service.component.annotations.Component;
@@ -72,6 +73,11 @@ public class DispatchTriggerModelListener
 			).put(
 				"dispatchTriggerName", dispatchTrigger.getName()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					dispatchTrigger.getName(), dispatchTriggerId));
 
 			_auditRouter.route(auditMessage);
 		}

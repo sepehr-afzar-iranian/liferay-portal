@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
 import java.util.Objects;
 
@@ -55,10 +56,14 @@ public class LogoutPostAction extends Action {
 				return;
 			}
 
+			String userFullName = user.getFullName();
+
 			AuditMessage auditMessage = new AuditMessage(
 				EventTypes.LOGOUT, user.getCompanyId(), user.getUserId(),
-				user.getFullName(), User.class.getName(),
-				String.valueOf(user.getUserId()));
+				userFullName, User.class.getName(),
+				String.valueOf(user.getUserId()),
+				AuditMessageHelperUtil.getMessage(
+					EventTypes.LOGOUT, null, userFullName, 0));
 
 			_auditRouter.route(auditMessage);
 		}

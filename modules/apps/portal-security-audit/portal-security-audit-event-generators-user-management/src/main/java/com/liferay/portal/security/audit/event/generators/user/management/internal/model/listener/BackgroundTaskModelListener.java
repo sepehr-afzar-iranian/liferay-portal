@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import org.osgi.service.component.annotations.Component;
@@ -91,6 +92,11 @@ public class BackgroundTaskModelListener
 				additionalInfoJSONObject.put(
 					"completionDate", backgroundTask.getCompletionDate());
 			}
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					backgroundTask.getName(), backgroundTaskId));
 
 			_auditRouter.route(auditMessage);
 		}

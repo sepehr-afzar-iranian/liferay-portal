@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.Objects;
@@ -78,13 +79,22 @@ public class MBDiscussionModelListener extends BaseModelListener<MBDiscussion> {
 
 			MBThread mbThread = _mbThreadLocalService.fetchMBThread(mbThreadId);
 
+			String mbThreadTitle = null;
+
 			if (!Objects.equals(mbThread, null)) {
+				mbThreadTitle = mbThread.getTitle();
+
 				additionalInfoJSONObject.put(
 					"mbThreadId", mbThreadId
 				).put(
-					"mbThreadTitle", mbThread.getTitle()
+					"mbThreadTitle", mbThreadTitle
 				);
 			}
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), mbThreadTitle,
+					mbDiscussionId));
 
 			_auditRouter.route(auditMessage);
 		}

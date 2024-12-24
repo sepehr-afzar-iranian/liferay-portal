@@ -15,6 +15,7 @@
 package com.liferay.sync.internal.model.listener;
 
 import com.liferay.petra.concurrent.NoticeableExecutorService;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -30,6 +31,7 @@ import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.sync.model.SyncDLObject;
@@ -98,6 +100,11 @@ public class ResourcePermissionModelListener
 					"roleName", role.getName()
 				);
 			}
+
+			auditMessage.setMessage(
+				StringBundler.concat(
+					"ResourcePermission with the name ", _getShortClassName(resourcePermissionName),
+					"was updated."));
 
 			_auditRouter.route(auditMessage);
 		}
@@ -191,6 +198,18 @@ public class ResourcePermissionModelListener
 					return null;
 				});
 		}
+	}
+
+	private static String _getShortClassName(String className) {
+		if (Validator.isNotNull(className)) {
+			try {
+				return className.substring(className.lastIndexOf('.') + 1);
+			}
+			catch (Exception exception) {
+			}
+		}
+
+		return className;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

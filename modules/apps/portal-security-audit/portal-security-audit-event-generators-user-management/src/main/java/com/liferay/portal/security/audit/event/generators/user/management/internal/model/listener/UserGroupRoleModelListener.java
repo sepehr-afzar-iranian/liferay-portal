@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.Objects;
@@ -75,9 +76,12 @@ public class UserGroupRoleModelListener
 			);
 
 			Role role = userGroupRole.getRole();
+			String roleName = null;
 
 			if (!Objects.equals(role, null)) {
-				additionalInfoJSONObject.put("roleName", role.getName());
+				roleName = role.getName();
+
+				additionalInfoJSONObject.put("roleName", roleName);
 			}
 
 			User user = userGroupRole.getUser();
@@ -85,6 +89,11 @@ public class UserGroupRoleModelListener
 			if (!Objects.equals(user, null)) {
 				additionalInfoJSONObject.put("userName", user.getFullName());
 			}
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), roleName,
+					userGroupRoleId));
 
 			_auditRouter.route(auditMessage);
 		}

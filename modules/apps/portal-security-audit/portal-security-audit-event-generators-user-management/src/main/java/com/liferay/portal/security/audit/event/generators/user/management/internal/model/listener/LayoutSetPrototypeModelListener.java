@@ -23,7 +23,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.LayoutSetPrototype;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import org.osgi.service.component.annotations.Component;
@@ -77,6 +79,15 @@ public class LayoutSetPrototypeModelListener
 			).put(
 				"layoutSetPrototypeName", layoutSetPrototype.getName()
 			);
+
+			String defaultLanguageId = LocaleUtil.toLanguageId(
+				LocaleUtil.getSiteDefault());
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					layoutSetPrototype.getName(defaultLanguageId),
+					layoutSetPrototypeId));
 
 			_auditRouter.route(auditMessage);
 		}

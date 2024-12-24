@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.UserGroupLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -177,6 +178,11 @@ public class UserGroupModelListener extends BaseModelListener<UserGroup> {
 			).put(
 				"userGroupName", userGroup.getName()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), userGroup.getName(),
+					userGroupId));
 
 			_auditRouter.route(auditMessage);
 		}

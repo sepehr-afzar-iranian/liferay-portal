@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
 import java.util.Objects;
 
@@ -82,6 +83,8 @@ public class ImpersonationAction extends Action {
 					JSONObject additionalInfoJSONObject =
 						_jsonFactory.createJSONObject();
 
+					String realUserFullName = realUser.getFullName();
+
 					additionalInfoJSONObject.put(
 						"userId", user.getUserId()
 					).put(
@@ -90,9 +93,12 @@ public class ImpersonationAction extends Action {
 
 					AuditMessage auditMessage = new AuditMessage(
 						EventTypes.IMPERSONATE, themeDisplay.getCompanyId(),
-						realUser.getUserId(), realUser.getFullName(),
+						realUser.getUserId(), realUserFullName,
 						User.class.getName(), String.valueOf(user.getUserId()),
-						null, additionalInfoJSONObject);
+						AuditMessageHelperUtil.getMessage(
+							EventTypes.LOGIN_FAILURE, null, realUserFullName,
+							0),
+						additionalInfoJSONObject);
 
 					_auditRouter.route(auditMessage);
 				}

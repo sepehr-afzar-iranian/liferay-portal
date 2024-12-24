@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -23,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.redirect.model.RedirectEntry;
 
@@ -70,13 +72,25 @@ public class RedirectEntryModelListener
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
+			String redirectEntryDestinationURL =
+				redirectEntry.getDestinationURL();
+			String redirectEntrySourceURL = redirectEntry.getSourceURL();
+
 			additionalInfoJSONObject.put(
-				"redirectEntryDestinationURL", redirectEntry.getDestinationURL()
+				"redirectEntryDestinationURL", redirectEntryDestinationURL
 			).put(
 				"redirectEntryId", redirectEntryId
 			).put(
-				"redirectEntrySourceURL", redirectEntry.getSourceURL()
+				"redirectEntrySourceURL", redirectEntrySourceURL
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					StringBundler.concat(
+						"Source: ", redirectEntrySourceURL, ", Destination: ",
+						redirectEntryDestinationURL),
+					redirectEntryId));
 
 			_auditRouter.route(auditMessage);
 		}

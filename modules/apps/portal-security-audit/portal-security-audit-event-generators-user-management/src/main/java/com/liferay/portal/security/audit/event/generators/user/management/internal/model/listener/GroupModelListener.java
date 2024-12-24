@@ -24,7 +24,9 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -78,6 +80,14 @@ public class GroupModelListener extends BaseModelListener<Group> {
 				"userName", newGroup.getName()
 			);
 
+			String defaultLanguageId = LocaleUtil.toLanguageId(
+				LocaleUtil.getSiteDefault());
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					EventTypes.UPDATE, auditMessage.getClassName(),
+					newGroup.getName(defaultLanguageId), groupId));
+
 			_auditRouter.route(auditMessage);
 		}
 		catch (Exception exception) {
@@ -104,6 +114,14 @@ public class GroupModelListener extends BaseModelListener<Group> {
 			).put(
 				"ModelGroupId", groupId
 			);
+
+			String defaultLanguageId = LocaleUtil.toLanguageId(
+				LocaleUtil.getSiteDefault());
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					group.getName(defaultLanguageId), groupId));
 
 			_auditRouter.route(auditMessage);
 		}

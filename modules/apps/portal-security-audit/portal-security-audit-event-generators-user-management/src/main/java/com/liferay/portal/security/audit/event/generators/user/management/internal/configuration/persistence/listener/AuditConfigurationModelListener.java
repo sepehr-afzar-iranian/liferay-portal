@@ -14,12 +14,14 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.configuration.persistence.listener;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListener;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
@@ -364,7 +366,8 @@ public class AuditConfigurationModelListener
 		String pid, Dictionary<String, Object> newProperties) {
 
 		try {
-			Configuration conf = _configurationAdmin.getConfiguration(pid, "?");
+			Configuration conf = _configurationAdmin.getConfiguration(
+				pid, StringPool.QUESTION);
 
 			Dictionary<String, Object> oldProperties = conf.getProperties();
 
@@ -378,6 +381,12 @@ public class AuditConfigurationModelListener
 						(long)newProperties.get(
 							":org.apache.felix.configadmin.revision:"),
 						attributes);
+
+				auditMessage.setMessage(
+					AuditMessageHelperUtil.getMessage(
+						EventTypes.CONFIGURATION_SAVE, pid, null,
+						(long)newProperties.get(
+							":org.apache.felix.configadmin.revision:")));
 
 				_auditRouter.route(auditMessage);
 			}

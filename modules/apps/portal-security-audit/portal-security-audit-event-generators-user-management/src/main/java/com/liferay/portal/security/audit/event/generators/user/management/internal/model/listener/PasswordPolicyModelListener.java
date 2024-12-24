@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.PasswordPolicy;
 import com.liferay.portal.kernel.service.PasswordPolicyLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -93,6 +94,11 @@ public class PasswordPolicyModelListener
 					"passwordPolicyName", newPasswordPolicy.getName()
 				);
 
+				auditMessage.setMessage(
+					AuditMessageHelperUtil.getMessage(
+						EventTypes.UPDATE, auditMessage.getClassName(),
+						newPasswordPolicy.getName(), passwordPolicyId));
+
 				_auditRouter.route(auditMessage);
 			}
 		}
@@ -121,6 +127,11 @@ public class PasswordPolicyModelListener
 			).put(
 				"passwordPolicyName", passwordPolicy.getName()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					passwordPolicy.getName(), passwordPolicyId));
 
 			_auditRouter.route(auditMessage);
 		}

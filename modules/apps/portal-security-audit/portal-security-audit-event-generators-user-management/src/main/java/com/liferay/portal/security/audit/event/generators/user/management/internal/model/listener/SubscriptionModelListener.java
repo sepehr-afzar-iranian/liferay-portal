@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 import com.liferay.subscription.model.Subscription;
 
@@ -79,6 +80,11 @@ public class SubscriptionModelListener extends BaseModelListener<Subscription> {
 			).put(
 				"userName", subscription.getUserName()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					subscription.getClassName(), subscriptionId));
 
 			_auditRouter.route(auditMessage);
 		}

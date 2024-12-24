@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageRoleAssociationHelper;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
@@ -77,11 +78,13 @@ public class RoleModelListener extends BaseModelListener<Role> {
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
+			String associationName = _auditMessageRoleAssociationHelper.getName(
+				associationClassName);
+
 			additionalInfoJSONObject.put(
 				"associationClassName", associationClassName
 			).put(
-				"associationName",
-				_auditMessageRoleAssociationHelper.getName(associationClassName)
+				"associationName", associationName
 			).put(
 				"associationType", eventType
 			).put(
@@ -89,6 +92,11 @@ public class RoleModelListener extends BaseModelListener<Role> {
 				_auditMessageRoleAssociationHelper.getValue(
 					associationClassName, (long)associationClassP)
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), associationName,
+					(long)associationClassP));
 
 			_auditRouter.route(auditMessage);
 		}
@@ -114,8 +122,13 @@ public class RoleModelListener extends BaseModelListener<Role> {
 			additionalInfoJSONObject.put(
 				"roleId", roleId
 			).put(
-				"roleName", role.getRoleId()
+				"roleName", role.getName()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(), role.getName(),
+					roleId));
 
 			_auditRouter.route(auditMessage);
 		}

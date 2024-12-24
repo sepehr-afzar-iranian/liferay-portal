@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
 import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder;
@@ -112,6 +113,11 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 					"organizationName", newOrganization.getName()
 				);
 
+				auditMessage.setMessage(
+					AuditMessageHelperUtil.getMessage(
+						EventTypes.UPDATE, auditMessage.getClassName(),
+						newOrganization.getName(), organizationId));
+
 				_auditRouter.route(auditMessage);
 			}
 		}
@@ -176,6 +182,11 @@ public class OrganizationModelListener extends BaseModelListener<Organization> {
 			).put(
 				"organizationName", organization.getName()
 			);
+
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, auditMessage.getClassName(),
+					organization.getName(), organizationId));
 
 			_auditRouter.route(auditMessage);
 		}
