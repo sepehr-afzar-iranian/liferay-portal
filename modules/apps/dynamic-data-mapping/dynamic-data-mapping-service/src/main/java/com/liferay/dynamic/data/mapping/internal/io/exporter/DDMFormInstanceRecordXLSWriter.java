@@ -17,6 +17,7 @@ package com.liferay.dynamic.data.mapping.internal.io.exporter;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordWriter;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordWriterRequest;
 import com.liferay.dynamic.data.mapping.io.exporter.DDMFormInstanceRecordWriterResponse;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.ByteArrayOutputStream;
 
@@ -24,11 +25,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -126,7 +130,24 @@ public class DDMFormInstanceRecordXLSWriter
 			Cell cell = row.createCell(cellIndex++, CellType.STRING);
 
 			cell.setCellStyle(cellStyle);
-			cell.setCellValue(value);
+
+			if (Validator.isUrl(value)) {
+				Workbook workbook = sheet.getWorkbook();
+
+				CreationHelper creationHelper = workbook.getCreationHelper();
+
+				Hyperlink hyperlink = creationHelper.createHyperlink(
+					HyperlinkType.URL);
+
+				hyperlink.setAddress(value);
+
+				cell.setHyperlink(hyperlink);
+
+				cell.setCellValue(value);
+			}
+			else {
+				cell.setCellValue(value);
+			}
 		}
 	}
 
