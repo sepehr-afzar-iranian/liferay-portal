@@ -55,6 +55,7 @@ apps:portal-security-audit:portal-security-audit-wiring:$1 \
 apps:product-navigation:product-navigation-personal-menu-web:$1 \
 apps:site:site-browser-web:$1 \
 apps:site:site-memberships-web:$1 \
+apps:site:site-navigation-site-map-web:$1 \
 apps:sync:sync-api:$1 \
 apps:sync:sync-security:$1 \
 apps:sync:sync-service:$1 \
