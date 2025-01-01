@@ -16,13 +16,18 @@ package com.liferay.portlet;
 
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypeAccessPolicy;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.ActionResult;
 import com.liferay.portal.kernel.portlet.PortletContainer;
 import com.liferay.portal.kernel.portlet.PortletContainerException;
@@ -30,6 +35,7 @@ import com.liferay.portal.kernel.portlet.PortletContainerUtil;
 import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
 import com.liferay.portal.kernel.security.auth.AuthTokenWhitelistUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.TempAttributesServletRequest;
 import com.liferay.portal.kernel.struts.LastPath;
@@ -42,6 +48,7 @@ import com.liferay.portal.util.PropsValues;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.portlet.Event;
 
@@ -427,6 +434,41 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 		throws PortletContainerException {
 
 		String portletContent = null;
+
+		try {
+			String curremtCompleteURL = PortalUtil.getCurrentCompleteURL(httpServletRequest);
+
+			long userId = PortalUtil.getUserId(httpServletRequest);
+
+			User user = UserLocalServiceUtil.fetchUserById(userId);
+
+			if (!Objects.equals(user, null)) {
+				String userFullName = user.getFullName();
+
+				JSONObject additionalInfoJSONObject = JSONUtil.put(
+						"url", curremtCompleteURL
+				).put(
+						"userName", userFullName
+				);
+
+				StringBuilder sb = new StringBuilder();
+
+				sb.append("User ");
+				sb.append(userFullName);
+				sb.append(" requested a url that does not have access to.");
+
+				AuditMessage auditMessage = new AuditMessage(
+						"UNAUTHORIZED ACCESS", user.getCompanyId(), userId,
+						userFullName, HttpServletRequest.class.getName(), portlet.getPortletId(),
+						sb.toString(), additionalInfoJSONObject);
+
+				AuditRouterUtil.route(auditMessage);
+			}
+		} catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
 
 		if (portlet.isShowPortletAccessDenied()) {
 			portletContent = "/html/portal/portlet_access_denied.jsp";
