@@ -1,7 +1,9 @@
 <#if entries?has_content>
 	<@liferay_aui.row>
 		<#list entries as entry>
-			<#if (getterUtil.getBoolean(showHiddenPages) || !entry.isHidden()) && layoutPermission.containsWithoutViewableGroup(permissionChecker, entry, "VIEW")>
+			<#if (getterUtil.getBoolean(showHiddenPages) || !entry.isHidden())
+				&& isVisibleInCurrentLanguage(entry)
+				&& layoutPermission.containsWithoutViewableGroup(permissionChecker, entry, "VIEW")>
 				<@liferay_aui.col width=25>
 					<div class="results-header">
 						<h3>
@@ -56,3 +58,17 @@
 		</ul>
 	</#if>
 </#macro>
+
+<#function isVisibleInCurrentLanguage layout>
+	<#assign
+		typeSettings = layout.getTypeSettingsProperties()
+		showInAllLanguages = getterUtil.getBoolean(typeSettings["show-in-all-languages"], true)
+	/>
+
+	<#if showInAllLanguages>
+		<#return true />
+	</#if>
+
+	<#assign currentLanguageId = themeDisplay.getLanguageId() />
+	<#return getterUtil.getBoolean(typeSettings["show-in-" + currentLanguageId], true) />
+</#function>

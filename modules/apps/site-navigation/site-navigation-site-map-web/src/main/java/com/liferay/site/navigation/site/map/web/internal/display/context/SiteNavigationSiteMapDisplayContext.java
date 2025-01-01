@@ -27,8 +27,10 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.LayoutDescription;
@@ -259,6 +261,7 @@ public class SiteNavigationSiteMapDisplayContext {
 		else {
 			for (Layout curLayout : layouts) {
 				if ((showHiddenPages || !curLayout.isHidden()) &&
+					_showInCurrentLanguage(curLayout, themeDisplay) &&
 					LayoutPermissionUtil.contains(
 						themeDisplay.getPermissionChecker(), curLayout,
 						ActionKeys.VIEW)) {
@@ -299,6 +302,27 @@ public class SiteNavigationSiteMapDisplayContext {
 		}
 
 		sb.append("</ul>");
+	}
+
+	private boolean _showInCurrentLanguage(
+		Layout layout, ThemeDisplay themeDisplay) {
+
+		UnicodeProperties layoutTypeSettingsUnicodeProperties =
+			layout.getTypeSettingsProperties();
+
+		boolean showInAllLanguages = GetterUtil.getBoolean(
+			layoutTypeSettingsUnicodeProperties.getProperty(
+				"show-in-all-languages"),
+			true);
+
+		if (showInAllLanguages) {
+			return true;
+		}
+
+		return GetterUtil.getBoolean(
+			layoutTypeSettingsUnicodeProperties.getProperty(
+				"show-in-" + themeDisplay.getLanguageId()),
+			true);
 	}
 
 	private Long _displayStyleGroupId;
