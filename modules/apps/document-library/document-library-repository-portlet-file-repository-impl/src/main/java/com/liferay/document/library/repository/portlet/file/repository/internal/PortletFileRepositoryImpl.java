@@ -139,8 +139,14 @@ public class PortletFileRepositoryImpl implements PortletFileRepository {
 
 		ServiceContext serviceContext = new ServiceContext();
 
-		serviceContext.setAddGroupPermissions(true);
-		serviceContext.setAddGuestPermissions(true);
+
+		if(portletId.equals("com.liferay.dynamic.data.mapping.form.web")){
+			serviceContext.setAddGroupPermissions(false);
+			serviceContext.setAddGuestPermissions(false);
+		}else{
+			serviceContext.setAddGroupPermissions(true);
+			serviceContext.setAddGuestPermissions(true);
+		}
 
 		Repository repository = addPortletRepository(
 			groupId, portletId, serviceContext);
