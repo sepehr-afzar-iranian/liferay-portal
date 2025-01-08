@@ -59,6 +59,7 @@ page import="com.liferay.portal.kernel.exception.TermsOfUseException" %><%@
 page import="com.liferay.portal.kernel.exception.UserActiveException" %><%@
 page import="com.liferay.portal.kernel.exception.UserEmailAddressException" %><%@
 page import="com.liferay.portal.kernel.exception.UserIdException" %><%@
+page import="com.liferay.portal.kernel.exception.UserIpException" %><%@
 page import="com.liferay.portal.kernel.exception.UserLockoutException" %><%@
 page import="com.liferay.portal.kernel.exception.UserPasswordException" %><%@
 page import="com.liferay.portal.kernel.exception.UserReminderQueryException" %><%@

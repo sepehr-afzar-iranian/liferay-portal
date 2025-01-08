@@ -88,6 +88,33 @@ public class AccessControlUtil {
 		return false;
 	}
 
+	public static boolean isAccessAllowed(
+			String remoteAddr, Set<String> hostsAllowed) {
+
+		if (hostsAllowed.isEmpty()) {
+			return true;
+		}
+
+		for (String hostAllowed : hostsAllowed) {
+			AllowedIPAddressesValidator allowedIPAddressesValidator =
+					AllowedIPAddressesValidatorFactory.create(hostAllowed);
+
+			if (allowedIPAddressesValidator.isAllowedIPAddress(remoteAddr)) {
+				return true;
+			}
+		}
+
+		Set<String> computerAddresses = PortalUtil.getComputerAddresses();
+
+		if (computerAddresses.contains(remoteAddr) &&
+				hostsAllowed.contains(_SERVER_IP)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	public static void setAccessControlContext(
 		AccessControlContext accessControlContext) {
 

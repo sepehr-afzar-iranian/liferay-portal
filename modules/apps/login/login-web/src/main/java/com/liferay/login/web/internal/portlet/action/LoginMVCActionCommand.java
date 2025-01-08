@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.exception.PasswordExpiredException;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
 import com.liferay.portal.kernel.exception.UserIdException;
+import com.liferay.portal.kernel.exception.UserIpException;
 import com.liferay.portal.kernel.exception.UserLockoutException;
 import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
@@ -37,6 +38,7 @@ import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
 import com.liferay.portal.kernel.security.auth.AuthException;
 import com.liferay.portal.kernel.security.auth.session.AuthenticatedSessionManager;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -48,6 +50,9 @@ import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
+import com.liferay.portal.util.PrefsPropsUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.petra.string.StringPool;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -62,6 +67,10 @@ import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Brian Wing Shun Chan
@@ -150,6 +159,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 					 exception instanceof PasswordExpiredException ||
 					 exception instanceof UserEmailAddressException ||
 					 exception instanceof UserIdException ||
+					 exception instanceof UserIpException ||
 					 exception instanceof UserLockoutException ||
 					 exception instanceof UserPasswordException ||
 					 exception instanceof UserScreenNameException) {
@@ -205,6 +215,17 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		HttpServletRequest httpServletRequest =
 			_portal.getOriginalServletRequest(
 				_portal.getHttpServletRequest(actionRequest));
+
+		long companyId = _portal.getCompanyId(actionRequest);
+
+		String userIp = getClientIpAddress(httpServletRequest);
+		String[] disallowIps = PrefsPropsUtil.getStringArray(companyId, PropsKeys.AUTH_LOGIN_DISALLOW_IPS, StringPool.NEW_LINE);
+
+		Set<String> hostsAllowed = new HashSet<>(Arrays.asList(disallowIps));
+
+		if (AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+			throw new UserIpException();
+		}
 
 		if (!themeDisplay.isSignedIn()) {
 			HttpServletResponse httpServletResponse =
@@ -282,6 +303,35 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 			actionResponse.sendRedirect(mainPath);
 		}
+	}
+
+	public String getClientIpAddress(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");
+
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED");
+		}
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+
+		if (ip != null && ip.contains(",")) {
+			ip = ip.split(",")[0].trim();
+		}
+
+		return ip;
 	}
 
 	protected void postProcessAuthFailure(
