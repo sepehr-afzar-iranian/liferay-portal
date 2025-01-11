@@ -187,7 +187,7 @@ public interface PropsKeys {
 		"auth.login.disabled.path";
 
 	public static final String AUTH_LOGIN_DISALLOW_IPS =
-			"auth.login.disallow.ips";
+		"auth.login.disallow.ips";
 
 	public static final String AUTH_LOGIN_PORTLET_NAME =
 		"auth.login.portlet.name";

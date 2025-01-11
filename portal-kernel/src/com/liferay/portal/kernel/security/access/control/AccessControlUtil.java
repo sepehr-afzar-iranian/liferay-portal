@@ -89,7 +89,7 @@ public class AccessControlUtil {
 	}
 
 	public static boolean isAccessAllowed(
-			String remoteAddr, Set<String> hostsAllowed) {
+		String remoteAddr, Set<String> hostsAllowed) {
 
 		if (hostsAllowed.isEmpty()) {
 			return true;
@@ -97,7 +97,7 @@ public class AccessControlUtil {
 
 		for (String hostAllowed : hostsAllowed) {
 			AllowedIPAddressesValidator allowedIPAddressesValidator =
-					AllowedIPAddressesValidatorFactory.create(hostAllowed);
+				AllowedIPAddressesValidatorFactory.create(hostAllowed);
 
 			if (allowedIPAddressesValidator.isAllowedIPAddress(remoteAddr)) {
 				return true;
@@ -107,7 +107,7 @@ public class AccessControlUtil {
 		Set<String> computerAddresses = PortalUtil.getComputerAddresses();
 
 		if (computerAddresses.contains(remoteAddr) &&
-				hostsAllowed.contains(_SERVER_IP)) {
+			hostsAllowed.contains(_SERVER_IP)) {
 
 			return true;
 		}

@@ -17,6 +17,7 @@ package com.liferay.login.web.internal.portlet.action;
 import com.liferay.captcha.util.CaptchaUtil;
 import com.liferay.login.web.constants.LoginPortletKeys;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
 import com.liferay.portal.kernel.captcha.CaptchaException;
 import com.liferay.portal.kernel.exception.CompanyMaxUsersException;
@@ -46,13 +47,16 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.PrefsPropsUtil;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.petra.string.StringPool;
+import com.liferay.portal.util.PropsValues;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -68,10 +72,6 @@ import javax.servlet.http.HttpSession;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * @author Brian Wing Shun Chan
  * @author Peter Fellwock
@@ -85,6 +85,40 @@ import java.util.Set;
 	service = MVCActionCommand.class
 )
 public class LoginMVCActionCommand extends BaseMVCActionCommand {
+
+	public String getClientIpAddress(HttpServletRequest httpServletRequest) {
+		String ip = httpServletRequest.getHeader("X-Forwarded-For");
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("WL-Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_CLIENT_IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getRemoteAddr();
+		}
+
+		if ((ip != null) && ip.contains(",")) {
+			ip = ip.split(",")[0].trim();
+		}
+
+		return ip;
+	}
 
 	protected void checkCaptcha(ActionRequest actionRequest)
 		throws CaptchaConfigurationException, CaptchaException {
@@ -219,7 +253,9 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		long companyId = _portal.getCompanyId(actionRequest);
 
 		String userIp = getClientIpAddress(httpServletRequest);
-		String[] disallowIps = PrefsPropsUtil.getStringArray(companyId, PropsKeys.AUTH_LOGIN_DISALLOW_IPS, StringPool.NEW_LINE);
+
+		String[] disallowIps = PrefsPropsUtil.getStringArray(
+			companyId, PropsKeys.AUTH_LOGIN_DISALLOW_IPS, StringPool.NEW_LINE);
 
 		Set<String> hostsAllowed = new HashSet<>(Arrays.asList(disallowIps));
 
@@ -303,35 +339,6 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 			actionResponse.sendRedirect(mainPath);
 		}
-	}
-
-	public String getClientIpAddress(HttpServletRequest request) {
-		String ip = request.getHeader("X-Forwarded-For");
-
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED");
-		}
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-
-		if (ip != null && ip.contains(",")) {
-			ip = ip.split(",")[0].trim();
-		}
-
-		return ip;
 	}
 
 	protected void postProcessAuthFailure(

@@ -17,7 +17,7 @@
 <%@ include file="/init.jsp" %>
 
 <aui:fieldset>
-  <aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
+	<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
 
-  <aui:input helpMessage="enter-ips-to-disallow-uesrs-to-authentiacate" label="ip-ranges" name='<%= "settings--" + PropsKeys.AUTH_LOGIN_DISALLOW_IPS + "--" %>' type="textarea" value="<%= PrefsPropsUtil.getString(company.getCompanyId(), PropsKeys.AUTH_LOGIN_DISALLOW_IPS) %>" />
+	<aui:input helpMessage="enter-ips-to-disallow-uesrs-to-authentiacate" label="ip-ranges" name='<%= "settings--" + PropsKeys.AUTH_LOGIN_DISALLOW_IPS + "--" %>' type="textarea" value="<%= PrefsPropsUtil.getString(company.getCompanyId(), PropsKeys.AUTH_LOGIN_DISALLOW_IPS) %>" />
 </aui:fieldset>

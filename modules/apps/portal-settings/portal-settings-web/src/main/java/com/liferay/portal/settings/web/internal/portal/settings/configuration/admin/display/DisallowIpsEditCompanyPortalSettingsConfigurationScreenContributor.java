@@ -15,15 +15,15 @@
 package com.liferay.portal.settings.web.internal.portal.settings.configuration.admin.display;
 
 import com.liferay.portal.settings.configuration.admin.display.PortalSettingsConfigurationScreenContributor;
+
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author Drew Brokke
+ * @author Yousef Ghadiri
  */
 @Component(service = PortalSettingsConfigurationScreenContributor.class)
-public class
-DisallowIpsEditCompanyPortalSettingsConfigurationScreenContributor
-		extends BaseEditCompanyPortalSettingsConfigurationScreenContributor {
+public class DisallowIpsEditCompanyPortalSettingsConfigurationScreenContributor
+	extends BaseEditCompanyPortalSettingsConfigurationScreenContributor {
 
 	@Override
 	public String getCategoryKey() {
