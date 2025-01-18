@@ -259,7 +259,9 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 		Set<String> hostsAllowed = new HashSet<>(Arrays.asList(disallowIps));
 
-		if (!hostsAllowed.isEmpty() && AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+		if (!hostsAllowed.isEmpty() &&
+			AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+
 			throw new UserIpException();
 		}
 
