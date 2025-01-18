@@ -139,11 +139,11 @@ public class PortletFileRepositoryImpl implements PortletFileRepository {
 
 		ServiceContext serviceContext = new ServiceContext();
 
-
-		if(portletId.equals("com.liferay.dynamic.data.mapping.form.web")){
+		if (portletId.equals("com.liferay.dynamic.data.mapping.form.web")) {
 			serviceContext.setAddGroupPermissions(false);
 			serviceContext.setAddGuestPermissions(false);
-		}else{
+		}
+		else {
 			serviceContext.setAddGroupPermissions(true);
 			serviceContext.setAddGuestPermissions(true);
 		}

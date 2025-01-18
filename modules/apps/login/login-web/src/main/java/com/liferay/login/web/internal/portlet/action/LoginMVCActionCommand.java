@@ -17,6 +17,7 @@ package com.liferay.login.web.internal.portlet.action;
 import com.liferay.captcha.util.CaptchaUtil;
 import com.liferay.login.web.constants.LoginPortletKeys;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
 import com.liferay.portal.kernel.captcha.CaptchaException;
 import com.liferay.portal.kernel.exception.CompanyMaxUsersException;
@@ -25,6 +26,7 @@ import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.exception.PasswordExpiredException;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
 import com.liferay.portal.kernel.exception.UserIdException;
+import com.liferay.portal.kernel.exception.UserIpException;
 import com.liferay.portal.kernel.exception.UserLockoutException;
 import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
@@ -37,6 +39,7 @@ import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
 import com.liferay.portal.kernel.security.auth.AuthException;
 import com.liferay.portal.kernel.security.auth.session.AuthenticatedSessionManager;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -44,10 +47,16 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -76,6 +85,40 @@ import org.osgi.service.component.annotations.Reference;
 	service = MVCActionCommand.class
 )
 public class LoginMVCActionCommand extends BaseMVCActionCommand {
+
+	public String getClientIpAddress(HttpServletRequest httpServletRequest) {
+		String ip = httpServletRequest.getHeader("X-Forwarded-For");
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("WL-Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_CLIENT_IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getRemoteAddr();
+		}
+
+		if ((ip != null) && ip.contains(",")) {
+			ip = ip.split(",")[0].trim();
+		}
+
+		return ip;
+	}
 
 	protected void checkCaptcha(ActionRequest actionRequest)
 		throws CaptchaConfigurationException, CaptchaException {
@@ -150,6 +193,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 					 exception instanceof PasswordExpiredException ||
 					 exception instanceof UserEmailAddressException ||
 					 exception instanceof UserIdException ||
+					 exception instanceof UserIpException ||
 					 exception instanceof UserLockoutException ||
 					 exception instanceof UserPasswordException ||
 					 exception instanceof UserScreenNameException) {
@@ -205,6 +249,21 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		HttpServletRequest httpServletRequest =
 			_portal.getOriginalServletRequest(
 				_portal.getHttpServletRequest(actionRequest));
+
+		long companyId = _portal.getCompanyId(actionRequest);
+
+		String userIp = getClientIpAddress(httpServletRequest);
+
+		String[] disallowIps = PrefsPropsUtil.getStringArray(
+			companyId, PropsKeys.AUTH_LOGIN_DISALLOW_IPS, StringPool.NEW_LINE);
+
+		Set<String> hostsAllowed = new HashSet<>(Arrays.asList(disallowIps));
+
+		if (!hostsAllowed.isEmpty() &&
+			AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+
+			throw new UserIpException();
+		}
 
 		if (!themeDisplay.isSignedIn()) {
 			HttpServletResponse httpServletResponse =

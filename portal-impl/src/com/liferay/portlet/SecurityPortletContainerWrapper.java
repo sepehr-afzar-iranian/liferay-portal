@@ -436,7 +436,8 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 		String portletContent = null;
 
 		try {
-			String curremtCompleteURL = PortalUtil.getCurrentCompleteURL(httpServletRequest);
+			String curremtCompleteURL = PortalUtil.getCurrentCompleteURL(
+				httpServletRequest);
 
 			long userId = PortalUtil.getUserId(httpServletRequest);
 
@@ -446,9 +447,9 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 				String userFullName = user.getFullName();
 
 				JSONObject additionalInfoJSONObject = JSONUtil.put(
-						"url", curremtCompleteURL
+					"url", curremtCompleteURL
 				).put(
-						"userName", userFullName
+					"userName", userFullName
 				);
 
 				StringBuilder sb = new StringBuilder();
@@ -458,13 +459,15 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 				sb.append(" requested a url that does not have access to.");
 
 				AuditMessage auditMessage = new AuditMessage(
-						"UNAUTHORIZED ACCESS", user.getCompanyId(), userId,
-						userFullName, HttpServletRequest.class.getName(), portlet.getPortletId(),
-						sb.toString(), additionalInfoJSONObject);
+					"UNAUTHORIZED ACCESS", user.getCompanyId(), userId,
+					userFullName, HttpServletRequest.class.getName(),
+					portlet.getPortletId(), sb.toString(),
+					additionalInfoJSONObject);
 
 				AuditRouterUtil.route(auditMessage);
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
 				_log.warn("Unable to route audit message", exception);
 			}
