@@ -25,6 +25,8 @@ import com.liferay.petra.encryptor.EncryptorException;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.PortalCacheMapSynchronizeUtil;
 import com.liferay.portal.kernel.change.tracking.CTAware;
@@ -6339,6 +6341,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			return false;
 		}
 		else if (!user.isActive()) {
+			_auditInactiveUser(user);
+
 			if (_log.isInfoEnabled()) {
 				_log.info(
 					"Authentication is disabled for inactive user " +
@@ -7215,6 +7219,31 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 	@BeanReference(type = MailService.class)
 	protected MailService mailService;
+
+	private void _auditInactiveUser(User user) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			String userFullName = user.getFullName();
+
+			sb.append("User with the name");
+			sb.append(StringPool.SPACE);
+			sb.append(userFullName);
+			sb.append(StringPool.SPACE);
+			sb.append("failed to login - account inactive");
+
+			AuditMessage auditMessage = new AuditMessage(
+				"LOGIN FAILURE", user.getCompanyId(), user.getUserId(),
+				userFullName, User.class.getName(),
+				String.valueOf(user.getPrimaryKey()), sb.toString());
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
 
 	private User _checkPasswordPolicy(User user) throws PortalException {
 

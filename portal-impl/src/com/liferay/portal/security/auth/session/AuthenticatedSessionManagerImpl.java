@@ -19,6 +19,8 @@ import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.events.EventsProcessorUtil;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
 import com.liferay.portal.kernel.cluster.ClusterNode;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -438,6 +440,27 @@ public class AuthenticatedSessionManagerImpl
 
 			MessageBusUtil.sendMessage(
 				DestinationNames.LIVE_USERS, jsonObject.toString());
+
+			try {
+				String userFullName = userTracker.getFullName();
+				StringBuilder sb = new StringBuilder();
+
+				sb.append("Expired User ");
+				sb.append(userFullName);
+				sb.append("'s previous sessions");
+
+				AuditMessage auditMessage = new AuditMessage(
+					"INVALIDATE SESSION", userTracker.getCompanyId(), userId,
+					userFullName, User.class.getName(), String.valueOf(userId),
+					sb.toString());
+
+				AuditRouterUtil.route(auditMessage);
+			}
+			catch (Exception exception) {
+				if (_log.isWarnEnabled()) {
+					_log.warn("Unable to route audit message", exception);
+				}
+			}
 		}
 	}
 

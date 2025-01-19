@@ -103,7 +103,8 @@ public class ResourcePermissionModelListener
 
 			auditMessage.setMessage(
 				StringBundler.concat(
-					"ResourcePermission with the name ", _getShortClassName(resourcePermissionName),
+					"ResourcePermission with the name ",
+					_getShortClassName(resourcePermissionName),
 					"was updated."));
 
 			_auditRouter.route(auditMessage);
@@ -200,7 +201,7 @@ public class ResourcePermissionModelListener
 		}
 	}
 
-	private static String _getShortClassName(String className) {
+	private String _getShortClassName(String className) {
 		if (Validator.isNotNull(className)) {
 			try {
 				return className.substring(className.lastIndexOf('.') + 1);

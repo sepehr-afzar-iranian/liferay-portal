@@ -38,9 +38,11 @@ public interface EventTypes {
 
 	public static final String IMPERSONATE = "IMPERSONATE";
 
+	public static final String INVALIDATE_SESSION = "INVALIDATE SESSION";
+
 	public static final String LOGIN = "LOGIN";
 
-	public static final String LOGIN_FAILURE = "LOGIN_FAILURE";
+	public static final String LOGIN_FAILURE = "LOGIN FAILURE";
 
 	public static final String LOGOUT = "LOGOUT";
 
