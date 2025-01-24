@@ -19,6 +19,8 @@
 <%@ page import="com.liferay.admin.kernel.util.PortalProductMenuApplicationType" %><%@
 page import="com.liferay.exportimport.kernel.lar.DefaultConfigurationPortletDataHandler" %><%@
 page import="com.liferay.portal.internal.terms.of.use.TermsOfUseContentProviderUtil" %><%@
+page import="com.liferay.portal.kernel.audit.AuditMessage" %><%@
+page import="com.liferay.portal.kernel.audit.AuditRouterUtil" %><%@
 page import="com.liferay.portal.kernel.cluster.ClusterExecutorUtil" %><%@
 page import="com.liferay.portal.kernel.cluster.ClusterNode" %><%@
 page import="com.liferay.portal.kernel.dao.db.DBManagerUtil" %><%@
