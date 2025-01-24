@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.exception.RequiredRoleException;
 import com.liferay.portal.kernel.exception.RequiredUserException;
 import com.liferay.portal.kernel.exception.SendPasswordException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.UserActiveException;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
 import com.liferay.portal.kernel.exception.UserIdException;
 import com.liferay.portal.kernel.exception.UserLockoutException;
@@ -5903,6 +5904,12 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		if (user == null) {
 			return Authenticator.DNE;
+		}
+
+		if (!user.isActive()) {
+			_auditInactiveUser(user);
+
+			throw new UserActiveException("Inactive user " + user.getUuid());
 		}
 
 		if (!isUserAllowedToAuthenticate(user)) {

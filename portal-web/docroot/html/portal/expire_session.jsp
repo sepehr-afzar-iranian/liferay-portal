@@ -14,6 +14,30 @@
  */
 --%>
 
+<%@ include file="/html/portal/init.jsp" %>
+
 <%
 session.invalidate();
+
+try {
+	String userFullName = user.getFullName();
+	StringBuilder sb = new StringBuilder();
+	long userId = user.getUserId();
+
+	sb.append(userFullName);
+	sb.append("'s session was expired due to inactivity");
+
+	AuditMessage auditMessage = new AuditMessage("INVALIDATE SESSION", user.getCompanyId(), userId, userFullName, User.class.getName(), String.valueOf(userId), sb.toString());
+
+	AuditRouterUtil.route(auditMessage);
+}
+catch (Exception exception) {
+	if (_log.isWarnEnabled()) {
+		_log.warn("Unable to route audit message", exception);
+	}
+}
+%>
+
+<%!
+private static Log _log = LogFactoryUtil.getLog("portal_web.docroot.html.portal.expire_session_jsp");
 %>
