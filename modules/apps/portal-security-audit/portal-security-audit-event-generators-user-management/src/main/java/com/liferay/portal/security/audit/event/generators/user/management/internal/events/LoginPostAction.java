@@ -22,12 +22,22 @@ import com.liferay.portal.kernel.events.LifecycleAction;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.servlet.PortalSessionContext;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.security.audit.event.generators.constants.AuditConstants;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -66,6 +76,29 @@ public class LoginPostAction extends Action {
 			if (_log.isWarnEnabled()) {
 				_log.warn("Unable to route audit message", exception);
 			}
+		}
+
+		boolean expirePreviousSessionsOnLogin = Boolean.parseBoolean(
+			PropsUtil.get(AuditConstants.EXPIRE_PREVIOUS_SESSIONS_ON_LOGIN));
+
+		if (expirePreviousSessionsOnLogin) {
+			String userId = httpServletRequest.getRemoteUser();
+
+			Collection<HttpSession> sessions = PortalSessionContext.values();
+
+			Stream<HttpSession> stream = sessions.stream();
+
+			stream.filter(
+				session ->
+					Objects.equals(
+						GetterUtil.getLong(userId),
+						session.getAttribute(WebKeys.USER_ID)) &&
+					!Objects.equals(session, httpServletRequest.getSession())
+			).forEach(
+				session -> session.setAttribute(
+					WebKeys.SESSION_TERMINATED_REASON,
+					WebKeys.SIMULTANEOUS_LOGINS)
+			);
 		}
 	}
 

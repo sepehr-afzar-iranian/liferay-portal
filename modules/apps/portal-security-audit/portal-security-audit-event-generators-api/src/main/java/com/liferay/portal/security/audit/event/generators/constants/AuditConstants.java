@@ -22,4 +22,7 @@ public class AuditConstants {
 	public static final String AUDIT_THRESHOLD_NOTIFICATION =
 		"auditthresholdnotification";
 
+	public static final String EXPIRE_PREVIOUS_SESSIONS_ON_LOGIN =
+		"expire.previous.sessions.on.login";
+
 }

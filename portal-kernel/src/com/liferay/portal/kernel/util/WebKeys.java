@@ -616,6 +616,9 @@ public interface WebKeys {
 
 	public static final String SESSION_MAX_ALLOWED = "SESSION_MAX_ALLOWED";
 
+	public static final String SESSION_TERMINATED_REASON =
+		"SESSION_TERMINATED_REASON";
+
 	public static final String SETTINGS_SCOPE = "SETTINGS_SCOPE";
 
 	public static final String SETUP_WIZARD_DEFAULT_LOCALE =
@@ -639,6 +642,8 @@ public interface WebKeys {
 	public static final String SHOPPING_ORDER = "SHOPPING_ORDER";
 
 	public static final String SHOW_PORTLET_TOPPER = "SHOW_PORTLET_TOPPER";
+
+	public static final String SIMULTANEOUS_LOGINS = "SIMULTANEOUS_LOGINS";
 
 	public static final String SINGLE_PAGE_APPLICATION_CLEAR_CACHE =
 		"LIFERAY_SHARED_SINGLE_PAGE_APPLICATION_CLEAR_CACHE";
