@@ -32,12 +32,12 @@ try {
 	AuditRouterUtil.route(auditMessage);
 }
 catch (Exception exception) {
-	if (_log.isWarnEnabled()) {
-		_log.warn("Unable to route audit message", exception);
+	if (_log_expire.isWarnEnabled()) {
+		_log_expire.warn("Unable to route audit message", exception);
 	}
 }
 %>
 
 <%!
-private static Log _log = LogFactoryUtil.getLog("portal_web.docroot.html.portal.expire_session_jsp");
+private static Log _log_expire = LogFactoryUtil.getLog("portal_web.docroot.html.portal.expire_session_jsp");
 %>

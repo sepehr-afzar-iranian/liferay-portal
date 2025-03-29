@@ -703,6 +703,13 @@ public class PortalRequestProcessor {
 			return _PATH_PORTAL_ERROR;
 		}
 
+		if (!path.equals(_PATH_PORTAL_LAYOUT) &&
+			WebKeys.SIMULTANEOUS_LOGINS.equals(
+				session.getAttribute(WebKeys.SESSION_TERMINATED_REASON))) {
+
+			return _PATH_PORTAL_SIMULTANEOUS_LOGINS;
+		}
+
 		return path;
 	}
 
@@ -852,6 +859,9 @@ public class PortalRequestProcessor {
 
 	private static final String _PATH_PORTAL_SETUP_WIZARD =
 		"/portal/setup_wizard";
+
+	private static final String _PATH_PORTAL_SIMULTANEOUS_LOGINS =
+		"/portal/simultaneous_logins";
 
 	private static final String _PATH_PORTAL_STATUS = "/portal/status";
 

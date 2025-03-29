@@ -17,20 +17,29 @@
 <%@ include file="/html/portal/init.jsp" %>
 
 <c:choose>
-	<c:when test="<%= Validator.isNotNull(request.getAttribute(NoSuchLayoutException.class.getName())) %>">
+	<c:when test="<%= WebKeys.SIMULTANEOUS_LOGINS.equals(session.getAttribute(WebKeys.SESSION_TERMINATED_REASON)) %>">
 		<div class="container pb-3 pt-3">
-			<%@ include file="/html/portal/status.jsp" %>
+			<%@ include file="/html/portal/simultaneous_logins.jsp" %>
 		</div>
 	</c:when>
 	<c:otherwise>
+		<c:choose>
+			<c:when test="<%= Validator.isNotNull(request.getAttribute(NoSuchLayoutException.class.getName())) %>">
+				<div class="container pb-3 pt-3">
+					<%@ include file="/html/portal/status.jsp" %>
+				</div>
+			</c:when>
+			<c:otherwise>
 
-		<%
-		StringBundler sb = (StringBundler)request.getAttribute(WebKeys.LAYOUT_CONTENT);
+				<%
+				StringBundler sb = (StringBundler)request.getAttribute(WebKeys.LAYOUT_CONTENT);
 
-		sb.writeTo(out);
+				sb.writeTo(out);
 
-		request.removeAttribute(WebKeys.LAYOUT_CONTENT);
-		%>
+				request.removeAttribute(WebKeys.LAYOUT_CONTENT);
+				%>
 
+			</c:otherwise>
+		</c:choose>
 	</c:otherwise>
 </c:choose>
