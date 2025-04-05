@@ -9,14 +9,6 @@ jobs:
               with:
                   distribution: "adopt"
                   java-version: "8"
-            - name: Cache Gradle packages # cache gradle and ant files for quick builds.
-              uses: actions/cache@v2
-              with:
-                  key: ${{runner.os}}-gradle-caches
-                  path: |
-                      .m2
-                      .gradle
-                      /home/runner/.liferay
             - name: Set SAIN_DOCKER_VERSION env # this version comes from release-sain.properties
               run: >
                   echo "SAIN_DOCKER_VERSION="$(grep "sain.docker.release.version" release-sain.properties |
