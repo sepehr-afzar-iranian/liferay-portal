@@ -167,14 +167,6 @@ if (auditEventId > 0) {
 						</tr>
 						<tr>
 							<td>
-								<liferay-ui:message key="session-id" />
-							</td>
-							<td>
-								<%= Validator.isNotNull(auditEvent.getSessionID()) ? auditEvent.getSessionID() : LanguageUtil.get(request, "none") %>
-							</td>
-						</tr>
-						<tr>
-							<td>
 <liferay-ui:message key="additional-information" />
 							</td>
 							<td style="text-align: left; direction: ltr;">
