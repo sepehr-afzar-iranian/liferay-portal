@@ -463,6 +463,13 @@ public class PortalRequestProcessor {
 			(ThemeDisplay)httpServletRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
 
+		if (!path.equals(_PATH_PORTAL_LAYOUT) &&
+			WebKeys.SIMULTANEOUS_LOGINS.equals(
+				session.getAttribute(WebKeys.SESSION_TERMINATED_REASON))) {
+
+			return _PATH_PORTAL_SIMULTANEOUS_LOGINS;
+		}
+
 		// Current users
 
 		UserTracker userTracker = LiveUsers.getUserTracker(
@@ -701,13 +708,6 @@ public class PortalRequestProcessor {
 				session, LayoutPermissionException.class.getName())) {
 
 			return _PATH_PORTAL_ERROR;
-		}
-
-		if (!path.equals(_PATH_PORTAL_LAYOUT) &&
-			WebKeys.SIMULTANEOUS_LOGINS.equals(
-				session.getAttribute(WebKeys.SESSION_TERMINATED_REASON))) {
-
-			return _PATH_PORTAL_SIMULTANEOUS_LOGINS;
 		}
 
 		return path;
