@@ -22,18 +22,21 @@ import com.liferay.portal.kernel.events.LifecycleAction;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserTracker;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.servlet.PortalSessionContext;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.liveusers.LiveUsers;
 import com.liferay.portal.security.audit.event.generators.constants.AuditConstants;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,23 +85,47 @@ public class LoginPostAction extends Action {
 			PropsUtil.get(AuditConstants.EXPIRE_PREVIOUS_SESSIONS_ON_LOGIN));
 
 		if (expirePreviousSessionsOnLogin) {
-			String userId = httpServletRequest.getRemoteUser();
+			try {
+				long userId = Long.parseLong(
+					httpServletRequest.getRemoteUser());
 
-			Collection<HttpSession> sessions = PortalSessionContext.values();
+				long companyId = _companyLocalService.getCompanyIdByUserId(
+					userId);
 
-			Stream<HttpSession> stream = sessions.stream();
+				Map<String, UserTracker> sessionUsers =
+					LiveUsers.getSessionUsers(companyId);
 
-			stream.filter(
-				session ->
-					Objects.equals(
-						GetterUtil.getLong(userId),
-						session.getAttribute(WebKeys.USER_ID)) &&
-					!Objects.equals(session, httpServletRequest.getSession())
-			).forEach(
-				session -> session.setAttribute(
-					WebKeys.SESSION_TERMINATED_REASON,
-					WebKeys.SIMULTANEOUS_LOGINS)
-			);
+				List<UserTracker> userTrackers = new ArrayList<>(
+					sessionUsers.values());
+
+				for (UserTracker userTracker : userTrackers) {
+					if (userId != userTracker.getUserId()) {
+						continue;
+					}
+
+					HttpSession userSession = PortalSessionContext.get(
+						userTracker.getSessionId());
+
+					if (Objects.equals(
+							userSession, httpServletRequest.getSession())) {
+
+						continue;
+					}
+
+					if (!Objects.equals(userSession, null)) {
+						userSession.setAttribute(
+							WebKeys.SESSION_TERMINATED_REASON,
+							WebKeys.SIMULTANEOUS_LOGINS);
+					}
+				}
+			}
+			catch (Exception exception) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						"Unable to set expire attribute for user sessions",
+						exception);
+				}
+			}
 		}
 	}
 
@@ -107,6 +134,9 @@ public class LoginPostAction extends Action {
 
 	@Reference
 	private AuditRouter _auditRouter;
+
+	@Reference
+	private CompanyLocalService _companyLocalService;
 
 	@Reference
 	private Portal _portal;

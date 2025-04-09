@@ -36,6 +36,8 @@ public interface EventTypes {
 
 	public static final String DELETE = "DELETE";
 
+	public static final String DOWNLOAD = "DOWNLOAD";
+
 	public static final String IMPERSONATE = "IMPERSONATE";
 
 	public static final String INVALIDATE_SESSION = "INVALIDATE SESSION";
