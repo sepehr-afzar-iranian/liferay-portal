@@ -34,6 +34,7 @@ page import="com.liferay.portal.kernel.exception.UserEmailAddressException" %><%
 page import="com.liferay.portal.kernel.exception.UserLockoutException" %><%@
 page import="com.liferay.portal.kernel.exception.UserPasswordException" %><%@
 page import="com.liferay.portal.kernel.exception.UserReminderQueryException" %><%@
+page import="com.liferay.portal.kernel.json.JSONUtil" %><%@
 page import="com.liferay.portal.kernel.license.util.LicenseManagerUtil" %><%@
 page import="com.liferay.portal.kernel.parsers.bbcode.BBCodeTranslatorUtil" %><%@
 page import="com.liferay.portal.kernel.portlet.PortletConfigurationLayoutUtil" %><%@

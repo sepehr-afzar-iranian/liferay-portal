@@ -20,9 +20,32 @@
 session.removeAttribute(WebKeys.SESSION_TERMINATED_REASON);
 
 String loginURL = themeDisplay.getURLSignIn();
+
+String sessionId = session.getId();
+
+session.invalidate();
+
+try {
+	String userFullName = user.getFullName();
+	StringBuilder sb = new StringBuilder();
+	long userId = user.getUserId();
+
+	sb.append(userFullName);
+	sb.append("'s session was expired due to simultaneous logins");
+
+	AuditMessage auditMessage = new AuditMessage("INVALIDATE SESSION", user.getCompanyId(), userId, userFullName, User.class.getName(), String.valueOf(userId), sb.toString());
+
+	auditMessage.setAdditionalInfo(JSONUtil.put("sessionId", sessionId));
+
+	AuditRouterUtil.route(auditMessage);
+}
+catch (Exception exception) {
+	if (_log_simultaneous.isWarnEnabled()) {
+		_log_simultaneous.warn("Unable to route audit message", exception);
+	}
+}
 %>
 
-<%@ include file="/html/portal/expire_session.jsp" %>
 <div class="alert alert-warning session-expired-alert" style="position: fixed; bottom: 10px; right: 10px; z-index: 9999; width: 400px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,.2); direction: rtl;">
 	<button aria-label="<liferay-ui:message key="close" />" class="close" data-dismiss="alert" type="button">
 		<span aria-hidden="true">&times;</span>
@@ -47,3 +70,7 @@ String loginURL = themeDisplay.getURLSignIn();
 		window.location.href = '<%= loginURL %>';
 	}, 5000);
 </script>
+
+<%!
+private static Log _log_simultaneous = LogFactoryUtil.getLog("portal_web.docroot.html.portal.simultaneous_logins_jsp");
+%>
