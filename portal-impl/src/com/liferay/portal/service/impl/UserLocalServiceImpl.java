@@ -5903,13 +5903,9 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		}
 
 		if (user == null) {
+			_auditNullUser(login, companyId);
+
 			return Authenticator.DNE;
-		}
-
-		if (!user.isActive()) {
-			_auditInactiveUser(user);
-
-			throw new UserActiveException("Inactive user " + user.getUuid());
 		}
 
 		if (!isUserAllowedToAuthenticate(user)) {
@@ -6005,6 +6001,12 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		if (resultsMap != null) {
 			resultsMap.put("user", user);
 			resultsMap.put("userId", user.getUserId());
+		}
+
+		if ((authResult != Authenticator.FAILURE) && !user.isActive()) {
+			_auditInactiveUser(user);
+
+			throw new UserActiveException("Inactive user " + user.getUuid());
 		}
 
 		return authResult;
@@ -6343,17 +6345,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		if (user.isDefaultUser()) {
 			if (_log.isInfoEnabled()) {
 				_log.info("Authentication is disabled for the default user");
-			}
-
-			return false;
-		}
-		else if (!user.isActive()) {
-			_auditInactiveUser(user);
-
-			if (_log.isInfoEnabled()) {
-				_log.info(
-					"Authentication is disabled for inactive user " +
-						user.getUserId());
 			}
 
 			return false;
@@ -7242,6 +7233,29 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 				"LOGIN FAILURE", user.getCompanyId(), user.getUserId(),
 				userFullName, User.class.getName(),
 				String.valueOf(user.getPrimaryKey()), sb.toString());
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
+	private void _auditNullUser(String login, long companyId) {
+		try {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("User with the login");
+			sb.append(StringPool.SPACE);
+			sb.append(login);
+			sb.append(StringPool.SPACE);
+			sb.append("does not exist");
+
+			AuditMessage auditMessage = new AuditMessage(
+				"LOGIN FAILURE", companyId, 0, login, User.class.getName(), "0",
+				sb.toString());
 
 			AuditRouterUtil.route(auditMessage);
 		}
