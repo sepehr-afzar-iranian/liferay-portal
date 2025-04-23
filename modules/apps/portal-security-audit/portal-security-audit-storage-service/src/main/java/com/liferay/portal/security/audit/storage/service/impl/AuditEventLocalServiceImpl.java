@@ -280,6 +280,26 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 		}
 	}
 
+	public int searchAuditEventsCount(long companyId, String keywords, LinkedHashMap<String, Object> params) {
+		Indexer<AuditEvent> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
+				AuditEvent.class);
+		SearchContext searchContext = new SearchContext();
+
+		_populateSearchContext(searchContext, companyId, keywords, params);
+
+		QueryConfig queryConfig = searchContext.getQueryConfig();
+
+		queryConfig.setHighlightEnabled(false);
+		queryConfig.setScoreEnabled(false);
+
+		try {
+			return (int)indexer.searchCount(searchContext);
+		}
+		catch (SearchException searchException) {
+			throw new RuntimeException(searchException);
+		}
+	}
+
 	protected DynamicQuery buildDynamicQuery(
 		long companyId, long userId, String userName, Date createDateGT,
 		Date createDateLT, String eventType, String className, String classPK,
