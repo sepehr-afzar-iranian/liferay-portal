@@ -28,7 +28,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Yousef Ghadiri
  */
-@Component(immediate = true, service = {})
+@Component(immediate = true, service = AuditMessageRoleAssociationHelper.class)
 public class AuditMessageRoleAssociationHelper {
 
 	public String getName(String associationClassName) {

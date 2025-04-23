@@ -33,6 +33,7 @@ import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -48,14 +49,14 @@ public class UserModelListener extends BaseModelListener<User> {
 		Object classPK, String associationClassName, Object associationClassP) {
 
 		associationAudit(
-			associationClassName, associationClassP, EventTypes.ADD);
+			associationClassName, associationClassP, classPK, EventTypes.ASSIGN);
 	}
 
 	public void onAfterRemoveAssociation(
 		Object classPK, String associationClassName, Object associationClassP) {
 
 		associationAudit(
-			associationClassName, associationClassP, EventTypes.DELETE);
+			associationClassName, associationClassP, classPK, EventTypes.UNASSIGN);
 	}
 
 	@Override
@@ -113,19 +114,29 @@ public class UserModelListener extends BaseModelListener<User> {
 	}
 
 	protected void associationAudit(
-		String associationClassName, Object associationClassP,
+		String associationClassName, Object associationClassP, Object userId,
 		String eventType) {
 
 		try {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				EventTypes.UPDATE, User.class.getName(),
-				(long)associationClassP, null);
+				eventType, User.class.getName(),
+				(long)userId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
 
+			String userFullName = userId.toString();
+
+			User user = _userLocalService.fetchUser((Long)userId);
+
+			if (!Objects.equals(user, null)) {
+				userFullName =  user.getFullName();
+			}
+
 			String associationName = _auditMessageUserAssociationHelper.getName(
 				associationClassName);
+
+			String associationValue = _auditMessageUserAssociationHelper.getValue(associationClassName, (long)associationClassP);
 
 			additionalInfoJSONObject.put(
 				"associationClassName", associationClassName
@@ -134,15 +145,14 @@ public class UserModelListener extends BaseModelListener<User> {
 			).put(
 				"associationType", eventType
 			).put(
-				"associationValue",
-				_auditMessageUserAssociationHelper.getValue(
-					associationClassName, (long)associationClassP)
+				"associationValue", associationValue
+			).put(
+				"userFullName", userFullName
+			).put(
+				"userId", userId
 			);
 
-			auditMessage.setMessage(
-				AuditMessageHelperUtil.getMessage(
-					eventType, auditMessage.getClassName(), associationName,
-					(long)associationClassP));
+			auditMessage.setMessage(AuditMessageHelperUtil.getMessage(eventType, userFullName, associationValue, 0));
 
 			_auditRouter.route(auditMessage);
 		}
