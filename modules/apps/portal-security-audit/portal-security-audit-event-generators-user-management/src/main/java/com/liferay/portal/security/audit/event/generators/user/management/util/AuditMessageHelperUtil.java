@@ -40,9 +40,9 @@ public class AuditMessageHelperUtil {
 			return _userMessage(eventType, name, id > 0);
 
 		if (eventType.equals(EventTypes.ASSIGN) ||
-				eventType.equals(EventTypes.UNASSIGN))
+			eventType.equals(EventTypes.UNASSIGN))
 
-			return _RoleMessage(eventType, className, name);
+			return _roleMessage(eventType, className, name);
 
 		return _regularMessage(eventType, className, name, id);
 	}
@@ -107,6 +107,24 @@ public class AuditMessageHelperUtil {
 		return sb.toString();
 	}
 
+	private static String _roleMessage(
+		String eventType, String userName, String roleName) {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Role ");
+		sb.append(roleName);
+		sb.append(" was ");
+		sb.append(
+			Objects.equals(eventType, EventTypes.ASSIGN) ? "assigned to " :
+				"unassigned from ");
+		sb.append(userName);
+
+		sb.append(StringPool.PERIOD);
+
+		return sb.toString();
+	}
+
 	private static String _userMessage(
 		String eventType, String userName, boolean ldap) {
 
@@ -134,22 +152,6 @@ public class AuditMessageHelperUtil {
 			sb.append(StringPool.SPACE);
 			sb.append("using LDAP");
 		}
-
-		sb.append(StringPool.PERIOD);
-
-		return sb.toString();
-	}
-
-	private static String _RoleMessage(
-			String eventType, String userName, String roleName) {
-
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("Role ");
-		sb.append(roleName);
-		sb.append(" was ");
-		sb.append(Objects.equals(eventType, EventTypes.ASSIGN) ? "assigned to " : "unassigned from ");
-		sb.append(userName);
 
 		sb.append(StringPool.PERIOD);
 

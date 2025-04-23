@@ -101,7 +101,9 @@ public class DLFileVersionModelListener
 					additionalInfoJSONObject.put(
 						"dlFileEntryIsCheckedOut", dlFileEntry.isCheckedOut());
 				}
-			} catch (Exception e) {}
+			}
+			catch (Exception exception) {
+			}
 
 			auditMessage.setMessage(
 				AuditMessageHelperUtil.getMessage(

@@ -280,9 +280,12 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 		}
 	}
 
-	public int searchAuditEventsCount(long companyId, String keywords, LinkedHashMap<String, Object> params) {
+	public int searchAuditEventsCount(
+		long companyId, String keywords, LinkedHashMap<String, Object> params) {
+
 		Indexer<AuditEvent> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-				AuditEvent.class);
+			AuditEvent.class);
+
 		SearchContext searchContext = new SearchContext();
 
 		_populateSearchContext(searchContext, companyId, keywords, params);

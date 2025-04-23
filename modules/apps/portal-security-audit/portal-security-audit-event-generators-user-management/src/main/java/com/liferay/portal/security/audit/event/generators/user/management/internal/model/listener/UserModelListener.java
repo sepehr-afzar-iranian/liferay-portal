@@ -49,14 +49,16 @@ public class UserModelListener extends BaseModelListener<User> {
 		Object classPK, String associationClassName, Object associationClassP) {
 
 		associationAudit(
-			associationClassName, associationClassP, classPK, EventTypes.ASSIGN);
+			associationClassName, associationClassP, classPK,
+			EventTypes.ASSIGN);
 	}
 
 	public void onAfterRemoveAssociation(
 		Object classPK, String associationClassName, Object associationClassP) {
 
 		associationAudit(
-			associationClassName, associationClassP, classPK, EventTypes.UNASSIGN);
+			associationClassName, associationClassP, classPK,
+			EventTypes.UNASSIGN);
 	}
 
 	@Override
@@ -119,8 +121,7 @@ public class UserModelListener extends BaseModelListener<User> {
 
 		try {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
-				eventType, User.class.getName(),
-				(long)userId, null);
+				eventType, User.class.getName(), (long)userId, null);
 
 			JSONObject additionalInfoJSONObject =
 				auditMessage.getAdditionalInfo();
@@ -130,13 +131,15 @@ public class UserModelListener extends BaseModelListener<User> {
 			User user = _userLocalService.fetchUser((Long)userId);
 
 			if (!Objects.equals(user, null)) {
-				userFullName =  user.getFullName();
+				userFullName = user.getFullName();
 			}
 
 			String associationName = _auditMessageUserAssociationHelper.getName(
 				associationClassName);
 
-			String associationValue = _auditMessageUserAssociationHelper.getValue(associationClassName, (long)associationClassP);
+			String associationValue =
+				_auditMessageUserAssociationHelper.getValue(
+					associationClassName, (long)associationClassP);
 
 			additionalInfoJSONObject.put(
 				"associationClassName", associationClassName
@@ -152,7 +155,9 @@ public class UserModelListener extends BaseModelListener<User> {
 				"userId", userId
 			);
 
-			auditMessage.setMessage(AuditMessageHelperUtil.getMessage(eventType, userFullName, associationValue, 0));
+			auditMessage.setMessage(
+				AuditMessageHelperUtil.getMessage(
+					eventType, userFullName, associationValue, 0));
 
 			_auditRouter.route(auditMessage);
 		}

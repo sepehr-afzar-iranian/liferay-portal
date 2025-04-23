@@ -94,7 +94,8 @@ public class AuditEventManagerUtil {
 
 		params.put(AuditField.SERVER_PORT, serverPort);
 
-		return _auditEventLocalService.searchAuditEventsCount(companyId, keywords, params);
+		return _auditEventLocalService.searchAuditEventsCount(
+			companyId, keywords, params);
 	}
 
 	public static String[] getEventTypes() {
@@ -155,7 +156,6 @@ public class AuditEventManagerUtil {
 	}
 
 	private static List<AuditEvent> _allAuditEvents;
-	private static List<AuditEvent> _allAuditEventsFilterByDate;
 	private static AuditEventLocalService _auditEventLocalService;
 
 }

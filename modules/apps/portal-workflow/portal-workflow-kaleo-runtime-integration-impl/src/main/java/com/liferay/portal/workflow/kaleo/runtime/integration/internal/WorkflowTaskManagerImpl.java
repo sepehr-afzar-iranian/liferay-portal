@@ -20,7 +20,6 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouterUtil;
-import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -55,6 +54,7 @@ import com.liferay.portal.kernel.workflow.WorkflowException;
 import com.liferay.portal.kernel.workflow.WorkflowTask;
 import com.liferay.portal.kernel.workflow.WorkflowTaskManager;
 import com.liferay.portal.kernel.workflow.search.WorkflowModelSearchResult;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.workflow.kaleo.KaleoWorkflowModelConverter;
 import com.liferay.portal.workflow.kaleo.model.KaleoInstance;
 import com.liferay.portal.workflow.kaleo.model.KaleoInstanceToken;
@@ -1097,6 +1097,7 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 			String userFullName = "";
 
 			User user = _userLocalService.fetchUser(userId);
+
 			User assigneeUser = null;
 			Role assigneeRole = null;
 
@@ -1189,10 +1190,7 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 				workflowTask.getOptionalAttributes();
 
 			if ((workflowContext != null) && !workflowContext.isEmpty()) {
-				workflowTask.getOptionalAttributes(
-				).forEach(
-					additionalInfoJSONObject::put
-				);
+				workflowContext.forEach(additionalInfoJSONObject::put);
 			}
 
 			auditMessage.setAdditionalInfo(additionalInfoJSONObject);
@@ -1262,10 +1260,7 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 				workflowTask.getOptionalAttributes();
 
 			if ((workflowContext != null) && !workflowContext.isEmpty()) {
-				workflowTask.getOptionalAttributes(
-				).forEach(
-					additionalInfoJSONObject::put
-				);
+				workflowContext.forEach(additionalInfoJSONObject::put);
 			}
 
 			auditMessage.setAdditionalInfo(additionalInfoJSONObject);
@@ -1328,10 +1323,7 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 				workflowTask.getOptionalAttributes();
 
 			if ((workflowContext != null) && !workflowContext.isEmpty()) {
-				workflowTask.getOptionalAttributes(
-				).forEach(
-					additionalInfoJSONObject::put
-				);
+				workflowContext.forEach(additionalInfoJSONObject::put);
 			}
 
 			auditMessage.setAdditionalInfo(additionalInfoJSONObject);
