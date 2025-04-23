@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.events.Action;
 import com.liferay.portal.kernel.events.ActionException;
 import com.liferay.portal.kernel.events.LifecycleAction;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -32,6 +34,8 @@ import com.liferay.portal.liveusers.LiveUsers;
 import com.liferay.portal.security.audit.event.generators.constants.AuditConstants;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
+import com.liferay.portal.security.ldap.configuration.ConfigurationProvider;
+import com.liferay.portal.security.ldap.configuration.LDAPServerConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,11 +71,36 @@ public class LoginPostAction extends Action {
 
 			String userFullName = user.getFullName();
 
+			long ldapServerId = user.getLdapServerId();
+
 			AuditMessage auditMessage = new AuditMessage(
 				EventTypes.LOGIN, user.getCompanyId(), userId, userFullName,
 				User.class.getName(), String.valueOf(userId),
 				AuditMessageHelperUtil.getMessage(
-					EventTypes.LOGIN, null, userFullName, 0));
+					EventTypes.LOGIN, null, userFullName, ldapServerId));
+
+			boolean ldap = false;
+
+			if (ldapServerId > 0) {
+				ldap = true;
+			}
+
+			JSONObject additionalInfoJSONObject = JSONUtil.put("ldap", ldap);
+
+			if (ldap) {
+				additionalInfoJSONObject.put("ldapServerId", ldapServerId);
+
+				LDAPServerConfiguration ldapServerConfiguration =
+					_ldapServerConfigurationProvider.getConfiguration(
+						user.getCompanyId(), ldapServerId);
+
+				if (ldapServerConfiguration != null) {
+					additionalInfoJSONObject.put(
+						"ldapServerName", ldapServerConfiguration.serverName());
+				}
+			}
+
+			auditMessage.setAdditionalInfo(additionalInfoJSONObject);
 
 			_auditRouter.route(auditMessage);
 		}
@@ -129,6 +158,17 @@ public class LoginPostAction extends Action {
 		}
 	}
 
+	@Reference(
+		target = "(factoryPid=com.liferay.portal.security.ldap.configuration.LDAPServerConfiguration)",
+		unbind = "-"
+	)
+	protected void setLDAPServerConfigurationProvider(
+		ConfigurationProvider<LDAPServerConfiguration>
+			ldapServerConfigurationProvider) {
+
+		_ldapServerConfigurationProvider = ldapServerConfigurationProvider;
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		LoginPostAction.class);
 
@@ -137,6 +177,9 @@ public class LoginPostAction extends Action {
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
+
+	private ConfigurationProvider<LDAPServerConfiguration>
+		_ldapServerConfigurationProvider;
 
 	@Reference
 	private Portal _portal;

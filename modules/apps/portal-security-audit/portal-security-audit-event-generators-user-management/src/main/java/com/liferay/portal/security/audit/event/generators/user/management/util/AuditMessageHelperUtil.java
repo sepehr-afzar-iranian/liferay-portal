@@ -37,7 +37,12 @@ public class AuditMessageHelperUtil {
 			eventType.equals(EventTypes.LOGIN_FAILURE) ||
 			eventType.equals(EventTypes.IMPERSONATE))
 
-			return _userMessage(eventType, name);
+			return _userMessage(eventType, name, id > 0);
+
+		if (eventType.equals(EventTypes.ASSIGN) ||
+				eventType.equals(EventTypes.UNASSIGN))
+
+			return _RoleMessage(eventType, className, name);
 
 		return _regularMessage(eventType, className, name, id);
 	}
@@ -102,7 +107,9 @@ public class AuditMessageHelperUtil {
 		return sb.toString();
 	}
 
-	private static String _userMessage(String eventType, String userName) {
+	private static String _userMessage(
+		String eventType, String userName, boolean ldap) {
+
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("User with the name");
@@ -122,6 +129,27 @@ public class AuditMessageHelperUtil {
 		else if (eventType.equals(EventTypes.IMPERSONATE)) {
 			sb.append("just impersonated someone");
 		}
+
+		if (ldap) {
+			sb.append(StringPool.SPACE);
+			sb.append("using LDAP");
+		}
+
+		sb.append(StringPool.PERIOD);
+
+		return sb.toString();
+	}
+
+	private static String _RoleMessage(
+			String eventType, String userName, String roleName) {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Role ");
+		sb.append(roleName);
+		sb.append(" was ");
+		sb.append(Objects.equals(eventType, EventTypes.ASSIGN) ? "assigned to " : "unassigned from ");
+		sb.append(userName);
 
 		sb.append(StringPool.PERIOD);
 
