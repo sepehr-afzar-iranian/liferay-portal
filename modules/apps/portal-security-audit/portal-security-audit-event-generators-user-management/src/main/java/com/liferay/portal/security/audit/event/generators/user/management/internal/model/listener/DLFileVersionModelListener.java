@@ -94,17 +94,21 @@ public class DLFileVersionModelListener
 					"dlFileEntryFolderName", dlFolder.getName());
 			}
 
-			DLFileEntry dlFileEntry = dlFileVersion.getFileEntry();
+			try {
+				DLFileEntry dlFileEntry = dlFileVersion.getFileEntry();
 
-			if (!Objects.equals(dlFileEntry, null)) {
-				additionalInfoJSONObject.put(
-					"dlFileEntryIsCheckedOut", dlFileEntry.isCheckedOut());
+				if (!Objects.equals(dlFileEntry, null)) {
+					additionalInfoJSONObject.put(
+						"dlFileEntryIsCheckedOut", dlFileEntry.isCheckedOut());
+				}
+			}
+			catch (Exception exception) {
 			}
 
 			auditMessage.setMessage(
 				AuditMessageHelperUtil.getMessage(
 					eventType, auditMessage.getClassName(),
-					dlFileEntry.getFileName(), dlFileVersionId));
+					dlFileVersion.getVersion(), dlFileVersionId));
 
 			_auditRouter.route(auditMessage);
 		}

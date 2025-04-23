@@ -32,7 +32,11 @@ public interface EventTypes {
 
 	public static final String CHECK_AUDIT = "CHECK AUDIT";
 
+	public static final String COMPLETE = "COMPLETE";
+
 	public static final String CONFIGURATION_SAVE = "SAVE CONFIGURATION";
+
+	public static final String DATA_VIOLATION = "DATA VIOLATION";
 
 	public static final String DELETE = "DELETE";
 

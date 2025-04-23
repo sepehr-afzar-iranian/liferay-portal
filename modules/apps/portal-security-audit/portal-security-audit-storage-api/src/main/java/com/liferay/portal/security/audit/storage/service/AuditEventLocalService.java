@@ -306,6 +306,10 @@ public interface AuditEventLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchAuditEventsCount(long companyId, String keywords);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int searchAuditEventsCount(
+		long companyId, String keywords, LinkedHashMap<String, Object> params);
+
 	/**
 	 * Updates the audit event in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

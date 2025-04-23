@@ -425,6 +425,15 @@ public class AuditEventLocalServiceWrapper
 			companyId, keywords);
 	}
 
+	@Override
+	public int searchAuditEventsCount(
+		long companyId, String keywords,
+		java.util.LinkedHashMap<String, Object> params) {
+
+		return _auditEventLocalService.searchAuditEventsCount(
+			companyId, keywords, params);
+	}
+
 	/**
 	 * Updates the audit event in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

@@ -363,6 +363,13 @@ public class AuditEventLocalServiceUtil {
 		return getService().searchAuditEventsCount(companyId, keywords);
 	}
 
+	public static int searchAuditEventsCount(
+		long companyId, String keywords,
+		java.util.LinkedHashMap<String, Object> params) {
+
+		return getService().searchAuditEventsCount(companyId, keywords, params);
+	}
+
 	/**
 	 * Updates the audit event in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

@@ -23,7 +23,6 @@ import com.liferay.portal.security.audit.web.internal.portlet.AuditField;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Component;
@@ -62,40 +61,11 @@ public class AuditEventManagerUtil {
 
 		params.put(AuditField.SERVER_PORT, serverPort);
 
-		if ((cur == -1) && (delta == -1)) {
-			BaseModelSearchResult<AuditEvent> result =
-				_auditEventLocalService.search(
-					companyId, keywords, params, -1, -1, "createDate", true);
+		BaseModelSearchResult<AuditEvent> result =
+			_auditEventLocalService.search(
+				companyId, keywords, params, cur, delta, "createDate", true);
 
-			List<AuditEvent> auditEvents = result.getBaseModels();
-
-			Stream<AuditEvent> stream = auditEvents.stream();
-
-			_allAuditEventsFilterByDate = stream.filter(
-				auditEvent -> {
-					if ((startDate != null) && (endDate != null)) {
-						return !startDate.after(auditEvent.getCreateDate()) &&
-							   !endDate.before(auditEvent.getCreateDate());
-					}
-
-					return true;
-				}
-			).collect(
-				Collectors.toList()
-			);
-
-			return _allAuditEventsFilterByDate;
-		}
-
-		Stream<AuditEvent> stream = _allAuditEventsFilterByDate.stream();
-
-		return stream.skip(
-			cur
-		).limit(
-			delta
-		).collect(
-			Collectors.toList()
-		);
+		return result.getBaseModels();
 	}
 
 	public static int getAuditEventsCount(
@@ -104,12 +74,28 @@ public class AuditEventManagerUtil {
 		String clientIP, String serverName, String serverPort, Date startDate,
 		Date endDate) {
 
-		List<AuditEvent> auditEvents = getAuditEvents(
-			companyId, keywords, userId, userName, eventType, className,
-			classPK, clientHost, clientIP, serverName, serverPort, startDate,
-			endDate, -1, -1);
+		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
-		return auditEvents.size();
+		params.put(AuditField.USER_ID, userId);
+
+		params.put(AuditField.USER_NAME, userName);
+
+		params.put(AuditField.CLASS_NAME, className);
+
+		params.put(AuditField.CLASS_PK, classPK);
+
+		params.put(AuditField.CLIENT_HOST, clientHost);
+
+		params.put(AuditField.CLIENT_IP, clientIP);
+
+		params.put(AuditField.EVENT_TYPE, eventType);
+
+		params.put(AuditField.SERVER_NAME, serverName);
+
+		params.put(AuditField.SERVER_PORT, serverPort);
+
+		return _auditEventLocalService.searchAuditEventsCount(
+			companyId, keywords, params);
 	}
 
 	public static String[] getEventTypes() {
@@ -170,7 +156,6 @@ public class AuditEventManagerUtil {
 	}
 
 	private static List<AuditEvent> _allAuditEvents;
-	private static List<AuditEvent> _allAuditEventsFilterByDate;
 	private static AuditEventLocalService _auditEventLocalService;
 
 }

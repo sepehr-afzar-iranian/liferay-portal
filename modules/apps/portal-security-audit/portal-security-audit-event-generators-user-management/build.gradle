@@ -37,6 +37,7 @@ dependencies {
 	compileOnly project(":apps:portal-lock:portal-lock-api")
 	compileOnly project(":apps:portal-security-audit:portal-security-audit-event-generators-api")
 	compileOnly project(":apps:portal-security-audit:portal-security-audit-storage-api")
+	compileOnly project(":apps:portal-security:portal-security-ldap-api")
 	compileOnly project(":apps:portal-security:portal-security-service-access-policy-api")
 	compileOnly project(":apps:redirect:redirect-api")
 	compileOnly project(":apps:segments:segments-api")

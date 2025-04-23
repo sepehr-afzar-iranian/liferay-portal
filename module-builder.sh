@@ -55,6 +55,7 @@ apps:portal-security-audit:portal-security-audit-web:$1 \
 apps:portal-security-audit:portal-security-audit-wiring:$1 \
 apps:portal-settings:portal-settings-lang:$1 \
 apps:portal-settings:portal-settings-web:$1 \
+apps:portal-workflow:portal-workflow-kaleo-runtime-integration-impl:$1 \
 apps:product-navigation:product-navigation-personal-menu-web:$1 \
 apps:site:site-browser-web:$1 \
 apps:site:site-memberships-web:$1 \

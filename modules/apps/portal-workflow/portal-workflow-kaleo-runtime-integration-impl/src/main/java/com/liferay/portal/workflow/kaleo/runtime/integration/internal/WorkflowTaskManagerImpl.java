@@ -17,8 +17,13 @@ package com.liferay.portal.workflow.kaleo.runtime.integration.internal;
 import com.liferay.depot.constants.DepotRolesConstants;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.lock.DuplicateLockException;
 import com.liferay.portal.kernel.lock.Lock;
 import com.liferay.portal.kernel.lock.LockManager;
@@ -49,6 +54,7 @@ import com.liferay.portal.kernel.workflow.WorkflowException;
 import com.liferay.portal.kernel.workflow.WorkflowTask;
 import com.liferay.portal.kernel.workflow.WorkflowTaskManager;
 import com.liferay.portal.kernel.workflow.search.WorkflowModelSearchResult;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.workflow.kaleo.KaleoWorkflowModelConverter;
 import com.liferay.portal.workflow.kaleo.model.KaleoInstance;
 import com.liferay.portal.workflow.kaleo.model.KaleoInstanceToken;
@@ -109,9 +115,14 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 		serviceContext.setCompanyId(companyId);
 		serviceContext.setUserId(userId);
 
-		return _taskManager.assignWorkflowTaskToRole(
+		WorkflowTask workflowTask = _taskManager.assignWorkflowTaskToRole(
 			workflowTaskId, roleId, comment, dueDate, workflowContext,
 			serviceContext);
+
+		_auditAssignWorkflowTask(
+			companyId, userId, workflowTask, Role.class.getName());
+
+		return workflowTask;
 	}
 
 	@Override
@@ -133,9 +144,14 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 		serviceContext.setCompanyId(companyId);
 		serviceContext.setUserId(userId);
 
-		return _taskManager.assignWorkflowTaskToUser(
+		WorkflowTask workflowTask = _taskManager.assignWorkflowTaskToUser(
 			workflowTaskId, assigneeUserId, comment, dueDate, workflowContext,
 			serviceContext);
+
+		_auditAssignWorkflowTask(
+			companyId, userId, workflowTask, User.class.getName());
+
+		return workflowTask;
 	}
 
 	@Override
@@ -218,6 +234,8 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 					}
 
 				});
+
+			_auditCompleteWorkflowTask(companyId, userId, workflowTask);
 
 			return workflowTask;
 		}
@@ -1063,8 +1081,260 @@ public class WorkflowTaskManagerImpl implements WorkflowTaskManager {
 		serviceContext.setCompanyId(companyId);
 		serviceContext.setUserId(userId);
 
-		return _taskManager.updateDueDate(
+		WorkflowTask workflowTask = _taskManager.updateDueDate(
 			workflowTaskId, comment, dueDate, serviceContext);
+
+		_auditUpdateDueDateWorkflowTask(companyId, userId, workflowTask);
+
+		return workflowTask;
+	}
+
+	private void _auditAssignWorkflowTask(
+		long companyId, long userId, WorkflowTask workflowTask,
+		String className) {
+
+		try {
+			String userFullName = "";
+
+			User user = _userLocalService.fetchUser(userId);
+
+			User assigneeUser = null;
+			Role assigneeRole = null;
+
+			if (className.equals(User.class.getName())) {
+				assigneeUser = _userLocalService.fetchUser(
+					workflowTask.getAssigneeUserId());
+			}
+			else {
+				assigneeRole = _roleLocalService.fetchRole(
+					workflowTask.getAssigneeUserId());
+			}
+
+			if (user != null) {
+				userFullName = user.getFullName();
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Workflow task");
+			sb.append(StringPool.SPACE);
+			sb.append(workflowTask.getName());
+			sb.append(StringPool.SPACE);
+			sb.append("was assigned to");
+			sb.append(StringPool.SPACE);
+
+			if (className.equals(User.class.getName()) &&
+				(assigneeUser != null)) {
+
+				sb.append("User");
+				sb.append(StringPool.SPACE);
+				sb.append(assigneeUser.getFullName());
+			}
+			else if (assigneeRole != null) {
+				sb.append("Role");
+				sb.append(StringPool.SPACE);
+				sb.append(assigneeRole.getName());
+			}
+
+			sb.append(StringPool.SPACE);
+
+			if (userId == 0) {
+				sb.append("automatically");
+			}
+			else if (user != null) {
+				sb.append("by");
+				sb.append(StringPool.SPACE);
+				sb.append(userFullName);
+			}
+
+			AuditMessage auditMessage = new AuditMessage(
+				EventTypes.ASSIGN, companyId, userId, userFullName,
+				WorkflowTask.class.getName(),
+				String.valueOf(workflowTask.getWorkflowTaskId()),
+				sb.toString());
+
+			JSONObject additionalInfoJSONObject = JSONUtil.put(
+				"workflowTaskDueDate", workflowTask.getDueDate()
+			).put(
+				"workflowTaskId", workflowTask.getWorkflowTaskId()
+			).put(
+				"workflowTaskName", workflowTask.getName()
+			);
+
+			if (className.equals(User.class.getName())) {
+				additionalInfoJSONObject.put(
+					"assignedTo", "USER"
+				).put(
+					"assigneeUserId", workflowTask.getAssigneeUserId()
+				);
+
+				if (assigneeUser != null) {
+					additionalInfoJSONObject.put(
+						"assigneeUserFullName", assigneeUser.getFullName());
+				}
+			}
+			else {
+				additionalInfoJSONObject.put(
+					"assignedTo", "ROLE"
+				).put(
+					"assigneeRoleId", workflowTask.getAssigneeUserId()
+				);
+
+				if (assigneeRole != null) {
+					additionalInfoJSONObject.put(
+						"assigneeRoleName", assigneeRole.getName());
+				}
+			}
+
+			Map<String, Serializable> workflowContext =
+				workflowTask.getOptionalAttributes();
+
+			if ((workflowContext != null) && !workflowContext.isEmpty()) {
+				workflowContext.forEach(additionalInfoJSONObject::put);
+			}
+
+			auditMessage.setAdditionalInfo(additionalInfoJSONObject);
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
+	private void _auditCompleteWorkflowTask(
+		long companyId, long userId, WorkflowTask workflowTask) {
+
+		try {
+			String userFullName = "";
+
+			User user = _userLocalService.fetchUser(userId);
+			User assigneeUser = _userLocalService.fetchUser(
+				workflowTask.getAssigneeUserId());
+
+			if (user != null) {
+				userFullName = user.getFullName();
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Workflow task");
+			sb.append(StringPool.SPACE);
+			sb.append(workflowTask.getName());
+			sb.append(StringPool.SPACE);
+			sb.append("was completed");
+
+			if (assigneeUser != null) {
+				sb.append(StringPool.SPACE);
+				sb.append("by user");
+				sb.append(StringPool.SPACE);
+				sb.append(assigneeUser.getFullName());
+			}
+
+			sb.append(StringPool.PERIOD);
+
+			AuditMessage auditMessage = new AuditMessage(
+				EventTypes.COMPLETE, companyId, userId, userFullName,
+				WorkflowTask.class.getName(),
+				String.valueOf(workflowTask.getWorkflowTaskId()),
+				sb.toString());
+
+			JSONObject additionalInfoJSONObject = JSONUtil.put(
+				"assigneeUserId", workflowTask.getAssigneeUserId()
+			).put(
+				"workflowTaskDueDate", workflowTask.getDueDate()
+			).put(
+				"workflowTaskId", workflowTask.getWorkflowTaskId()
+			).put(
+				"workflowTaskName", workflowTask.getName()
+			);
+
+			if (assigneeUser != null) {
+				additionalInfoJSONObject.put(
+					"assigneeUserFullName", assigneeUser.getFullName());
+			}
+
+			Map<String, Serializable> workflowContext =
+				workflowTask.getOptionalAttributes();
+
+			if ((workflowContext != null) && !workflowContext.isEmpty()) {
+				workflowContext.forEach(additionalInfoJSONObject::put);
+			}
+
+			auditMessage.setAdditionalInfo(additionalInfoJSONObject);
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
+	private void _auditUpdateDueDateWorkflowTask(
+		long companyId, long userId, WorkflowTask workflowTask) {
+
+		try {
+			String userFullName = "";
+
+			User user = _userLocalService.fetchUser(userId);
+
+			if (user != null) {
+				userFullName = user.getFullName();
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Workflow task");
+			sb.append(StringPool.SPACE);
+			sb.append(workflowTask.getName());
+			sb.append(StringPool.SPACE);
+			sb.append("'s due date was updated");
+
+			if (user != null) {
+				sb.append(StringPool.SPACE);
+				sb.append("by user");
+				sb.append(StringPool.SPACE);
+				sb.append(userFullName);
+			}
+
+			sb.append(StringPool.PERIOD);
+
+			AuditMessage auditMessage = new AuditMessage(
+				EventTypes.UPDATE, companyId, userId, userFullName,
+				WorkflowTask.class.getName(),
+				String.valueOf(workflowTask.getWorkflowTaskId()),
+				sb.toString());
+
+			JSONObject additionalInfoJSONObject = JSONUtil.put(
+				"assigneeUserId", workflowTask.getAssigneeUserId()
+			).put(
+				"workflowTaskDueDate", workflowTask.getDueDate()
+			).put(
+				"workflowTaskId", workflowTask.getWorkflowTaskId()
+			).put(
+				"workflowTaskName", workflowTask.getName()
+			);
+
+			Map<String, Serializable> workflowContext =
+				workflowTask.getOptionalAttributes();
+
+			if ((workflowContext != null) && !workflowContext.isEmpty()) {
+				workflowContext.forEach(additionalInfoJSONObject::put);
+			}
+
+			auditMessage.setAdditionalInfo(additionalInfoJSONObject);
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
 	}
 
 	private ExecutionContext _createExecutionContext(
