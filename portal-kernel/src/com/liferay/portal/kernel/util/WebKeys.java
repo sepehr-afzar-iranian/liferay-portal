@@ -582,6 +582,8 @@ public interface WebKeys {
 
 	public static final String ROLE = "ROLE";
 
+	public static final String SCREEN_NAME_MODIFIED = "SCREEN_NAME_MODIFIED";
+
 	public static final String SEARCH_CONTAINER = "SEARCH_CONTAINER";
 
 	public static final String SEARCH_CONTAINER_RESULT_ROW =

@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.Phone;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserTracker;
 import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.portlet.DynamicActionRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
@@ -58,6 +59,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.UserService;
+import com.liferay.portal.kernel.servlet.PortalSessionContext;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -73,6 +75,7 @@ import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.liveusers.LiveUsers;
 import com.liferay.portlet.InvokerPortletUtil;
 import com.liferay.portlet.admin.util.AdminUtil;
 import com.liferay.users.admin.constants.UsersAdminPortletKeys;
@@ -80,7 +83,10 @@ import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -427,10 +433,12 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 
 		User user = portal.getSelectedUser(actionRequest);
 
+		long userId = user.getUserId();
+
 		Contact contact = user.getContact();
 
 		String oldPassword = AdminUtil.getUpdateUserPassword(
-			actionRequest, user.getUserId());
+			actionRequest, userId);
 
 		String oldScreenName = user.getScreenName();
 		String screenName = BeanParamUtil.getString(
@@ -486,7 +494,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			User.class.getName(), actionRequest);
 
 		user = _userService.updateUser(
-			user.getUserId(), oldPassword, null, null, user.isPasswordReset(),
+			userId, oldPassword, null, null, user.isPasswordReset(),
 			null, null, screenName, emailAddress, !deleteLogo, portraitBytes,
 			languageId, user.getTimeZoneId(), user.getGreeting(), comments,
 			firstName, middleName, lastName, prefixId, suffixId, male,
@@ -497,6 +505,25 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 
 		if (oldScreenName.equals(user.getScreenName())) {
 			oldScreenName = StringPool.BLANK;
+		} else {
+			Map<String, UserTracker> sessionUsers =
+					LiveUsers.getSessionUsers(user.getCompanyId());
+
+			List<UserTracker> userTrackers = new ArrayList<>(
+					sessionUsers.values());
+
+			for (UserTracker userTracker : userTrackers) {
+				if (userId != userTracker.getUserId()) {
+					continue;
+				}
+
+				HttpSession userSession = PortalSessionContext.get(
+						userTracker.getSessionId());
+
+				if (!Objects.equals(userSession, null)) {
+					userSession.setAttribute(WebKeys.SCREEN_NAME_MODIFIED, true);
+				}
+			}
 		}
 
 		boolean updateLanguageId = false;
