@@ -452,6 +452,8 @@ public interface WebKeys {
 	public static final String PARALLEL_RENDERING_TIMEOUT_ERROR =
 		"PARALLEL_RENDERING_TIMEOUT_ERROR";
 
+	public static final String PASSWORD_MODIFIED = "PASSWORD_MODIFIED";
+
 	public static final String PASSWORD_POLICY = "PASSWORD_POLICY";
 
 	public static final String PHONE = "PHONE";

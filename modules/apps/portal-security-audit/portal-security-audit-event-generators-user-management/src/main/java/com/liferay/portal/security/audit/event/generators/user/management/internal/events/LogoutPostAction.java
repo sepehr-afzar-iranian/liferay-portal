@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.events;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.events.Action;
@@ -22,9 +23,10 @@ import com.liferay.portal.kernel.events.LifecycleAction;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
 import java.util.Objects;
 
@@ -62,8 +64,7 @@ public class LogoutPostAction extends Action {
 				EventTypes.LOGOUT, user.getCompanyId(), user.getUserId(),
 				userFullName, User.class.getName(),
 				String.valueOf(user.getUserId()),
-				AuditMessageHelperUtil.getMessage(
-					EventTypes.LOGOUT, null, userFullName, 0));
+				_getMessage(userFullName, httpServletRequest));
 
 			_auditRouter.route(auditMessage);
 		}
@@ -72,6 +73,28 @@ public class LogoutPostAction extends Action {
 				_log.warn("Unable to route audit message", exception);
 			}
 		}
+	}
+
+	private String _getMessage(String userName, HttpServletRequest httpServletRequest) {
+		boolean passwordModified = GetterUtil.getBoolean(
+				httpServletRequest.getAttribute(WebKeys.PASSWORD_MODIFIED));
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("User with the name");
+		sb.append(StringPool.SPACE);
+		sb.append(userName);
+		sb.append(StringPool.SPACE);
+
+		if (passwordModified) {
+			sb.append("was logged out because password was modified");
+		} else {
+			sb.append("just logged out");
+		}
+
+		sb.append(StringPool.PERIOD);
+
+		return sb.toString();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

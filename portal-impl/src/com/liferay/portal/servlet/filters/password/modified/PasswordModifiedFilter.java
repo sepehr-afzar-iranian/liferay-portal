@@ -44,6 +44,9 @@ public class PasswordModifiedFilter extends BasePortalFilter {
 		throws Exception {
 
 		if (_isPasswordModified(httpServletRequest)) {
+			httpServletRequest.setAttribute(
+				WebKeys.PASSWORD_MODIFIED, Boolean.TRUE);
+
 			AuthenticatedSessionManagerUtil.logout(
 				httpServletRequest, httpServletResponse);
 
