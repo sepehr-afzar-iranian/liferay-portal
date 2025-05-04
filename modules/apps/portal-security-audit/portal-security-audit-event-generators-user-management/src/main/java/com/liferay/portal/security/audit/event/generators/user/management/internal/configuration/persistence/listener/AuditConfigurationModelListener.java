@@ -404,19 +404,34 @@ public class AuditConfigurationModelListener
 
 		List<Attribute> attributes = new ArrayList<>();
 
-		Enumeration<String> keysEnumeration = oldProperties.keys();
+		if (oldProperties == null) {
+			Enumeration<String> keysEnumeration = newProperties.keys();
 
-		while (keysEnumeration.hasMoreElements()) {
-			String name = keysEnumeration.nextElement();
+			while (keysEnumeration.hasMoreElements()) {
+				String name = keysEnumeration.nextElement();
 
-			Object oldValue = oldProperties.get(name);
-			Object newValue = newProperties.get(name);
+				Object newValue = newProperties.get(name);
 
-			if (!Objects.equals(oldValue, newValue)) {
 				Attribute attribute = new Attribute(
-					name, newValue.toString(), oldValue.toString());
+						name, newValue.toString(), StringPool.BLANK);
 
 				attributes.add(attribute);
+			}
+		} else {
+			Enumeration<String> keysEnumeration = oldProperties.keys();
+
+			while (keysEnumeration.hasMoreElements()) {
+				String name = keysEnumeration.nextElement();
+
+				Object oldValue = oldProperties.get(name);
+				Object newValue = newProperties.get(name);
+
+				if (!Objects.equals(oldValue, newValue)) {
+					Attribute attribute = new Attribute(
+						name, newValue.toString(), oldValue.toString());
+
+					attributes.add(attribute);
+				}
 			}
 		}
 
