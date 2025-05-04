@@ -15,6 +15,8 @@
 package com.liferay.portal.settings.web.internal.portlet.action;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -22,6 +24,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
+import com.liferay.portal.security.audit.event.generators.user.management.util.AuditPortalSettingsConfigurationScreenUtil;
 import com.liferay.portal.settings.portlet.action.PortalSettingsFormContributor;
 
 import javax.portlet.ActionRequest;
@@ -64,6 +68,13 @@ public class DeletePortalSettingsFormMVCActionCommand
 			}
 
 			deleteSettings(themeDisplay);
+			try {
+				AuditPortalSettingsConfigurationScreenUtil.audit(actionRequest, EventTypes.DELETE);
+			} catch (Exception exception) {
+				if (_log.isWarnEnabled()) {
+					_log.warn("Unable to route audit message", exception);
+				}
+			}
 		}
 		catch (PortalException portalException) {
 			SessionErrors.add(
@@ -82,6 +93,9 @@ public class DeletePortalSettingsFormMVCActionCommand
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+			DeletePortalSettingsFormMVCActionCommand.class);
 
 	private final PortletPreferencesLocalService
 		_portletPreferencesLocalService;
