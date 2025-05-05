@@ -158,6 +158,7 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 			if (_log.isDebugEnabled()) {
 				_log.debug(principalException, principalException);
 			}
+			_audit(httpServletRequest, portlet);
 
 			processRenderException(
 				httpServletRequest, httpServletResponse, portlet);
@@ -435,44 +436,6 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 
 		String portletContent = null;
 
-		try {
-			String curremtCompleteURL = PortalUtil.getCurrentCompleteURL(
-				httpServletRequest);
-
-			long userId = PortalUtil.getUserId(httpServletRequest);
-
-			User user = UserLocalServiceUtil.fetchUserById(userId);
-
-			if (!Objects.equals(user, null)) {
-				String userFullName = user.getFullName();
-
-				JSONObject additionalInfoJSONObject = JSONUtil.put(
-					"url", curremtCompleteURL
-				).put(
-					"userName", userFullName
-				);
-
-				StringBuilder sb = new StringBuilder();
-
-				sb.append("User ");
-				sb.append(userFullName);
-				sb.append(" requested a url that does not have access to.");
-
-				AuditMessage auditMessage = new AuditMessage(
-					"UNAUTHORIZED ACCESS", user.getCompanyId(), userId,
-					userFullName, HttpServletRequest.class.getName(),
-					portlet.getPortletId(), sb.toString(),
-					additionalInfoJSONObject);
-
-				AuditRouterUtil.route(auditMessage);
-			}
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to route audit message", exception);
-			}
-		}
-
 		if (portlet.isShowPortletAccessDenied()) {
 			portletContent = "/html/portal/portlet_access_denied.jsp";
 		}
@@ -518,6 +481,54 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 					"User %s is not allowed to serve resource for %s on %s: %s",
 					PortalUtil.getUserId(httpServletRequest), url,
 					portlet.getPortletId(), principalException.getMessage()));
+		}
+	}
+
+	private void _audit(HttpServletRequest httpServletRequest, Portlet portlet) {
+		try {
+			String curremtCompleteURL = PortalUtil.getCurrentCompleteURL(
+					httpServletRequest);
+
+			long userId = PortalUtil.getUserId(httpServletRequest);
+
+			User user = UserLocalServiceUtil.fetchUserById(userId);
+
+			if (!Objects.equals(user, null)) {
+				String userFullName = user.getFullName();
+
+				JSONObject additionalInfoJSONObject = JSONUtil.put(
+					"url", curremtCompleteURL
+				).put(
+					"userName", userFullName
+				);
+
+				if (!Objects.equals(portlet, null)) {
+					additionalInfoJSONObject.put(
+						"portletName", portlet.getPortletName()
+					).put(
+						"portletId", portlet.getPortletId()
+					);
+				}
+
+				StringBuilder sb = new StringBuilder();
+
+				sb.append("User ");
+				sb.append(userFullName);
+				sb.append(" requested a url that does not have access to.");
+
+				AuditMessage auditMessage = new AuditMessage(
+						"UNAUTHORIZED ACCESS", user.getCompanyId(), userId,
+						userFullName, HttpServletRequest.class.getName(),
+						portlet.getPortletId(), sb.toString(),
+						additionalInfoJSONObject);
+
+				AuditRouterUtil.route(auditMessage);
+			}
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
 		}
 	}
 
