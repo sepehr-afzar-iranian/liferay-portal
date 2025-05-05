@@ -18,6 +18,8 @@ import com.liferay.captcha.util.CaptchaUtil;
 import com.liferay.login.web.constants.LoginPortletKeys;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
 import com.liferay.portal.kernel.captcha.CaptchaException;
 import com.liferay.portal.kernel.exception.CompanyMaxUsersException;
@@ -31,8 +33,11 @@ import com.liferay.portal.kernel.exception.UserIpException;
 import com.liferay.portal.kernel.exception.UserLockoutException;
 import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -54,6 +59,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -263,6 +269,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 		if (!hostsAllowed.isEmpty() &&
 			AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+			_audit(actionRequest, themeDisplay, userIp, companyId);
 
 			throw new UserIpException();
 		}
@@ -384,6 +391,56 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		actionResponse.sendRedirect(portletURL.toString());
 	}
 
+	private void _audit(ActionRequest actionRequest, ThemeDisplay themeDisplay, String userIp, long companyId) {
+		try {
+			String login = ParamUtil.getString(actionRequest, "login");
+
+			PortletPreferences portletPreferences =
+					PortletPreferencesFactoryUtil.getStrictPortletSetup(
+							themeDisplay.getLayout(),
+							_portal.getPortletId(actionRequest));
+
+			String authType = portletPreferences.getValue("authType", null);
+
+			if (Validator.isNull(authType)) {
+				Company company = _portal.getCompany(actionRequest);
+				authType = company.getAuthType();
+			}
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Someone with");
+			sb.append(StringPool.SPACE);
+			sb.append(authType);
+			sb.append(StringPool.SPACE);
+			sb.append(login);
+			sb.append(StringPool.SPACE);
+			sb.append("tried to login with banned ip");
+			sb.append(StringPool.PERIOD);
+
+			JSONObject additionalInfoJSONObject = JSONUtil.put(
+					"login", login
+			).put(
+					"ip", userIp
+			).put(
+					"authType", authType
+			);
+
+			AuditMessage auditMessage = new AuditMessage(
+					EventTypes.LOGIN_FAILURE, companyId, 0,
+					"", HttpServletRequest.class.getName(),
+					"0", sb.toString(),
+					additionalInfoJSONObject);
+
+			_auditRouter.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		LoginMVCActionCommand.class);
 
@@ -395,5 +452,8 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private AuditRouter _auditRouter;
 
 }
