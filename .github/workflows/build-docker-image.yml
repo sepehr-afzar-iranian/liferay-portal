@@ -5,6 +5,16 @@ jobs:
           DOCKER_CLIENT_TIMEOUT: 300
           COMPOSE_HTTP_TIMEOUT:   300
         steps:
+            - name: Debug connectivity to registry
+              run: |
+                echo "Resolving DNS…"
+                nslookup liferay.***.ir || true
+
+                echo "Pinging… (may be blocked)"
+                ping -c 4 repo.sain.ir || true
+            
+                echo "Attempting HTTPS GET of /v2/…"
+                curl -v https://repo.sain.ir/v2/ --max-time 30 || true
             - name: Checkout repository
               uses: actions/checkout@v2
             - name: Login to SAIN repository
