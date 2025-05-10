@@ -1,6 +1,6 @@
 jobs:
     Build:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         env:
           DOCKER_CLIENT_TIMEOUT: 300
           COMPOSE_HTTP_TIMEOUT:   300
@@ -15,6 +15,19 @@ jobs:
             
                 echo "Attempting HTTPS GET of /v2/…"
                 curl -v https://repo.sain.ir/v2/ --max-time 30 || true
+            - name: Restart Docker to pick up DNS
+                run: |
+                  sudo systemctl restart docker
+                  sleep 15
+            - name: Install Nexus CA
+                run: |
+                  sudo mkdir -p /etc/docker/certs.d/repo.sain.ir
+                  sudo cp .github/certs/ca.crt /etc/docker/certs.d/repo.sain.ir/ca.crt
+      - name: Restart Docker for CA
+        run: |
+          sudo systemctl restart docker
+          sleep 5
+
             - name: Checkout repository
               uses: actions/checkout@v2
             - name: Login to SAIN repository
