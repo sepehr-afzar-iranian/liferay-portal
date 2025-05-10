@@ -1,6 +1,9 @@
 jobs:
     Build:
         runs-on: ubuntu-latest
+        env:
+          DOCKER_CLIENT_TIMEOUT: 300
+          COMPOSE_HTTP_TIMEOUT:   300
         steps:
             - name: Checkout repository
               uses: actions/checkout@v2
