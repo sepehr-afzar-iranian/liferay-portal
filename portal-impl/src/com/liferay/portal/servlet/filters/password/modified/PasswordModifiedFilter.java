@@ -62,9 +62,9 @@ public class PasswordModifiedFilter extends BasePortalFilter {
 					PortalUtil.getPortalURL(httpServletRequest));
 			}
 		}
-		else if(_isScreenNameModified(httpServletRequest)) {
+		else if (_isScreenNameModified(httpServletRequest)) {
 			httpServletRequest.setAttribute(
-					WebKeys.SCREEN_NAME_MODIFIED, Boolean.TRUE);
+				WebKeys.SCREEN_NAME_MODIFIED, Boolean.TRUE);
 
 			AuthenticatedSessionManagerUtil.logout(
 				httpServletRequest, httpServletResponse);
@@ -128,7 +128,9 @@ public class PasswordModifiedFilter extends BasePortalFilter {
 		}
 	}
 
-	private boolean _isScreenNameModified(HttpServletRequest httpServletRequest) {
+	private boolean _isScreenNameModified(
+		HttpServletRequest httpServletRequest) {
+
 		HttpSession session = httpServletRequest.getSession(false);
 
 		if (session == null) {
@@ -138,7 +140,9 @@ public class PasswordModifiedFilter extends BasePortalFilter {
 		if (!httpServletRequest.isRequestedSessionIdValid()) {
 			return false;
 		}
-		return GetterUtil.getBoolean(session.getAttribute(WebKeys.SCREEN_NAME_MODIFIED));
+
+		return GetterUtil.getBoolean(
+			session.getAttribute(WebKeys.SCREEN_NAME_MODIFIED));
 	}
 
 	private boolean _isValidRealUserId(HttpSession session, User user) {

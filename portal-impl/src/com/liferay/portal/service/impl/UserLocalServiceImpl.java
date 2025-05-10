@@ -6290,6 +6290,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 							PropsKeys.AUTH_MAX_FAILURES, user.getCompanyId(),
 							user.getUserId(), headerMap, parameterMap);
 					}
+
 					_auditLockoutUser(user, authType, login);
 				}
 			}
@@ -7257,11 +7258,16 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			sb.append("was locked out due to max login failure attempts.");
 
 			AuditMessage auditMessage = new AuditMessage(
-					"UPDATE", user.getCompanyId(), user.getUserId(),
-					userFullName, User.class.getName(),
-					String.valueOf(user.getPrimaryKey()), sb.toString());
+				"UPDATE", user.getCompanyId(), user.getUserId(), userFullName,
+				User.class.getName(), String.valueOf(user.getPrimaryKey()),
+				sb.toString());
 
-			auditMessage.setAdditionalInfo(JSONUtil.put("authType", authType).put(authType, login));
+			auditMessage.setAdditionalInfo(
+				JSONUtil.put(
+					authType, login
+				).put(
+					"authType", authType
+				));
 
 			AuditRouterUtil.route(auditMessage);
 		}

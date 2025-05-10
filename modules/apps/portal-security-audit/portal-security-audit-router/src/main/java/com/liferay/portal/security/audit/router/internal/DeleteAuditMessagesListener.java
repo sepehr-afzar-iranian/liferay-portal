@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
-import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.router.configuration.AuditMessageAutoDeleterConfiguration;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
@@ -109,10 +109,9 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 					RestrictionsFactoryUtil.lt(
 						"createDate", thresholdTimestamp)));
 			actionableDynamicQuery.setPerformActionMethod(
-				(AuditEvent auditEvent) ->
-				{
+				(AuditEvent auditEvent) -> {
 					_auditEventLocalService.deleteAuditEvent(
-							auditEvent.getAuditEventId());
+						auditEvent.getAuditEventId());
 					deletedCount.incrementAndGet();
 				});
 			actionableDynamicQuery.performActions();
@@ -122,6 +121,7 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 			if (deleted > 0) {
 				try {
 					StringBuilder sb = new StringBuilder();
+
 					sb.append("Deleted");
 					sb.append(StringPool.SPACE);
 					sb.append(deleted);
@@ -132,9 +132,9 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 					sb.append(StringPool.PERIOD);
 
 					AuditMessage auditMessage = new AuditMessage(
-							EventTypes.AUADIT_AUTO_DELETE, PortalUtil.getDefaultCompanyId(), 0,
-							"", AuditEvent.class.getName(),
-							"0", sb.toString());
+						EventTypes.AUADIT_AUTO_DELETE,
+						_portal.getDefaultCompanyId(), 0, "",
+						AuditEvent.class.getName(), "0", sb.toString());
 
 					_auditRouter.route(auditMessage);
 				}
@@ -164,6 +164,9 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 
 	@Reference(target = ModuleServiceLifecycle.PORTAL_INITIALIZED)
 	private ModuleServiceLifecycle _moduleServiceLifecycle;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private SchedulerEngineHelper _schedulerEngineHelper;

@@ -25,8 +25,8 @@ import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.portal.security.audit.event.generators.user.management.util.AuditPortalSettingsConfigurationScreenUtil;
 import com.liferay.portal.settings.portlet.action.PortalSettingsFormContributor;
+import com.liferay.portal.settings.web.internal.util.AuditPortalSettingsConfigurationScreenUtil;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -68,9 +68,12 @@ public class DeletePortalSettingsFormMVCActionCommand
 			}
 
 			deleteSettings(themeDisplay);
+
 			try {
-				AuditPortalSettingsConfigurationScreenUtil.audit(actionRequest, EventTypes.DELETE);
-			} catch (Exception exception) {
+				AuditPortalSettingsConfigurationScreenUtil.audit(
+					actionRequest, EventTypes.DELETE);
+			}
+			catch (Exception exception) {
 				if (_log.isWarnEnabled()) {
 					_log.warn("Unable to route audit message", exception);
 				}
@@ -95,7 +98,7 @@ public class DeletePortalSettingsFormMVCActionCommand
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-			DeletePortalSettingsFormMVCActionCommand.class);
+		DeletePortalSettingsFormMVCActionCommand.class);
 
 	private final PortletPreferencesLocalService
 		_portletPreferencesLocalService;

@@ -158,6 +158,7 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 			if (_log.isDebugEnabled()) {
 				_log.debug(principalException, principalException);
 			}
+
 			_audit(httpServletRequest, portlet);
 
 			processRenderException(
@@ -484,10 +485,12 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 		}
 	}
 
-	private void _audit(HttpServletRequest httpServletRequest, Portlet portlet) {
+	private void _audit(
+		HttpServletRequest httpServletRequest, Portlet portlet) {
+
 		try {
 			String curremtCompleteURL = PortalUtil.getCurrentCompleteURL(
-					httpServletRequest);
+				httpServletRequest);
 
 			long userId = PortalUtil.getUserId(httpServletRequest);
 
@@ -504,9 +507,9 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 
 				if (!Objects.equals(portlet, null)) {
 					additionalInfoJSONObject.put(
-						"portletName", portlet.getPortletName()
-					).put(
 						"portletId", portlet.getPortletId()
+					).put(
+						"portletName", portlet.getPortletName()
 					);
 				}
 
@@ -517,10 +520,10 @@ public class SecurityPortletContainerWrapper implements PortletContainer {
 				sb.append(" requested a url that does not have access to.");
 
 				AuditMessage auditMessage = new AuditMessage(
-						"UNAUTHORIZED ACCESS", user.getCompanyId(), userId,
-						userFullName, HttpServletRequest.class.getName(),
-						portlet.getPortletId(), sb.toString(),
-						additionalInfoJSONObject);
+					"UNAUTHORIZED ACCESS", user.getCompanyId(), userId,
+					userFullName, HttpServletRequest.class.getName(),
+					portlet.getPortletId(), sb.toString(),
+					additionalInfoJSONObject);
 
 				AuditRouterUtil.route(auditMessage);
 			}

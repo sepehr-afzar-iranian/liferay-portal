@@ -494,23 +494,24 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			User.class.getName(), actionRequest);
 
 		user = _userService.updateUser(
-			userId, oldPassword, null, null, user.isPasswordReset(),
-			null, null, screenName, emailAddress, !deleteLogo, portraitBytes,
-			languageId, user.getTimeZoneId(), user.getGreeting(), comments,
-			firstName, middleName, lastName, prefixId, suffixId, male,
-			birthdayMonth, birthdayDay, birthdayYear, contact.getSmsSn(),
+			userId, oldPassword, null, null, user.isPasswordReset(), null, null,
+			screenName, emailAddress, !deleteLogo, portraitBytes, languageId,
+			user.getTimeZoneId(), user.getGreeting(), comments, firstName,
+			middleName, lastName, prefixId, suffixId, male, birthdayMonth,
+			birthdayDay, birthdayYear, contact.getSmsSn(),
 			contact.getFacebookSn(), contact.getJabberSn(),
 			contact.getSkypeSn(), contact.getTwitterSn(), jobTitle, null, null,
 			null, null, null, null, null, null, null, null, serviceContext);
 
 		if (oldScreenName.equals(user.getScreenName())) {
 			oldScreenName = StringPool.BLANK;
-		} else {
-			Map<String, UserTracker> sessionUsers =
-					LiveUsers.getSessionUsers(user.getCompanyId());
+		}
+		else {
+			Map<String, UserTracker> sessionUsers = LiveUsers.getSessionUsers(
+				user.getCompanyId());
 
 			List<UserTracker> userTrackers = new ArrayList<>(
-					sessionUsers.values());
+				sessionUsers.values());
 
 			for (UserTracker userTracker : userTrackers) {
 				if (userId != userTracker.getUserId()) {
@@ -518,10 +519,11 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 				}
 
 				HttpSession userSession = PortalSessionContext.get(
-						userTracker.getSessionId());
+					userTracker.getSessionId());
 
 				if (!Objects.equals(userSession, null)) {
-					userSession.setAttribute(WebKeys.SCREEN_NAME_MODIFIED, true);
+					userSession.setAttribute(
+						WebKeys.SCREEN_NAME_MODIFIED, Boolean.TRUE);
 				}
 			}
 		}

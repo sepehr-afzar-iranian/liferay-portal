@@ -21,6 +21,7 @@ dependencies {
 	compileOnly project(":apps:map:map-api")
 	compileOnly project(":apps:map:map-taglib")
 	compileOnly project(":apps:petra:petra-content")
+	compileOnly project(":apps:portal-security-audit:portal-security-audit-event-generators-api")
 	compileOnly project(":apps:portal-settings:portal-settings-api")
 	compileOnly project(":apps:portal-settings:portal-settings-lang")
 	compileOnly project(":apps:portal:portal-upgrade-api")
@@ -32,6 +33,4 @@ dependencies {
 	compileOnly project(":core:petra:petra-lang")
 	compileOnly project(":core:petra:petra-sql-dsl-api")
 	compileOnly project(":core:petra:petra-string")
-	compileOnly project(":apps:portal-security-audit:portal-security-audit-event-generators-api")
-	compileOnly project(":apps:portal-security-audit:portal-security-audit-event-generators-user-management")
 }

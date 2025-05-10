@@ -57,9 +57,9 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -269,6 +269,7 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 		if (!hostsAllowed.isEmpty() &&
 			AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+
 			_audit(actionRequest, themeDisplay, userIp, companyId);
 
 			throw new UserIpException();
@@ -391,19 +392,23 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		actionResponse.sendRedirect(portletURL.toString());
 	}
 
-	private void _audit(ActionRequest actionRequest, ThemeDisplay themeDisplay, String userIp, long companyId) {
+	private void _audit(
+		ActionRequest actionRequest, ThemeDisplay themeDisplay, String userIp,
+		long companyId) {
+
 		try {
 			String login = ParamUtil.getString(actionRequest, "login");
 
 			PortletPreferences portletPreferences =
-					PortletPreferencesFactoryUtil.getStrictPortletSetup(
-							themeDisplay.getLayout(),
-							_portal.getPortletId(actionRequest));
+				PortletPreferencesFactoryUtil.getStrictPortletSetup(
+					themeDisplay.getLayout(),
+					_portal.getPortletId(actionRequest));
 
 			String authType = portletPreferences.getValue("authType", null);
 
 			if (Validator.isNull(authType)) {
 				Company company = _portal.getCompany(actionRequest);
+
 				authType = company.getAuthType();
 			}
 
@@ -419,18 +424,17 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 			sb.append(StringPool.PERIOD);
 
 			JSONObject additionalInfoJSONObject = JSONUtil.put(
-					"login", login
+				"authType", authType
 			).put(
-					"ip", userIp
+				"ip", userIp
 			).put(
-					"authType", authType
+				"login", login
 			);
 
 			AuditMessage auditMessage = new AuditMessage(
-					EventTypes.LOGIN_FAILURE, companyId, 0,
-					"", HttpServletRequest.class.getName(),
-					"0", sb.toString(),
-					additionalInfoJSONObject);
+				EventTypes.LOGIN_FAILURE, companyId, 0, "",
+				HttpServletRequest.class.getName(), "0", sb.toString(),
+				additionalInfoJSONObject);
 
 			_auditRouter.route(auditMessage);
 		}
@@ -445,6 +449,9 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		LoginMVCActionCommand.class);
 
 	@Reference
+	private AuditRouter _auditRouter;
+
+	@Reference
 	private AuthenticatedSessionManager _authenticatedSessionManager;
 
 	@Reference
@@ -452,8 +459,5 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private Portal _portal;
-
-	@Reference
-	private AuditRouter _auditRouter;
 
 }

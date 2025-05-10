@@ -413,11 +413,12 @@ public class AuditConfigurationModelListener
 				Object newValue = newProperties.get(name);
 
 				Attribute attribute = new Attribute(
-						name, newValue.toString(), StringPool.BLANK);
+					name, newValue.toString(), StringPool.BLANK);
 
 				attributes.add(attribute);
 			}
-		} else {
+		}
+		else {
 			Enumeration<String> keysEnumeration = oldProperties.keys();
 
 			while (keysEnumeration.hasMoreElements()) {

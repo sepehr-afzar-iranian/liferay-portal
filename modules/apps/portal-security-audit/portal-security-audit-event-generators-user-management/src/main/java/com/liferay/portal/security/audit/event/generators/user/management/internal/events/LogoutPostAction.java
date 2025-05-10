@@ -75,11 +75,13 @@ public class LogoutPostAction extends Action {
 		}
 	}
 
-	private String _getMessage(String userName, HttpServletRequest httpServletRequest) {
+	private String _getMessage(
+		String userName, HttpServletRequest httpServletRequest) {
+
 		boolean passwordModified = GetterUtil.getBoolean(
-				httpServletRequest.getAttribute(WebKeys.PASSWORD_MODIFIED));
+			httpServletRequest.getAttribute(WebKeys.PASSWORD_MODIFIED));
 		boolean screenNameModified = GetterUtil.getBoolean(
-				httpServletRequest.getAttribute(WebKeys.SCREEN_NAME_MODIFIED));
+			httpServletRequest.getAttribute(WebKeys.SCREEN_NAME_MODIFIED));
 
 		StringBuilder sb = new StringBuilder();
 
@@ -90,9 +92,11 @@ public class LogoutPostAction extends Action {
 
 		if (passwordModified) {
 			sb.append("was logged out because password was modified");
-		} else if (screenNameModified) {
+		}
+		else if (screenNameModified) {
 			sb.append("was logged out because screen name was modified");
-		} else {
+		}
+		else {
 			sb.append("just logged out");
 		}
 

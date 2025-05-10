@@ -73,8 +73,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.portal.security.audit.event.generators.user.management.util.AuditPortalSettingsConfigurationScreenUtil;
 import com.liferay.portal.settings.web.internal.exception.RequiredLocaleException;
+import com.liferay.portal.settings.web.internal.util.AuditPortalSettingsConfigurationScreenUtil;
 import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
 import java.util.Enumeration;
@@ -122,9 +122,14 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 				updateCompany(actionRequest);
 
 				sendRedirect(actionRequest, actionResponse, redirect);
+
 				try {
-					AuditPortalSettingsConfigurationScreenUtil.audit(actionRequest, cmd.equals(Constants.ADD) ? EventTypes.ADD : EventTypes.UPDATE);
-				} catch (Exception exception) {
+					AuditPortalSettingsConfigurationScreenUtil.audit(
+						actionRequest,
+						cmd.equals(Constants.ADD) ? EventTypes.ADD :
+							EventTypes.UPDATE);
+				}
+				catch (Exception exception) {
 					if (_log.isWarnEnabled()) {
 						_log.warn("Unable to route audit message", exception);
 					}
@@ -409,7 +414,7 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-			EditCompanyMVCActionCommand.class);
+		EditCompanyMVCActionCommand.class);
 
 	@Reference
 	private AddressLocalService _addressLocalService;
