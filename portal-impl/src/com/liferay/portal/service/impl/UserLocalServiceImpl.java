@@ -57,6 +57,7 @@ import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.exception.UserReminderQueryException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
 import com.liferay.portal.kernel.exception.UserSmsException;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -6289,6 +6290,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 							PropsKeys.AUTH_MAX_FAILURES, user.getCompanyId(),
 							user.getUserId(), headerMap, parameterMap);
 					}
+
+					_auditLockoutUser(user, authType, login);
 				}
 			}
 		}
@@ -7233,6 +7236,38 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 				"LOGIN FAILURE", user.getCompanyId(), user.getUserId(),
 				userFullName, User.class.getName(),
 				String.valueOf(user.getPrimaryKey()), sb.toString());
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
+	private void _auditLockoutUser(User user, String authType, String login) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			String userFullName = user.getFullName();
+
+			sb.append("User with the name");
+			sb.append(StringPool.SPACE);
+			sb.append(userFullName);
+			sb.append(StringPool.SPACE);
+			sb.append("was locked out due to max login failure attempts.");
+
+			AuditMessage auditMessage = new AuditMessage(
+				"UPDATE", user.getCompanyId(), user.getUserId(), userFullName,
+				User.class.getName(), String.valueOf(user.getPrimaryKey()),
+				sb.toString());
+
+			auditMessage.setAdditionalInfo(
+				JSONUtil.put(
+					authType, login
+				).put(
+					"authType", authType
+				));
 
 			AuditRouterUtil.route(auditMessage);
 		}

@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.session.AuthenticatedSessionManagerUtil;
 import com.liferay.portal.kernel.servlet.HttpMethods;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -44,6 +45,27 @@ public class PasswordModifiedFilter extends BasePortalFilter {
 		throws Exception {
 
 		if (_isPasswordModified(httpServletRequest)) {
+			httpServletRequest.setAttribute(
+				WebKeys.PASSWORD_MODIFIED, Boolean.TRUE);
+
+			AuthenticatedSessionManagerUtil.logout(
+				httpServletRequest, httpServletResponse);
+
+			if (StringUtil.equals(
+					httpServletRequest.getMethod(), HttpMethods.GET)) {
+
+				httpServletResponse.sendRedirect(
+					PortalUtil.getCurrentCompleteURL(httpServletRequest));
+			}
+			else {
+				httpServletResponse.sendRedirect(
+					PortalUtil.getPortalURL(httpServletRequest));
+			}
+		}
+		else if (_isScreenNameModified(httpServletRequest)) {
+			httpServletRequest.setAttribute(
+				WebKeys.SCREEN_NAME_MODIFIED, Boolean.TRUE);
+
 			AuthenticatedSessionManagerUtil.logout(
 				httpServletRequest, httpServletResponse);
 
@@ -104,6 +126,23 @@ public class PasswordModifiedFilter extends BasePortalFilter {
 
 			return false;
 		}
+	}
+
+	private boolean _isScreenNameModified(
+		HttpServletRequest httpServletRequest) {
+
+		HttpSession session = httpServletRequest.getSession(false);
+
+		if (session == null) {
+			return false;
+		}
+
+		if (!httpServletRequest.isRequestedSessionIdValid()) {
+			return false;
+		}
+
+		return GetterUtil.getBoolean(
+			session.getAttribute(WebKeys.SCREEN_NAME_MODIFIED));
 	}
 
 	private boolean _isValidRealUserId(HttpSession session, User user) {

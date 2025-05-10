@@ -33,7 +33,6 @@ public class AuditMessageHelperUtil {
 			return "Old audits were automatically deleted.";
 
 		if (eventType.equals(EventTypes.LOGIN) ||
-			eventType.equals(EventTypes.LOGOUT) ||
 			eventType.equals(EventTypes.LOGIN_FAILURE) ||
 			eventType.equals(EventTypes.IMPERSONATE))
 
@@ -138,11 +137,8 @@ public class AuditMessageHelperUtil {
 		if (eventType.equals(EventTypes.LOGIN)) {
 			sb.append("just logged in");
 		}
-		else if (eventType.equals(EventTypes.LOGOUT)) {
-			sb.append("just logged out");
-		}
 		else if (eventType.equals(EventTypes.LOGIN_FAILURE)) {
-			sb.append("failed to logged in");
+			sb.append("failed to log in");
 		}
 		else if (eventType.equals(EventTypes.IMPERSONATE)) {
 			sb.append("just impersonated someone");

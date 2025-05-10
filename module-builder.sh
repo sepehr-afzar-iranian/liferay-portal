@@ -63,4 +63,5 @@ apps:site-navigation:site-navigation-site-map-web:$1 \
 apps:sync:sync-api:$1 \
 apps:sync:sync-security:$1 \
 apps:sync:sync-service:$1 \
-apps:sync:sync-web:$1
+apps:sync:sync-web:$1 \
+apps:users-admin:users-admin-web:$1

@@ -38,6 +38,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.exception.WebsiteURLException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Account;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Company;
@@ -70,7 +72,9 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.settings.web.internal.exception.RequiredLocaleException;
+import com.liferay.portal.settings.web.internal.util.AuditPortalSettingsConfigurationScreenUtil;
 import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
 import java.util.Enumeration;
@@ -118,6 +122,18 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 				updateCompany(actionRequest);
 
 				sendRedirect(actionRequest, actionResponse, redirect);
+
+				try {
+					AuditPortalSettingsConfigurationScreenUtil.audit(
+						actionRequest,
+						cmd.equals(Constants.ADD) ? EventTypes.ADD :
+							EventTypes.UPDATE);
+				}
+				catch (Exception exception) {
+					if (_log.isWarnEnabled()) {
+						_log.warn("Unable to route audit message", exception);
+					}
+				}
 			}
 		}
 		catch (Exception exception) {
@@ -396,6 +412,9 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 					"language");
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EditCompanyMVCActionCommand.class);
 
 	@Reference
 	private AddressLocalService _addressLocalService;
