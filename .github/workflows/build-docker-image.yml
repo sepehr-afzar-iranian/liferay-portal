@@ -8,7 +8,7 @@ jobs:
               run: |
                 # Create Docker daemon.json with insecure registry
                 echo '{
-                  "insecure-registries": ["${{ secrets.DOCKER_REGISTRY }}"]
+                  "insecure-registries": ["${{ secrets.SAIN_REPO_URL }}"]
                 }' | sudo tee /etc/docker/daemon.json
 
                 # Restart Docker daemon
