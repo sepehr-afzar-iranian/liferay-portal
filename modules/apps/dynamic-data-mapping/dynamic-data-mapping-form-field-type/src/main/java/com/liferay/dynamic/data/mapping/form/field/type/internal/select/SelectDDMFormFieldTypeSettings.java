@@ -47,7 +47,9 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				"setVisible('predefinedValue', contains(getValue('dataSourceType'), \"manual\"))",
 				"setVisible('validation', false)",
 				"setVisible('priceField', getBooleanProp('advanced.form.builder.pricefield'))",
-				"setVisible('amountValues', getValue('priceField'))"
+				"setVisible('amountValues', getValue('priceField'))",
+				"setVisible('paymentIdentity', getBooleanProp('advanced.form.builder.pricefield'))",
+				"setVisible('paymentIdentityValues', getValue('paymentIdentity'))"
 			},
 			condition = "TRUE"
 		),
@@ -74,7 +76,8 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 								"label", "tip", "required", "dataSourceType",
 								"options", "ddmDataProviderInstanceId",
 								"ddmDataProviderInstanceOutput", "priceField",
-								"amountValues"
+								"amountValues", "paymentIdentity",
+								"paymentIdentityValues"
 							}
 						)
 					}
@@ -150,6 +153,16 @@ public interface SelectDDMFormFieldTypeSettings
 		properties = "showLabel=false", type = "options"
 	)
 	public DDMFormFieldOptions options();
+
+	@DDMFormField(
+		label = "%payment-identity", properties = "showAsSwitcher=true"
+	)
+	public boolean paymentIdentity();
+
+	@DDMFormField(
+		dataType = "string", label = "%payment-identity-values", type = "text"
+	)
+	public String paymentIdentityValues();
 
 	@DDMFormField(
 		label = "%predefined-value",

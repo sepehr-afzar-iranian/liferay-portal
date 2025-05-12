@@ -369,6 +369,7 @@ const Select = ({
 		// };
 
 		const onScroll = () => {
+
 			//commented this block, because of not scrolled combo in chrome
 			// const {
 			// 	height,

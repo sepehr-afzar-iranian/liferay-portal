@@ -75,6 +75,13 @@ public class SelectDDMFormFieldTemplateContextContributor
 		).put(
 			"multiple", getMultiple(ddmFormField, ddmFormFieldRenderingContext)
 		).put(
+			"paymentIdentity",
+			GetterUtil.getBoolean(ddmFormField.getProperty("paymentIdentity"))
+		).put(
+			"paymentIdentityValues",
+			GetterUtil.getString(
+				ddmFormField.getProperty("paymentIdentityValues"))
+		).put(
 			"portletNamespace",
 			ddmFormFieldRenderingContext.getPortletNamespace()
 		).put(
