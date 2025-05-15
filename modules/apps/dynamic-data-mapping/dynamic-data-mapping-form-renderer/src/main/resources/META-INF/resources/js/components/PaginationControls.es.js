@@ -45,6 +45,7 @@ export const PaginationControls = ({
 	return (
 		<div className="lfr-ddm-form-pagination-controls">
 			<div id={portletNamespace + 'sumOfFields'}></div>
+			<div id={portletNamespace + 'mobileCodeFields'}></div>
 			{activePage > 0 && (
 				<ClayButton
 					className="lfr-ddm-form-pagination-prev"
@@ -60,7 +61,7 @@ export const PaginationControls = ({
 					}
 					type="button"
 				>
-					<ClayIcon symbol="angle-left" />
+					<ClayIcon symbol="angle-left"/>
 					{strings !== null
 						? strings['previous']
 						: Liferay.Language.get('previous')}
@@ -85,7 +86,7 @@ export const PaginationControls = ({
 					{strings !== null
 						? strings['next']
 						: Liferay.Language.get('next')}
-					<ClayIcon symbol="angle-right" />
+					<ClayIcon symbol="angle-right"/>
 				</ClayButton>
 			)}
 

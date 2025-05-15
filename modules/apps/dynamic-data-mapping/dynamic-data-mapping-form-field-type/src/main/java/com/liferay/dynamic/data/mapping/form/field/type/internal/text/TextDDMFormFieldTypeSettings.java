@@ -53,7 +53,8 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				"setVisible('ddmDataProviderInstanceOutput', equals(getValue('dataSourceType'), \"data-provider\") and getValue('autocomplete'))",
 				"setVisible('options', contains(getValue('dataSourceType'), \"manual\") and getValue('autocomplete'))",
 				"setVisible('priceField', getBooleanProp('advanced.form.builder.pricefield'))",
-				"setVisible('uniqueField', getBooleanProp('advanced.form.builder.uniquefield'))"
+				"setVisible('uniqueField', getBooleanProp('advanced.form.builder.uniquefield'))",
+				"setVisible('mobileField', getBooleanProp('advanced.form.builder.mobileField'))"
 			},
 			condition = "TRUE"
 		),
@@ -78,7 +79,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 							size = 12,
 							value = {
 								"label", "placeholder", "tip", "displayStyle",
-								"required", "priceField"
+								"required", "priceField", "mobileField"
 							}
 						)
 					}
@@ -171,6 +172,9 @@ public interface TextDDMFormFieldTypeSettings
 	)
 	@Override
 	public String indexType();
+
+	@DDMFormField(label = "%mobile-field", properties = "showAsSwitcher=true")
+	public boolean mobileField();
 
 	@DDMFormField(
 		dataType = "ddm-options", label = "%options",
