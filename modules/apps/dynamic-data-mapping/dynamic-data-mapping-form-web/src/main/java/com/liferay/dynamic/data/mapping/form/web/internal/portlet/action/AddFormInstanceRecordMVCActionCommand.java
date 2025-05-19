@@ -216,6 +216,44 @@ public class AddFormInstanceRecordMVCActionCommand
 			}
 		}
 
+		boolean confirmOnSubmit = ParamUtil.getBoolean(
+			actionRequest, "confirmOnSubmit");
+
+		if (formHasMobileField ) {
+			String verificationCode = ParamUtil.getString(
+				actionRequest, "verificationCode");
+
+			try {
+				SMSMessage smsMessage =
+					_smsMessageLocalService.getLastSMSMessage(groupId, mobile);
+				Date smsMessageCreateDate = smsMessage.getCreateDate();
+
+				Date currentDate = new Date();
+
+				long smsDiffTime =
+					currentDate.getTime() - smsMessageCreateDate.getTime();
+
+				//5 minute
+
+				if (smsDiffTime > 300000) {
+					SessionErrors.add(actionRequest, "verficationCodeExpire");
+
+					return;
+				}
+
+				if (!verificationCode.equals(smsMessage.getCode())) {
+					SessionErrors.add(actionRequest, "verficationCodeError");
+
+					return;
+				}
+			}
+			catch (NoSuchSMSMessageException noSuchSMSMessageException) {
+				SessionErrors.add(actionRequest, "noSMSMessageWithThisMobile");
+
+				return;
+			}
+		}
+
 		_addFormInstanceMVCCommandHelper.
 			updateRequiredFieldsAccordingToVisibility(
 				actionRequest, ddmForm, ddmFormValues,
@@ -235,9 +273,6 @@ public class AddFormInstanceRecordMVCActionCommand
 			return;
 		}
 
-		boolean confirmOnSubmit = ParamUtil.getBoolean(
-			actionRequest, "confirmOnSubmit");
-
 		if (confirmOnSubmit) {
 			LiferayActionResponse liferayActionResponse =
 				(LiferayActionResponse)actionResponse;
@@ -256,45 +291,6 @@ public class AddFormInstanceRecordMVCActionCommand
 				_portal.getHttpServletResponse(actionResponse);
 
 			httpServletResponse.sendRedirect(portletURL.toString());
-		}
-
-		System.out.println("aaaaaaa");
-		if (formHasMobileField) {
-			System.out.println("bbbbbbbbb");
-			String verificationCode = ParamUtil.getString(
-				actionRequest, "verificationCode");
-			System.out.println("verificationCode = " + verificationCode);
-
-			try {
-				SMSMessage smsMessage =
-					_smsMessageLocalService.getLastSMSMessage(groupId, mobile);
-				System.out.println("cccccccccccccccccccc");
-				Date smsMessageCreateDate = smsMessage.getCreateDate();
-
-				Date currentDate = new Date();
-
-				long smsDiffTime =
-					currentDate.getTime() - smsMessageCreateDate.getTime();
-
-				//3 minute
-
-				if (smsDiffTime > 300000) {
-					SessionErrors.add(actionRequest, "verficationCodeExpire");
-
-					return;
-				}
-
-				if (!verificationCode.equals(smsMessage.getCode())) {
-					SessionErrors.add(actionRequest, "verficationCodeError");
-
-					return;
-				}
-			}
-			catch (NoSuchSMSMessageException noSuchSMSMessageException) {
-				SessionErrors.add(actionRequest, "noSMSMessageWithThisMobile");
-
-				return;
-			}
 		}
 
 		if (formHasPriceField) {
