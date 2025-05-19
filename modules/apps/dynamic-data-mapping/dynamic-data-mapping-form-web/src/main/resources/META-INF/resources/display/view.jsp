@@ -96,15 +96,15 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 
 				String mobileFieldName = "";
 
-					for (DDMFormField ddmFormField : ddmFormFieldList) {
-						if (!formHasPriceField && Validator.isNotNull(ddmFormField.getProperty("priceField")) && (Boolean)ddmFormField.getProperty("priceField")) {
-							formHasPriceField = true;
-						}
+				for (DDMFormField ddmFormField : ddmFormFieldList) {
+					if (!formHasPriceField && Validator.isNotNull(ddmFormField.getProperty("priceField")) && (Boolean)ddmFormField.getProperty("priceField")) {
+						formHasPriceField = true;
+					}
 
-						if (!formHasMobileField && Validator.isNotNull(ddmFormField.getProperty("mobileField")) && (Boolean)ddmFormField.getProperty("mobileField")) {
-							formHasMobileField = true;
-							mobileFieldName = ddmFormField.getName();
-						}
+					if (!formHasMobileField && Validator.isNotNull(ddmFormField.getProperty("mobileField")) && (Boolean)ddmFormField.getProperty("mobileField")) {
+						formHasMobileField = true;
+						mobileFieldName = ddmFormField.getName();
+					}
 				}
 
 				boolean confirmOnSubmit = ddmFormDisplayContext.isConfirmOnSubmitRequired(formInstance);
@@ -358,28 +358,28 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 					}
 
 					function <portlet:namespace />smsCountDown() {
-					var distance = 300000;
+						var distance = 300000;
 
-					var x = setInterval(function () {
-					distance = distance - 1000;
-					var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-					var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-					if (seconds < 10) seconds = '0' + seconds;
-					document.getElementById(
-					'<portlet:namespace />smsCountDownDiv'
-					).innerHTML = '(' + minutes + ':' + seconds + ') ';
+						var x = setInterval(function () {
+							distance = distance - 1000;
+							var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+							var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+							if (seconds < 10) seconds = '0' + seconds;
+							document.getElementById(
+								'<portlet:namespace />smsCountDownDiv'
+							).innerHTML = '(' + minutes + ':' + seconds + ') ';
 
-					if (distance == 0) {
-					clearInterval(x);
-					document.getElementById(
-					'<portlet:namespace />smsCountDownDiv'
-					).innerHTML = '';
-					document.getElementById(
-					'<portlet:namespace />smsResponseMessage'
-					).innerHTML =
-					'<div class="alert alert-danger m-2"><%=LanguageUtil.get(request,"sms-code-expired") %></div>';
-					}
-					}, 1000);
+							if (distance == 0) {
+								clearInterval(x);
+								document.getElementById(
+									'<portlet:namespace />smsCountDownDiv'
+								).innerHTML = '';
+								document.getElementById(
+									'<portlet:namespace />smsResponseMessage'
+								).innerHTML =
+									'<div class="alert alert-danger m-2"><%=LanguageUtil.get(request,"sms-code-expired") %></div>';
+							}
+						}, 1000);
 					}
 
 					function <portlet:namespace />initForm() {
@@ -391,99 +391,99 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 								'<%=LanguageUtil.get(request,"sum-of-payment") %>: 0';
 						}
 
-					if ('<%=formHasMobileField%>' == 'true') {
-					document.getElementById(
-					'<portlet:namespace />mobileCodeFields'
-					).innerHTML = document.getElementById(
-					'<portlet:namespace />mobileFieldDiv'
-					).innerHTML;
-					document.getElementById(
-					'<portlet:namespace />mobileFieldDiv'
-					).innerHTML = '';
-					var sendSMSMessageSuccess =
-					'<%=LanguageUtil.get(request,"sms-message-send-successfully") %>';
-					var captchaError =
-					'<%=LanguageUtil.get(request,"captcha-verification-failed") %>';
-					var sendSMSError = '<%=LanguageUtil.get(request,"send-sms-error") %>';
-					var sendCodeBtn = A.one('#<portlet:namespace />sendCodeBtn');
-					sendCodeBtn.on('click', function (event) {
-					document.getElementById(
-					'<portlet:namespace />smsCountDownDiv'
-					).innerHTML = '';
-					document.getElementById(
-					'<portlet:namespace />smsResponseMessage'
-					).innerHTML =
-					'<div class="alert alert-success m-2"><%=LanguageUtil.get(request,"request-send-sms-message") %></div>';
-					var formInputNodes = document.querySelectorAll(
-					'input[name^="<portlet:namespace />ddm$$<%=mobileFieldName%>"]'
-					);
-					var mobileFieldValue;
-					Array.prototype.forEach.call(formInputNodes, function (
-					formInputNode
-					) {
-					mobileFieldValue = formInputNode.value;
-					});
-					var captchaFieldValue = '';
-					try {
-					captchaFieldValue = document.getElementById(
-					'<portlet:namespace />captchaText'
-					).value;
-					}
-					catch (e) {}
+						if ('<%=formHasMobileField%>' == 'true') {
+							document.getElementById(
+								'<portlet:namespace />mobileCodeFields'
+							).innerHTML = document.getElementById(
+								'<portlet:namespace />mobileFieldDiv'
+							).innerHTML;
+							document.getElementById(
+								'<portlet:namespace />mobileFieldDiv'
+							).innerHTML = '';
+							var sendSMSMessageSuccess =
+								'<%=LanguageUtil.get(request,"sms-message-send-successfully") %>';
+							var captchaError =
+								'<%=LanguageUtil.get(request,"captcha-verification-failed") %>';
+							var sendSMSError = '<%=LanguageUtil.get(request,"send-sms-error") %>';
+							var sendCodeBtn = A.one('#<portlet:namespace />sendCodeBtn');
+							sendCodeBtn.on('click', function (event) {
+								document.getElementById(
+									'<portlet:namespace />smsCountDownDiv'
+								).innerHTML = '';
+								document.getElementById(
+									'<portlet:namespace />smsResponseMessage'
+								).innerHTML =
+									'<div class="alert alert-success m-2"><%=LanguageUtil.get(request,"request-send-sms-message") %></div>';
+								var formInputNodes = document.querySelectorAll(
+									'input[name^="<portlet:namespace />ddm$$<%=mobileFieldName%>"]'
+								);
+								var mobileFieldValue;
+								Array.prototype.forEach.call(formInputNodes, function (
+									formInputNode
+								) {
+									mobileFieldValue = formInputNode.value;
+								});
+								var captchaFieldValue = '';
+								try {
+									captchaFieldValue = document.getElementById(
+										'<portlet:namespace />captchaText'
+									).value;
+								}
+								catch (e) {}
 
-					var data = new URLSearchParams({
-					<portlet:namespace />formInstanceId: <%= formInstanceId %>,
-					<portlet:namespace />mobileFieldValue: mobileFieldValue,
-					<portlet:namespace />captchaText: captchaFieldValue,
-					});
-					Liferay.Util.fetch('<%= sendSMSCodeURL.toString() %>', {
-					body: data,
-					method: 'POST',
-					})
-					.then(function (response) {
-					return response.text();
-					})
-					.then(function (response) {
-					var responseMessage = '';
-					if (response == 'success') {
-					try {
-					document
-					.getElementById(
-					'<portlet:namespace />refreshCaptcha'
-					)
-					.click();
-					}
-					catch (e) {}
-					<portlet:namespace />smsCountDown();
-					responseMessage =
-					'<div class="alert alert-success m-2">';
-					responseMessage += sendSMSMessageSuccess;
-					}
-					else if (response == 'captchaError') {
-					responseMessage =
-					'<div class="alert alert-danger m-2">';
-					responseMessage += captchaError;
-					}
-					else if (response == 'sendSMSError') {
-					try {
-					document
-					.getElementById(
-					'<portlet:namespace />refreshCaptcha'
-					)
-					.click();
-					}
-					catch (e) {}
-					responseMessage =
-					'<div class="alert alert-danger m-2">';
-					responseMessage += sendSMSError;
-					}
-					responseMessage += '</div>';
-					document.getElementById(
-					'<portlet:namespace />smsResponseMessage'
-					).innerHTML = responseMessage;
-					});
-					});
-					}
+								var data = new URLSearchParams({
+									<portlet:namespace />formInstanceId: <%= formInstanceId %>,
+									<portlet:namespace />mobileFieldValue: mobileFieldValue,
+									<portlet:namespace />captchaText: captchaFieldValue,
+								});
+								Liferay.Util.fetch('<%= sendSMSCodeURL.toString() %>', {
+									body: data,
+									method: 'POST',
+								})
+									.then(function (response) {
+										return response.text();
+									})
+									.then(function (response) {
+										var responseMessage = '';
+										if (response == 'success') {
+											try {
+												document
+													.getElementById(
+														'<portlet:namespace />refreshCaptcha'
+													)
+													.click();
+											}
+											catch (e) {}
+											<portlet:namespace />smsCountDown();
+											responseMessage =
+												'<div class="alert alert-success m-2">';
+											responseMessage += sendSMSMessageSuccess;
+										}
+										else if (response == 'captchaError') {
+											responseMessage =
+												'<div class="alert alert-danger m-2">';
+											responseMessage += captchaError;
+										}
+										else if (response == 'sendSMSError') {
+											try {
+												document
+													.getElementById(
+														'<portlet:namespace />refreshCaptcha'
+													)
+													.click();
+											}
+											catch (e) {}
+											responseMessage =
+												'<div class="alert alert-danger m-2">';
+											responseMessage += sendSMSError;
+										}
+										responseMessage += '</div>';
+										document.getElementById(
+											'<portlet:namespace />smsResponseMessage'
+										).innerHTML = responseMessage;
+									});
+							});
+						}
 
 						<c:choose>
 							<c:when test="<%= ddmFormDisplayContext.isAutosaveEnabled() %>">

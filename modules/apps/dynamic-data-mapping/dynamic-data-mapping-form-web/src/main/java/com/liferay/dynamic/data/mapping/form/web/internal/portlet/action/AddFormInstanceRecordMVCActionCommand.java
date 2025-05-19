@@ -32,6 +32,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecordVersion;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceSettings;
 import com.liferay.dynamic.data.mapping.model.DDMFormSuccessPageSettings;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordVersionLocalService;
@@ -63,7 +64,14 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import ir.sain.definition.exception.NoSuchSMSMessageException;
+import ir.sain.definition.model.SMSMessage;
+import ir.sain.definition.service.SMSMessageLocalService;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.portlet.ActionRequest;
@@ -76,14 +84,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import com.liferay.dynamic.data.mapping.model.Value;
-import ir.sain.definition.exception.NoSuchSMSMessageException;
-import ir.sain.definition.model.SMSMessage;
-import ir.sain.definition.service.SMSMessageLocalService;
-
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * @author Marcellus Tavares
@@ -203,8 +203,9 @@ public class AddFormInstanceRecordMVCActionCommand
 						actionRequest, fieldValue);
 				}
 			}
+
 			if (Validator.isNotNull(
-				getDDMFormFieldValue.getProperty("mobileField")) &&
+					getDDMFormFieldValue.getProperty("mobileField")) &&
 				(Boolean)getDDMFormFieldValue.getProperty("mobileField")) {
 
 				Value mobileValue = fieldValue.getValue();
@@ -219,13 +220,14 @@ public class AddFormInstanceRecordMVCActionCommand
 		boolean confirmOnSubmit = ParamUtil.getBoolean(
 			actionRequest, "confirmOnSubmit");
 
-		if (formHasMobileField ) {
+		if (formHasMobileField) {
 			String verificationCode = ParamUtil.getString(
 				actionRequest, "verificationCode");
 
 			try {
 				SMSMessage smsMessage =
 					_smsMessageLocalService.getLastSMSMessage(groupId, mobile);
+
 				Date smsMessageCreateDate = smsMessage.getCreateDate();
 
 				Date currentDate = new Date();
