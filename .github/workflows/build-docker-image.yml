@@ -4,14 +4,9 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v2
-            - name: Configure Docker Registry as Insecure
-              run: |
-                # Create Docker daemon.json with insecure registry
-                echo '{
-                  "insecure-registries": ["${{ secrets.SAIN_REPO_URL }}"]
-                }' | sudo tee /etc/docker/daemon.json
-
-                # Restart Docker daemon
+            - name : Configure Docker Registry as Insecure
+              run : |
+                echo '{"insecure-registries":["${{ secrets.SAIN_REPO_URL }}"]}' | sudo tee /etc/docker/daemon.json
                 sudo systemctl restart docker
                 sleep 5
             - name: Docker Info
@@ -19,9 +14,9 @@ jobs:
             - name: Login to SAIN repository
               uses: docker/login-action@v1
               with:
-                password: ${{secrets.SAIN_REPO_PASSWORD}}
-                registry: http://${{secrets.SAIN_REPO_URL}}
-                username: ${{secrets.SAIN_REPO_USERNAME}}
+                  password: ${{secrets.SAIN_REPO_PASSWORD}}
+                  registry: http://${{secrets.SAIN_REPO_URL}}
+                  username: ${{secrets.SAIN_REPO_USERNAME}}
             - name: Set up JDK 8
               uses: actions/setup-java@v2
               with:
