@@ -681,6 +681,10 @@ public class PropsValues {
 		GetterUtil.getBoolean(
 			PropsUtil.get(PropsKeys.DATABASE_INDEXES_UPDATE_ON_STARTUP));
 
+	public static final boolean DATABASE_HEALTH_CHECK_FILTER_ENABLED =
+		GetterUtil.getBoolean(
+			PropsUtil.get(PropsKeys.DATABASE_HEALTH_CHECK_FILTER_ENABLED));
+
 	public static final String DATABASE_MYSQL_ENGINE = PropsUtil.get(
 		PropsKeys.DATABASE_MYSQL_ENGINE);
 

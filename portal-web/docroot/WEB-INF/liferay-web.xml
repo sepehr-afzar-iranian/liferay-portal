@@ -414,6 +414,15 @@
 		<url-pattern>/health_check/data_source</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
+	<filter>
+		<filter-name>Database Health Check Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.healthcheckdatasource.DatabaseHealthCheckDataSourceFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Database Health Check Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Ignore Filter - FTL</filter-name>
 		<url-pattern>*.ftl</url-pattern>
