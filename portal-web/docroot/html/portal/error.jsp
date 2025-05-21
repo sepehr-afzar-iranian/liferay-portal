@@ -71,9 +71,23 @@ else if (Objects.equals(company.getAuthType(), CompanyConstants.AUTH_TYPE_ID)) {
 </c:if>
 
 <c:if test="<%= SessionErrors.contains(request, UserActiveException.class.getName()) %>">
-	<div class="alert alert-danger">
-		<%= LanguageUtil.format(request, "your-account-with-login-x-is-not-active", new LanguageWrapper[] {new LanguageWrapper("", HtmlUtil.escape(user.getFullName()), ""), new LanguageWrapper("<strong><em>", HtmlUtil.escape(userLogin), "</em></strong>")}, false) %><br /><br />
-	</div>
+	<c:choose>
+		<c:when test="<%= WebKeys.INTEGRITY_CHECK_FAILED.equals(session.getAttribute(WebKeys.ACCOUNT_INACTIVE_REASON)) %>">
+			<liferay-ui:message key="this-account-is-locked" />
+			<h3>Account Locked</h3>
+			<p>
+				Your account has been locked due to potential unauthorized modifications to your user data.
+			</p>
+			<p>
+				Please contact your system administrator for assistance.
+			</p>
+		</c:when>
+		<c:otherwise>
+			<div class="alert alert-danger">
+				<%= LanguageUtil.format(request, "your-account-with-login-x-is-not-active", new LanguageWrapper[] {new LanguageWrapper("", HtmlUtil.escape(user.getFullName()), ""), new LanguageWrapper("<strong><em>", HtmlUtil.escape(userLogin), "</em></strong>")}, false) %><br /><br />
+			</div>
 
-	<liferay-ui:message arguments="<%= HtmlUtil.escape(user.getFullName()) %>" key="if-you-are-not-x-log-out-and-try-again" translateArguments="<%= false %>" />
+			<liferay-ui:message arguments="<%= HtmlUtil.escape(user.getFullName()) %>" key="if-you-are-not-x-log-out-and-try-again" translateArguments="<%= false %>" />
+		</c:otherwise>
+	</c:choose>
 </c:if>
