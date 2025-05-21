@@ -529,13 +529,6 @@ public class AuthenticatedSessionManagerImpl
 		User user = (User)resultsMap.get("user");
 
 		if (authResult != Authenticator.SUCCESS) {
-			if (user != null) {
-				user = UserLocalServiceUtil.fetchUser(user.getUserId());
-			}
-
-			if (user != null) {
-				UserLocalServiceUtil.checkLockout(user);
-			}
 
 			throw new AuthException();
 		}
