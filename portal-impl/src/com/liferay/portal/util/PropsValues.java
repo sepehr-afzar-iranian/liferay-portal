@@ -674,6 +674,10 @@ public class PropsValues {
 	public static final long DATA_LIMIT_SITE_MAX_COUNT = GetterUtil.getLong(
 		PropsUtil.get(PropsKeys.DATA_LIMIT_SITE_MAX_COUNT));
 
+	public static final boolean DATABASE_HEALTH_CHECK_FILTER_ENABLED =
+		GetterUtil.getBoolean(
+			PropsUtil.get(PropsKeys.DATABASE_HEALTH_CHECK_FILTER_ENABLED));
+
 	public static final int DATABASE_IN_MAX_PARAMETERS = GetterUtil.getInteger(
 		PropsUtil.get(PropsKeys.DATABASE_IN_MAX_PARAMETERS));
 

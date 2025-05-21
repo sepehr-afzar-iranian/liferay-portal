@@ -733,6 +733,9 @@ public interface PropsKeys {
 	public static final String DATA_LIMIT_SITE_MAX_COUNT =
 		"data.limit.site.max.count";
 
+	public static final String DATABASE_HEALTH_CHECK_FILTER_ENABLED =
+		"database.health.check.filter.enabled";
+
 	public static final String DATABASE_IN_MAX_PARAMETERS =
 		"database.in.max.parameters";
 
