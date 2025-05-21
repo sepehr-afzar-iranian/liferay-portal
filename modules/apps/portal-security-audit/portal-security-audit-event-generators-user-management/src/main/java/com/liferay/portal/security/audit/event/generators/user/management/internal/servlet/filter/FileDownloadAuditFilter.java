@@ -104,7 +104,9 @@ public class FileDownloadAuditFilter extends BaseFilter {
 
 		String download = ParamUtil.getString(httpServletRequest, "download");
 
-		if (Validator.isNotNull(download) && download.equals("true")) {
+		if (Validator.isNotNull(download) && download.equals("true") ||
+				(httpServletRequest.getRequestURI().contains("/document/") ||
+				httpServletRequest.getRequestURI().contains("/documents/"))) {
 			return true;
 		}
 
