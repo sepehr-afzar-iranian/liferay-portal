@@ -529,7 +529,6 @@ public class AuthenticatedSessionManagerImpl
 		User user = (User)resultsMap.get("user");
 
 		if (authResult != Authenticator.SUCCESS) {
-
 			throw new AuthException();
 		}
 

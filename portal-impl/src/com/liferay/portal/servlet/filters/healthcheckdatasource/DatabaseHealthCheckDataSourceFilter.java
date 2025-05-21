@@ -22,15 +22,17 @@ import com.liferay.portal.servlet.filters.BasePortalFilter;
 import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * @author Yousef Ghadiri
@@ -53,8 +55,11 @@ public class DatabaseHealthCheckDataSourceFilter extends BasePortalFilter {
 		throws Exception {
 
 		if (!PrefsPropsUtil.getBoolean(
-				PropsKeys.DATABASE_HEALTH_CHECK_FILTER_ENABLED, PropsValues.DATABASE_HEALTH_CHECK_FILTER_ENABLED)) {
+				PropsKeys.DATABASE_HEALTH_CHECK_FILTER_ENABLED,
+				PropsValues.DATABASE_HEALTH_CHECK_FILTER_ENABLED)) {
+
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
+
 			return;
 		}
 
@@ -65,20 +70,21 @@ public class DatabaseHealthCheckDataSourceFilter extends BasePortalFilter {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 			}
 			else {
-				_writeMessage(httpServletResponse, httpServletRequest);
+				_writeMessage(httpServletRequest, httpServletResponse);
 			}
 		}
 		catch (SQLException sqlException) {
-			_writeMessage(httpServletResponse, httpServletRequest);
+			_writeMessage(httpServletRequest, httpServletResponse);
 		}
 	}
 
 	private void _writeMessage(
-			HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest)
+			HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse)
 		throws Exception {
 
 		Theme theme = (Theme)httpServletRequest.getAttribute(
-				WebKeys.SERVLET_CONTEXT_INCLUDE_FILTER_THEME);
+			WebKeys.SERVLET_CONTEXT_INCLUDE_FILTER_THEME);
 
 		httpServletRequest.setAttribute(WebKeys.THEME, theme);
 
@@ -87,8 +93,8 @@ public class DatabaseHealthCheckDataSourceFilter extends BasePortalFilter {
 		ServletContext servletContext = filterConfig.getServletContext();
 
 		RequestDispatcher requestDispatcher =
-				servletContext.getRequestDispatcher(
-						"/WEB-INF/jsp/_database_health_check_error.jsp");
+			servletContext.getRequestDispatcher(
+				"/WEB-INF/jsp/_database_health_check_error.jsp");
 
 		requestDispatcher.forward(httpServletRequest, httpServletResponse);
 	}

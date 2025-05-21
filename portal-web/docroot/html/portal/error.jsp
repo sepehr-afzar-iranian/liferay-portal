@@ -74,10 +74,13 @@ else if (Objects.equals(company.getAuthType(), CompanyConstants.AUTH_TYPE_ID)) {
 	<c:choose>
 		<c:when test="<%= WebKeys.INTEGRITY_CHECK_FAILED.equals(session.getAttribute(WebKeys.ACCOUNT_INACTIVE_REASON)) %>">
 			<liferay-ui:message key="this-account-is-locked" />
+
 			<h3>Account Locked</h3>
+
 			<p>
 				Your account has been locked due to potential unauthorized modifications to your user data.
 			</p>
+
 			<p>
 				Please contact your system administrator for assistance.
 			</p>

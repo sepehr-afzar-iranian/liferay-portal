@@ -5915,7 +5915,10 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		try {
 			user = _checkPasswordPolicy(user);
-		} catch (UserLockoutException.PasswordPolicyLockout exception) {}
+		}
+		catch (UserLockoutException.PasswordPolicyLockout
+					userLockoutException) {
+		}
 
 		if (!user.isPasswordEncrypted()) {
 			user.setPassword(PasswordEncryptorUtil.encrypt(user.getPassword()));
@@ -5951,6 +5954,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		if (authResult == Authenticator.SUCCESS) {
 			checkLockout(user);
+
 			if (authType.equals(CompanyConstants.AUTH_TYPE_EA)) {
 				authResult = AuthPipeline.authenticateByEmailAddress(
 					PropsKeys.AUTH_PIPELINE_POST, companyId, login, password,

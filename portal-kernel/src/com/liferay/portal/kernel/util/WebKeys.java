@@ -19,9 +19,10 @@ package com.liferay.portal.kernel.util;
  */
 public interface WebKeys {
 
-	public static final String ADDRESS = "ADDRESS";
+	public static final String ACCOUNT_INACTIVE_REASON =
+		"ACCOUNT_INACTIVE_REASON";
 
-	public static final String ACCOUNT_INACTIVE_REASON = "ACCOUNT_INACTIVE_REASON";
+	public static final String ADDRESS = "ADDRESS";
 
 	public static final String ASSET_ADDON_ENTRIES = "ASSET_ADDON_ENTRIES";
 
@@ -212,7 +213,8 @@ public interface WebKeys {
 
 	public static final String I18N_PATH = "I18N_PATH";
 
-	public static final String INTEGRITY_CHECK_FAILED = "INTEGRITY_CHECK_FAILED";
+	public static final String INTEGRITY_CHECK_FAILED =
+		"INTEGRITY_CHECK_FAILED";
 
 	public static final String INVOKER_FILTER_URI = "INVOKER_FILTER_URI";
 
