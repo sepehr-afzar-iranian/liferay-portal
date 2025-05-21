@@ -45,6 +45,7 @@ export const PaginationControls = ({
 	return (
 		<div className="lfr-ddm-form-pagination-controls">
 			<div id={portletNamespace + 'sumOfFields'}></div>
+			<div id={portletNamespace + 'mobileCodeFields'}></div>
 			{activePage > 0 && (
 				<ClayButton
 					className="lfr-ddm-form-pagination-prev"

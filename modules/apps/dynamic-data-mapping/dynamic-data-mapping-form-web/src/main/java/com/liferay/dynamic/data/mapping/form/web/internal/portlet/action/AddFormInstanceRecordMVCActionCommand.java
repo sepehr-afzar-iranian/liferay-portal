@@ -32,6 +32,7 @@ import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecordVersion;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceSettings;
 import com.liferay.dynamic.data.mapping.model.DDMFormSuccessPageSettings;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordService;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordVersionLocalService;
@@ -63,7 +64,14 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import ir.sain.definition.exception.NoSuchSMSMessageException;
+import ir.sain.definition.model.SMSMessage;
+import ir.sain.definition.service.SMSMessageLocalService;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.portlet.ActionRequest;
@@ -101,9 +109,6 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		long groupId = ParamUtil.getLong(actionRequest, "groupId");
 
-		boolean confirmOnSubmit = ParamUtil.getBoolean(
-			actionRequest, "confirmOnSubmit");
-
 		if (groupId == 0) {
 			groupId = GetterUtil.getLong(
 				portletSession.getAttribute(DDMFormWebKeys.GROUP_ID));
@@ -123,9 +128,31 @@ public class AddFormInstanceRecordMVCActionCommand
 
 		_validatePublishStatus(actionRequest, ddmFormInstance);
 
-		validateCaptcha(actionRequest, ddmFormInstance);
-
 		DDMForm ddmForm = getDDMForm(ddmFormInstance);
+
+		boolean formHasPriceField = false;
+		boolean formHasMobileField = false;
+		List<DDMFormField> ddmFormFieldList = ddmForm.getDDMFormFields();
+
+		for (DDMFormField ddmFormField : ddmFormFieldList) {
+			if (!formHasPriceField &&
+				Validator.isNotNull(ddmFormField.getProperty("priceField")) &&
+				(Boolean)ddmFormField.getProperty("priceField")) {
+
+				formHasPriceField = true;
+			}
+
+			if (!formHasMobileField &&
+				Validator.isNotNull(ddmFormField.getProperty("mobileField")) &&
+				(Boolean)ddmFormField.getProperty("mobileField")) {
+
+				formHasMobileField = true;
+			}
+		}
+
+		if (!formHasMobileField) {
+			validateCaptcha(actionRequest, ddmFormInstance);
+		}
 
 		DDMFormValues ddmFormValues = _getDDMFormValues(actionRequest, ddmForm);
 
@@ -157,6 +184,8 @@ public class AddFormInstanceRecordMVCActionCommand
 		List<DDMFormFieldValue> ddmFormFieldValueList =
 			ddmFormValues.getDDMFormFieldValues();
 
+		String mobile = "";
+
 		for (DDMFormFieldValue fieldValue : ddmFormFieldValueList) {
 			DDMFormField getDDMFormFieldValue = fieldValue.getDDMFormField();
 
@@ -173,6 +202,57 @@ public class AddFormInstanceRecordMVCActionCommand
 					_ddmFormUniqueFieldChecker.checkForAdd(
 						actionRequest, fieldValue);
 				}
+			}
+
+			if (Validator.isNotNull(
+					getDDMFormFieldValue.getProperty("mobileField")) &&
+				(Boolean)getDDMFormFieldValue.getProperty("mobileField")) {
+
+				Value mobileValue = fieldValue.getValue();
+
+				Map<Locale, String> localeValueMap = mobileValue.getValues();
+
+				mobile = String.valueOf(
+					localeValueMap.get(themeDisplay.getLocale()));
+			}
+		}
+
+		boolean confirmOnSubmit = ParamUtil.getBoolean(
+			actionRequest, "confirmOnSubmit");
+
+		if (formHasMobileField) {
+			String verificationCode = ParamUtil.getString(
+				actionRequest, "verificationCode");
+
+			try {
+				SMSMessage smsMessage =
+					_smsMessageLocalService.getLastSMSMessage(groupId, mobile);
+
+				Date smsMessageCreateDate = smsMessage.getCreateDate();
+
+				Date currentDate = new Date();
+
+				long smsDiffTime =
+					currentDate.getTime() - smsMessageCreateDate.getTime();
+
+				//5 minute
+
+				if (smsDiffTime > 300000) {
+					SessionErrors.add(actionRequest, "verficationCodeExpire");
+
+					return;
+				}
+
+				if (!verificationCode.equals(smsMessage.getCode())) {
+					SessionErrors.add(actionRequest, "verficationCodeError");
+
+					return;
+				}
+			}
+			catch (NoSuchSMSMessageException noSuchSMSMessageException) {
+				SessionErrors.add(actionRequest, "noSMSMessageWithThisMobile");
+
+				return;
 			}
 		}
 
@@ -213,19 +293,6 @@ public class AddFormInstanceRecordMVCActionCommand
 				_portal.getHttpServletResponse(actionResponse);
 
 			httpServletResponse.sendRedirect(portletURL.toString());
-		}
-
-		boolean formHasPriceField = false;
-		List<DDMFormField> ddmFormFieldList = ddmForm.getDDMFormFields();
-
-		for (DDMFormField ddmFormField : ddmFormFieldList) {
-			if (Validator.isNotNull(ddmFormField.getProperty("priceField")) &&
-				(Boolean)ddmFormField.getProperty("priceField")) {
-
-				formHasPriceField = true;
-
-				break;
-			}
 		}
 
 		if (formHasPriceField) {
@@ -280,6 +347,8 @@ public class AddFormInstanceRecordMVCActionCommand
 				DDMFormWebKeys.DYNAMIC_DATA_MAPPING_FORM_INSTANCE_ID,
 				formInstanceId);
 			portletSession.setAttribute(DDMFormWebKeys.GROUP_ID, groupId);
+			portletSession.setAttribute(
+				"trackingCode", ddmFormInstanceRecord.getTrackingCode());
 
 			sendRedirect(actionRequest, actionResponse, redirectURL);
 		}
@@ -491,5 +560,8 @@ public class AddFormInstanceRecordMVCActionCommand
 
 	@Reference
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
+
+	@Reference
+	private SMSMessageLocalService _smsMessageLocalService;
 
 }
