@@ -347,6 +347,8 @@ public class AddFormInstanceRecordMVCActionCommand
 				DDMFormWebKeys.DYNAMIC_DATA_MAPPING_FORM_INSTANCE_ID,
 				formInstanceId);
 			portletSession.setAttribute(DDMFormWebKeys.GROUP_ID, groupId);
+			portletSession.setAttribute(
+				"trackingCode", ddmFormInstanceRecord.getTrackingCode());
 
 			sendRedirect(actionRequest, actionResponse, redirectURL);
 		}

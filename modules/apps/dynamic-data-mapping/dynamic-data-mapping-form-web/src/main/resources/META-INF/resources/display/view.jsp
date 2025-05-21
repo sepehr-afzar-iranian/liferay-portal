@@ -18,6 +18,12 @@
 
 <%
 long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
+
+String trackingCode = ParamUtil.getString(request, "trackingCode");
+
+if (Validator.isNull(trackingCode)) {
+	trackingCode = (String)portletSession.getAttribute("trackingCode");
+}
 %>
 
 <c:choose>
@@ -70,7 +76,7 @@ long formInstanceId = ddmFormDisplayContext.getFormInstanceId();
 							<h1 class="ddm-form-name"><%= HtmlUtil.escape(GetterUtil.getString(title.getString(displayLocale), title.getString(title.getDefaultLocale()))) %></h1>
 
 							<c:if test="<%= Boolean.parseBoolean(PropsUtil.get(DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE)) %>">
-								<h2 class="ddm-form-description"><liferay-ui:message key="tracking-code-message" />: <%= ParamUtil.getString(request, "trackingCode") %></h2>
+								<h2 class="ddm-form-description"><liferay-ui:message key="tracking-code-message" />: <%= trackingCode %></h2>
 							</c:if>
 
 							<p class="ddm-form-description"><%= HtmlUtil.escape(GetterUtil.getString(body.getString(displayLocale), body.getString(body.getDefaultLocale()))) %></p>
