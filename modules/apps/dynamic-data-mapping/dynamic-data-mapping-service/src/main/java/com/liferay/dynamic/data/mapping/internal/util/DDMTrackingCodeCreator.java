@@ -17,7 +17,6 @@ package com.liferay.dynamic.data.mapping.internal.util;
 import com.liferay.dynamic.data.mapping.model.DDMTrackingCode;
 import com.liferay.dynamic.data.mapping.service.DDMTrackingCodeLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.Objects;
 
@@ -35,7 +34,8 @@ public class DDMTrackingCodeCreator {
 		DDMTrackingCode ddmTrackingCode;
 
 		do {
-			trackingCode = StringUtil.randomString(10);
+			trackingCode = String.valueOf(
+				Math.round(Math.random() * 10000000000L));
 
 			ddmTrackingCode =
 				DDMTrackingCodeLocalServiceUtil.getDDMTrackingCode(

@@ -24,6 +24,10 @@ String trackingCode = ParamUtil.getString(request, "trackingCode");
 if (Validator.isNull(trackingCode)) {
 	trackingCode = (String)portletSession.getAttribute("trackingCode");
 }
+
+DDMFormInstance ddmFormInstance = DDMFormInstanceLocalServiceUtil.getFormInstance(formInstanceId);
+
+DDMFormInstanceSettings formInstanceSettings = ddmFormInstance.getSettingsModel();
 %>
 
 <c:choose>
@@ -240,7 +244,7 @@ if (Validator.isNull(trackingCode)) {
 
 							<%= ddmFormDisplayContext.getDDMFormHTML(false, submitLabel) %>
 
-							<c:if test="<%= formHasMobileField %>">
+							<c:if test="<%= formInstanceSettings.sendSMSVerificationCode() %>">
 								<div id="<portlet:namespace />mobileFieldDiv">
 									<aui:row>
 										<aui:col width="<%= 25 %>">
@@ -397,7 +401,7 @@ if (Validator.isNull(trackingCode)) {
 								'<%=LanguageUtil.get(request,"sum-of-payment") %>: 0';
 						}
 
-						if ('<%=formHasMobileField%>' == 'true') {
+						if ('<%=formInstanceSettings.sendSMSVerificationCode() %>' == 'true') {
 							document.getElementById(
 								'<portlet:namespace />mobileCodeFields'
 							).innerHTML = document.getElementById(
