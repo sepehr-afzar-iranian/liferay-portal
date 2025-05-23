@@ -57,8 +57,9 @@ import org.osgi.annotation.versioning.ProviderType;
 							value = {
 								"requireAuthentication", "requireCaptcha",
 								"confirmOnSubmit", "autosaveEnabled",
-								"redirectURL", "storageType",
-								"workflowDefinition"
+								"sendSMSVerificationCode",
+								"sendSMSTrackingCode", "redirectURL",
+								"storageType", "workflowDefinition"
 							}
 						)
 					}
@@ -163,6 +164,18 @@ public interface DDMFormInstanceSettings {
 		type = "checkbox"
 	)
 	public boolean sendEmailNotificationToUser();
+
+	@DDMFormField(
+		label = "%send-sms-tracking-code", properties = "showAsSwitcher=true",
+		type = "checkbox"
+	)
+	public boolean sendSMSTrackingCode();
+
+	@DDMFormField(
+		label = "%send-sms-verification-code",
+		properties = "showAsSwitcher=true", type = "checkbox"
+	)
+	public boolean sendSMSVerificationCode();
 
 	@DDMFormField(
 		label = "%select-a-storage-type", predefinedValue = "[\"json\"]",

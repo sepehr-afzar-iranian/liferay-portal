@@ -131,8 +131,10 @@ public class AddFormInstanceRecordMVCActionCommand
 		DDMForm ddmForm = getDDMForm(ddmFormInstance);
 
 		boolean formHasPriceField = false;
-		boolean formHasMobileField = false;
 		List<DDMFormField> ddmFormFieldList = ddmForm.getDDMFormFields();
+
+		DDMFormInstanceSettings formInstanceSettings =
+			ddmFormInstance.getSettingsModel();
 
 		for (DDMFormField ddmFormField : ddmFormFieldList) {
 			if (!formHasPriceField &&
@@ -141,16 +143,9 @@ public class AddFormInstanceRecordMVCActionCommand
 
 				formHasPriceField = true;
 			}
-
-			if (!formHasMobileField &&
-				Validator.isNotNull(ddmFormField.getProperty("mobileField")) &&
-				(Boolean)ddmFormField.getProperty("mobileField")) {
-
-				formHasMobileField = true;
-			}
 		}
 
-		if (!formHasMobileField) {
+		if (!formInstanceSettings.sendSMSVerificationCode()) {
 			validateCaptcha(actionRequest, ddmFormInstance);
 		}
 
@@ -220,7 +215,7 @@ public class AddFormInstanceRecordMVCActionCommand
 		boolean confirmOnSubmit = ParamUtil.getBoolean(
 			actionRequest, "confirmOnSubmit");
 
-		if (formHasMobileField) {
+		if (formInstanceSettings.sendSMSVerificationCode()) {
 			String verificationCode = ParamUtil.getString(
 				actionRequest, "verificationCode");
 
@@ -334,9 +329,6 @@ public class AddFormInstanceRecordMVCActionCommand
 			}
 		}
 
-		DDMFormInstanceSettings formInstanceSettings =
-			ddmFormInstance.getSettingsModel();
-
 		String redirectURL = ParamUtil.getString(
 			actionRequest, "redirect", formInstanceSettings.redirectURL());
 
@@ -375,6 +367,17 @@ public class AddFormInstanceRecordMVCActionCommand
 				"trackingCode", ddmFormInstanceRecord.getTrackingCode());
 
 			sendRedirect(actionRequest, actionResponse, portletURL.toString());
+		}
+
+		System.out.println("gggggggggg");
+
+		if (formInstanceSettings.sendSMSTrackingCode() &&
+			Validator.isNotNull(mobile)) {
+
+			System.out.println("hhhhhhhhhhh");
+			_smsMessageLocalService.sendSMSWithFormTrackingCode(
+				mobile, ddmFormInstanceRecord.getTrackingCode(), "",
+				serviceContext);
 		}
 	}
 
