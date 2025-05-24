@@ -231,7 +231,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 					<aui:input helpMessage="enable-lockout-help" label="enable-lockout" name="lockout" type="toggle-switch" value="<%= passwordPolicy.isLockout() %>" />
 
 					<div class="password-policy-options" id="<portlet:namespace />lockoutSettings">
-						<aui:input helpMessage="maximum-failure-help" label="maximum-failure" name="maxFailure" />
+						<aui:input helpMessage="maximum-failure-help" label="maximum-failure" name="maxFailure" >
+							<aui:validator name="min">3</aui:validator>
+							<aui:validator name="max">10</aui:validator>
+						</aui:input>
 
 						<aui:select helpMessage="reset-failure-count-help" name="resetFailureCount">
 
