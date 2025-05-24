@@ -369,12 +369,9 @@ public class AddFormInstanceRecordMVCActionCommand
 			sendRedirect(actionRequest, actionResponse, portletURL.toString());
 		}
 
-		System.out.println("gggggggggg");
-
 		if (formInstanceSettings.sendSMSTrackingCode() &&
 			Validator.isNotNull(mobile)) {
 
-			System.out.println("hhhhhhhhhhh");
 			_smsMessageLocalService.sendSMSWithFormTrackingCode(
 				mobile, ddmFormInstanceRecord.getTrackingCode(), "",
 				serviceContext);
