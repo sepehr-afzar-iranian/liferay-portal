@@ -47,6 +47,7 @@ RUN wget -q https://sourceforge.net/projects/openofficeorg.mirror/files/$OPENOFF
     rm -rf /tmp/OpenOffice
 
 COPY --chown=1000:1000 ./scripts/start-openoffice.sh /usr/local/liferay/scripts/pre-configure/
+COPY --chown=1000:1000 ./scripts/remove_unused_apps.sh /usr/local/liferay/scripts/pre-configure/
 
 RUN mkdir -p /home/openoffice/.local/share
 RUN chown -R liferay:liferay /home/openoffice/.local/share

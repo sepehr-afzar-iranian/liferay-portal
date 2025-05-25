@@ -55,6 +55,7 @@ page import="com.liferay.portal.kernel.util.ListUtil" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
+page import="com.liferay.portal.util.PropsValues" %><%@
 page import="com.liferay.taglib.servlet.PipingServletResponse" %>
 
 <%@ page import="java.util.List" %><%@
@@ -72,9 +73,7 @@ page import="org.osgi.service.metatype.AttributeDefinition" %>
 <portlet:defineObjects />
 
 <%
-String[] skipped = {"platform", "others", "other", "commerce"};
-
-String[] skippedConfigurations = {"com.liferay.portal.security.sso.facebook.connect.configuration.FacebookConnectConfiguration", "com.liferay.portal.security.sso.google.configuration.GoogleAuthorizationConfiguration", "com.liferay.portal.security.sso.ntlm.configuration.NtlmConfiguration", "com.liferay.portal.security.sso.opensso.configuration.OpenSSOConfiguration", "com.liferay.portal.security.sso.token.configuration.TokenConfiguration", "com.liferay.document.library.google.drive.configuration.DLGoogleDriveCompanyConfiguration"};
-
-String[] skippedCategories = {"security-tools", "api-authentication", "audit", "oauth2", "announcements", "adaptive-media", "assets", "blogs", "breadcrumbs", "comments", "community-tools", "data-providers", "display-content", "dynamic-data-lists", "dynamic-data-mapping", "forms", "knowledge-base", "message-boards", "navigation", "page-fragments", "pages", "rss", "segments", "sharing", "user-activity", "wiki", "workflow"};
+String[] skipped = PropsValues.CONFIGURATION_SKIP_PLATFORMS;
+String[] skippedConfigurations = PropsValues.CONFIGURATION_SKIP_CONFIGURATIONS;
+String[] skippedCategories = PropsValues.CONFIGURATION_SKIP_CATEGORIES;
 %>

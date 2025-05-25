@@ -8,6 +8,7 @@ apps:batch-engine:batch-engine-service:$1 \
 apps:commerce:commerce-channel-web:$1 \
 apps:commerce:commerce-lang:$1 \
 apps:commerce:commerce-product-definitions-web:$1 \
+apps:configuration-admin:configuration-admin-web:$1 \
 apps:data-engine:data-engine-taglib:$1 \
 apps:document-library:document-library-item-selector-web:$1 \
 apps:document-library:document-library-repository-portlet-file-repository-impl:$1 \

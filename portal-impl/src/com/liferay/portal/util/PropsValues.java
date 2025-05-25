@@ -586,6 +586,15 @@ public class PropsValues {
 	public static String[] COMPANY_SETTINGS_FORM_AUTHENTICATION =
 		PropsUtil.getArray(PropsKeys.COMPANY_SETTINGS_FORM_AUTHENTICATION);
 
+	public static final String[] CONFIGURATION_SKIP_CATEGORIES =
+		PropsUtil.getArray(PropsKeys.CONFIGURATION_SKIP_CATEGORIES);
+
+	public static final String[] CONFIGURATION_SKIP_CONFIGURATIONS =
+		PropsUtil.getArray(PropsKeys.CONFIGURATION_SKIP_CONFIGURATIONS);
+
+	public static final String[] CONFIGURATION_SKIP_PLATFORMS =
+		PropsUtil.getArray(PropsKeys.CONFIGURATION_SKIP_PLATFORMS);
+
 	public static final String CONTROL_PANEL_LAYOUT_FRIENDLY_URL =
 		PropsUtil.get(PropsKeys.CONTROL_PANEL_LAYOUT_FRIENDLY_URL);
 

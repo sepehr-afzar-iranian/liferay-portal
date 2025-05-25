@@ -621,6 +621,15 @@ public interface PropsKeys {
 	public static final String COMPANY_SETTINGS_FORM_SOCIAL =
 		"company.settings.form.social";
 
+	public static final String CONFIGURATION_SKIP_CATEGORIES =
+		"configuration.skip.categories";
+
+	public static final String CONFIGURATION_SKIP_CONFIGURATIONS =
+		"configuration.skip.configurations";
+
+	public static final String CONFIGURATION_SKIP_PLATFORMS =
+		"configuration.skip.platforms";
+
 	public static final String CONTROL_PANEL_DEFAULT_ENTRY_CLASS =
 		"control.panel.default.entry.class";
 
