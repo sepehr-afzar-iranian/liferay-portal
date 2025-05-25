@@ -53,6 +53,9 @@ ConfigurationCategoryMenuDisplay configurationCategoryMenuDisplay = (Configurati
 
 							<%
 							for (ConfigurationEntry curConfigurationEntry : configurationEntries) {
+								if (ArrayUtil.contains(skippedConfigurations, curConfigurationEntry.getKey())) {
+									continue;
+								}
 							%>
 
 								<li>

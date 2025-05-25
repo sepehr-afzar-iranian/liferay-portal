@@ -48,6 +48,11 @@ ConfigurationScopeDisplayContext configurationScopeDisplayContext = Configuratio
 
 		<%
 		for (ConfigurationCategorySectionDisplay configurationCategorySectionDisplay : configurationCategorySectionDisplays) {
+			String section = configurationCategorySectionDisplay.getConfigurationCategorySection();
+
+			if (ArrayUtil.contains(skipped, section)) {
+				continue;
+			}
 		%>
 
 			<li class="list-group-header">
@@ -62,7 +67,7 @@ ConfigurationScopeDisplayContext configurationScopeDisplayContext = Configuratio
 					for (ConfigurationCategoryDisplay configurationCategoryDisplay : configurationCategorySectionDisplay.getConfigurationCategoryDisplays()) {
 						ConfigurationCategoryMenuDisplay configurationCategoryMenuDisplay = configurationEntryRetriever.getConfigurationCategoryMenuDisplay(configurationCategoryDisplay.getCategoryKey(), themeDisplay.getLanguageId(), configurationScopeDisplayContext.getScope(), configurationScopeDisplayContext.getScopePK());
 
-						if (configurationCategoryMenuDisplay.isEmpty()) {
+						if (configurationCategoryMenuDisplay.isEmpty() || ArrayUtil.contains(skippedCategories, configurationCategoryDisplay.getCategoryKey())) {
 							continue;
 						}
 					%>

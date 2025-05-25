@@ -49,6 +49,7 @@ page import="com.liferay.portal.configuration.metatype.annotations.ExtendedObjec
 page import="com.liferay.portal.configuration.persistence.listener.ConfigurationModelListenerException" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
 page import="com.liferay.portal.kernel.resource.bundle.ResourceBundleLoader" %><%@
+page import="com.liferay.portal.kernel.util.ArrayUtil" %><%@
 page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.portal.kernel.util.ListUtil" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
@@ -69,3 +70,11 @@ page import="org.osgi.service.metatype.AttributeDefinition" %>
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<%
+String[] skipped = {"platform", "others", "other", "commerce"};
+
+String[] skippedConfigurations = {"com.liferay.portal.security.sso.facebook.connect.configuration.FacebookConnectConfiguration", "com.liferay.portal.security.sso.google.configuration.GoogleAuthorizationConfiguration", "com.liferay.portal.security.sso.ntlm.configuration.NtlmConfiguration", "com.liferay.portal.security.sso.opensso.configuration.OpenSSOConfiguration", "com.liferay.portal.security.sso.token.configuration.TokenConfiguration", "com.liferay.document.library.google.drive.configuration.DLGoogleDriveCompanyConfiguration"};
+
+String[] skippedCategories = {"security-tools", "api-authentication", "audit", "oauth2", "announcements", "adaptive-media", "assets", "blogs", "breadcrumbs", "comments", "community-tools", "data-providers", "display-content", "dynamic-data-lists", "dynamic-data-mapping", "forms", "knowledge-base", "message-boards", "navigation", "page-fragments", "pages", "rss", "segments", "sharing", "user-activity", "wiki", "workflow"};
+%>
