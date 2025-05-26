@@ -24,8 +24,10 @@ import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.cluster.ClusterExecutorUtil;
 import com.liferay.portal.kernel.cluster.ClusterNode;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.UserIpException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.DestinationNames;
@@ -34,6 +36,7 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserTracker;
+import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
 import com.liferay.portal.kernel.security.auth.AuthException;
 import com.liferay.portal.kernel.security.auth.AuthenticatedUserUUIDStoreUtil;
 import com.liferay.portal.kernel.security.auth.Authenticator;
@@ -51,13 +54,17 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.liveusers.LiveUsers;
+import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -80,6 +87,40 @@ public class AuthenticatedSessionManagerImpl
 			httpServletRequest, login, password, authType);
 
 		return user.getUserId();
+	}
+
+	public String getClientIpAddress(HttpServletRequest httpServletRequest) {
+		String ip = httpServletRequest.getHeader("X-Forwarded-For");
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("WL-Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_CLIENT_IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getRemoteAddr();
+		}
+
+		if ((ip != null) && ip.contains(",")) {
+			ip = ip.split(",")[0].trim();
+		}
+
+		return ip;
 	}
 
 	@Override
@@ -464,6 +505,43 @@ public class AuthenticatedSessionManagerImpl
 		}
 	}
 
+	private void _audit(
+		String login, String userIp, long companyId, String authType) {
+
+		try {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("Someone with");
+			sb.append(StringPool.SPACE);
+			sb.append(authType);
+			sb.append(StringPool.SPACE);
+			sb.append(login);
+			sb.append(StringPool.SPACE);
+			sb.append("tried to login with banned ip");
+			sb.append(StringPool.PERIOD);
+
+			JSONObject additionalInfoJSONObject = JSONUtil.put(
+				"authType", authType
+			).put(
+				"ip", userIp
+			).put(
+				"login", login
+			);
+
+			AuditMessage auditMessage = new AuditMessage(
+				"LOGIN_FAILURE", companyId, 0, "",
+				HttpServletRequest.class.getName(), "0", sb.toString(),
+				additionalInfoJSONObject);
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
 	private User _getAuthenticatedUser(
 			HttpServletRequest httpServletRequest, String login,
 			String password, String authType)
@@ -530,6 +608,22 @@ public class AuthenticatedSessionManagerImpl
 
 		if (authResult != Authenticator.SUCCESS) {
 			throw new AuthException();
+		}
+
+		String userIp = getClientIpAddress(httpServletRequest);
+
+		String[] disallowIps = PrefsPropsUtil.getStringArray(
+			company.getCompanyId(), PropsKeys.AUTH_LOGIN_DISALLOW_IPS,
+			StringPool.NEW_LINE);
+
+		Set<String> hostsAllowed = new HashSet<>(Arrays.asList(disallowIps));
+
+		if (!hostsAllowed.isEmpty() &&
+			AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+
+			_audit(login, userIp, company.getCompanyId(), authType);
+
+			throw new UserIpException();
 		}
 
 		return user;

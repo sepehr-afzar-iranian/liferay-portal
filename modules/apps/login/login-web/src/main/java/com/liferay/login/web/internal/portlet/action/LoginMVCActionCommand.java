@@ -17,9 +17,6 @@ package com.liferay.login.web.internal.portlet.action;
 import com.liferay.captcha.util.CaptchaUtil;
 import com.liferay.login.web.constants.LoginPortletKeys;
 import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.audit.AuditMessage;
-import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.captcha.CaptchaConfigurationException;
 import com.liferay.portal.kernel.captcha.CaptchaException;
 import com.liferay.portal.kernel.exception.CompanyMaxUsersException;
@@ -33,11 +30,8 @@ import com.liferay.portal.kernel.exception.UserIpException;
 import com.liferay.portal.kernel.exception.UserLockoutException;
 import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
@@ -45,7 +39,6 @@ import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
 import com.liferay.portal.kernel.security.auth.AuthException;
 import com.liferay.portal.kernel.security.auth.session.AuthenticatedSessionManager;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -53,17 +46,10 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
-import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsValues;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -92,40 +78,6 @@ import org.osgi.service.component.annotations.Reference;
 	service = MVCActionCommand.class
 )
 public class LoginMVCActionCommand extends BaseMVCActionCommand {
-
-	public String getClientIpAddress(HttpServletRequest httpServletRequest) {
-		String ip = httpServletRequest.getHeader("X-Forwarded-For");
-
-		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = httpServletRequest.getHeader("Proxy-Client-IP");
-		}
-
-		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = httpServletRequest.getHeader("WL-Proxy-Client-IP");
-		}
-
-		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-
-		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED");
-		}
-
-		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = httpServletRequest.getHeader("HTTP_CLIENT_IP");
-		}
-
-		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-			ip = httpServletRequest.getRemoteAddr();
-		}
-
-		if ((ip != null) && ip.contains(",")) {
-			ip = ip.split(",")[0].trim();
-		}
-
-		return ip;
-	}
 
 	protected void checkCaptcha(ActionRequest actionRequest)
 		throws CaptchaConfigurationException, CaptchaException {
@@ -258,23 +210,6 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 			_portal.getOriginalServletRequest(
 				_portal.getHttpServletRequest(actionRequest));
 
-		long companyId = _portal.getCompanyId(actionRequest);
-
-		String userIp = getClientIpAddress(httpServletRequest);
-
-		String[] disallowIps = PrefsPropsUtil.getStringArray(
-			companyId, PropsKeys.AUTH_LOGIN_DISALLOW_IPS, StringPool.NEW_LINE);
-
-		Set<String> hostsAllowed = new HashSet<>(Arrays.asList(disallowIps));
-
-		if (!hostsAllowed.isEmpty() &&
-			AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
-
-			_audit(actionRequest, themeDisplay, userIp, companyId);
-
-			throw new UserIpException();
-		}
-
 		if (!themeDisplay.isSignedIn()) {
 			HttpServletResponse httpServletResponse =
 				_portal.getHttpServletResponse(actionResponse);
@@ -392,64 +327,8 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		actionResponse.sendRedirect(portletURL.toString());
 	}
 
-	private void _audit(
-		ActionRequest actionRequest, ThemeDisplay themeDisplay, String userIp,
-		long companyId) {
-
-		try {
-			String login = ParamUtil.getString(actionRequest, "login");
-
-			PortletPreferences portletPreferences =
-				PortletPreferencesFactoryUtil.getStrictPortletSetup(
-					themeDisplay.getLayout(),
-					_portal.getPortletId(actionRequest));
-
-			String authType = portletPreferences.getValue("authType", null);
-
-			if (Validator.isNull(authType)) {
-				Company company = _portal.getCompany(actionRequest);
-
-				authType = company.getAuthType();
-			}
-
-			StringBuilder sb = new StringBuilder();
-
-			sb.append("Someone with");
-			sb.append(StringPool.SPACE);
-			sb.append(authType);
-			sb.append(StringPool.SPACE);
-			sb.append(login);
-			sb.append(StringPool.SPACE);
-			sb.append("tried to login with banned ip");
-			sb.append(StringPool.PERIOD);
-
-			JSONObject additionalInfoJSONObject = JSONUtil.put(
-				"authType", authType
-			).put(
-				"ip", userIp
-			).put(
-				"login", login
-			);
-
-			AuditMessage auditMessage = new AuditMessage(
-				EventTypes.LOGIN_FAILURE, companyId, 0, "",
-				HttpServletRequest.class.getName(), "0", sb.toString(),
-				additionalInfoJSONObject);
-
-			_auditRouter.route(auditMessage);
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to route audit message", exception);
-			}
-		}
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		LoginMVCActionCommand.class);
-
-	@Reference
-	private AuditRouter _auditRouter;
 
 	@Reference
 	private AuthenticatedSessionManager _authenticatedSessionManager;
