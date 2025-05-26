@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.model.UserTrackerPath;
 import com.liferay.portal.kernel.portlet.FriendlyURLMapper;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.security.access.control.AccessControlUtil;
 import com.liferay.portal.kernel.security.auth.InterruptedPortletRequestWhitelistUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -55,6 +56,7 @@ import com.liferay.portal.liveusers.LiveUsers;
 import com.liferay.portal.struts.model.ActionForward;
 import com.liferay.portal.struts.model.ActionMapping;
 import com.liferay.portal.struts.model.ModuleConfig;
+import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
 
@@ -128,6 +130,40 @@ public class PortalRequestProcessor {
 		_trackerIgnorePaths = new HashSet<>(
 			Arrays.asList(
 				PropsUtil.getArray(PropsKeys.SESSION_TRACKER_IGNORE_PATHS)));
+	}
+
+	public String getClientIpAddress(HttpServletRequest httpServletRequest) {
+		String ip = httpServletRequest.getHeader("X-Forwarded-For");
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("WL-Proxy-Client-IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_X_FORWARDED");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getHeader("HTTP_CLIENT_IP");
+		}
+
+		if ((ip == null) || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+			ip = httpServletRequest.getRemoteAddr();
+		}
+
+		if ((ip != null) && ip.contains(",")) {
+			ip = ip.split(",")[0].trim();
+		}
+
+		return ip;
 	}
 
 	public void process(
@@ -587,6 +623,22 @@ public class PortalRequestProcessor {
 		String remoteUser = httpServletRequest.getRemoteUser();
 
 		if ((remoteUser != null) || (user != null)) {
+			String userIp = getClientIpAddress(httpServletRequest);
+
+			long companyId = PortalUtil.getCompanyId(httpServletRequest);
+
+			String[] disallowIps = PrefsPropsUtil.getStringArray(
+				companyId, PropsKeys.AUTH_LOGIN_DISALLOW_IPS,
+				StringPool.NEW_LINE);
+
+			Set<String> hostsAllowed = new HashSet<>(
+				Arrays.asList(disallowIps));
+
+			if (!hostsAllowed.isEmpty() &&
+				AccessControlUtil.isAccessAllowed(userIp, hostsAllowed)) {
+
+				session.setAttribute(WebKeys.USER_IP_BLOCKED, "true");
+			}
 
 			// Authenticated users can always log out
 
