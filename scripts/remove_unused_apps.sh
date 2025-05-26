@@ -1,4 +1,4 @@
-cd /opt/liferay/osgi/marketplaceecho
+cd /opt/liferay/osgi/marketplace
 echo "Remove Unused Apps"
 rm -fv 'Liferay CE Collaboration - Liferay CE Connected App - Impl.lpkg'
 rm -fv 'Liferay CE Collaboration - Liferay CE Questions - Impl.lpkg'
