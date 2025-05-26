@@ -17,6 +17,11 @@
 <%@ include file="/html/portal/init.jsp" %>
 
 <c:choose>
+	<c:when test='<%= "true".equals(session.getAttribute(WebKeys.USER_IP_BLOCKED)) %>'>
+		<div class="container pb-3 pt-3">
+			<%@ include file="/html/portal/user_ip_blocked.jsp" %>
+		</div>
+	</c:when>
 	<c:when test="<%= WebKeys.SIMULTANEOUS_LOGINS.equals(session.getAttribute(WebKeys.SESSION_TERMINATED_REASON)) %>">
 		<div class="container pb-3 pt-3">
 			<%@ include file="/html/portal/simultaneous_logins.jsp" %>

@@ -795,6 +795,8 @@ public interface WebKeys {
 
 	public static final String USER_ID = "USER_ID";
 
+	public static final String USER_IP_BLOCKED = "USER_IP_BLOCKED";
+
 	public static final String USER_PASSWORD = "USER_PASSWORD";
 
 	public static final String USERS_NOTIFIED = "USERS_NOTIFIED";
