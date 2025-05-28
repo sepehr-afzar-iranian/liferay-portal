@@ -1,0 +1,44 @@
+# Version control
+.git
+.gitignore
+.github/
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Node modules
+node_modules/
+npm-debug.log*
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test files
+test/
+tests/
+*test*
+*.test.*
+
+# Cache
+.cache/
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+*~

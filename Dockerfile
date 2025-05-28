@@ -1,4 +1,5 @@
-FROM liferay/portal:7.3.7-ga8
+# Build stage
+FROM liferay/portal:7.3.7-ga8 as builder
 
 # MAINTAINER="Mahdi Noorbala | noorbla7418@gmail.com" ## Do Not UnCommnet this line!
 
@@ -44,3 +45,7 @@ COPY --chown=1000:1000 ./scripts/extension_mover.sh /usr/local/liferay/scripts/p
 
 RUN mkdir -p /home/openoffice/.local/share
 RUN chown -R liferay:liferay /home/openoffice/.local/share
+
+# Final stage (if needed for further optimization)
+FROM builder as final
+USER liferay
