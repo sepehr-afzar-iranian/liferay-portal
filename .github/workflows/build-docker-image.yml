@@ -37,48 +37,15 @@ jobs:
                   echo release.info.date=$(grep "release.info.date" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
                   echo release.info.name=$(grep "release.info.name" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
                   echo release.info.version.display.name=$(grep "release.info.version.display.name" release-sain.properties | cut -d'=' -f2) SP ${{env.SAIN_DOCKER_VERSION}} >> release.$USER.properties
-            - name: Echo SAIN_EXTENSION_NEXUS_URL # we print it to be sure that is set correctly
-              run: echo ${{env.SAIN_EXTENSION_NEXUS_URL}}
-            - name: Create backup from build.properties file
-              run: mv build.properties build.properties.bak
-            - name: Change Some Values in build.properties File
-              run: >
-                  cat build.properties.bak |
-                  sed 's/#baseline.jar.report.level=off/baseline.jar.report.level=off/g ;
-                  s/baseline.jar.report.level=persist/#baseline.jar.report.level=persist/g ;
-                  s/jsp.precompile=on/jsp.precompile=off/g ;
-                  s/org.gradle.daemon=true/org.gradle.daemon=false/g'
-                  > build.properties
-            - env:
-                  ANT_OPTS: "-Xmx2g"
+            - env :
+                ANT_OPTS : "-Xmx2g"
               name: Ant Compile and Install Portal Snapshots
               run: ant compile install-portal-snapshots
             - env:
                   ANT_OPTS: "-Xmx4g"
-              name: Ant deploy portal-impl
+              name: Ant deploy portal
               run: ant deploy
-              working-directory: ./portal-impl
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-              name: Ant deploy portal-web
-              run: ant deploy
-              working-directory: ./portal-web
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-              name: Ant deploy portal-kernel
-              run: ant deploy
-              working-directory: ./portal-kernel
-            - env:
-                  ANT_OPTS: "-Xmx4g"
-              name: Ant deploy util-taglib
-              run: ant deploy
-              working-directory: ./util-taglib
-            - name: Deploy core modules
-              run: bash ../../gradlew deploy
-              working-directory: ./modules/core
-            - name: Deploy custom modules # you should list your module names in this file for compile
-              run: bash ../module-builder.sh deploy
-              working-directory: ./modules
+              working-directory: ./
             - name: Move files to SAIN-Bundles # before create docker image, we should move those files to here.
               run: mkdir SAIN-bundles && mv /home/runner/work/liferay-portal/bundles/ SAIN-bundles/
             - name: Download modules
