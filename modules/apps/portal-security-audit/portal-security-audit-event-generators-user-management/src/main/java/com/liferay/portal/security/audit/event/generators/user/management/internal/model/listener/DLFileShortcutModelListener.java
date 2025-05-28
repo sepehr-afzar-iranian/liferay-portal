@@ -36,7 +36,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Yousef Ghadiri
  */
-@Component(service = ModelListener.class)
+@Component(enabled = false, service = ModelListener.class)
 public class DLFileShortcutModelListener
 	extends BaseModelListener<DLFileShortcut> {
 
