@@ -78,6 +78,9 @@ renderResponse.setTitle(categoryDisplayName);
 	<liferay-ui:message key="<%= cmle.causeMessage %>" localizeKey="<%= false %>" />
 </liferay-ui:error>
 
+<liferay-ui:error exception="<%= FileExtensionException.class %>" message="star-can-not-be-valid" />
+<liferay-ui:error key="fileMaxSizeZeroNotValid" message="file-max-size-zero-not-valid" />
+
 <portlet:actionURL name="/configuration_admin/bind_configuration" var="bindConfigurationActionURL" />
 <portlet:actionURL name="/configuration_admin/delete_configuration" var="deleteConfigurationActionURL" />
 
