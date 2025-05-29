@@ -58,28 +58,28 @@ jobs:
               with:
                   password: ${{secrets.DOCKER_HUB_PASSWORD}}
                   username: ${{secrets.DOCKER_HUB_USERNAME}}
-            - name: Free up disk space
-              run: |
-                  echo "Disk usage before cleanup:"
-                  df -h
-                  # Remove unnecessary packages and clean package cache
-                  sudo apt-get autoremove -y
-                  sudo apt-get clean
-                  # Remove docker cache and unused images
-                  docker system prune -af --volumes
-                  # Remove unnecessary files
-                  sudo rm -rf /home/runner/.liferay
-                  sudo rm -rf /home/runner/.m2
-                  sudo rm -rf /home/runner/.gradle
-                  sudo rm -rf /home/runner/work/liferay-portal/liferay-portal/.m2
-                  sudo rm -rf /home/runner/work/liferay-portal/liferay-portal/.gradle
-                  sudo rm -rf /usr/share/dotnet
-                  sudo rm -rf /opt/ghc
-                  sudo rm -rf /usr/local/share/boost
-                  sudo rm -rf /opt/hostedtoolcache/CodeQL
-                  sudo rm -rf ${ANDROID_HOME:-/usr/local/lib/android}
-                  echo "Disk usage after cleanup:"
-                  df -h
+            - name : Free up disk space
+              run : |
+                echo "Disk usage before cleanup:"
+                df -h
+                # Remove unnecessary packages and clean package cache
+                sudo apt-get autoremove -y
+                sudo apt-get clean
+                # Remove docker cache and unused images
+                docker system prune -af --volumes
+                # Remove unnecessary files with error handling
+                sudo rm -rf /home/runner/.liferay || true
+                sudo rm -rf /home/runner/.m2 || true
+                sudo rm -rf /home/runner/.gradle || true
+                sudo rm -rf /home/runner/work/liferay-portal/liferay-portal/.m2 || true
+                sudo find /home/runner/work/liferay-portal/liferay-portal/.gradle -delete 2>/dev/null || true
+                sudo rm -rf /usr/share/dotnet || true
+                sudo rm -rf /opt/ghc || true
+                sudo rm -rf /usr/local/share/boost || true
+                sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+                sudo rm -rf ${ANDROID_HOME:-/usr/local/lib/android} || true
+                echo "Disk usage after cleanup:"
+                df -h
             - id: buildx
               name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v1
