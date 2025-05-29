@@ -21,6 +21,7 @@ COPY --chown=1000:1000 ./SAIN-bundles/bundles/osgi /opt/liferay/osgi
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/lib/ext/portal-kernel.jar	/opt/liferay/tomcat-9.0.43/lib/ext/portal-kernel.jar
 COPY --chown=1000:1000 ./portal-bundle.properties /opt/liferay/
 COPY --chown=1000:1000 ./SAIN-modules/bundles/osgi/modules/* /opt/liferay/extensions/
+COPY --chown=1000:1000 ./SAIN-bundles/bundles/osgi/modules/* /opt/liferay/extensions/
 
 USER root
 
