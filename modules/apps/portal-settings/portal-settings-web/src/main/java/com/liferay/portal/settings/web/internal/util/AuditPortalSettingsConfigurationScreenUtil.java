@@ -17,6 +17,7 @@ package com.liferay.portal.settings.web.internal.util;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouterUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -36,7 +37,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AuditPortalSettingsConfigurationScreenUtil {
 
-	public static void audit(ActionRequest actionRequest, String eventType) {
+	public static void audit(
+		ActionRequest actionRequest, String eventType,
+		String disallowIpsChanged) {
+
 		try {
 			HttpServletRequest httpServletRequest =
 				PortalUtil.getHttpServletRequest(actionRequest);
@@ -72,8 +76,15 @@ public class AuditPortalSettingsConfigurationScreenUtil {
 					PropertiesParamUtil.getProperties(
 						actionRequest, "settings--");
 
-				auditMessage.setAdditionalInfo(
-					JSONUtil.put("properties", unicodeProperties));
+				JSONObject additionalInfoJSONObject = JSONUtil.put(
+					"newProperties", unicodeProperties);
+
+				if (disallowIpsChanged != null) {
+					additionalInfoJSONObject.put(
+						"disallowIpsChanges", disallowIpsChanged);
+				}
+
+				auditMessage.setAdditionalInfo(additionalInfoJSONObject);
 			}
 
 			AuditRouterUtil.route(auditMessage);

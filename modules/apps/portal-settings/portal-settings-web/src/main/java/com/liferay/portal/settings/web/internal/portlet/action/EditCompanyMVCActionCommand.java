@@ -75,6 +75,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.settings.web.internal.exception.RequiredLocaleException;
 import com.liferay.portal.settings.web.internal.util.AuditPortalSettingsConfigurationScreenUtil;
+import com.liferay.portal.util.PrefsPropsUtil;
+import com.liferay.portal.util.PropsUtil;
 import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
 import java.util.Enumeration;
@@ -108,6 +110,34 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
+		String disallowIpsChanged = null;
+
+		try {
+			UnicodeProperties unicodeProperties =
+				PropertiesParamUtil.getProperties(actionRequest, "settings--");
+
+			long companyId = _portal.getCompanyId(actionRequest);
+
+			PortletPreferences portletPreferences =
+				PrefsPropsUtil.getPreferences(companyId);
+
+			String key = "auth.login.disallow.ips";
+
+			String newValue = unicodeProperties.get(key);
+
+			String propsUtilValue = PropsUtil.get(key);
+
+			String oldValue = portletPreferences.getValue(key, propsUtilValue);
+
+			if ((newValue != null) && (oldValue != null) &&
+				!newValue.equals(oldValue)) {
+
+				disallowIpsChanged = oldValue + " -> " + newValue;
+			}
+		}
+		catch (Exception exception) {
+		}
+
 		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
 		try {
@@ -127,7 +157,8 @@ public class EditCompanyMVCActionCommand extends BaseFormMVCActionCommand {
 					AuditPortalSettingsConfigurationScreenUtil.audit(
 						actionRequest,
 						cmd.equals(Constants.ADD) ? EventTypes.ADD :
-							EventTypes.UPDATE);
+							EventTypes.UPDATE,
+						disallowIpsChanged);
 				}
 				catch (Exception exception) {
 					if (_log.isWarnEnabled()) {

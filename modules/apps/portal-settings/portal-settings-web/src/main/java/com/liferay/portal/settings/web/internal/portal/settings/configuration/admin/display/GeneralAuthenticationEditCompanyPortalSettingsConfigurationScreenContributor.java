@@ -48,4 +48,9 @@ public class
 		return "general";
 	}
 
+	@Override
+	public boolean isVisible() {
+		return false;
+	}
+
 }

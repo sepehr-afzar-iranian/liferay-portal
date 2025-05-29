@@ -41,4 +41,9 @@ public class
 		return "reserved-credentials";
 	}
 
+	@Override
+	public boolean isVisible() {
+		return false;
+	}
+
 }

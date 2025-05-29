@@ -50,6 +50,10 @@ ConfigurationScopeDisplayContext configurationScopeDisplayContext = Configuratio
 		for (ConfigurationCategorySectionDisplay configurationCategorySectionDisplay : configurationCategorySectionDisplays) {
 			String section = configurationCategorySectionDisplay.getConfigurationCategorySection();
 
+			if (ExtendedObjectClassDefinition.Scope.SYSTEM.equals(configurationScopeDisplayContext.getScope()) && (section != null) && section.equals("platform")) {
+				continue;
+			}
+
 			if (ArrayUtil.contains(skipped, section)) {
 				continue;
 			}

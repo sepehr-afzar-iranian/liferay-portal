@@ -71,7 +71,7 @@ public class DeletePortalSettingsFormMVCActionCommand
 
 			try {
 				AuditPortalSettingsConfigurationScreenUtil.audit(
-					actionRequest, EventTypes.DELETE);
+					actionRequest, EventTypes.DELETE, null);
 			}
 			catch (Exception exception) {
 				if (_log.isWarnEnabled()) {
