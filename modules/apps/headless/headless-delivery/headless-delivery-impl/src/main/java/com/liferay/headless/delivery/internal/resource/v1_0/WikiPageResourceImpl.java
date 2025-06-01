@@ -91,6 +91,7 @@ import org.osgi.service.component.annotations.ServiceScope;
  * @author Javier Gamarra
  */
 @Component(
+	enabled = false,
 	properties = "OSGI-INF/liferay/rest/v1_0/wiki-page.properties",
 	scope = ServiceScope.PROTOTYPE, service = WikiPageResource.class
 )

@@ -49,6 +49,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Rubén Pulido
  */
 @Component(
+	enabled = false,
 	property = "dto.class.name=com.liferay.blogs.model.BlogsEntry",
 	service = {BlogPostingDTOConverter.class, DTOConverter.class}
 )

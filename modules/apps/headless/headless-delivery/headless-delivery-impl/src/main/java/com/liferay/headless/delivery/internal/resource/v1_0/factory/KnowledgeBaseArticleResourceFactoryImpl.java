@@ -51,7 +51,7 @@ import org.osgi.service.component.annotations.ReferenceScope;
  * @generated
  */
 @Component(
-	immediate = true, service = KnowledgeBaseArticleResource.Factory.class
+	immediate = true, service = KnowledgeBaseArticleResource.Factory.class, enabled = false
 )
 @Generated("")
 public class KnowledgeBaseArticleResourceFactoryImpl

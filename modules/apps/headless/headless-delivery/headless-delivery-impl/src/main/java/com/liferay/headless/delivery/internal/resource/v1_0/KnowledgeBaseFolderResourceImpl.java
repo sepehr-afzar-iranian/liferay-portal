@@ -42,6 +42,7 @@ import org.osgi.service.component.annotations.ServiceScope;
  * @author Javier Gamarra
  */
 @Component(
+	enabled = false,
 	properties = "OSGI-INF/liferay/rest/v1_0/knowledge-base-folder.properties",
 	scope = ServiceScope.PROTOTYPE, service = KnowledgeBaseFolderResource.class
 )

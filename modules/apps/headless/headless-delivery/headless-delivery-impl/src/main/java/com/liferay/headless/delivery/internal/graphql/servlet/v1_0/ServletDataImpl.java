@@ -16,18 +16,18 @@ package com.liferay.headless.delivery.internal.graphql.servlet.v1_0;
 
 import com.liferay.headless.delivery.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.headless.delivery.internal.graphql.query.v1_0.Query;
-import com.liferay.headless.delivery.resource.v1_0.BlogPostingImageResource;
-import com.liferay.headless.delivery.resource.v1_0.BlogPostingResource;
-import com.liferay.headless.delivery.resource.v1_0.CommentResource;
+//import com.liferay.headless.delivery.resource.v1_0.BlogPostingImageResource;
+//import com.liferay.headless.delivery.resource.v1_0.BlogPostingResource;
+//import com.liferay.headless.delivery.resource.v1_0.CommentResource;
 import com.liferay.headless.delivery.resource.v1_0.ContentElementResource;
 import com.liferay.headless.delivery.resource.v1_0.ContentSetElementResource;
 import com.liferay.headless.delivery.resource.v1_0.ContentStructureResource;
 import com.liferay.headless.delivery.resource.v1_0.ContentTemplateResource;
 import com.liferay.headless.delivery.resource.v1_0.DocumentFolderResource;
 import com.liferay.headless.delivery.resource.v1_0.DocumentResource;
-import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseArticleResource;
-import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseAttachmentResource;
-import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseFolderResource;
+//import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseArticleResource;
+//import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseAttachmentResource;
+//import com.liferay.headless.delivery.resource.v1_0.KnowledgeBaseFolderResource;
 import com.liferay.headless.delivery.resource.v1_0.LanguageResource;
 import com.liferay.headless.delivery.resource.v1_0.MessageBoardAttachmentResource;
 import com.liferay.headless.delivery.resource.v1_0.MessageBoardMessageResource;
@@ -36,9 +36,9 @@ import com.liferay.headless.delivery.resource.v1_0.MessageBoardThreadResource;
 import com.liferay.headless.delivery.resource.v1_0.NavigationMenuResource;
 import com.liferay.headless.delivery.resource.v1_0.StructuredContentFolderResource;
 import com.liferay.headless.delivery.resource.v1_0.StructuredContentResource;
-import com.liferay.headless.delivery.resource.v1_0.WikiNodeResource;
-import com.liferay.headless.delivery.resource.v1_0.WikiPageAttachmentResource;
-import com.liferay.headless.delivery.resource.v1_0.WikiPageResource;
+//import com.liferay.headless.delivery.resource.v1_0.WikiNodeResource;
+//import com.liferay.headless.delivery.resource.v1_0.WikiPageAttachmentResource;
+//import com.liferay.headless.delivery.resource.v1_0.WikiPageResource;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
 
 import javax.annotation.Generated;
@@ -60,22 +60,22 @@ public class ServletDataImpl implements ServletData {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
-		Mutation.setBlogPostingResourceComponentServiceObjects(
-			_blogPostingResourceComponentServiceObjects);
-		Mutation.setBlogPostingImageResourceComponentServiceObjects(
-			_blogPostingImageResourceComponentServiceObjects);
-		Mutation.setCommentResourceComponentServiceObjects(
-			_commentResourceComponentServiceObjects);
+//		Mutation.setBlogPostingResourceComponentServiceObjects(
+//			_blogPostingResourceComponentServiceObjects);
+//		Mutation.setBlogPostingImageResourceComponentServiceObjects(
+//			_blogPostingImageResourceComponentServiceObjects);
+//		Mutation.setCommentResourceComponentServiceObjects(
+//			_commentResourceComponentServiceObjects);
 		Mutation.setDocumentResourceComponentServiceObjects(
 			_documentResourceComponentServiceObjects);
 		Mutation.setDocumentFolderResourceComponentServiceObjects(
 			_documentFolderResourceComponentServiceObjects);
-		Mutation.setKnowledgeBaseArticleResourceComponentServiceObjects(
-			_knowledgeBaseArticleResourceComponentServiceObjects);
-		Mutation.setKnowledgeBaseAttachmentResourceComponentServiceObjects(
-			_knowledgeBaseAttachmentResourceComponentServiceObjects);
-		Mutation.setKnowledgeBaseFolderResourceComponentServiceObjects(
-			_knowledgeBaseFolderResourceComponentServiceObjects);
+//		Mutation.setKnowledgeBaseArticleResourceComponentServiceObjects(
+//			_knowledgeBaseArticleResourceComponentServiceObjects);
+//		Mutation.setKnowledgeBaseAttachmentResourceComponentServiceObjects(
+//			_knowledgeBaseAttachmentResourceComponentServiceObjects);
+//		Mutation.setKnowledgeBaseFolderResourceComponentServiceObjects(
+//			_knowledgeBaseFolderResourceComponentServiceObjects);
 		Mutation.setMessageBoardAttachmentResourceComponentServiceObjects(
 			_messageBoardAttachmentResourceComponentServiceObjects);
 		Mutation.setMessageBoardMessageResourceComponentServiceObjects(
@@ -90,19 +90,19 @@ public class ServletDataImpl implements ServletData {
 			_structuredContentResourceComponentServiceObjects);
 		Mutation.setStructuredContentFolderResourceComponentServiceObjects(
 			_structuredContentFolderResourceComponentServiceObjects);
-		Mutation.setWikiNodeResourceComponentServiceObjects(
-			_wikiNodeResourceComponentServiceObjects);
-		Mutation.setWikiPageResourceComponentServiceObjects(
-			_wikiPageResourceComponentServiceObjects);
-		Mutation.setWikiPageAttachmentResourceComponentServiceObjects(
-			_wikiPageAttachmentResourceComponentServiceObjects);
+//		Mutation.setWikiNodeResourceComponentServiceObjects(
+//			_wikiNodeResourceComponentServiceObjects);
+//		Mutation.setWikiPageResourceComponentServiceObjects(
+//			_wikiPageResourceComponentServiceObjects);
+//		Mutation.setWikiPageAttachmentResourceComponentServiceObjects(
+//			_wikiPageAttachmentResourceComponentServiceObjects);
 
-		Query.setBlogPostingResourceComponentServiceObjects(
-			_blogPostingResourceComponentServiceObjects);
-		Query.setBlogPostingImageResourceComponentServiceObjects(
-			_blogPostingImageResourceComponentServiceObjects);
-		Query.setCommentResourceComponentServiceObjects(
-			_commentResourceComponentServiceObjects);
+//		Query.setBlogPostingResourceComponentServiceObjects(
+//			_blogPostingResourceComponentServiceObjects);
+//		Query.setBlogPostingImageResourceComponentServiceObjects(
+//			_blogPostingImageResourceComponentServiceObjects);
+//		Query.setCommentResourceComponentServiceObjects(
+//			_commentResourceComponentServiceObjects);
 		Query.setContentElementResourceComponentServiceObjects(
 			_contentElementResourceComponentServiceObjects);
 		Query.setContentSetElementResourceComponentServiceObjects(
@@ -115,12 +115,12 @@ public class ServletDataImpl implements ServletData {
 			_documentResourceComponentServiceObjects);
 		Query.setDocumentFolderResourceComponentServiceObjects(
 			_documentFolderResourceComponentServiceObjects);
-		Query.setKnowledgeBaseArticleResourceComponentServiceObjects(
-			_knowledgeBaseArticleResourceComponentServiceObjects);
-		Query.setKnowledgeBaseAttachmentResourceComponentServiceObjects(
-			_knowledgeBaseAttachmentResourceComponentServiceObjects);
-		Query.setKnowledgeBaseFolderResourceComponentServiceObjects(
-			_knowledgeBaseFolderResourceComponentServiceObjects);
+//		Query.setKnowledgeBaseArticleResourceComponentServiceObjects(
+//			_knowledgeBaseArticleResourceComponentServiceObjects);
+//		Query.setKnowledgeBaseAttachmentResourceComponentServiceObjects(
+//			_knowledgeBaseAttachmentResourceComponentServiceObjects);
+//		Query.setKnowledgeBaseFolderResourceComponentServiceObjects(
+//			_knowledgeBaseFolderResourceComponentServiceObjects);
 		Query.setLanguageResourceComponentServiceObjects(
 			_languageResourceComponentServiceObjects);
 		Query.setMessageBoardAttachmentResourceComponentServiceObjects(
@@ -137,12 +137,12 @@ public class ServletDataImpl implements ServletData {
 			_structuredContentResourceComponentServiceObjects);
 		Query.setStructuredContentFolderResourceComponentServiceObjects(
 			_structuredContentFolderResourceComponentServiceObjects);
-		Query.setWikiNodeResourceComponentServiceObjects(
-			_wikiNodeResourceComponentServiceObjects);
-		Query.setWikiPageResourceComponentServiceObjects(
-			_wikiPageResourceComponentServiceObjects);
-		Query.setWikiPageAttachmentResourceComponentServiceObjects(
-			_wikiPageAttachmentResourceComponentServiceObjects);
+//		Query.setWikiNodeResourceComponentServiceObjects(
+//			_wikiNodeResourceComponentServiceObjects);
+//		Query.setWikiPageResourceComponentServiceObjects(
+//			_wikiPageResourceComponentServiceObjects);
+//		Query.setWikiPageAttachmentResourceComponentServiceObjects(
+//			_wikiPageAttachmentResourceComponentServiceObjects);
 	}
 
 	@Override
@@ -160,17 +160,17 @@ public class ServletDataImpl implements ServletData {
 		return new Query();
 	}
 
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<BlogPostingResource>
-		_blogPostingResourceComponentServiceObjects;
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<BlogPostingResource>
+//		_blogPostingResourceComponentServiceObjects;
+//
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<BlogPostingImageResource>
+//		_blogPostingImageResourceComponentServiceObjects;
 
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<BlogPostingImageResource>
-		_blogPostingImageResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<CommentResource>
-		_commentResourceComponentServiceObjects;
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<CommentResource>
+//		_commentResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<DocumentResource>
@@ -180,17 +180,17 @@ public class ServletDataImpl implements ServletData {
 	private ComponentServiceObjects<DocumentFolderResource>
 		_documentFolderResourceComponentServiceObjects;
 
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<KnowledgeBaseArticleResource>
-		_knowledgeBaseArticleResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<KnowledgeBaseAttachmentResource>
-		_knowledgeBaseAttachmentResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<KnowledgeBaseFolderResource>
-		_knowledgeBaseFolderResourceComponentServiceObjects;
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<KnowledgeBaseArticleResource>
+//		_knowledgeBaseArticleResourceComponentServiceObjects;
+//
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<KnowledgeBaseAttachmentResource>
+//		_knowledgeBaseAttachmentResourceComponentServiceObjects;
+//
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<KnowledgeBaseFolderResource>
+//		_knowledgeBaseFolderResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<MessageBoardAttachmentResource>
@@ -220,17 +220,17 @@ public class ServletDataImpl implements ServletData {
 	private ComponentServiceObjects<StructuredContentFolderResource>
 		_structuredContentFolderResourceComponentServiceObjects;
 
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<WikiNodeResource>
-		_wikiNodeResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<WikiPageResource>
-		_wikiPageResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<WikiPageAttachmentResource>
-		_wikiPageAttachmentResourceComponentServiceObjects;
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<WikiNodeResource>
+//		_wikiNodeResourceComponentServiceObjects;
+//
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<WikiPageResource>
+//		_wikiPageResourceComponentServiceObjects;
+//
+//	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+//	private ComponentServiceObjects<WikiPageAttachmentResource>
+//		_wikiPageAttachmentResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<ContentElementResource>
