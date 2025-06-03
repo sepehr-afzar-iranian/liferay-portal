@@ -100,6 +100,8 @@ public class PortletConfigurationCSSPortlet extends MVCPortlet {
 
 		String css = getCSS(actionRequest);
 
+		css = css.replaceAll("\"#+\"", "\"\"");
+
 		if (_log.isDebugEnabled()) {
 			_log.debug("Updating css " + css);
 		}
