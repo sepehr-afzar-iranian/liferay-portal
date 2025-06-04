@@ -14,10 +14,13 @@
 
 package com.liferay.roles.admin.web.internal.display.context;
 
+import com.liferay.application.list.PanelApp;
+import com.liferay.application.list.PanelCategory;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemListBuilder;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
@@ -78,6 +81,58 @@ public class RoleDisplayContext {
 				}
 			}
 		};
+	}
+
+	public String getKey(PanelApp panelApp, PanelCategory panelCategory) {
+		if ((panelApp == null) || (panelCategory == null)) {
+			return _normalizeKey("");
+		}
+
+		String panelAppKey = panelApp.getKey();
+
+		if ((panelAppKey == null) || panelAppKey.isEmpty()) {
+			return _normalizeKey("");
+		}
+
+		String extractedAppKey = _extractAfterLastDelimiter(panelAppKey, '.');
+
+		String categoryKey = getKey(panelCategory);
+
+		String baseCategoryKey = _removeSuffix(categoryKey);
+
+		String combinedKey = baseCategoryKey + "-" + extractedAppKey;
+
+		return _normalizeKey(combinedKey);
+	}
+
+	public String getKey(PanelCategory panelCategory) {
+		if (panelCategory == null) {
+			return _normalizeKey("");
+		}
+
+		return _normalizeKey(panelCategory.getKey());
+	}
+
+	public String getKey(Portlet portlet, String preKey) {
+		if ((portlet == null) || (preKey == null)) {
+			return _normalizeKey("");
+		}
+
+		String portletId = portlet.getPortletId();
+
+		if ((portletId == null) || portletId.isEmpty()) {
+			return _normalizeKey("");
+		}
+
+		String extractedPortletId = _extractAfterLastDelimiter(portletId, '_');
+
+		String combinedKey = preKey + "-" + extractedPortletId;
+
+		return _normalizeKey(combinedKey);
+	}
+
+	public String getKey(String key) {
+		return _normalizeKey(key);
 	}
 
 	public List<NavigationItem> getRoleAssignmentsNavigationItems(
@@ -171,6 +226,16 @@ public class RoleDisplayContext {
 		}
 
 		return false;
+	}
+
+	private String _extractAfterLastDelimiter(String input, char delimiter) {
+		int lastIndex = input.lastIndexOf(delimiter);
+
+		if ((lastIndex != -1) && (lastIndex < (input.length() - 1))) {
+			return input.substring(lastIndex + 1);
+		}
+
+		return input;
 	}
 
 	private List<String> _getTabsNames() throws Exception {
@@ -273,9 +338,28 @@ public class RoleDisplayContext {
 		).build();
 	}
 
+	private String _normalizeKey(String key) {
+		if ((key == null) || key.isEmpty()) {
+			return _SECTION_SUFFIX;
+		}
+
+		return key.replaceAll("[_.]", "-") + _SECTION_SUFFIX;
+	}
+
+	private String _removeSuffix(String input) {
+		if (input.endsWith(_SECTION_SUFFIX)) {
+			return input.substring(
+				0, input.length() - _SECTION_SUFFIX.length());
+		}
+
+		return input;
+	}
+
 	private static final String[] _ASSIGNEE_TYPE_NAMES = {
 		"users", "sites", "organizations", "user-groups", "segments"
 	};
+
+	private static final String _SECTION_SUFFIX = "-section";
 
 	private final RoleTypeContributor _currentRoleTypeContributor;
 	private final HttpServletRequest _httpServletRequest;

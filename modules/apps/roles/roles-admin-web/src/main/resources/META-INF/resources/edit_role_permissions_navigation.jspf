@@ -101,7 +101,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 					data.put("resource-href", editPermissionsResourceURL.toString());
 					%>
 
-					<li class="nav-item permission-navigation-section">
+					<li class="nav-item permission-navigation-section <%= roleDisplayContext.getKey(PanelCategoryKeys.CONTROL_PANEL) %>">
 						<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-expanded" href="javascript:;">
 							<liferay-ui:message key="control-panel" />
 
@@ -130,7 +130,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 							%>
 
 								<c:if test="<%= !panelApps.isEmpty() %>">
-									<div class="permission-navigation-section">
+									<div class="permission-navigation-section <%= roleDisplayContext.getKey(panelCategory) %>">
 										<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 											<%= panelCategory.getLabel(locale) %>
 											<span class="collapse-icon-closed">
@@ -161,7 +161,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 												data.put("resource-href", editPermissionsResourceURL.toString());
 											%>
 
-												<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %>">
+												<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %> <%= roleDisplayContext.getKey(panelApp, panelCategory) %>">
 													<aui:a cssClass="nav-link permission-navigation-link" data="<%= data %>" href="<%= editPermissionsURL.toString() %>">
 														<%= PortalUtil.getPortletLongTitle(panelAppPortlet, application, locale) %>
 													</aui:a>
@@ -181,7 +181,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 
 						</div>
 					</li>
-					<li class="nav-item permission-navigation-section">
+					<li class="nav-item permission-navigation-section <%= roleDisplayContext.getKey(PanelCategoryKeys.COMMERCE) %>">
 						<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-expanded" href="javascript:;">
 							<liferay-ui:message key="commerce" />
 
@@ -201,7 +201,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 							%>
 
 								<c:if test="<%= !panelApps.isEmpty() %>">
-									<div class="permission-navigation-section">
+									<div class="permission-navigation-section <%= roleDisplayContext.getKey(panelCategory) %>">
 										<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 											<%= panelCategory.getLabel(locale) %>
 											<span class="collapse-icon-closed">
@@ -232,7 +232,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 												data.put("resource-href", editPermissionsResourceURL.toString());
 											%>
 
-												<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %>">
+												<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %> <%= roleDisplayContext.getKey(panelApp, panelCategory) %>">
 													<aui:a cssClass="nav-link permission-navigation-link" data="<%= data %>" href="<%= editPermissionsURL.toString() %>">
 														<%= PortalUtil.getPortletLongTitle(panelAppPortlet, application, locale) %>
 													</aui:a>
@@ -252,7 +252,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 
 						</div>
 					</li>
-					<li class="nav-item permission-navigation-section">
+					<li class="nav-item permission-navigation-section <%= roleDisplayContext.getKey(PanelCategoryKeys.APPLICATIONS_MENU_APPLICATIONS) %>">
 						<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-expanded" href="javascript:;">
 							<liferay-ui:message key="applications-menu" />
 
@@ -272,7 +272,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 							%>
 
 								<c:if test="<%= !panelApps.isEmpty() %>">
-									<div class="permission-navigation-section">
+									<div class="permission-navigation-section <%= roleDisplayContext.getKey(panelCategory) %>">
 										<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 											<%= panelCategory.getLabel(locale) %>
 											<span class="collapse-icon-closed">
@@ -303,7 +303,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 												data.put("resource-href", editPermissionsResourceURL.toString());
 											%>
 
-												<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %>">
+												<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %> <%= roleDisplayContext.getKey(panelApp, panelCategory) %>">
 													<aui:a cssClass="nav-link permission-navigation-link" data="<%= data %>" href="<%= editPermissionsURL.toString() %>">
 														<%= PortalUtil.getPortletLongTitle(panelAppPortlet, application, locale) %>
 													</aui:a>
@@ -334,7 +334,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 			%>
 
 				<c:if test="<%= !panelApps.isEmpty() %>">
-					<div class="permission-navigation-section">
+					<div class="permission-navigation-section <%= roleDisplayContext.getKey(panelCategory) %>">
 						<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 							<%= panelCategory.getLabel(locale) %>
 							<span class="collapse-icon-closed">
@@ -365,7 +365,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 								data.put("resource-href", editPermissionsResourceURL.toString());
 							%>
 
-								<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %>">
+								<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %> <%= roleDisplayContext.getKey(panelApp, panelCategory) %>">
 									<aui:a cssClass="nav-link permission-navigation-link" data="<%= data %>" href="<%= editPermissionsURL.toString() %>">
 										<%= PortalUtil.getPortletLongTitle(panelAppPortlet, application, locale) %>
 									</aui:a>
@@ -383,7 +383,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 			}
 			%>
 
-			<li class="nav-item permission-navigation-section">
+			<li class="nav-item permission-navigation-section <%= roleDisplayContext.getKey(PanelCategoryKeys.SITE_ADMINISTRATION) %>">
 				<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 					<liferay-ui:message key="site-and-asset-library-administration" />
 
@@ -403,7 +403,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 					%>
 
 						<c:if test="<%= !panelApps.isEmpty() %>">
-							<div class="permission-navigation-section">
+							<div class="permission-navigation-section <%= roleDisplayContext.getKey(panelCategory) %>">
 								<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 									<%= panelCategory.getLabel(locale) %>
 									<span class="collapse-icon-closed">
@@ -427,7 +427,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 										data.put("resource-href", editPermissionsResourceURL.toString());
 									%>
 
-										<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %>">
+										<li class="nav-item permission-navigation-item-container <%= portletResource.equals(panelAppPortlet.getPortletId())? "selected" : "" %> <%= roleDisplayContext.getKey(panelApp, panelCategory) %>">
 											<aui:a cssClass="nav-link permission-navigation-link" data="<%= data %>" href="<%= editPermissionsURL.toString() %>">
 												<%= PortalUtil.getPortletLongTitle(panelAppPortlet, application, locale) %>
 											</aui:a>
@@ -455,7 +455,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 					}
 					%>
 
-					<div class="permission-navigation-section">
+					<div class="applications-section permission-navigation-section">
 						<a class="collapse-icon nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 							<liferay-ui:message key="applications" />
 
@@ -488,7 +488,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 								data.put("resource-href", editPermissionsResourceURL.toString());
 							%>
 
-								<li class="nav-item permission-navigation-item-container <%= portletResource.equals(curPortlet.getPortletId())? "selected" : "" %>">
+								<li class="nav-item permission-navigation-item-container <%= portletResource.equals(curPortlet.getPortletId())? "selected" : "" %> <%= roleDisplayContext.getKey(curPortlet, "applications") %>">
 									<aui:a cssClass="nav-link permission-navigation-link" data="<%= data %>" href="<%= editPermissionsURL.toString() %>">
 										<%= PortalUtil.getPortletLongTitle(curPortlet, application, locale) %>
 									</aui:a>
@@ -504,7 +504,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 			</li>
 
 			<c:if test="<%= role.getType() == RoleConstants.TYPE_REGULAR %>">
-				<li class="nav-item permission-navigation-section">
+				<li class="nav-item permission-navigation-section user-section">
 					<a class="collapse-icon collapse-icon nav-link nav-link permission-navigation-item-header toggler-header toggler-header-collapsed" href="javascript:;">
 						<liferay-ui:message key="user" />
 
@@ -529,7 +529,7 @@ PersonalMenuEntryHelper personalMenuEntryHelper = (PersonalMenuEntryHelper)reque
 							data.put("resource-href", editPermissionsResourceURL.toString());
 						%>
 
-							<li class="nav-item permission-navigation-item-container <%= portletResource.equals(personalPortlet.getPortletId())? "selected" : "" %>">
+							<li class="nav-item permission-navigation-item-container <%= portletResource.equals(personalPortlet.getPortletId())? "selected" : "" %> <%= roleDisplayContext.getKey(personalPortlet, "user") %>">
 								<aui:a cssClass="nav-link permission-navigation-link" data="<%= data %>" href="<%= editPermissionsURL.toString() %>">
 									<%= PortalUtil.getPortletLongTitle(personalPortlet, application, locale) %>
 								</aui:a>
