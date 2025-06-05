@@ -1,4 +1,5 @@
 # Build stage
+
 FROM liferay/portal:7.3.7-ga8 as builder
 
 # MAINTAINER="Mahdi Noorbala | noorbla7418@gmail.com" ## Do Not UnCommnet this line!
@@ -19,10 +20,11 @@ RUN rm -rf /opt/liferay/tomcat-9.0.43/webapps/ROOT
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT	/opt/liferay/tomcat-9.0.43/webapps/ROOT
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/osgi /opt/liferay/osgi
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/deploy/*.war /opt/liferay/osgi/war/
-COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/lib/ext/portal-kernel.jar	/opt/liferay/tomcat-9.0.43/lib/ext/portal-kernel.jar
+COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/lib/ext	/opt/liferay/tomcat-9.0.43/lib/ext
 COPY --chown=1000:1000 ./portal-bundle.properties /opt/liferay/
 COPY --chown=1000:1000 ./SAIN-modules/bundles/osgi/modules/* /opt/liferay/extensions/
-COPY --chown=1000:1000 ./SAIN-bundles/bundles/osgi/modules/* /opt/liferay/extensions/
+
+# COPY --chown=1000:1000 ./SAIN-bundles/bundles/osgi/modules/* /opt/liferay/extensions/
 
 USER root
 
@@ -49,5 +51,7 @@ RUN mkdir -p /home/openoffice/.local/share
 RUN chown -R liferay:liferay /home/openoffice/.local/share
 
 # Final stage (if needed for further optimization)
+
 FROM builder as final
+
 USER liferay

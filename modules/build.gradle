@@ -411,6 +411,59 @@ gradle.beforeProject {
 				xmltask
 			}
 
+			afterEvaluate {
+
+				tasks.withType(Task) { task ->
+					if (task.name == "deploy") {
+						// Your custom logic for deploy task goes here
+						task.doFirst {
+							println "=== Deploy Directory Configuration Debug ==="
+							println "Project: ${task.project.path}"
+							println "Project name: ${task.project.name}"
+
+							// Get the Bundle-SymbolicName from various sources
+							String bundleSymbolicName = null
+
+							boolean hasCoreInPath = task.project.path.contains(":core:")
+
+							boolean hasOtherMarkerFile = [".lfrbuild-app-server-lib", ".lfrbuild-tool", ".lfrbuild-static", ".lfrbuild-portal-pre"]
+							.any { FileUtil.exists(task.project, it) }
+
+							// First, try to read from bnd.bnd file
+							File bndFile = task.project.file("bnd.bnd")
+							if (bndFile.exists() && !hasOtherMarkerFile &&!hasCoreInPath) {
+								println "Found bnd.bnd file: ${bndFile.absolutePath}"
+								Properties bndProperties = new Properties()
+								bndFile.withInputStream { bndProperties.load(it) }
+
+								bundleSymbolicName = bndProperties.getProperty("Bundle-SymbolicName")
+								if (bundleSymbolicName) {
+									println "Bundle-SymbolicName found in bnd.bnd: ${bundleSymbolicName}"
+
+									// Check for marker file
+									boolean hasMarkerPortalFile = FileUtil.exists(task.project, ".lfrbuild-portal")
+									String origDeploydDirectory = task.project.liferay.deployDir
+
+									// Check if symbolic name starts with com.liferay.portal.
+									boolean isPortalModule = bundleSymbolicName.startsWith("com.liferay.portal.")
+									boolean isTestModule = origDeploydDirectory.endsWith("test")
+									println "Final Bundle-SymbolicName: ${bundleSymbolicName}"
+									println "Original deploy directory: ${task.project.liferay.deployDir}"
+
+									if (hasMarkerPortalFile && !isPortalModule && !isTestModule) {
+										println ">>> DECISION: Deploying to \${liferayHome}/osgi/portal-modules (marker file priority)"
+										task.project.liferay {
+											deployDir = file("${liferayHome}/osgi/portal-modules")
+										}
+									}
+
+								}
+							}
+						}
+					}
+				}
+			}
+
 			dependencies {
 				xmltask rootProject.files("../lib/development/xmltask.jar")
 			}

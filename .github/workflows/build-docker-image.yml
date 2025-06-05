@@ -38,7 +38,7 @@ jobs:
                   echo release.info.name=$(grep "release.info.name" release-sain.properties | cut -d'=' -f2) >> release.$USER.properties
                   echo release.info.version.display.name=$(grep "release.info.version.display.name" release-sain.properties | cut -d'=' -f2) SP ${{env.SAIN_DOCKER_VERSION}} >> release.$USER.properties
             - env :
-                ANT_OPTS : "-Xmx2g"
+                  ANT_OPTS : "-Xmx2g"
               name: Ant Compile and Install Portal Snapshots
               run: ant compile install-portal-snapshots
             - env:
@@ -60,26 +60,26 @@ jobs:
                   username: ${{secrets.DOCKER_HUB_USERNAME}}
             - name : Free up disk space
               run : |
-                echo "Disk usage before cleanup:"
-                df -h
-                # Remove unnecessary packages and clean package cache
-                sudo apt-get autoremove -y
-                sudo apt-get clean
-                # Remove docker cache and unused images
-                docker system prune -af --volumes
-                # Remove unnecessary files with error handling
-                sudo rm -rf /home/runner/.liferay || true
-                sudo rm -rf /home/runner/.m2 || true
-                sudo rm -rf /home/runner/.gradle || true
-                sudo rm -rf /home/runner/work/liferay-portal/liferay-portal/.m2 || true
-                sudo find /home/runner/work/liferay-portal/liferay-portal/.gradle -delete 2>/dev/null || true
-                sudo rm -rf /usr/share/dotnet || true
-                sudo rm -rf /opt/ghc || true
-                sudo rm -rf /usr/local/share/boost || true
-                sudo rm -rf /opt/hostedtoolcache/CodeQL || true
-                sudo rm -rf ${ANDROID_HOME:-/usr/local/lib/android} || true
-                echo "Disk usage after cleanup:"
-                df -h
+                  echo "Disk usage before cleanup:"
+                  df -h
+                  # Remove unnecessary packages and clean package cache
+                  sudo apt-get autoremove -y
+                  sudo apt-get clean
+                  # Remove docker cache and unused images
+                  docker system prune -af --volumes
+                  # Remove unnecessary files with error handling
+                  sudo rm -rf /home/runner/.liferay || true
+                  sudo rm -rf /home/runner/.m2 || true
+                  sudo rm -rf /home/runner/.gradle || true
+                  sudo rm -rf /home/runner/work/liferay-portal/liferay-portal/.m2 || true
+                  sudo find /home/runner/work/liferay-portal/liferay-portal/.gradle -delete 2>/dev/null || true
+                  sudo rm -rf /usr/share/dotnet || true
+                  sudo rm -rf /opt/ghc || true
+                  sudo rm -rf /usr/local/share/boost || true
+                  sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+                  sudo rm -rf ${ANDROID_HOME:-/usr/local/lib/android} || true
+                  echo "Disk usage after cleanup:"
+                  df -h
             - id: buildx
               name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v1

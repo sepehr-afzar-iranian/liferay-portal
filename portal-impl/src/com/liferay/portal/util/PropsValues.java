@@ -1794,6 +1794,9 @@ public class PropsValues {
 	public static final String MODULE_FRAMEWORK_PORTAL_DIR = PropsUtil.get(
 		PropsKeys.MODULE_FRAMEWORK_PORTAL_DIR);
 
+	public static final String MODULE_FRAMEWORK_PORTAL_MODULES_DIR =
+		PropsUtil.get(PropsKeys.MODULE_FRAMEWORK_PORTAL_MODULES_DIR);
+
 	public static final String MODULE_FRAMEWORK_RESOLVER_REVISION_BATCH_SIZE =
 		PropsUtil.get(PropsKeys.MODULE_FRAMEWORK_RESOLVER_REVISION_BATCH_SIZE);
 
