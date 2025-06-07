@@ -83,6 +83,8 @@ if (Validator.isNotNull(portletResource)) {
 		else if ((portlet != null) && panelCategoryHelper.containsPortlet(portlet.getPortletId(), PanelCategoryKeys.ROOT)) {
 			applicationPermissionsLabel = "general-permissions";
 		}
+
+		request.setAttribute("edit_role_permissions_form.jsp-applicationPermissionsLabel", applicationPermissionsLabel);
 		%>
 
 		<clay:sheet-section>

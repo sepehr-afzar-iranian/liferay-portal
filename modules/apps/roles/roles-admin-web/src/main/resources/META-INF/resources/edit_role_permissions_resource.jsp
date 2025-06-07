@@ -20,6 +20,7 @@
 Role role = (Role)request.getAttribute("edit_role_permissions.jsp-role");
 
 String portletResource = (String)request.getAttribute("edit_role_permissions.jsp-portletResource");
+String applicationPermissions = (String)request.getAttribute("edit_role_permissions_form.jsp-applicationPermissionsLabel");
 
 String curPortletResource = (String)request.getAttribute("edit_role_permissions.jsp-curPortletResource");
 String curModelResource = (String)request.getAttribute("edit_role_permissions.jsp-curModelResource");
@@ -142,6 +143,8 @@ for (int i = 0; i < results.size(); i++) {
 	}
 
 	ResultRow row = new ResultRow(new Object[] {role, actionId, curResource, target, scope, supportsFilterByGroup, groups, groupIdsArray, groupNames, curPortletId}, target, i);
+
+	row.setCssClass(roleDisplayContext.getKey(applicationPermissions, curPortletResource, curModelResource, actionId));
 
 	row.addText(_getActionLabel(request, themeDisplay, curResource, actionId));
 

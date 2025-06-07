@@ -19,6 +19,7 @@ import com.liferay.application.list.PanelCategory;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.NavigationItemListBuilder;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.Role;
@@ -85,29 +86,31 @@ public class RoleDisplayContext {
 
 	public String getKey(PanelApp panelApp, PanelCategory panelCategory) {
 		if ((panelApp == null) || (panelCategory == null)) {
-			return _normalizeKey("");
+			return _normalizeKey(StringPool.BLANK);
 		}
 
 		String panelAppKey = panelApp.getKey();
 
 		if ((panelAppKey == null) || panelAppKey.isEmpty()) {
-			return _normalizeKey("");
+			return _normalizeKey(StringPool.BLANK);
 		}
 
-		String extractedAppKey = _extractAfterLastDelimiter(panelAppKey, '.');
+		String extractedAppKey = _extractAfterLastDelimiter(
+			panelAppKey, StringPool.PERIOD);
 
 		String categoryKey = getKey(panelCategory);
 
 		String baseCategoryKey = _removeSuffix(categoryKey);
 
-		String combinedKey = baseCategoryKey + "-" + extractedAppKey;
+		String combinedKey =
+			baseCategoryKey + StringPool.DASH + extractedAppKey;
 
 		return _normalizeKey(combinedKey);
 	}
 
 	public String getKey(PanelCategory panelCategory) {
 		if (panelCategory == null) {
-			return _normalizeKey("");
+			return _normalizeKey(StringPool.BLANK);
 		}
 
 		return _normalizeKey(panelCategory.getKey());
@@ -115,24 +118,67 @@ public class RoleDisplayContext {
 
 	public String getKey(Portlet portlet, String preKey) {
 		if ((portlet == null) || (preKey == null)) {
-			return _normalizeKey("");
+			return _normalizeKey(StringPool.BLANK);
 		}
 
 		String portletId = portlet.getPortletId();
 
 		if ((portletId == null) || portletId.isEmpty()) {
-			return _normalizeKey("");
+			return _normalizeKey(StringPool.BLANK);
 		}
 
-		String extractedPortletId = _extractAfterLastDelimiter(portletId, '_');
+		String extractedPortletId = _extractAfterLastDelimiter(
+			portletId, StringPool.UNDERLINE);
 
-		String combinedKey = preKey + "-" + extractedPortletId;
+		String combinedKey = preKey + StringPool.DASH + extractedPortletId;
 
 		return _normalizeKey(combinedKey);
 	}
 
 	public String getKey(String key) {
 		return _normalizeKey(key);
+	}
+
+	public String getKey(
+		String applicationPermissions, String portletResource,
+		String modelResource, String actionId) {
+
+		String extractedPortletResource = StringPool.BLANK;
+
+		if (portletResource != null) {
+			extractedPortletResource = _extractAfterLastDelimiter(
+				portletResource, StringPool.UNDERLINE);
+		}
+
+		String extractedModelResource = StringPool.BLANK;
+
+		if (modelResource != null) {
+			extractedModelResource = _extractAfterLastDelimiter(
+				modelResource, StringPool.PERIOD);
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		if ((applicationPermissions != null) &&
+			!applicationPermissions.equals(StringPool.BLANK)) {
+
+			sb.append(applicationPermissions);
+			sb.append(StringPool.DASH);
+		}
+
+		if (!extractedPortletResource.equals(StringPool.BLANK)) {
+			sb.append(extractedPortletResource);
+			sb.append(StringPool.DASH);
+		}
+
+		if (!extractedModelResource.equals(StringPool.BLANK)) {
+			sb.append(extractedModelResource);
+			sb.append(StringPool.DASH);
+		}
+
+		sb.append(actionId);
+
+		return _normalizeKey(sb.toString());
 	}
 
 	public List<NavigationItem> getRoleAssignmentsNavigationItems(
@@ -228,7 +274,7 @@ public class RoleDisplayContext {
 		return false;
 	}
 
-	private String _extractAfterLastDelimiter(String input, char delimiter) {
+	private String _extractAfterLastDelimiter(String input, String delimiter) {
 		int lastIndex = input.lastIndexOf(delimiter);
 
 		if ((lastIndex != -1) && (lastIndex < (input.length() - 1))) {
@@ -343,7 +389,7 @@ public class RoleDisplayContext {
 			return _SECTION_SUFFIX;
 		}
 
-		return key.replaceAll("[_.]", "-") + _SECTION_SUFFIX;
+		return key.replaceAll("[_.]", StringPool.DASH) + _SECTION_SUFFIX;
 	}
 
 	private String _removeSuffix(String input) {
