@@ -97,51 +97,62 @@ public class SystemSettingsPortlet extends MVCPortlet {
 
 		String pid = ParamUtil.getString(actionRequest, "pid", factoryPid);
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
+		if (pid.equals(
+				"com.liferay.document.library.configuration.DLConfiguration")) {
 
-		ConfigurationModel configurationModel = null;
+			ThemeDisplay themeDisplay =
+				(ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
-		ConfigurationScopeDisplayContext configurationScopeDisplayContext =
-			ConfigurationScopeDisplayContextFactory.create(actionRequest);
+			ConfigurationModel configurationModel = null;
 
-		Map<String, ConfigurationModel> configurationModels =
-			_configurationModelRetriever.getConfigurationModels(
-				themeDisplay.getLanguageId(),
-				configurationScopeDisplayContext.getScope(),
-				configurationScopeDisplayContext.getScopePK());
+			ConfigurationScopeDisplayContext configurationScopeDisplayContext =
+				ConfigurationScopeDisplayContextFactory.create(actionRequest);
 
-		if (Validator.isNotNull(factoryPid)) {
-			configurationModel = configurationModels.get(factoryPid);
-		}
-		else {
-			configurationModel = configurationModels.get(pid);
-		}
+			Map<String, ConfigurationModel> configurationModels =
+				_configurationModelRetriever.getConfigurationModels(
+					themeDisplay.getLanguageId(),
+					configurationScopeDisplayContext.getScope(),
+					configurationScopeDisplayContext.getScopePK());
 
-		ResourceBundleLoader resourceBundleLoader =
-			_resourceBundleLoaderProvider.getResourceBundleLoader(
-				configurationModel.getBundleSymbolicName());
+			if (Validator.isNotNull(factoryPid)) {
+				configurationModel = configurationModels.get(factoryPid);
+			}
+			else {
+				configurationModel = configurationModels.get(pid);
+			}
 
-		ResourceBundle resourceBundle = resourceBundleLoader.loadResourceBundle(
-			themeDisplay.getLocale());
+			ResourceBundleLoader resourceBundleLoader =
+				_resourceBundleLoaderProvider.getResourceBundleLoader(
+					configurationModel.getBundleSymbolicName());
 
-		Dictionary<String, Object> properties = getDDMRequestParameters(
-			actionRequest, configurationModel, resourceBundle);
+			ResourceBundle resourceBundle =
+				resourceBundleLoader.loadResourceBundle(
+					themeDisplay.getLocale());
 
-		String[] fileExtensionArray = GetterUtil.getStringValues(
-			properties.get("fileExtensions"));
+			Dictionary<String, Object> properties = getDDMRequestParameters(
+				actionRequest, configurationModel, resourceBundle);
 
-		long fileMaxSize = GetterUtil.getLong(properties.get("fileMaxSize"));
+			String[] fileExtensionArray = GetterUtil.getStringValues(
+				properties.get("fileExtensions"));
 
-		if (ArrayUtil.contains(fileExtensionArray, StringPool.STAR)) {
-			SessionErrors.add(actionRequest, FileExtensionException.class);
+			long fileMaxSize = GetterUtil.getLong(
+				properties.get("fileMaxSize"));
 
-			sendRedirect(actionRequest, actionResponse);
-		}
-		else if (fileMaxSize == 0) {
-			SessionErrors.add(actionRequest, "fileMaxSizeZeroNotValid");
+			if (ArrayUtil.contains(fileExtensionArray, StringPool.STAR)) {
+				SessionErrors.add(actionRequest, FileExtensionException.class);
 
-			sendRedirect(actionRequest, actionResponse);
+				sendRedirect(actionRequest, actionResponse);
+			}
+			else if (fileMaxSize == 0) {
+				SessionErrors.add(actionRequest, "fileMaxSizeZeroNotValid");
+
+				sendRedirect(actionRequest, actionResponse);
+			}
+			else {
+				checkOmniAdmin();
+
+				super.processAction(actionRequest, actionResponse);
+			}
 		}
 		else {
 			checkOmniAdmin();
