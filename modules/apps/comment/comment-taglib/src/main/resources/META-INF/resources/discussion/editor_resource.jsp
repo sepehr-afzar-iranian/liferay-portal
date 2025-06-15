@@ -24,7 +24,7 @@
 	editorName='<%= PropsUtil.get("editor.wysiwyg.portal-web.docroot.html.taglib.ui.discussion.jsp") %>'
 	name='<%= GetterUtil.getString(request.getAttribute("liferay-comment:editor:name")) %>'
 	onChangeMethod='<%= GetterUtil.getString(request.getAttribute("liferay-comment:editor:onChangeMethod")) %>'
-	placeholder='<%= GetterUtil.getString(request.getAttribute("liferay-comment:editor:placeholder")) %>'
+	placeholder='<%= HtmlUtil.escape(GetterUtil.getString(request.getAttribute("liferay-comment:editor:placeholder"))) %>'
 	showSource="<%= false %>"
 	skipEditorLoading="<%= true %>"
 />

@@ -31,6 +31,7 @@ page import="com.liferay.portal.kernel.comment.display.context.CommentTreeDispla
 page import="com.liferay.portal.kernel.security.auth.AuthTokenUtil" %><%@
 page import="com.liferay.portal.kernel.service.ServiceContextFunction" %><%@
 page import="com.liferay.staging.StagingGroupHelper" %><%@
+page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.staging.StagingGroupHelperUtil" %>
 
 <portlet:defineObjects />
