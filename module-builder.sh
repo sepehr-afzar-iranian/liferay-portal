@@ -5,6 +5,7 @@ apps:analytics:analytics-message-sender-impl:$1 \
 apps:analytics:analytics-settings-web:$1 \
 apps:asset:asset-taglib:$1 \
 apps:batch-engine:batch-engine-service:$1 \
+apps:comment:comment-taglib:$1 \
 apps:commerce:commerce-channel-web:$1 \
 apps:commerce:commerce-lang:$1 \
 apps:commerce:commerce-product-definitions-web:$1 \
