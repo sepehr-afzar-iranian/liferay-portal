@@ -105,7 +105,7 @@ public class ResourcePermissionModelListener
 				StringBundler.concat(
 					"ResourcePermission with the name ",
 					_getShortClassName(resourcePermissionName),
-					"was updated."));
+					" was updated."));
 
 			_auditRouter.route(auditMessage);
 		}

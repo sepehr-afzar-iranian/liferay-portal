@@ -33,6 +33,7 @@ import org.osgi.service.component.annotations.Component;
  * @author Sergio González
  */
 @Component(
+	enabled = false,
 	property = {
 		"javax.portlet.name=" + DLPortletKeys.DOCUMENT_LIBRARY,
 		"javax.portlet.name=" + DLPortletKeys.DOCUMENT_LIBRARY_ADMIN,

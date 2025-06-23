@@ -104,10 +104,10 @@ public class DefaultDLPortletToolbarContributor
 			_menuItemProvider.getAddFolderMenuItem(
 				folder, themeDisplay, portletRequest));
 
-		_add(
-			menuItems,
-			_menuItemProvider.getAddRepositoryMenuItem(
-				folder, themeDisplay, portletRequest));
+		/*		_add(
+					menuItems,
+					_menuItemProvider.getAddRepositoryMenuItem(
+						folder, themeDisplay, portletRequest));*/
 
 		_add(
 			menuItems,
