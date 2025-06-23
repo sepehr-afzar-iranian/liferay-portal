@@ -138,6 +138,7 @@ public class FragmentDisplayContext {
 				FragmentActionKeys.MANAGE_FRAGMENT_ENTRIES);
 
 		return DropdownItemListBuilder.add(
+			() -> hasManageFragmentEntriesPermission,
 			dropdownItem -> {
 				dropdownItem.putData("action", "exportCollections");
 				dropdownItem.setLabel(
