@@ -115,6 +115,7 @@ if (Validator.isNotNull(portletResource)) {
 						<%
 						request.setAttribute("edit_role_permissions.jsp-curModelResource", curModelResource);
 						request.setAttribute("edit_role_permissions.jsp-curModelResourceName", curModelResourceName);
+						request.setAttribute("edit_role_permissions_form.jsp-applicationPermissionsLabel", "resource-permissions");
 						%>
 
 						<liferay-util:include page="/edit_role_permissions_resource.jsp" servletContext="<%= application %>" />
@@ -204,6 +205,8 @@ if (Validator.isNotNull(portletResource)) {
 						relatedPortletResources.add(curPortlet.getPortletId());
 
 						row.addText(PortalUtil.getPortletLongTitle(curPortlet, application, locale) + ": " + _getActionLabel(request, themeDisplay, resource, actionId));
+
+						request.setAttribute("edit_role_permissions_form.jsp-applicationPermissionsLabel", "related-application-permissions");
 
 						row.addJSP("/edit_role_permissions_resource_scope.jsp", application, request, response);
 
