@@ -140,6 +140,87 @@ public class RoleDisplayContext {
 	}
 
 	public String getKey(
+		String applicationPermissions, String portletResource) {
+
+		String extractedPortletResource = StringPool.BLANK;
+
+		if (portletResource != null) {
+			extractedPortletResource = _extractAfterLastDelimiter(
+				portletResource, StringPool.UNDERLINE);
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		if ((applicationPermissions != null) &&
+			!applicationPermissions.equals(StringPool.BLANK)) {
+
+			sb.append(applicationPermissions);
+			sb.append(StringPool.DASH);
+		}
+
+		if (!extractedPortletResource.equals(StringPool.BLANK)) {
+			sb.append(extractedPortletResource);
+		}
+
+		return _normalizeKey(sb.toString());
+	}
+
+	public String getKey(
+		String applicationPermissions, String portletResource,
+		String modelResource) {
+
+		String extractedPortletResource = StringPool.BLANK;
+
+		if (portletResource != null) {
+			extractedPortletResource = _extractAfterLastDelimiter(
+				portletResource, StringPool.UNDERLINE);
+		}
+
+		StringBuilder extractedModelResource = new StringBuilder(
+			StringPool.BLANK);
+
+		if (modelResource != null) {
+			String[] models = modelResource.split("-");
+			extractedModelResource = new StringBuilder();
+
+			for (String model : models) {
+				extractedModelResource.append(
+					_extractAfterLastDelimiter(model, StringPool.PERIOD));
+				extractedModelResource.append(StringPool.DASH);
+			}
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		if ((applicationPermissions != null) &&
+			!applicationPermissions.equals(StringPool.BLANK)) {
+
+			sb.append(applicationPermissions);
+			sb.append(StringPool.DASH);
+		}
+
+		if (!extractedPortletResource.equals(StringPool.BLANK)) {
+			sb.append(extractedPortletResource);
+		}
+
+		String extractedModelResourceString = extractedModelResource.toString();
+
+		if (!extractedModelResourceString.equals(StringPool.BLANK)) {
+			sb.append(StringPool.DASH);
+
+			int lastIndex = extractedModelResource.length() - 1;
+
+			if (extractedModelResource.charAt(lastIndex) == '-') {
+				extractedModelResource.deleteCharAt(lastIndex);
+			}
+
+			sb.append(extractedModelResource);
+		}
+
+		return _normalizeKey(sb.toString());
+	}
+
+	public String getKey(
 		String applicationPermissions, String portletResource,
 		String modelResource, String actionId) {
 
@@ -150,11 +231,18 @@ public class RoleDisplayContext {
 				portletResource, StringPool.UNDERLINE);
 		}
 
-		String extractedModelResource = StringPool.BLANK;
+		StringBuilder extractedModelResource = new StringBuilder(
+			StringPool.BLANK);
 
 		if (modelResource != null) {
-			extractedModelResource = _extractAfterLastDelimiter(
-				modelResource, StringPool.PERIOD);
+			String[] models = modelResource.split("-");
+			extractedModelResource = new StringBuilder();
+
+			for (String model : models) {
+				extractedModelResource.append(
+					_extractAfterLastDelimiter(model, StringPool.PERIOD));
+				extractedModelResource.append(StringPool.DASH);
+			}
 		}
 
 		StringBuilder sb = new StringBuilder();
@@ -171,9 +259,10 @@ public class RoleDisplayContext {
 			sb.append(StringPool.DASH);
 		}
 
-		if (!extractedModelResource.equals(StringPool.BLANK)) {
+		String extractedModelResourceString = extractedModelResource.toString();
+
+		if (!extractedModelResourceString.equals(StringPool.BLANK)) {
 			sb.append(extractedModelResource);
-			sb.append(StringPool.DASH);
 		}
 
 		sb.append(actionId);

@@ -22,6 +22,12 @@ Role role = (Role)request.getAttribute("edit_role_permissions.jsp-role");
 String portletResource = (String)request.getAttribute("edit_role_permissions.jsp-portletResource");
 String applicationPermissions = (String)request.getAttribute("edit_role_permissions_form.jsp-applicationPermissionsLabel");
 
+String curModelResourceName = (String)request.getAttribute("edit_role_permissions.jsp-curModelResourceName");
+
+if (curModelResourceName == null) {
+	curModelResourceName = "general-permissions";
+}
+
 String curPortletResource = (String)request.getAttribute("edit_role_permissions.jsp-curPortletResource");
 String curModelResource = (String)request.getAttribute("edit_role_permissions.jsp-curModelResource");
 
@@ -156,10 +162,12 @@ for (int i = 0; i < results.size(); i++) {
 }
 %>
 
-<liferay-ui:search-iterator
-	paginate="<%= false %>"
-	searchContainer="<%= searchContainer %>"
-/>
+<div class="<%= roleDisplayContext.getKey(applicationPermissions, curPortletResource, curModelResource) %>">
+	<liferay-ui:search-iterator
+		paginate="<%= false %>"
+		searchContainer="<%= searchContainer %>"
+	/>
+</div>
 
 <%!
 private boolean _hasHiddenPortletCategory(Portlet portlet) {
