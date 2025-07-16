@@ -122,7 +122,8 @@ public class AddFormInstanceRecordMVCActionCommand
 				portletSession.getAttribute(
 					DDMFormWebKeys.DYNAMIC_DATA_MAPPING_FORM_INSTANCE_ID));
 		}
-
+		long verificationSMSProfileId = ParamUtil.getLong(actionRequest, "verificationSMSProfileId");
+		long trackingCodeSMSProfileId = ParamUtil.getLong(actionRequest, "trackingCodeSMSProfileId");
 		DDMFormInstance ddmFormInstance =
 			_ddmFormInstanceService.getFormInstance(formInstanceId);
 
@@ -145,7 +146,7 @@ public class AddFormInstanceRecordMVCActionCommand
 			}
 		}
 
-		if (!formInstanceSettings.sendSMSVerificationCode()) {
+		if (verificationSMSProfileId == 0) {
 			validateCaptcha(actionRequest, ddmFormInstance);
 		}
 
@@ -215,7 +216,7 @@ public class AddFormInstanceRecordMVCActionCommand
 		boolean confirmOnSubmit = ParamUtil.getBoolean(
 			actionRequest, "confirmOnSubmit");
 
-		if (formInstanceSettings.sendSMSVerificationCode()) {
+		if (verificationSMSProfileId > 0) {
 			String verificationCode = ParamUtil.getString(
 				actionRequest, "verificationCode");
 
@@ -369,11 +370,11 @@ public class AddFormInstanceRecordMVCActionCommand
 			sendRedirect(actionRequest, actionResponse, portletURL.toString());
 		}
 
-		if (formInstanceSettings.sendSMSTrackingCode() &&
+		if (trackingCodeSMSProfileId > 0 &&
 			Validator.isNotNull(mobile)) {
 
 			_smsMessageLocalService.sendSMSWithFormTrackingCode(
-				mobile, ddmFormInstanceRecord.getTrackingCode(), "",
+				trackingCodeSMSProfileId,mobile, ddmFormInstanceRecord.getTrackingCode(), "",
 				serviceContext);
 		}
 	}

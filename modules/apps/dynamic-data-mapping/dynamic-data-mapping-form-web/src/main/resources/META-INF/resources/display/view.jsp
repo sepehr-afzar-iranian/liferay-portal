@@ -25,9 +25,6 @@ if (Validator.isNull(trackingCode)) {
 	trackingCode = (String)portletSession.getAttribute("trackingCode");
 }
 
-DDMFormInstance ddmFormInstance = DDMFormInstanceLocalServiceUtil.getFormInstance(formInstanceId);
-
-DDMFormInstanceSettings formInstanceSettings = ddmFormInstance.getSettingsModel();
 %>
 
 <c:choose>
@@ -123,6 +120,8 @@ DDMFormInstanceSettings formInstanceSettings = ddmFormInstance.getSettingsModel(
 				<div class="portlet-forms">
 					<aui:form action="<%= addFormInstanceRecordActionURL %>" data-DDMFormInstanceId="<%= formInstanceId %>" data-senna-off="true" method="post" name="fm">
 						<aui:input name="currentURL" type="hidden" value="<%= currentURL %>" />
+						<aui:input name="verificationSMSProfileId" type="hidden" value="<%= String.valueOf(verificationSMSProfileId) %>" />
+						<aui:input name="trackingCodeSMSProfileId" type="hidden" value="<%= String.valueOf(trackingCodeSMSProfileId) %>" />
 
 						<%
 						String redirectURL = ddmFormDisplayContext.getRedirectURL();
@@ -244,7 +243,7 @@ DDMFormInstanceSettings formInstanceSettings = ddmFormInstance.getSettingsModel(
 
 							<%= ddmFormDisplayContext.getDDMFormHTML(false, submitLabel) %>
 
-							<c:if test="<%= formInstanceSettings.sendSMSVerificationCode() %>">
+							<c:if test="<%= verificationSMSProfileId > 0 %>">
 								<div id="<portlet:namespace />mobileFieldDiv">
 									<aui:row>
 										<aui:col width="<%= 25 %>">
@@ -401,7 +400,7 @@ DDMFormInstanceSettings formInstanceSettings = ddmFormInstance.getSettingsModel(
 								'<%=LanguageUtil.get(request,"sum-of-payment") %>: 0';
 						}
 
-						if ('<%=formInstanceSettings.sendSMSVerificationCode() %>' == 'true') {
+						if ('<%=verificationSMSProfileId > 0 %>' == 'true') {
 							document.getElementById(
 								'<portlet:namespace />mobileCodeFields'
 							).innerHTML = document.getElementById(
@@ -443,6 +442,7 @@ DDMFormInstanceSettings formInstanceSettings = ddmFormInstance.getSettingsModel(
 
 								var data = new URLSearchParams({
 									<portlet:namespace />formInstanceId: <%= formInstanceId %>,
+									<portlet:namespace />verificationSMSProfileId: <%= verificationSMSProfileId %>,
 									<portlet:namespace />mobileFieldValue: mobileFieldValue,
 									<portlet:namespace />captchaText: captchaFieldValue,
 								});

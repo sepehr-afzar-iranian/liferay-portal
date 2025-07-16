@@ -77,6 +77,8 @@ page import="java.util.Locale" %>
 
 <%
 DDMFormDisplayContext ddmFormDisplayContext = (DDMFormDisplayContext)request.getAttribute(WebKeys.PORTLET_DISPLAY_CONTEXT);
+long verificationSMSProfileId = PrefsParamUtil.getLong(portletPreferences, request, "verificationSMSProfileId");
+long trackingCodeSMSProfileId = PrefsParamUtil.getLong(portletPreferences, request, "trackingCodeSMSProfileId");
 %>
 
 <%@ include file="/display/init-ext.jsp" %>

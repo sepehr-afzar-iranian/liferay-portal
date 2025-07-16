@@ -1,4 +1,5 @@
-<%--
+<%@ page import="ir.sain.definition.model.SMSProfile" %>
+<%@ page import="ir.sain.definition.service.SMSProfileLocalServiceUtil" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -30,6 +31,9 @@ String keywords = ParamUtil.getString(request, "keywords");
 long formInstanceId = PrefsParamUtil.getLong(PortletPreferencesFactoryUtil.getPortletSetup(renderRequest), renderRequest, "formInstanceId");
 
 DDMFormInstance selFormInstance = DDMFormInstanceServiceUtil.fetchFormInstance(formInstanceId);
+
+List<SMSProfile> smsProfileList = SMSProfileLocalServiceUtil.getSmsProfiles(scopeGroupId);
+
 %>
 
 <liferay-portlet:actionURL portletConfiguration="<%= true %>" var="configurationActionURL" />
@@ -136,6 +140,39 @@ DDMFormInstance selFormInstance = DDMFormInstanceServiceUtil.fetchFormInstance(f
 	<aui:input name="preferences--formInstanceId--" type="hidden" value="<%= formInstanceId %>" />
 	<aui:input name="preferences--groupId--" type="hidden" value="<%= scopeGroupId %>" />
 
+	<clay:container-fluid>
+
+	<aui:fieldset>
+
+	<div>
+		<aui:select label="send-sms-verification-code" name="preferences--verificationSMSProfileId--" showEmptyOption="true">
+			<%
+				for(SMSProfile smsProfile : smsProfileList){
+			%>
+			<aui:option value='<%=smsProfile.getSMSProfileId()%>' selected='<%= verificationSMSProfileId == smsProfile.getSMSProfileId() %>'><%= smsProfile.getProfileName() %>
+			</aui:option>
+
+			<%
+				}
+			%>
+		</aui:select>
+	</div>
+	<div>
+		<aui:select label="send-sms-tracking-code" name="preferences--trackingCodeSMSProfileId--" showEmptyOption="true">
+			<%
+				for(SMSProfile smsProfile : smsProfileList){
+			%>
+			<aui:option value='<%=smsProfile.getSMSProfileId()%>' selected='<%= trackingCodeSMSProfileId == smsProfile.getSMSProfileId() %>'><%= smsProfile.getProfileName() %>
+			</aui:option>
+
+			<%
+				}
+			%>
+		</aui:select>
+	</div>
+	</aui:fieldset>
+</clay:container-fluid>
+
 	<aui:button-row>
 		<aui:button type="submit" />
 	</aui:button-row>
@@ -174,3 +211,4 @@ DDMFormInstance selFormInstance = DDMFormInstanceServiceUtil.fetchFormInstance(f
 		['aui-base']
 	);
 </aui:script>
+bbbbb
