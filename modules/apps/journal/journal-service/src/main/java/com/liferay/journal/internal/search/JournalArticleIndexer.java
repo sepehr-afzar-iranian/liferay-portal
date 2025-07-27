@@ -268,10 +268,17 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 
 		addSearchTerm(searchQuery, searchContext, Field.ARTICLE_ID, false);
 		addSearchTerm(searchQuery, searchContext, Field.CLASS_PK, false);
-		addSearchLocalizedTerm(
-			searchQuery, searchContext, Field.CONTENT, false);
-		addSearchLocalizedTerm(
-			searchQuery, searchContext, Field.DESCRIPTION, false);
+
+		boolean searchTitle = GetterUtil.getBoolean(
+			PropsUtil.get("journal.article.search.title"));
+
+		if (!searchTitle) {
+			addSearchLocalizedTerm(
+				searchQuery, searchContext, Field.CONTENT, false);
+			addSearchLocalizedTerm(
+				searchQuery, searchContext, Field.DESCRIPTION, false);
+		}
+
 		addSearchTerm(searchQuery, searchContext, Field.ENTRY_CLASS_PK, false);
 		addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
 		addSearchTerm(searchQuery, searchContext, Field.USER_NAME, false);
