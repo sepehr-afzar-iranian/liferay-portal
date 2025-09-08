@@ -211,10 +211,8 @@ public class UserModelListener extends BaseModelListener<User> {
 		attributesBuilder.add("userId");
 		attributesBuilder.add("defaultUser");
 		attributesBuilder.add("contactId");
-		attributesBuilder.add("password");
 		attributesBuilder.add("passwordEncrypted");
 		attributesBuilder.add("passwordReset");
-		attributesBuilder.add("digest");
 		attributesBuilder.add("reminderQueryQuestion");
 		attributesBuilder.add("reminderQueryAnswer");
 		attributesBuilder.add("graceLoginCount");
@@ -242,6 +240,7 @@ public class UserModelListener extends BaseModelListener<User> {
 
 		if (newUser.isPasswordModified()) {
 			attributes.add(new Attribute("password"));
+			attributes.add(new Attribute("digest"));
 		}
 
 		return attributes;

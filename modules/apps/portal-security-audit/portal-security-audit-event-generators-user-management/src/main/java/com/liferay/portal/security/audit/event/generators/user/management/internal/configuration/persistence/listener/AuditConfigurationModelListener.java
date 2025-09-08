@@ -27,6 +27,7 @@ import com.liferay.portal.security.audit.event.generators.util.Attribute;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
@@ -412,8 +413,24 @@ public class AuditConfigurationModelListener
 
 				Object newValue = newProperties.get(name);
 
+				String auditValue;
+
+				if (newValue == null) {
+					auditValue = "";
+				}
+				else {
+					Class<?> clazz = newValue.getClass();
+
+					if (clazz.isArray()) {
+						auditValue = Arrays.toString((Object[])newValue);
+					}
+					else {
+						auditValue = newValue.toString();
+					}
+				}
+
 				Attribute attribute = new Attribute(
-					name, newValue.toString(), StringPool.BLANK);
+					name, auditValue, StringPool.BLANK);
 
 				attributes.add(attribute);
 			}
@@ -425,11 +442,43 @@ public class AuditConfigurationModelListener
 				String name = keysEnumeration.nextElement();
 
 				Object oldValue = oldProperties.get(name);
+
 				Object newValue = newProperties.get(name);
+
+				String auditOldValue;
+				String auditNewValue;
+
+				if (oldValue == null) {
+					auditOldValue = "";
+				}
+				else {
+					Class<?> clazz = oldValue.getClass();
+
+					if (clazz.isArray()) {
+						auditOldValue = Arrays.toString((Object[])oldValue);
+					}
+					else {
+						auditOldValue = oldValue.toString();
+					}
+				}
+
+				if (newValue == null) {
+					auditNewValue = "";
+				}
+				else {
+					Class<?> clazz = newValue.getClass();
+
+					if (clazz.isArray()) {
+						auditNewValue = Arrays.toString((Object[])newValue);
+					}
+					else {
+						auditNewValue = newValue.toString();
+					}
+				}
 
 				if (!Objects.equals(oldValue, newValue)) {
 					Attribute attribute = new Attribute(
-						name, newValue.toString(), oldValue.toString());
+						name, auditNewValue, auditOldValue);
 
 					attributes.add(attribute);
 				}
