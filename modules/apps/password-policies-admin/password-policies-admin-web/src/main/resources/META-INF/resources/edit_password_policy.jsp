@@ -71,14 +71,12 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 				title="password-changes"
 			>
 				<aui:fieldset>
-					<aui:input helpMessage="changeable-help" name="changeable" type="toggle-switch" value="<%= passwordPolicy.isChangeable() %>" />
+					<aui:input helpMessage="changeable-help" name="changeable" type="hidden" value="<%= passwordPolicy.isChangeable() %>" />
 
 					<div class="password-policy-options" id="<portlet:namespace />changeableSettings">
 						<aui:input helpMessage="change-required-help" name="changeRequired" type="toggle-switch" value="<%= passwordPolicy.isChangeRequired() %>" />
 
 						<aui:select helpMessage="minimum-age-help" label="minimum-age" name="minAge">
-							<aui:option label="none" value="0" />
-
 							<%
 							for (long duration : _sort(passwordPoliciesConfiguration.minimumAgeDurations())) {
 							%>
@@ -93,8 +91,6 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 					</div>
 
 					<aui:select helpMessage="reset-ticket-max-age-help" name="resetTicketMaxAge">
-						<aui:option label="eternal" value="0" />
-
 						<%
 						for (long duration : _sort(passwordPoliciesConfiguration.resetTicketMaxAgeDurations())) {
 						%>
@@ -116,9 +112,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 				markupView="lexicon"
 				persistState="<%= true %>"
 				title="password-syntax-checking"
+				cssClass="hide-panel-password-policy"
 			>
 				<aui:fieldset>
-					<aui:input helpMessage="enable-syntax-checking-help" label="enable-syntax-checking" name="checkSyntax" type="toggle-switch" value="<%= passwordPolicy.isCheckSyntax() %>" />
+					<aui:input helpMessage="enable-syntax-checking-help" label="enable-syntax-checking" name="checkSyntax" type="hidden" value="<%= passwordPolicy.isCheckSyntax() %>" />
 
 					<div class="password-policy-options" id="<portlet:namespace />syntaxSettings">
 						<aui:input helpMessage="allow-dictionary-words-help" name="allowDictionaryWords" type="toggle-switch" value="<%= passwordPolicy.isAllowDictionaryWords() %>" />
@@ -151,9 +148,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 				markupView="lexicon"
 				persistState="<%= true %>"
 				title="password-history"
+				cssClass="hide-panel-password-policy"
 			>
 				<aui:fieldset>
-					<aui:input helpMessage="enable-history-help" label="enable-history" name="history" type="toggle-switch" value="<%= passwordPolicy.isHistory() %>" />
+					<aui:input helpMessage="enable-history-help" label="enable-history" name="history" type="hidden" value="<%= passwordPolicy.isHistory() %>" />
 
 					<div class="password-policy-options" id="<portlet:namespace />historySettings">
 						<aui:select helpMessage="history-count-help" name="historyCount">
@@ -214,7 +212,10 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 							<aui:option label="do-not-warn" value="<%= 0 %>" />
 						</aui:select>
 
-						<aui:input helpMessage="grace-limit-help" name="graceLimit" />
+						<aui:input helpMessage="grace-limit-help" name="graceLimit" >
+							<aui:validator name="min">1</aui:validator>
+							<aui:validator name="max">10</aui:validator>
+						</aui:input>
 					</div>
 				</aui:fieldset>
 			</liferay-ui:panel>
@@ -279,7 +280,6 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 
 <aui:script>
 	Liferay.Util.toggleBoxes(
-		'<portlet:namespace />changeable',
 		'<portlet:namespace />changeableSettings'
 	);
 	Liferay.Util.toggleBoxes(
@@ -317,5 +317,12 @@ private static long[] _sort(long[] array) {
 	return array;
 }
 %>
+
+<style>
+	.hide-panel-password-policy {
+		display: none;
+		visibility: hidden;
+	}
+</style>
 
 <%@ include file="/action/delete_password_policy.jspf" %>
