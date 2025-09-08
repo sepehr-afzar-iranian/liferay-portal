@@ -77,6 +77,7 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 						<aui:input helpMessage="change-required-help" name="changeRequired" type="toggle-switch" value="<%= passwordPolicy.isChangeRequired() %>" />
 
 						<aui:select helpMessage="minimum-age-help" label="minimum-age" name="minAge">
+
 							<%
 							for (long duration : _sort(passwordPoliciesConfiguration.minimumAgeDurations())) {
 							%>
@@ -91,6 +92,7 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 					</div>
 
 					<aui:select helpMessage="reset-ticket-max-age-help" name="resetTicketMaxAge">
+
 						<%
 						for (long duration : _sort(passwordPoliciesConfiguration.resetTicketMaxAgeDurations())) {
 						%>
@@ -107,12 +109,12 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 
 			<liferay-ui:panel
 				collapsible="<%= true %>"
+				cssClass="hide-panel-password-policy"
 				extended="<%= false %>"
 				id="passwordPoliciesAdminPasswordPolicySyntaxPanel"
 				markupView="lexicon"
 				persistState="<%= true %>"
 				title="password-syntax-checking"
-				cssClass="hide-panel-password-policy"
 			>
 				<aui:fieldset>
 					<aui:input helpMessage="enable-syntax-checking-help" label="enable-syntax-checking" name="checkSyntax" type="hidden" value="<%= passwordPolicy.isCheckSyntax() %>" />
@@ -143,12 +145,12 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 
 			<liferay-ui:panel
 				collapsible="<%= true %>"
+				cssClass="hide-panel-password-policy"
 				extended="<%= false %>"
 				id="passwordPoliciesAdminPasswordPolicyHistoryPanel"
 				markupView="lexicon"
 				persistState="<%= true %>"
 				title="password-history"
-				cssClass="hide-panel-password-policy"
 			>
 				<aui:fieldset>
 					<aui:input helpMessage="enable-history-help" label="enable-history" name="history" type="hidden" value="<%= passwordPolicy.isHistory() %>" />
@@ -212,7 +214,7 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 							<aui:option label="do-not-warn" value="<%= 0 %>" />
 						</aui:select>
 
-						<aui:input helpMessage="grace-limit-help" name="graceLimit" >
+						<aui:input helpMessage="grace-limit-help" name="graceLimit">
 							<aui:validator name="min">1</aui:validator>
 							<aui:validator name="max">10</aui:validator>
 						</aui:input>
