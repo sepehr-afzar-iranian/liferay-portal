@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.dynamic.data.mapping.form.field.type.internal.licenseplate;
+package com.liferay.dynamic.data.mapping.form.field.type.internal.license.plate;
 
 import com.liferay.dynamic.data.mapping.form.field.type.BaseDDMFormFieldType;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldType;
@@ -29,9 +29,9 @@ import org.osgi.service.component.annotations.Component;
 		"ddm.form.field.type.description=license-plate-field-type-description",
 		"ddm.form.field.type.display.order:Integer=10",
 		"ddm.form.field.type.group=customized",
-		"ddm.form.field.type.icon=id-card",
+		"ddm.form.field.type.icon=integer",
 		"ddm.form.field.type.label=license-plate-field-type-label",
-		"ddm.form.field.type.name=licenseplate",
+		"ddm.form.field.type.name=license_plate",
 		"ddm.form.field.type.scope=forms"
 	},
 	service = DDMFormFieldType.class
@@ -40,19 +40,20 @@ public class LicensePlateDDMFormFieldType extends BaseDDMFormFieldType {
 
 	@Override
 	public Class<? extends DDMFormFieldTypeSettings>
-	getDDMFormFieldTypeSettings() {
+		getDDMFormFieldTypeSettings() {
 
 		return LicensePlateDDMFormFieldTypeSettings.class;
 	}
 
 	@Override
 	public String getModuleName() {
-		return "dynamic-data-mapping-form-field-type/LicensePlate/LicensePlate.es";
+		return "dynamic-data-mapping-form-field-type/LicensePlate" +
+			"/LicensePlate.es";
 	}
 
 	@Override
 	public String getName() {
-		return "licenseplate";
+		return "license_plate";
 	}
 
 }

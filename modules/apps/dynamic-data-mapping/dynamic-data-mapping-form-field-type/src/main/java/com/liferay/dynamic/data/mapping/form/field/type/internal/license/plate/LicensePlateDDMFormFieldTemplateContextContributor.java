@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.dynamic.data.mapping.form.field.type.internal.licenseplate;
+package com.liferay.dynamic.data.mapping.form.field.type.internal.license.plate;
 
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTemplateContextContributor;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
@@ -34,34 +34,32 @@ import org.osgi.service.component.annotations.Component;
  * @author Yousef Ghadiri
  */
 @Component(
-		immediate = true,
-		property = "ddm.form.field.type.name=licenseplate",
-		service = {
-				DDMFormFieldTemplateContextContributor.class,
-				LicensePlateDDMFormFieldTemplateContextContributor.class
-		}
+	immediate = true, property = "ddm.form.field.type.name=license_plate",
+	service = {
+		DDMFormFieldTemplateContextContributor.class,
+		LicensePlateDDMFormFieldTemplateContextContributor.class
+	}
 )
 public class LicensePlateDDMFormFieldTemplateContextContributor
-		implements DDMFormFieldTemplateContextContributor {
+	implements DDMFormFieldTemplateContextContributor {
 
 	@Override
 	public Map<String, Object> getParameters(
-			DDMFormField ddmFormField,
-			DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
+		DDMFormField ddmFormField,
+		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
 		Map<String, Object> parameters = new HashMap<>();
 
 		if (ddmFormFieldRenderingContext.isReturnFullContext()) {
 			parameters.put(
-					"placeholder",
-					getPlaceholder(ddmFormField, ddmFormFieldRenderingContext));
+				"placeholder",
+				getPlaceholder(ddmFormField, ddmFormFieldRenderingContext));
 			parameters.put(
-					"validateIranianFormat",
-					isValidateIranianFormat(ddmFormField));
+				"validateIranianFormat", isValidateIranianFormat(ddmFormField));
 		}
 
 		String predefinedValue = getPredefinedValue(
-				ddmFormField, ddmFormFieldRenderingContext);
+			ddmFormField, ddmFormFieldRenderingContext);
 
 		if (predefinedValue != null) {
 			parameters.put("predefinedValue", predefinedValue);
@@ -72,15 +70,17 @@ public class LicensePlateDDMFormFieldTemplateContextContributor
 		if (Validator.isNotNull(value)) {
 			parameters.put("value", value);
 
-			LicensePlateDDMFormFieldContextHelper licensePlateDDMFormFieldContextHelper = new LicensePlateDDMFormFieldContextHelper();
 			if (isValidateIranianFormat(ddmFormField)) {
-				parameters.put("validateIranianFormat", true);
 				parameters.put(
-						"isValidFormat",
-						licensePlateDDMFormFieldContextHelper.advancePlateValidator(value));
-			} else {
+					"isValidFormat",
+					LicensePlateDDMFormFieldUtil.advancePlateValidator(value));
+				parameters.put("validateIranianFormat", true);
+			}
+			else {
+				parameters.put(
+					"isValidFormat",
+					LicensePlateDDMFormFieldUtil.simplePlateValidator(value));
 				parameters.put("validateIranianFormat", false);
-				parameters.put("isValidFormat", licensePlateDDMFormFieldContextHelper.simplePlateValidator(value));
 			}
 		}
 
@@ -88,20 +88,20 @@ public class LicensePlateDDMFormFieldTemplateContextContributor
 	}
 
 	protected String getPlaceholder(
-			DDMFormField ddmFormField,
-			DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
+		DDMFormField ddmFormField,
+		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
 		LocalizedValue placeholder = (LocalizedValue)ddmFormField.getProperty(
-				"placeholder");
+			"placeholder");
 
 		return getValueString(
-				placeholder, ddmFormFieldRenderingContext.getLocale(),
-				ddmFormFieldRenderingContext);
+			placeholder, ddmFormFieldRenderingContext.getLocale(),
+			ddmFormFieldRenderingContext);
 	}
 
 	protected String getPredefinedValue(
-			DDMFormField ddmFormField,
-			DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
+		DDMFormField ddmFormField,
+		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
 		LocalizedValue predefinedValue = ddmFormField.getPredefinedValue();
 
@@ -110,14 +110,14 @@ public class LicensePlateDDMFormFieldTemplateContextContributor
 		}
 
 		return predefinedValue.getString(
-				ddmFormFieldRenderingContext.getLocale());
+			ddmFormFieldRenderingContext.getLocale());
 	}
 
 	protected String getValue(
-			DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
+		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
 		String value = String.valueOf(
-				ddmFormFieldRenderingContext.getProperty("value"));
+			ddmFormFieldRenderingContext.getProperty("value"));
 
 		if (ddmFormFieldRenderingContext.isViewMode()) {
 			value = HtmlUtil.extractText(value);
@@ -127,8 +127,8 @@ public class LicensePlateDDMFormFieldTemplateContextContributor
 	}
 
 	protected String getValueString(
-			Value value, Locale locale,
-			DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
+		Value value, Locale locale,
+		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
 		if (value == null) {
 			return StringPool.BLANK;
@@ -139,7 +139,7 @@ public class LicensePlateDDMFormFieldTemplateContextContributor
 
 	protected boolean isValidateIranianFormat(DDMFormField ddmFormField) {
 		return GetterUtil.getBoolean(
-				ddmFormField.getProperty("validateIranianFormat"), true);
+			ddmFormField.getProperty("validateIranianFormat"), true);
 	}
 
 }

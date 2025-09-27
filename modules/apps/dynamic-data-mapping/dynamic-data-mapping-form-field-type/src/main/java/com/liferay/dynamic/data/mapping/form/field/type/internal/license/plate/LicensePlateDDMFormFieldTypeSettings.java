@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.dynamic.data.mapping.form.field.type.internal.licenseplate;
+package com.liferay.dynamic.data.mapping.form.field.type.internal.license.plate;
 
 import com.liferay.dynamic.data.mapping.annotations.DDMForm;
 import com.liferay.dynamic.data.mapping.annotations.DDMFormField;
@@ -35,7 +35,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				"setValidationDataType('validation', 'string')",
 				"setValidationFieldName('validation', getValue('name'))"
 			}
-        )
+		)
 	}
 )
 @DDMFormLayout(
@@ -47,7 +47,7 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				@DDMFormLayoutRow(
 					{
 						@DDMFormLayoutColumn(
-							value = {
+							{
 								"label", "placeholder", "tip", "required",
 								"validateIranianFormat"
 							}
@@ -62,12 +62,12 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 				@DDMFormLayoutRow(
 					{
 						@DDMFormLayoutColumn(
-							value = {
+							{
 								"name", "fieldReference", "predefinedValue",
 								"visibilityExpression", "fieldNamespace",
 								"indexType", "localizable", "readOnly",
-								"dataType", "type", "showLabel",
-								"repeatable", "validation"
+								"dataType", "type", "showLabel", "repeatable",
+								"validation"
 							}
 						)
 					}
@@ -77,36 +77,30 @@ import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 	}
 )
 public interface LicensePlateDDMFormFieldTypeSettings
-		extends DefaultDDMFormFieldTypeSettings {
+	extends DefaultDDMFormFieldTypeSettings {
 
 	@DDMFormField(
-		label = "%searchable",
-		optionLabels = {"%disable", "%keyword", "%text"},
-		optionValues = {"none", "keyword", "text"},
-		predefinedValue = "keyword",
+		label = "%searchable", optionLabels = {"%disable", "%keyword", "%text"},
+		optionValues = {"none", "keyword", "text"}, predefinedValue = "keyword",
 		type = "radio"
 	)
 	@Override
 	public String indexType();
 
 	@DDMFormField(
-		dataType = "string",
-		label = "%placeholder-text",
+		dataType = "string", label = "%placeholder-text",
 		properties = "tooltip=%enter-placeholder-for-license-plate-field",
 		type = "text"
 	)
 	public LocalizedValue placeholder();
 
 	@DDMFormField(
-		label = "%validate-iranian-format",
-		properties = "showAsSwitcher=true"
+		label = "%validate-iranian-format", properties = "showAsSwitcher=true"
 	)
 	public boolean validateIranianFormat();
 
 	@DDMFormField(
-		dataType = "string",
-		label = "%validation",
-		type = "validation"
+		dataType = "string", label = "%validation", type = "validation"
 	)
 	@Override
 	public DDMFormFieldValidation validation();

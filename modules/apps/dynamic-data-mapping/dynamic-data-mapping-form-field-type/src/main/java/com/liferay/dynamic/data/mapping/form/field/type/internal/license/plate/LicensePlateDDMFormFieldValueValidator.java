@@ -12,21 +12,24 @@
  * details.
  */
 
-package com.liferay.dynamic.data.mapping.form.field.type.internal.licenseplate;
+package com.liferay.dynamic.data.mapping.form.field.type.internal.license.plate;
 
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueValidationException;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueValidator;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.Value;
-import org.osgi.service.component.annotations.Component;
 
 import java.util.Collection;
+import java.util.Locale;
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(
-	immediate = true, property = "ddm.form.field.type.name=licenseplate",
+	immediate = true, property = "ddm.form.field.type.name=license_plate",
 	service = DDMFormFieldValueValidator.class
 )
 public class LicensePlateDDMFormFieldValueValidator
@@ -35,18 +38,30 @@ public class LicensePlateDDMFormFieldValueValidator
 	@Override
 	public void validate(DDMFormField ddmFormField, Value value)
 		throws DDMFormFieldValueValidationException {
-		Collection<String> values = value.getValues().values();
-		LicensePlateDDMFormFieldContextHelper licensePlateDDMFormFieldContextHelper = new LicensePlateDDMFormFieldContextHelper();
-		boolean doAdvanceValidate = Boolean.parseBoolean(String.valueOf(ddmFormField.getProperty("validateIranianFormat")));
+
+		Map<Locale, String> valuesMap = value.getValues();
+
+		Collection<String> values = valuesMap.values();
+
+		boolean doAdvanceValidate = Boolean.parseBoolean(
+			String.valueOf(ddmFormField.getProperty("validateIranianFormat")));
+
 		for (String str : values) {
 			if (str.isEmpty()) {
-				throw new DDMFormFieldValueValidationException("license plate value is empty");
+				throw new DDMFormFieldValueValidationException(
+					"license plate value is empty");
 			}
-			if (!licensePlateDDMFormFieldContextHelper.simplePlateValidator(str)) {
-				throw new DDMFormFieldValueValidationException("invalid license plate value is not valid");
+
+			if (!LicensePlateDDMFormFieldUtil.simplePlateValidator(str)) {
+				throw new DDMFormFieldValueValidationException(
+					"invalid license plate value is not valid");
 			}
-			if (doAdvanceValidate && !licensePlateDDMFormFieldContextHelper.advancePlateValidator(str)) {
-				throw new DDMFormFieldValueValidationException("invalid license plate value is not completly valid");
+
+			if (doAdvanceValidate &&
+				!LicensePlateDDMFormFieldUtil.advancePlateValidator(str)) {
+
+				throw new DDMFormFieldValueValidationException(
+					"invalid license plate value is not completly valid");
 			}
 		}
 	}
