@@ -1,5 +1,4 @@
-<%@ page import="ir.sain.definition.model.SMSProfile" %>
-<%@ page import="ir.sain.definition.service.SMSProfileLocalServiceUtil" %><%--
+<%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -33,7 +32,6 @@ long formInstanceId = PrefsParamUtil.getLong(PortletPreferencesFactoryUtil.getPo
 DDMFormInstance selFormInstance = DDMFormInstanceServiceUtil.fetchFormInstance(formInstanceId);
 
 List<SMSProfile> smsProfileList = SMSProfileLocalServiceUtil.getSmsProfiles(scopeGroupId);
-
 %>
 
 <liferay-portlet:actionURL portletConfiguration="<%= true %>" var="configurationActionURL" />
@@ -141,37 +139,42 @@ List<SMSProfile> smsProfileList = SMSProfileLocalServiceUtil.getSmsProfiles(scop
 	<aui:input name="preferences--groupId--" type="hidden" value="<%= scopeGroupId %>" />
 
 	<clay:container-fluid>
+		<aui:fieldset>
+			<div>
+				<aui:select label="send-sms-verification-code" name="preferences--verificationSMSProfileId--" showEmptyOption="<%= true %>">
 
-	<aui:fieldset>
+					<%
+					for (SMSProfile smsProfile : smsProfileList) {
+					%>
 
-	<div>
-		<aui:select label="send-sms-verification-code" name="preferences--verificationSMSProfileId--" showEmptyOption="true">
-			<%
-				for(SMSProfile smsProfile : smsProfileList){
-			%>
-			<aui:option value='<%=smsProfile.getSMSProfileId()%>' selected='<%= verificationSMSProfileId == smsProfile.getSMSProfileId() %>'><%= smsProfile.getProfileName() %>
-			</aui:option>
+						<aui:option selected="<%= verificationSMSProfileId == smsProfile.getSMSProfileId() %>" value="<%= smsProfile.getSMSProfileId() %>"><%= smsProfile.getProfileName() %>
+						</aui:option>
 
-			<%
-				}
-			%>
-		</aui:select>
-	</div>
-	<div>
-		<aui:select label="send-sms-tracking-code" name="preferences--trackingCodeSMSProfileId--" showEmptyOption="true">
-			<%
-				for(SMSProfile smsProfile : smsProfileList){
-			%>
-			<aui:option value='<%=smsProfile.getSMSProfileId()%>' selected='<%= trackingCodeSMSProfileId == smsProfile.getSMSProfileId() %>'><%= smsProfile.getProfileName() %>
-			</aui:option>
+					<%
+					}
+					%>
 
-			<%
-				}
-			%>
-		</aui:select>
-	</div>
-	</aui:fieldset>
-</clay:container-fluid>
+				</aui:select>
+			</div>
+
+			<div>
+				<aui:select label="send-sms-tracking-code" name="preferences--trackingCodeSMSProfileId--" showEmptyOption="<%= true %>">
+
+					<%
+					for (SMSProfile smsProfile : smsProfileList) {
+					%>
+
+						<aui:option selected="<%= trackingCodeSMSProfileId == smsProfile.getSMSProfileId() %>" value="<%= smsProfile.getSMSProfileId() %>"><%= smsProfile.getProfileName() %>
+						</aui:option>
+
+					<%
+					}
+					%>
+
+				</aui:select>
+			</div>
+		</aui:fieldset>
+	</clay:container-fluid>
 
 	<aui:button-row>
 		<aui:button type="submit" />

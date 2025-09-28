@@ -122,8 +122,12 @@ public class AddFormInstanceRecordMVCActionCommand
 				portletSession.getAttribute(
 					DDMFormWebKeys.DYNAMIC_DATA_MAPPING_FORM_INSTANCE_ID));
 		}
-		long verificationSMSProfileId = ParamUtil.getLong(actionRequest, "verificationSMSProfileId");
-		long trackingCodeSMSProfileId = ParamUtil.getLong(actionRequest, "trackingCodeSMSProfileId");
+
+		long verificationSMSProfileId = ParamUtil.getLong(
+			actionRequest, "verificationSMSProfileId");
+		long trackingCodeSMSProfileId = ParamUtil.getLong(
+			actionRequest, "trackingCodeSMSProfileId");
+
 		DDMFormInstance ddmFormInstance =
 			_ddmFormInstanceService.getFormInstance(formInstanceId);
 
@@ -370,12 +374,10 @@ public class AddFormInstanceRecordMVCActionCommand
 			sendRedirect(actionRequest, actionResponse, portletURL.toString());
 		}
 
-		if (trackingCodeSMSProfileId > 0 &&
-			Validator.isNotNull(mobile)) {
-
+		if ((trackingCodeSMSProfileId > 0) && Validator.isNotNull(mobile)) {
 			_smsMessageLocalService.sendSMSWithFormTrackingCode(
-				trackingCodeSMSProfileId,mobile, ddmFormInstanceRecord.getTrackingCode(), "",
-				serviceContext);
+				trackingCodeSMSProfileId, mobile,
+				ddmFormInstanceRecord.getTrackingCode(), "", serviceContext);
 		}
 	}
 

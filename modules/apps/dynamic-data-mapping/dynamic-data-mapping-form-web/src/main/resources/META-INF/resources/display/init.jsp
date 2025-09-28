@@ -38,11 +38,9 @@ page import="com.liferay.dynamic.data.mapping.model.DDMFormField" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormInstance" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecordVersion" %><%@
-page import="com.liferay.dynamic.data.mapping.model.DDMFormInstanceSettings" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormSuccessPageSettings" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMStructure" %><%@
 page import="com.liferay.dynamic.data.mapping.model.LocalizedValue" %><%@
-page import="com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil" %><%@
 page import="com.liferay.dynamic.data.mapping.service.DDMFormInstanceServiceUtil" %><%@
 page import="com.liferay.dynamic.data.mapping.validator.DDMFormValuesValidationException" %><%@
 page import="com.liferay.petra.string.StringBundler" %><%@
@@ -65,6 +63,9 @@ page import="com.liferay.portal.kernel.util.StringUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
+
+<%@ page import="ir.sain.definition.model.SMSProfile" %><%@
+page import="ir.sain.definition.service.SMSProfileLocalServiceUtil" %>
 
 <%@ page import="java.util.List" %><%@
 page import="java.util.Locale" %>

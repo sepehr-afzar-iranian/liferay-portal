@@ -24,7 +24,6 @@ String trackingCode = ParamUtil.getString(request, "trackingCode");
 if (Validator.isNull(trackingCode)) {
 	trackingCode = (String)portletSession.getAttribute("trackingCode");
 }
-
 %>
 
 <c:choose>
