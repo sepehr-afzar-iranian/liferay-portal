@@ -119,10 +119,17 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 			Map<String, DDMFormField> ddmFormFields = getDistinctFields(
 				ddmFormInstanceId);
 
+			Map<String, Integer> ddmFormFieldValuesSize =
+				getDDMFormFieldValuesSize(
+					ddmFormFields, ddmFormInstanceRecords, locale);
+
 			byte[] content = write(
-				type, getDDMFormFieldsLabel(ddmFormFields, locale),
+				type,
+				getDDMFormFieldsLabel(
+					ddmFormFields, ddmFormFieldValuesSize, locale),
 				getDDMFormFieldValues(
-					ddmFormFields, ddmFormInstanceRecords, locale));
+					ddmFormFields, ddmFormInstanceRecords,
+					ddmFormFieldValuesSize, locale));
 
 			builder = builder.withContent(content);
 		}
@@ -134,22 +141,50 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 	}
 
 	protected Map<String, String> getDDMFormFieldsLabel(
-		Map<String, DDMFormField> ddmFormFieldMap, Locale locale) {
+		Map<String, DDMFormField> ddmFormFieldMap,
+		Map<String, Integer> ddmFormFieldValuesSize, Locale locale) {
 
 		Map<String, String> ddmFormFieldsLabel = new LinkedHashMap<>();
 
 		Collection<DDMFormField> ddmFormFields = ddmFormFieldMap.values();
 
-		Stream<DDMFormField> stream = ddmFormFields.stream();
+		Collection<Integer> ddmFormFieldValuesSizeValues =
+			ddmFormFieldValuesSize.values();
 
-		stream.forEach(
-			field -> {
-				LocalizedValue localizedValue = field.getLabel();
+		Stream<Integer> ddmFormFieldValuesSizeStream =
+			ddmFormFieldValuesSizeValues.stream();
 
-				ddmFormFieldsLabel.put(
-					field.getFieldReference(),
-					localizedValue.getString(locale));
-			});
+		int maxSize = ddmFormFieldValuesSizeStream.mapToInt(
+			Integer::intValue
+		).max(
+		).orElse(
+			0
+		);
+
+		for (int i = 1; i <= maxSize; i++) {
+			for (DDMFormField ddmFormField : ddmFormFields) {
+				int size = ddmFormFieldValuesSize.getOrDefault(
+					ddmFormField.getFieldReference(), 0);
+
+				if (i <= size) {
+					LocalizedValue localizedValue = ddmFormField.getLabel();
+
+					String baseLabel = localizedValue.getString(locale);
+
+					if (size > 1) {
+						ddmFormFieldsLabel.put(
+							ddmFormField.getFieldReference() + "-" + i,
+							baseLabel);
+					}
+					else {
+						if (i == 1) {
+							ddmFormFieldsLabel.put(
+								ddmFormField.getFieldReference(), baseLabel);
+						}
+					}
+				}
+			}
+		}
 
 		if (_HAS_ADVANCED_FORM_BUILDER_TRACKING_CODE) {
 			ddmFormFieldsLabel.put(
@@ -196,9 +231,82 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 				StringPool.COMMA_AND_SPACE));
 	}
 
+	protected List<String> getDDMFormFieldValues(
+		DDMFormField ddmFormField,
+		Map<String, List<DDMFormFieldValue>> ddmFormFieldValueMap,
+		Locale locale) {
+
+		List<DDMFormFieldValue> ddmFormFieldValues = ddmFormFieldValueMap.get(
+			ddmFormField.getFieldReference());
+
+		if (ddmFormFieldValues == null) {
+			return new ArrayList<>();
+		}
+
+		List<DDMFormFieldValue> newDDMFormFieldValues = new ArrayList<>();
+
+		for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
+			DDMFormValues ddmFormValues = ddmFormFieldValue.getDDMFormValues();
+
+			if (ddmFormValues == null) {
+				continue;
+			}
+
+			List<DDMFormFieldValue> ddmValues =
+				ddmFormValues.getDDMFormFieldValues();
+
+			if (ddmValues == null) {
+				continue;
+			}
+
+			for (DDMFormFieldValue ddmValue : ddmValues) {
+				List<DDMFormFieldValue> nestedDDMFormFieldValues =
+					ddmValue.getNestedDDMFormFieldValues();
+
+				if (nestedDDMFormFieldValues != null) {
+					Stream<DDMFormFieldValue> nestedDDMFormFieldValuesStream =
+						nestedDDMFormFieldValues.stream();
+
+					newDDMFormFieldValues.addAll(
+						nestedDDMFormFieldValuesStream.filter(
+							ddmForFieldValue ->
+								ddmForFieldValue.getFieldReference(
+								).equals(
+									ddmFormField.getFieldReference()
+								)
+						).collect(
+							Collectors.toList()
+						));
+				}
+			}
+		}
+
+		DDMFormFieldValueRenderer ddmFormFieldValueRenderer =
+			ddmFormFieldTypeServicesTracker.getDDMFormFieldValueRenderer(
+				ddmFormField.getType());
+
+		if (newDDMFormFieldValues.isEmpty()) {
+			return ListUtil.fromArray(
+				getDDMFormFieldValue(
+					ddmFormField, ddmFormFieldValueMap, locale));
+		}
+
+		Stream<DDMFormFieldValue> stream = newDDMFormFieldValues.stream();
+
+		return stream.map(
+			ddmForFieldValue -> HtmlUtil.extractText(
+				_getRender(ddmForFieldValue, ddmFormFieldValueRenderer, locale))
+		).filter(
+			Validator::isNotNull
+		).collect(
+			Collectors.toList()
+		);
+	}
+
 	protected List<Map<String, String>> getDDMFormFieldValues(
 			Map<String, DDMFormField> ddmFormFields,
-			List<DDMFormInstanceRecord> ddmFormInstanceRecords, Locale locale)
+			List<DDMFormInstanceRecord> ddmFormInstanceRecords,
+			Map<String, Integer> ddmFormFieldValuesSize, Locale locale)
 		throws Exception {
 
 		List<Map<String, String>> ddmFormFieldValues = new ArrayList<>();
@@ -214,17 +322,61 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 
 			Map<String, String> ddmFormFieldsValue = new LinkedHashMap<>();
 
-			for (Map.Entry<String, DDMFormField> entry :
-					ddmFormFields.entrySet()) {
+			Collection<Integer> ddmFormFieldValuesSizeValues =
+				ddmFormFieldValuesSize.values();
 
-				if (!ddmFormFieldValuesMap.containsKey(entry.getKey())) {
-					ddmFormFieldsValue.put(entry.getKey(), StringPool.BLANK);
-				}
-				else {
-					ddmFormFieldsValue.put(
-						entry.getKey(),
-						getDDMFormFieldValue(
-							entry.getValue(), ddmFormFieldValuesMap, locale));
+			Stream<Integer> ddmFormFieldValuesSizeStream =
+				ddmFormFieldValuesSizeValues.stream();
+
+			int maxSize = ddmFormFieldValuesSizeStream.mapToInt(
+				Integer::intValue
+			).max(
+			).orElse(
+				0
+			);
+
+			for (int i = 1; i <= maxSize; i++) {
+				for (Map.Entry<String, DDMFormField> entry :
+						ddmFormFields.entrySet()) {
+
+					String key = entry.getKey();
+					DDMFormField ddmFormField = entry.getValue();
+					int filledSize = ddmFormFieldValuesSize.get(key);
+
+					if (i <= filledSize) {
+						if (!ddmFormFieldValuesMap.containsKey(key)) {
+							if (filledSize > 1) {
+								ddmFormFieldsValue.put(
+									key + "-" + i, StringPool.BLANK);
+							}
+							else {
+								if (i == 1) {
+									ddmFormFieldsValue.put(
+										key, StringPool.BLANK);
+								}
+							}
+						}
+						else {
+							List<String> values = getDDMFormFieldValues(
+								ddmFormField, ddmFormFieldValuesMap, locale);
+
+							if (filledSize > 1) {
+								ddmFormFieldsValue.put(
+									key + "-" + i,
+									(values.size() > (i - 1)) ?
+										values.get(i - 1) : StringPool.BLANK);
+							}
+							else {
+								if (i == 1) {
+									String value =
+										!values.isEmpty() ? values.get(0) :
+											StringPool.BLANK;
+
+									ddmFormFieldsValue.put(key, value);
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -253,6 +405,42 @@ public class DDMFormInstanceRecordExporterByTrackingCodeImpl
 		}
 
 		return ddmFormFieldValues;
+	}
+
+	protected Map<String, Integer> getDDMFormFieldValuesSize(
+			Map<String, DDMFormField> ddmFormFields,
+			List<DDMFormInstanceRecord> ddmFormInstanceRecords, Locale locale)
+		throws Exception {
+
+		Map<String, Integer> ddmFormFieldValuesSize = new LinkedHashMap<>();
+
+		for (DDMFormInstanceRecord ddmFormInstanceRecord :
+				ddmFormInstanceRecords) {
+
+			DDMFormValues ddmFormValues =
+				ddmFormInstanceRecord.getDDMFormValues();
+
+			Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap =
+				ddmFormValues.getDDMFormFieldValuesReferencesMap(true);
+
+			for (Map.Entry<String, DDMFormField> entry :
+					ddmFormFields.entrySet()) {
+
+				String key = entry.getKey();
+				List<String> ddmFormFieldValues = getDDMFormFieldValues(
+					entry.getValue(), ddmFormFieldValuesMap, locale);
+
+				if (!ddmFormFieldValuesSize.containsKey(key) ||
+					(ddmFormFieldValuesSize.containsKey(key) &&
+					 (ddmFormFieldValuesSize.get(key) <
+						 ddmFormFieldValues.size()))) {
+
+					ddmFormFieldValuesSize.put(key, ddmFormFieldValues.size());
+				}
+			}
+		}
+
+		return ddmFormFieldValuesSize;
 	}
 
 	protected Map<String, DDMFormField> getDistinctFields(
