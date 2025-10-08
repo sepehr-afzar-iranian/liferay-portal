@@ -213,7 +213,19 @@ renderResponse.setTitle(headerTitle);
 			</liferay-ui:error>
 
 			<liferay-ui:error exception="<%= FileMimeTypeException.class %>">
-				<liferay-ui:message key="media-files-must-be-one-of-the-following-formats" /> <%= StringUtil.merge(dlPortletInstanceSettings.getMimeTypes(), StringPool.COMMA_AND_SPACE) %>.
+				<liferay-ui:message key="media-files-must-be-one-of-the-following-formats" /> <%=
+			StringUtil.merge(Stream.of(
+							dlConfiguration.presentationFileMimeTypes(),
+							dlConfiguration.codeFileMimeTypes(),
+							dlConfiguration.spreadSheetFileMimeTypes(),
+							dlConfiguration.compressedFileMimeTypes(),
+							dlConfiguration.textFileMimeTypes(),
+							dlConfiguration.multimediaFileMimeTypes(),
+							dlConfiguration.vectorialFileMimeTypes()
+					)
+					.flatMap(Arrays::stream)
+					.filter(Validator::isNotNull)
+					.toArray(String[]::new), StringPool.COMMA_AND_SPACE) %>.
 			</liferay-ui:error>
 
 			<liferay-ui:error exception="<%= FileNameException.class %>" message="please-enter-a-file-with-a-valid-file-name" />

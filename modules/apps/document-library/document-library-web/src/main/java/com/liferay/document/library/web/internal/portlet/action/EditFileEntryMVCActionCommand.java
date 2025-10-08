@@ -114,6 +114,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -1043,6 +1044,28 @@ public class EditFileEntryMVCActionCommand extends BaseMVCActionCommand {
 				(size == 0)) {
 
 				contentType = MimeTypesUtil.getContentType(title);
+			}
+
+			String[] result = Stream.of(
+				_dlConfiguration.presentationFileMimeTypes(),
+				_dlConfiguration.codeFileMimeTypes(),
+				_dlConfiguration.spreadSheetFileMimeTypes(),
+				_dlConfiguration.compressedFileMimeTypes(),
+				_dlConfiguration.textFileMimeTypes(),
+				_dlConfiguration.multimediaFileMimeTypes(),
+				_dlConfiguration.vectorialFileMimeTypes()
+			).flatMap(
+				Arrays::stream
+			).filter(
+				Validator::isNotNull
+			).toArray(
+				String[]::new
+			);
+
+			int count0 = Arrays.binarySearch(result, contentType);
+
+			if (count0 < 0) {
+				throw new FileMimeTypeException(contentType);
 			}
 
 			if (cmd.equals(Constants.ADD) ||
