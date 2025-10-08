@@ -109,7 +109,6 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 
 			<liferay-ui:panel
 				collapsible="<%= true %>"
-				cssClass="hide-panel-password-policy"
 				extended="<%= false %>"
 				id="passwordPoliciesAdminPasswordPolicySyntaxPanel"
 				markupView="lexicon"
@@ -117,28 +116,37 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 				title="password-syntax-checking"
 			>
 				<aui:fieldset>
-					<aui:input helpMessage="enable-syntax-checking-help" label="enable-syntax-checking" name="checkSyntax" type="hidden" value="<%= passwordPolicy.isCheckSyntax() %>" />
+					<div class="hide-panel-password-policy">
+						<aui:input helpMessage="enable-syntax-checking-help" label="enable-syntax-checking" name="checkSyntax" type="toggle-switch" value="<%= passwordPolicy.isCheckSyntax() %>" />
+					</div>
 
 					<div class="password-policy-options" id="<portlet:namespace />syntaxSettings">
-						<aui:input helpMessage="allow-dictionary-words-help" name="allowDictionaryWords" type="toggle-switch" value="<%= passwordPolicy.isAllowDictionaryWords() %>" />
+						<div class="hide-panel-password-policy">
+							<aui:input helpMessage="allow-dictionary-words-help" name="allowDictionaryWords" type="toggle-switch" value="<%= passwordPolicy.isAllowDictionaryWords() %>" />
 
-						<aui:input helpMessage="minimum-alpha-numeric-help" label="minimum-alpha-numeric" name="minAlphanumeric" />
+							<aui:input helpMessage="minimum-alpha-numeric-help" label="minimum-alpha-numeric" name="minAlphanumeric" />
+						</div>
 
-						<aui:input helpMessage="minimum-length-help" label="minimum-length" name="minLength" />
+						<aui:input helpMessage="minimum-length-help" label="minimum-length" name="minLength" >
+							<aui:validator name="min">8</aui:validator>
+							<aui:validator name="max">60</aui:validator>
+						</aui:input>
 
-						<aui:input helpMessage="minimum-lower-case-help" label="minimum-lower-case" name="minLowerCase" />
+						<div class="hide-panel-password-policy">
+							<aui:input helpMessage="minimum-lower-case-help" label="minimum-lower-case" name="minLowerCase" />
 
-						<aui:input helpMessage="minimum-numbers-help" label="minimum-numbers" name="minNumbers" />
+							<aui:input helpMessage="minimum-numbers-help" label="minimum-numbers" name="minNumbers" />
 
-						<aui:input helpMessage="minimum-symbols-help" label="minimum-symbols" name="minSymbols" />
+							<aui:input helpMessage="minimum-symbols-help" label="minimum-symbols" name="minSymbols" />
 
-						<aui:input helpMessage="minimum-upper-case-help" label="minimum-upper-case" name="minUpperCase" />
+							<aui:input helpMessage="minimum-upper-case-help" label="minimum-upper-case" name="minUpperCase" />
 
-						<%
-						String taglibHelpMessage = LanguageUtil.format(request, "regular-expression-help", new Object[] {"<a href=\"http://docs.oracle.com/javase/tutorial/essential/regex\" target=\"_blank\">", "</a>"}, false);
-						%>
+							<%
+							String taglibHelpMessage = LanguageUtil.format(request, "regular-expression-help", new Object[] {"<a href=\"http://docs.oracle.com/javase/tutorial/essential/regex\" target=\"_blank\">", "</a>"}, false);
+							%>
 
-						<aui:input helpMessage="<%= taglibHelpMessage %>" label="regular-expression" name="regex" />
+							<aui:input helpMessage="<%= taglibHelpMessage %>" label="regular-expression" name="regex" />
+						</div>
 					</div>
 				</aui:fieldset>
 			</liferay-ui:panel>
@@ -285,7 +293,7 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 		'<portlet:namespace />changeableSettings'
 	);
 	Liferay.Util.toggleBoxes(
-		'<portlet:namespace />checkSyntax',
+		// '<portlet:namespace />checkSyntax',
 		'<portlet:namespace />syntaxSettings'
 	);
 	Liferay.Util.toggleBoxes(
