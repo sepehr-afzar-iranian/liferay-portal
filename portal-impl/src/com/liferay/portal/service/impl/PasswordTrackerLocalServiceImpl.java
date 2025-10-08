@@ -15,6 +15,7 @@
 package com.liferay.portal.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.PwdEncryptorException;
 import com.liferay.portal.kernel.model.PasswordPolicy;
 import com.liferay.portal.kernel.model.PasswordTracker;
 import com.liferay.portal.kernel.model.User;
@@ -45,11 +46,16 @@ public class PasswordTrackerLocalServiceImpl
 		String currentPwd = user.getPassword();
 
 		if (user.isPasswordEncrypted()) {
-			String newEncPwd = PasswordEncryptorUtil.encrypt(
-				newClearTextPwd, user.getPassword());
+			try {
+				String newEncPwd = PasswordEncryptorUtil.encrypt(
+					newClearTextPwd, user.getPassword());
 
-			if (currentPwd.equals(newEncPwd)) {
-				return true;
+				if (currentPwd.equals(newEncPwd)) {
+					return true;
+				}
+			}
+			catch (PwdEncryptorException pwdEncryptorException) {
+				return false;
 			}
 
 			return false;

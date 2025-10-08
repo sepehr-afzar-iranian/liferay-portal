@@ -57,6 +57,7 @@ import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.exception.UserReminderQueryException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
 import com.liferay.portal.kernel.exception.UserSmsException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -112,6 +113,7 @@ import com.liferay.portal.kernel.security.pwd.PasswordEncryptorUtil;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -5894,12 +5896,13 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		User user = null;
 
 		if (authType.equals(CompanyConstants.AUTH_TYPE_EA)) {
-			user = userPersistence.fetchByC_EA(companyId, login);
+			user = userPersistence.fetchByC_EA(companyId, login, false);
 		}
 		else if (authType.equals(CompanyConstants.AUTH_TYPE_SN)) {
-			user = userPersistence.fetchByC_SN(companyId, login);
+			user = userPersistence.fetchByC_SN(companyId, login, false);
 		}
 		else if (authType.equals(CompanyConstants.AUTH_TYPE_ID)) {
+			userPersistence.clearCache();
 			user = userPersistence.fetchByPrimaryKey(GetterUtil.getLong(login));
 		}
 
@@ -5939,14 +5942,23 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		else if ((authResult == Authenticator.SUCCESS) &&
 				 PropsValues.AUTH_PIPELINE_ENABLE_LIFERAY_CHECK) {
 
-			boolean authenticated = PwdAuthenticator.authenticate(
-				login, password, user.getPassword());
+			try {
+				boolean authenticated = PwdAuthenticator.authenticate(
+					login, password, user.getPassword());
 
-			if (authenticated) {
-				authResult = Authenticator.SUCCESS;
+				if (authenticated) {
+					authResult = Authenticator.SUCCESS;
+				}
+				else {
+					authResult = Authenticator.FAILURE;
+				}
 			}
-			else {
-				authResult = Authenticator.FAILURE;
+			catch (PwdEncryptorException exception) {
+				user.setStatus(5);
+				UserLocalServiceUtil.updateUser(user);
+				_auditDataViolation(user);
+
+				throw new UserLockoutException.IntegrityCheckLockout(user);
 			}
 		}
 
@@ -7227,6 +7239,38 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 	@BeanReference(type = MailService.class)
 	protected MailService mailService;
+
+	private void _auditDataViolation(User user) {
+		try {
+			JSONObject additionalInfoJSONObject = JSONUtil.put(
+				"afterLogin", false
+			).put(
+				"userFullName", user.getFullName()
+			).put(
+				"userId", user.getUserId()
+			).put(
+				"wasPasswordEncrypted", false
+			);
+
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(user.getFullName());
+			sb.append("'s data was violated");
+
+			AuditMessage auditMessage = new AuditMessage(
+				"DATA VIOLATION", user.getCompanyId(), user.getUserId(),
+				user.getFullName(), User.class.getName(),
+				String.valueOf(user.getPrimaryKey()), sb.toString(),
+				additionalInfoJSONObject);
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
 
 	private void _auditInactiveUser(User user) {
 		try {

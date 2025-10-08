@@ -22,6 +22,21 @@ import com.liferay.portal.kernel.model.User;
  */
 public class UserLockoutException extends PortalException {
 
+	public static class IntegrityCheckLockout extends UserLockoutException {
+
+		public IntegrityCheckLockout(User user) {
+			super(
+				String.format(
+					"User %s was locked on %s due to integrity check failure",
+					user.getUserId(), user.getLockoutDate()));
+
+			this.user = user;
+		}
+
+		public final User user;
+
+	}
+
 	public static class LDAPLockout extends UserLockoutException {
 
 		public LDAPLockout(String fullUserDN, String ldapMessage) {

@@ -127,7 +127,7 @@ renderResponse.setTitle(passwordPolicy.isNew() ? LanguageUtil.get(request, "new-
 							<aui:input helpMessage="minimum-alpha-numeric-help" label="minimum-alpha-numeric" name="minAlphanumeric" />
 						</div>
 
-						<aui:input helpMessage="minimum-length-help" label="minimum-length" name="minLength" >
+						<aui:input helpMessage="minimum-length-help" label="minimum-length" name="minLength">
 							<aui:validator name="min">8</aui:validator>
 							<aui:validator name="max">60</aui:validator>
 						</aui:input>

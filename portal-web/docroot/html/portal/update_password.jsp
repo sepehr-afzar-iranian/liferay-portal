@@ -63,7 +63,7 @@ if (referer.startsWith(themeDisplay.getPathMain() + "/portal/update_password") &
 					</div>
 				</div>
 			</c:when>
-			<c:when test="<%= SessionErrors.contains(request, UserLockoutException.LDAPLockout.class.getName()) %>">
+			<c:when test="<%= SessionErrors.contains(request, UserLockoutException.LDAPLockout.class.getName()) || SessionErrors.contains(request, UserLockoutException.IntegrityCheckLockout.class.getName()) %>">
 				<div class="alert alert-danger">
 					<liferay-ui:message key="this-account-is-locked" />
 				</div>
