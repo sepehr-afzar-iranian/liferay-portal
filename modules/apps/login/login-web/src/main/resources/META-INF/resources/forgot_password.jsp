@@ -51,6 +51,7 @@ renderResponse.setTitle(LanguageUtil.get(request, "forgot-password"));
 		<liferay-ui:error exception="<%= UserActiveException.class %>" message="your-account-is-not-active" />
 		<liferay-ui:error exception="<%= UserEmailAddressException.MustNotBeNull.class %>" message="please-enter-an-email-address" />
 		<liferay-ui:error exception="<%= UserEmailAddressException.MustValidate.class %>" message="please-enter-a-valid-email-address" />
+		<liferay-ui:error exception="<%= UserLockoutException.IntegrityCheckLockout.class %>" message="this-account-is-locked" />
 		<liferay-ui:error exception="<%= UserLockoutException.LDAPLockout.class %>" message="this-account-is-locked" />
 
 		<liferay-ui:error exception="<%= UserLockoutException.PasswordPolicyLockout.class %>">

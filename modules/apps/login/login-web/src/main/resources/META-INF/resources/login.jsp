@@ -121,6 +121,7 @@
 				<liferay-ui:error exception="<%= UserActiveException.class %>" message="your-account-is-not-active" />
 				<liferay-ui:error exception="<%= UserEmailAddressException.MustNotBeNull.class %>" message="please-enter-an-email-address" />
 				<liferay-ui:error exception="<%= UserIpException.class %>" message="user-ip-is-blocked" />
+				<liferay-ui:error exception="<%= UserLockoutException.IntegrityCheckLockout.class %>" message="this-account-is-locked" />
 				<liferay-ui:error exception="<%= UserLockoutException.LDAPLockout.class %>" message="this-account-is-locked" />
 
 				<liferay-ui:error exception="<%= UserLockoutException.PasswordPolicyLockout.class %>">
@@ -147,6 +148,7 @@
 				<liferay-ui:error exception="<%= CaptchaConfigurationException.class %>" message="a-captcha-error-occurred-please-contact-an-administrator" />
 				<liferay-ui:error exception="<%= CaptchaException.class %>" message="captcha-verification-failed" />
 				<liferay-ui:error exception="<%= CaptchaTextException.class %>" message="text-verification-failed" />
+				<liferay-ui:error exception="<%= PwdEncryptorException.class %>" message="authentication-failed" />
 				<liferay-ui:error exception="<%= UserPasswordException.class %>" message="authentication-failed" />
 				<liferay-ui:error exception="<%= UserScreenNameException.MustNotBeNull.class %>" message="the-screen-name-cannot-be-blank" />
 
