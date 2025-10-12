@@ -57,6 +57,7 @@ import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.exception.UserReminderQueryException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
 import com.liferay.portal.kernel.exception.UserSmsException;
+import com.liferay.portal.kernel.service.UserNotificationEventLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -5957,6 +5958,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 				user.setStatus(5);
 				UserLocalServiceUtil.updateUser(user);
 				_auditDataViolation(user);
+				_sendDataViolationNotification(user, companyId);
 
 				throw new UserLockoutException.IntegrityCheckLockout(user);
 			}
@@ -7268,6 +7270,26 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
 				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
+	private void _sendDataViolationNotification(User user, long companyId) {
+		try {
+			Role role = roleLocalService.getRole(
+					companyId, RoleConstants.ADMINISTRATOR);
+
+			JSONObject payloadjsonObject = JSONUtil.put("userName", user.getFullName()).put("emailAddress", user.getEmailAddress());
+
+			for (User adminUser : userLocalService.getRoleUsers(role.getRoleId())) {
+				UserNotificationEventLocalServiceUtil.sendUserNotificationEvents(
+						adminUser.getUserId(), "com_liferay_integrity_check_failed_portlet",
+						10002,
+						payloadjsonObject);
+			}
+		} catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to send data violation notification", exception);
 			}
 		}
 	}
