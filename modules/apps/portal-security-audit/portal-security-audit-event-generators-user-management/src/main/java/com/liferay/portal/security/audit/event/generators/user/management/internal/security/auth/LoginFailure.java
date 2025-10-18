@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.security.auth;
 
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.json.JSONFactory;
@@ -23,18 +24,22 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.AuthFailure;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
 	immediate = true, property = "key=auth.failure", service = AuthFailure.class
 )
 public class LoginFailure implements AuthFailure {
@@ -43,6 +48,10 @@ public class LoginFailure implements AuthFailure {
 	public void onFailureByEmailAddress(
 		long companyId, String emailAddress, Map<String, String[]> headerMap,
 		Map<String, String[]> parameterMap) {
+
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
 
 		User user = _userLocalService.fetchUserByEmailAddress(
 			companyId, emailAddress);
@@ -57,6 +66,10 @@ public class LoginFailure implements AuthFailure {
 		long companyId, String screenName, Map<String, String[]> headerMap,
 		Map<String, String[]> parameterMap) {
 
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
+
 		User user = _userLocalService.fetchUserByScreenName(
 			companyId, screenName);
 
@@ -70,6 +83,10 @@ public class LoginFailure implements AuthFailure {
 		long companyId, long userId, Map<String, String[]> headerMap,
 		Map<String, String[]> parameterMap) {
 
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
+
 		User user = null;
 
 		try {
@@ -81,6 +98,13 @@ public class LoginFailure implements AuthFailure {
 		audit(
 			user, headerMap, "Failed to authenticate by user ID", "userId",
 			String.valueOf(userId));
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
 	}
 
 	protected void audit(
@@ -121,6 +145,8 @@ public class LoginFailure implements AuthFailure {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(LoginFailure.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditRouter _auditRouter;

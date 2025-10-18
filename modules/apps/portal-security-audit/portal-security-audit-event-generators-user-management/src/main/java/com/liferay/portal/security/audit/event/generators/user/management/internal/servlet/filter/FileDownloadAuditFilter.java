@@ -15,6 +15,7 @@
 package com.liferay.portal.security.audit.event.generators.user.management.internal.servlet.filter;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -25,21 +26,27 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
+
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
 	immediate = true,
 	property = {
 		"servlet-context-name=",
@@ -70,6 +77,13 @@ public class FileDownloadAuditFilter extends BaseFilter {
 		}
 
 		return null;
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
 	}
 
 	@Override
@@ -123,6 +137,12 @@ public class FileDownloadAuditFilter extends BaseFilter {
 		processFilter(
 			FileDownloadAuditFilter.class.getName(), httpServletRequest,
 			httpServletResponse, filterChain);
+
+		if (!_auditConfiguration.enabled() ||
+			!_auditConfiguration.logDownloadEnabled()) {
+
+			return;
+		}
 
 		String path = GetterUtil.getString(httpServletRequest.getPathInfo());
 
@@ -194,6 +214,8 @@ public class FileDownloadAuditFilter extends BaseFilter {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		FileDownloadAuditFilter.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditRouter _auditRouter;

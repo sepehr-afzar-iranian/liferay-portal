@@ -15,6 +15,7 @@
 package com.liferay.portal.security.audit.event.generators.user.management.internal.events;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.events.Action;
@@ -26,20 +27,25 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 
+import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
 	immediate = true, property = "key=logout.events.post",
 	service = LifecycleAction.class
 )
@@ -52,6 +58,10 @@ public class LogoutPostAction extends Action {
 		throws ActionException {
 
 		try {
+			if (!_auditConfiguration.enabled()) {
+				return;
+			}
+
 			User user = _portal.getUser(httpServletRequest);
 
 			if (Objects.equals(user, null)) {
@@ -73,6 +83,13 @@ public class LogoutPostAction extends Action {
 				_log.warn("Unable to route audit message", exception);
 			}
 		}
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
 	}
 
 	private String _getMessage(
@@ -107,6 +124,8 @@ public class LogoutPostAction extends Action {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LogoutPostAction.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditRouter _auditRouter;
