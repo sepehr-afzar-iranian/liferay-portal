@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.BaseFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.audit.configuration.AuditConfiguration;
@@ -144,6 +145,13 @@ public class FileDownloadAuditFilter extends BaseFilter {
 			return;
 		}
 
+		try {
+			_portal.getUser(httpServletRequest);
+		}
+		catch (Exception exception) {
+			return;
+		}
+
 		String path = GetterUtil.getString(httpServletRequest.getPathInfo());
 
 		if (path.startsWith("/company_logo") ||
@@ -219,5 +227,8 @@ public class FileDownloadAuditFilter extends BaseFilter {
 
 	@Reference
 	private AuditRouter _auditRouter;
+
+	@Reference
+	private Portal _portal;
 
 }
