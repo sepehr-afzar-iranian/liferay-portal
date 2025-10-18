@@ -39,4 +39,7 @@ public interface AuditConfiguration {
 	)
 	public int auditMessageMaxQueueSize();
 
+	@Meta.AD(deflt = "false", name = "log-downloads-enabled", required = false)
+	public boolean logDownloadEnabled();
+
 }
