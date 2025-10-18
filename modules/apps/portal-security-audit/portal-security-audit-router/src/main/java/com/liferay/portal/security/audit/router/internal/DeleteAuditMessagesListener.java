@@ -40,6 +40,7 @@ import java.sql.Timestamp;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.osgi.service.component.annotations.Activate;
@@ -92,11 +93,10 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 			return;
 		}
 
-		int month = _auditMessageAutoDeleterConfiguration.month();
+		int days = _auditMessageAutoDeleterConfiguration.days();
 
 		Timestamp thresholdTimestamp = new Timestamp(
-			System.currentTimeMillis() -
-				(month * 30L * 24L * 60L * 60L * 1000L));
+			System.currentTimeMillis() - TimeUnit.DAYS.toMillis(days));
 
 		try {
 			ActionableDynamicQuery actionableDynamicQuery =
@@ -128,7 +128,9 @@ public class DeleteAuditMessagesListener extends BaseMessageListener {
 					sb.append(StringPool.SPACE);
 					sb.append("audit events that where older than");
 					sb.append(StringPool.SPACE);
-					sb.append(month);
+					sb.append(days);
+					sb.append(StringPool.SPACE);
+					sb.append("days");
 					sb.append(StringPool.PERIOD);
 
 					AuditMessage auditMessage = new AuditMessage(

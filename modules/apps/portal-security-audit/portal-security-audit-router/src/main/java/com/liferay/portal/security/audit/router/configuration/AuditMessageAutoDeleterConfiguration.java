@@ -33,12 +33,12 @@ public interface AuditMessageAutoDeleterConfiguration {
 	public boolean enabled();
 
 	@Meta.AD(
-		deflt = "3", name = "delete-audits-older-than-months", required = false
+		deflt = "7", name = "delete-audits-older-than-days", required = false
 	)
-	public int month();
+	public int days();
 
 	@Meta.AD(
-		deflt = "0 0 12 1 * ?", name = "check-audits-timestamp-cron-expression",
+		deflt = "0 0 0 * * ?", name = "check-audits-timestamp-cron-expression",
 		required = false
 	)
 	public String cronExpression();

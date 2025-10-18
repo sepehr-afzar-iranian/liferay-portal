@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -25,6 +26,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
@@ -33,14 +35,20 @@ import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.List;
+import java.util.Map;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
-@Component(immediate = true, service = ModelListener.class)
+@Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
+	immediate = true, service = ModelListener.class
+)
 public class GroupModelListener extends BaseModelListener<Group> {
 
 	@Override
@@ -55,11 +63,19 @@ public class GroupModelListener extends BaseModelListener<Group> {
 
 	@Override
 	public void onAfterUpdate(Group group) throws ModelListenerException {
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
+
 		OnAfterUpdateUtil.update(Group.class.getName(), group.getGroupId());
 	}
 
 	@Override
 	public void onBeforeUpdate(Group newGroup) throws ModelListenerException {
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
+
 		try {
 			long groupId = newGroup.getGroupId();
 
@@ -97,8 +113,19 @@ public class GroupModelListener extends BaseModelListener<Group> {
 		}
 	}
 
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
+	}
+
 	protected void audit(String eventType, Group group)
 		throws ModelListenerException {
+
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
 
 		try {
 			long groupId = group.getGroupId();
@@ -162,6 +189,8 @@ public class GroupModelListener extends BaseModelListener<Group> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		GroupModelListener.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditRouter _auditRouter;

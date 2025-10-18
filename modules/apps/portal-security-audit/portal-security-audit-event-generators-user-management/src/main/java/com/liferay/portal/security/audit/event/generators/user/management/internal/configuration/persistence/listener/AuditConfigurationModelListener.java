@@ -15,11 +15,13 @@
 package com.liferay.portal.security.audit.event.generators.user.management.internal.configuration.persistence.listener;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.configuration.persistence.listener.ConfigurationModelListener;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.OnAfterUpdateUtil;
@@ -30,17 +32,21 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
 	immediate = true,
 	property = {
 		"model.class.name=com.liferay.account.configuration.AccountEntryEmailDomainsConfiguration",
@@ -355,6 +361,10 @@ public class AuditConfigurationModelListener
 
 	@Override
 	public void onAfterSave(String pid, Dictionary<String, Object> properties) {
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
+
 		OnAfterUpdateUtil.update(
 			pid,
 			(long)properties.get(":org.apache.felix.configadmin.revision:"),
@@ -364,6 +374,10 @@ public class AuditConfigurationModelListener
 	@Override
 	public void onBeforeSave(
 		String pid, Dictionary<String, Object> newProperties) {
+
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
 
 		try {
 			Configuration conf = _configurationAdmin.getConfiguration(
@@ -396,6 +410,13 @@ public class AuditConfigurationModelListener
 				_log.warn("Unable to route audit message", exception);
 			}
 		}
+	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
 	}
 
 	protected List<Attribute> getModifiedAttributes(
@@ -441,6 +462,8 @@ public class AuditConfigurationModelListener
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		AuditConfigurationModelListener.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.events;
 
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.events.Action;
@@ -28,22 +29,27 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 
+import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
 @Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
 	immediate = true, property = "key=servlet.service.events.pre",
 	service = LifecycleAction.class
 )
@@ -56,6 +62,10 @@ public class ImpersonationAction extends Action {
 		throws ActionException {
 
 		try {
+			if (!_auditConfiguration.enabled()) {
+				return;
+			}
+
 			long plid = ParamUtil.getLong(httpServletRequest, "p_l_id");
 
 			if (plid <= 0) {
@@ -114,11 +124,20 @@ public class ImpersonationAction extends Action {
 		}
 	}
 
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
+	}
+
 	private static final String _IMPERSONATING_USER =
 		ImpersonationAction.class + ".IMPERSONATING_USER";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ImpersonationAction.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -15,6 +15,7 @@
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
 import com.liferay.blogs.model.BlogsEntry;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -23,17 +24,25 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
-@Component(immediate = true, service = ModelListener.class)
+@Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
+	immediate = true, service = ModelListener.class
+)
 public class BlogsEntryModelListener extends BaseModelListener<BlogsEntry> {
 
 	@Override
@@ -57,8 +66,19 @@ public class BlogsEntryModelListener extends BaseModelListener<BlogsEntry> {
 		audit(EventTypes.UPDATE, blogsEntry);
 	}
 
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
+	}
+
 	protected void audit(String eventType, BlogsEntry blogsEntry)
 		throws ModelListenerException {
+
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
 
 		try {
 			long blogsEntryId = blogsEntry.getEntryId();
@@ -91,6 +111,8 @@ public class BlogsEntryModelListener extends BaseModelListener<BlogsEntry> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		BlogsEntryModelListener.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditRouter _auditRouter;

@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -27,18 +28,25 @@ import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.AuditConstants;
 import com.liferay.portal.security.audit.storage.model.AuditEvent;
 import com.liferay.portal.security.audit.storage.service.AuditEventLocalService;
 
+import java.util.Map;
+
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Yousef Ghadiri
  */
-@Component(immediate = true, service = ModelListener.class)
+@Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
+	immediate = true, service = ModelListener.class
+)
 public class AuditEventModelListener extends BaseModelListener<AuditEvent> {
 
 	@Override
@@ -72,6 +80,13 @@ public class AuditEventModelListener extends BaseModelListener<AuditEvent> {
 		}
 	}
 
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
+	}
+
 	private void _sendNotificationToInstanceAdministrators(long companyId)
 		throws PortalException {
 
@@ -88,8 +103,9 @@ public class AuditEventModelListener extends BaseModelListener<AuditEvent> {
 		}
 	}
 
-	private static final int _AUDIT_THRESHOLD = 1000;
+	private static final int _AUDIT_THRESHOLD = 10000;
 
+	private volatile AuditConfiguration _auditConfiguration;
 	private long _auditCounter;
 
 	@Reference

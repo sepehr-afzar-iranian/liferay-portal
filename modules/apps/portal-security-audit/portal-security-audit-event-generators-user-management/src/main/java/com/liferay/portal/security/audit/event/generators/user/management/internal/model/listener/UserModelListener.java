@@ -14,6 +14,7 @@
 
 package com.liferay.portal.security.audit.event.generators.user.management.internal.model.listener;
 
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouter;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -24,6 +25,7 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.security.audit.configuration.AuditConfiguration;
 import com.liferay.portal.security.audit.event.generators.constants.EventTypes;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageHelperUtil;
 import com.liferay.portal.security.audit.event.generators.user.management.util.AuditMessageUserAssociationHelper;
@@ -33,16 +35,22 @@ import com.liferay.portal.security.audit.event.generators.util.AttributesBuilder
 import com.liferay.portal.security.audit.event.generators.util.AuditMessageBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Mika Koivisto
  * @author Brian Wing Shun Chan
  */
-@Component(immediate = true, service = ModelListener.class)
+@Component(
+	configurationPid = "com.liferay.portal.security.audit.configuration.AuditConfiguration",
+	immediate = true, service = ModelListener.class
+)
 public class UserModelListener extends BaseModelListener<User> {
 
 	public void onAfterAddAssociation(
@@ -63,6 +71,10 @@ public class UserModelListener extends BaseModelListener<User> {
 
 	@Override
 	public void onAfterUpdate(User user) throws ModelListenerException {
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
+
 		OnAfterUpdateUtil.update(User.class.getName(), user.getUserId());
 	}
 
@@ -75,6 +87,10 @@ public class UserModelListener extends BaseModelListener<User> {
 	}
 
 	public void onBeforeUpdate(User newUser) throws ModelListenerException {
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
+
 		try {
 			User oldUser = _userLocalService.getUser(newUser.getUserId());
 
@@ -115,9 +131,20 @@ public class UserModelListener extends BaseModelListener<User> {
 		}
 	}
 
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		_auditConfiguration = ConfigurableUtil.createConfigurable(
+			AuditConfiguration.class, properties);
+	}
+
 	protected void associationAudit(
 		String associationClassName, Object associationClassP, Object userId,
 		String eventType) {
+
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
 
 		try {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
@@ -170,6 +197,10 @@ public class UserModelListener extends BaseModelListener<User> {
 
 	protected void auditOnCreateOrRemove(String eventType, User user)
 		throws ModelListenerException {
+
+		if (!_auditConfiguration.enabled()) {
+			return;
+		}
 
 		try {
 			AuditMessage auditMessage = AuditMessageBuilder.buildAuditMessage(
@@ -249,6 +280,8 @@ public class UserModelListener extends BaseModelListener<User> {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UserModelListener.class);
+
+	private volatile AuditConfiguration _auditConfiguration;
 
 	@Reference
 	private AuditMessageUserAssociationHelper
