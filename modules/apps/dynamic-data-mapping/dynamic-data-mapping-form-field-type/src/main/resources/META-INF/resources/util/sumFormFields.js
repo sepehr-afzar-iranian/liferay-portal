@@ -81,12 +81,131 @@ export function sumFormFieldsValues(portletNamespace) {
 				}
 			}
 			if (showSumOfPayment) {
+				const nfFa = new Intl.NumberFormat('fa-IR');
 				document.getElementById(
 					portletNamespace + 'sumOfFields'
 				).innerHTML =
-					Liferay.Language.get('sum-of-payment') + ': ' + sum;
+					Liferay.Language.get('sum-of-payment') +
+					': ' +
+					nfFa.format(sum) +
+					'<br/>' +
+					numberToTomanWords(sum);
 			}
 		}
 	}
 	catch (e) {}
+}
+
+function numberToTomanWords(rialValue) {
+	if (typeof rialValue === 'string') {
+		rialValue = parseInt(rialValue.replace(/[^\d]/g, ''), 10);
+	}
+	if (isNaN(rialValue)) {
+		return '';
+	}
+
+	const toman = Math.floor(rialValue / 10); // تبدیل ریال به تومان
+
+	const yekan = [
+		'',
+		'یک',
+		'دو',
+		'سه',
+		'چهار',
+		'پنج',
+		'شش',
+		'هفت',
+		'هشت',
+		'نه',
+	];
+	const dahgan = [
+		'',
+		'',
+		'بیست',
+		'سی',
+		'چهل',
+		'پنجاه',
+		'شصت',
+		'هفتاد',
+		'هشتاد',
+		'نود',
+	];
+	const sadgan = [
+		'',
+		'یکصد',
+		'دویست',
+		'سیصد',
+		'چهارصد',
+		'پانصد',
+		'ششصد',
+		'هفتصد',
+		'هشتصد',
+		'نهصد',
+	];
+	const dah = [
+		'ده',
+		'یازده',
+		'دوازده',
+		'سیزده',
+		'چهارده',
+		'پانزده',
+		'شانزده',
+		'هفده',
+		'هجده',
+		'نوزده',
+	];
+	const groups = ['', 'هزار', 'میلیون', 'میلیارد', 'تریلیون'];
+
+	function threeDigitsToWord(n) {
+		let word = '';
+		const s = Math.floor(n / 100);
+		const d = Math.floor((n % 100) / 10);
+		const y = n % 10;
+
+		if (s !== 0) {
+			word += sadgan[s];
+		}
+		if (word && (d !== 0 || y !== 0)) {
+			word += ' و ';
+		}
+
+		if (d === 1) {
+			word += dah[y];
+		}
+		else {
+			if (d > 1) {
+				word += dahgan[d];
+			}
+			if (d > 1 && y !== 0) {
+				word += ' و ';
+			}
+			if (d !== 1 && y !== 0) {
+				word += yekan[y];
+			}
+		}
+
+		return word;
+	}
+
+	const numStr = toman.toString();
+	const groupsArr = [];
+	for (let i = 0; i < Math.ceil(numStr.length / 3); i++) {
+		const end = numStr.length - i * 3;
+		const start = Math.max(0, end - 3);
+		groupsArr.push(parseInt(numStr.substring(start, end), 10));
+	}
+
+	let result = '';
+	for (let j = groupsArr.length - 1; j >= 0; j--) {
+		const part = groupsArr[j];
+		if (part !== 0) {
+			if (result !== '') {
+				result += ' و ';
+			}
+			result +=
+				threeDigitsToWord(part) + (groups[j] ? ' ' + groups[j] : '');
+		}
+	}
+
+	return result ? result + ' تومان' : 'صفر تومان';
 }

@@ -57,8 +57,8 @@ import org.osgi.annotation.versioning.ProviderType;
 							value = {
 								"requireAuthentication", "requireCaptcha",
 								"confirmOnSubmit", "autosaveEnabled",
-								"redirectURL",
-								"storageType", "workflowDefinition"
+								"redirectURL", "storageType",
+								"workflowDefinition"
 							}
 						)
 					}
