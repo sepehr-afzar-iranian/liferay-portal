@@ -240,7 +240,7 @@ public class MySubscriptionsUtil {
 		"com.liferay.blogs.kernel.model.BlogsEntry";
 
 	private static final String _KNOWLEDGE_BASE_DISPLAY_PORTLET_ID =
-		"com_liferay_knowledge_base_web_portlet_DisplayPortlet";
+		"com_gelzobal_knowledge_base_web_portlet_DisplayPortlet";
 
 	private static final String _KNOWLEDGE_BASE_MODEL_CLASS_NAME =
 		"com.liferay.knowledge.base.model.KBArticle";

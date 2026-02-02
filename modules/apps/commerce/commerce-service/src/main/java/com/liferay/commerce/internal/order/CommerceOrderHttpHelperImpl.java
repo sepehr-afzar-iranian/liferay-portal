@@ -235,7 +235,7 @@ public class CommerceOrderHttpHelperImpl implements CommerceOrderHttpHelper {
 
 				portletURL = _portletURLFactory.create(
 					httpServletRequest,
-					"com_liferay_login_web_portlet_LoginPortlet", layout,
+					"com_gelzobal_login_web_portlet_LoginPortlet", layout,
 					PortletRequest.RENDER_PHASE);
 			}
 			else {

@@ -20,7 +20,7 @@ package com.liferay.portal.search.web.internal.low.level.search.options.constant
 public class LowLevelSearchOptionsPortletKeys {
 
 	public static final String LOW_LEVEL_SEARCH_OPTIONS =
-		"com_liferay_portal_search_web_low_level_search_options_portlet_" +
+		"com_gelzobal_portal_search_web_low_level_search_options_portlet_" +
 			"LowLevelSearchOptionsPortlet";
 
 }

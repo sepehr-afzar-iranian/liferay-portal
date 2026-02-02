@@ -20,7 +20,7 @@ package com.liferay.asset.categories.admin.web.constants;
 public class AssetCategoriesAdminPortletKeys {
 
 	public static final String ASSET_CATEGORIES_ADMIN =
-		"com_liferay_asset_categories_admin_web_portlet_" +
+		"com_gelzobal_asset_categories_admin_web_portlet_" +
 			"AssetCategoriesAdminPortlet";
 
 }

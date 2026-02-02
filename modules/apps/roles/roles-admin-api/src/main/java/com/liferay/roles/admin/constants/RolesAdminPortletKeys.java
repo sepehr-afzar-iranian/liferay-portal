@@ -20,6 +20,6 @@ package com.liferay.roles.admin.constants;
 public class RolesAdminPortletKeys {
 
 	public static final String ROLES_ADMIN =
-		"com_liferay_roles_admin_web_portlet_RolesAdminPortlet";
+		"com_gelzobal_roles_admin_web_portlet_RolesAdminPortlet";
 
 }

@@ -41,7 +41,7 @@
 	<@liferay_portlet["runtime"]
 		defaultPreferences=default_preferences
 		instanceId="siteNavigationMenuPortlet_main"
-		portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+		portletName="com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
 	/>
 </#macro>
 
@@ -49,7 +49,7 @@
 	<@liferay_portlet["runtime"]
 		defaultPreferences=default_preferences
 		instanceId="siteNavigationMenuPortlet_sub_navigation"
-		portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+		portletName="com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
 	/>
 </#macro>
 
@@ -57,7 +57,7 @@
 	<@liferay_portlet["runtime"]
 		defaultPreferences=default_preferences
 		instanceId="siteNavigationMenuPortlet_account"
-		portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+		portletName="com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
 	/>
 </#macro>
 
@@ -65,6 +65,6 @@
 	<@liferay_portlet["runtime"]
 		defaultPreferences=default_preferences
 		instanceId="cpAssetCategoriesNavigationPortlet_navigation_menu"
-		portletName="com_liferay_commerce_product_asset_categories_navigation_web_internal_portlet_CPAssetCategoriesNavigationPortlet"
+		portletName="com_gelzobal_commerce_product_asset_categories_navigation_web_internal_portlet_CPAssetCategoriesNavigationPortlet"
 	/>
 </#macro>

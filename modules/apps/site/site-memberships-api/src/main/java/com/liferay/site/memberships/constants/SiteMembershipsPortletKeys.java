@@ -20,6 +20,6 @@ package com.liferay.site.memberships.constants;
 public class SiteMembershipsPortletKeys {
 
 	public static final String SITE_MEMBERSHIPS_ADMIN =
-		"com_liferay_site_memberships_web_portlet_SiteMembershipsPortlet";
+		"com_gelzobal_site_memberships_web_portlet_SiteMembershipsPortlet";
 
 }

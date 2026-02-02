@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.oauth2.provider</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -23,7 +23,7 @@
 	<model-resource>
 		<model-name>com.liferay.oauth2.provider.model.OAuth2Application</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>

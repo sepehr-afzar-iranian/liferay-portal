@@ -20,7 +20,7 @@ package com.liferay.social.group.statistics.web.internal.constants;
 public class SocialGroupStatisticsPortletKeys {
 
 	public static final String SOCIAL_GROUP_STATISTICS =
-		"com_liferay_social_group_statistics_web_portlet_" +
+		"com_gelzobal_social_group_statistics_web_portlet_" +
 			"SocialGroupStatisticsPortlet";
 
 }

@@ -20,7 +20,7 @@ package com.liferay.invitation.invite.members.constants;
 public class InviteMembersPortletKeys {
 
 	public static final String INVITE_MEMBERS =
-		"com_liferay_invitation_invite_members_web_portlet_" +
+		"com_gelzobal_invitation_invite_members_web_portlet_" +
 			"InviteMembersPortlet";
 
 }

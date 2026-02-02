@@ -20,6 +20,6 @@ package com.liferay.youtube.web.internal.constants;
 public class YouTubePortletKeys {
 
 	public static final String YOUTUBE =
-		"com_liferay_youtube_web_portlet_YouTubePortlet";
+		"com_gelzobal_youtube_web_portlet_YouTubePortlet";
 
 }

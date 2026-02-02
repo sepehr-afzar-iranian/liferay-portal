@@ -20,6 +20,6 @@ package com.liferay.blogs.recent.bloggers.constants;
 public class RecentBloggersPortletKeys {
 
 	public static final String RECENT_BLOGGERS =
-		"com_liferay_blogs_recent_bloggers_web_portlet_RecentBloggersPortlet";
+		"com_gelzobal_blogs_recent_bloggers_web_portlet_RecentBloggersPortlet";
 
 }

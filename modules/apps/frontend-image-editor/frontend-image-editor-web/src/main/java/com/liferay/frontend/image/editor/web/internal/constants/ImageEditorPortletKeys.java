@@ -20,6 +20,6 @@ package com.liferay.frontend.image.editor.web.internal.constants;
 public class ImageEditorPortletKeys {
 
 	public static final String IMAGE_EDITOR =
-		"com_liferay_image_editor_web_portlet_ImageEditorPortlet";
+		"com_gelzobal_image_editor_web_portlet_ImageEditorPortlet";
 
 }

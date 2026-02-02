@@ -22,7 +22,7 @@ public class ClaySamplePortletKeys {
 	public static final String CARDS_DISPLAY_CONTEXT = "CARDS_DISPLAY_CONTEXT";
 
 	public static final String CLAY_SAMPLE =
-		"com_liferay_clay_sample_web_portlet_ClaySamplePortlet";
+		"com_gelzobal_clay_sample_web_portlet_ClaySamplePortlet";
 
 	public static final String DROPDOWNS_DISPLAY_CONTEXT =
 		"DROPDOWNS_DISPLAY_CONTEXT";

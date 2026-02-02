@@ -20,9 +20,9 @@ package com.liferay.wiki.navigation.web.internal.constants;
 public class WikiNavigationPortletKeys {
 
 	public static final String PAGE_MENU =
-		"com_liferay_wiki_navigation_web_portlet_WikiNavigationPageMenuPortlet";
+		"com_gelzobal_wiki_navigation_web_portlet_WikiNavigationPageMenuPortlet";
 
 	public static final String TREE_MENU =
-		"com_liferay_wiki_navigation_web_portlet_WikiNavigationTreeMenuPortlet";
+		"com_gelzobal_wiki_navigation_web_portlet_WikiNavigationTreeMenuPortlet";
 
 }

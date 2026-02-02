@@ -104,7 +104,7 @@ const fluidDataSetDisplayProps = {
 			},
 			{
 				href:
-					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
+					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
 				label: 75,
 			},
 		],
@@ -237,7 +237,7 @@ const emailsDataSetDisplayProps = {
 			},
 			{
 				href:
-					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
+					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
 				label: 75,
 			},
 		],
@@ -280,7 +280,7 @@ const selectableTableProps = {
 			},
 			{
 				href:
-					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
+					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
 				label: 75,
 			},
 		],
@@ -417,7 +417,7 @@ const ordersDataSetDisplayProps = {
 			},
 			{
 				href:
-					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
+					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
 				label: 75,
 			},
 		],
@@ -603,7 +603,7 @@ const productsDataSetDisplayProps = {
 			},
 			{
 				href:
-					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
+					'http://localhost:8080/group/test-1/pending-orders?p_p_id=com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOpenOrderContentPortlet_delta=75',
 				label: 75,
 			},
 		],

@@ -16,7 +16,7 @@ AUI.add(
 	'liferay-commerce-product-content',
 	(A) => {
 		var CP_CONTENT_WEB_PORTLET_KEY =
-			'com_liferay_commerce_product_content_web_internal_portlet_CPContentPortlet';
+			'com_gelzobal_commerce_product_content_web_internal_portlet_CPContentPortlet';
 
 		var CP_INSTANCE_CHANGE_EVENT = 'CPInstance:change';
 

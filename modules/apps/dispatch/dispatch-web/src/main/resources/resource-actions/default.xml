@@ -3,7 +3,7 @@
 
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>com_liferay_dispatch_web_internal_portlet_DispatchPortlet</portlet-name>
+		<portlet-name>com_gelzobal_dispatch_web_internal_portlet_DispatchPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>

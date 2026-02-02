@@ -20,7 +20,7 @@ package com.liferay.journal.content.search.web.internal.constants;
 public class JournalContentSearchPortletKeys {
 
 	public static final String JOURNAL_CONTENT_SEARCH =
-		"com_liferay_journal_content_search_web_portlet_" +
+		"com_gelzobal_journal_content_search_web_portlet_" +
 			"JournalContentSearchPortlet";
 
 }

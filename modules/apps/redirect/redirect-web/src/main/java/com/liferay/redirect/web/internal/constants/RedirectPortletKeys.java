@@ -20,6 +20,6 @@ package com.liferay.redirect.web.internal.constants;
 public class RedirectPortletKeys {
 
 	public static final String REDIRECT =
-		"com_liferay_redirect_web_internal_portlet_RedirectPortlet";
+		"com_gelzobal_redirect_web_internal_portlet_RedirectPortlet";
 
 }

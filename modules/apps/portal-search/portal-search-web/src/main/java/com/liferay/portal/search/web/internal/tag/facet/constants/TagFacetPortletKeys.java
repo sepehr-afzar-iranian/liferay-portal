@@ -20,6 +20,6 @@ package com.liferay.portal.search.web.internal.tag.facet.constants;
 public class TagFacetPortletKeys {
 
 	public static final String TAG_FACET =
-		"com_liferay_portal_search_web_tag_facet_portlet_TagFacetPortlet";
+		"com_gelzobal_portal_search_web_tag_facet_portlet_TagFacetPortlet";
 
 }

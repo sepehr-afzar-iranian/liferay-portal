@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.portal.workflow.kaleo.designer</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_portal_workflow_kaleo_designer_web_portlet_KaleoDesignerPortlet</portlet-name>
+			<portlet-name>com_gelzobal_portal_workflow_kaleo_designer_web_portlet_KaleoDesignerPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<permissions>
@@ -26,7 +26,7 @@
 	<model-resource>
 		<model-name>com.liferay.portal.workflow.kaleo.designer</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_portal_workflow_web_portlet_ControlPanelWorkflowPortlet</portlet-name>
+			<portlet-name>com_gelzobal_portal_workflow_web_portlet_ControlPanelWorkflowPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<permissions>
@@ -47,7 +47,7 @@
 	<model-resource>
 		<model-name>com.liferay.portal.workflow.kaleo.model.KaleoDefinitionVersion</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_portal_workflow_kaleo_designer_web_portlet_KaleoDesignerPortlet</portlet-name>
+			<portlet-name>com_gelzobal_portal_workflow_kaleo_designer_web_portlet_KaleoDesignerPortlet</portlet-name>
 		</portlet-ref>
 		<permissions>
 			<supports>

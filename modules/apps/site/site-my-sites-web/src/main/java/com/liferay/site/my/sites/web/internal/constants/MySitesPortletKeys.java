@@ -20,6 +20,6 @@ package com.liferay.site.my.sites.web.internal.constants;
 public class MySitesPortletKeys {
 
 	public static final String MY_SITES =
-		"com_liferay_site_my_sites_web_portlet_MySitesPortlet";
+		"com_gelzobal_site_my_sites_web_portlet_MySitesPortlet";
 
 }

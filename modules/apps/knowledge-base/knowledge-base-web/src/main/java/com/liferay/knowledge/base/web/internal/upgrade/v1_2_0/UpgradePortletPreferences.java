@@ -51,10 +51,10 @@ public class UpgradePortletPreferences extends BaseUpgradePortletPreferences {
 	}
 
 	private static final String[] _PORTLET_IDS = {
-		"com_liferay_knowledge_base_web_portlet_ArticlePortlet_INSTANCE_%",
-		"com_liferay_knowledge_base_web_portlet_DisplayPortlet",
-		"com_liferay_knowledge_base_web_portlet_SearchPortlet",
-		"com_liferay_knowledge_base_web_portlet_SectionPortlet_INSTANCE_%"
+		"com_gelzobal_knowledge_base_web_portlet_ArticlePortlet_INSTANCE_%",
+		"com_gelzobal_knowledge_base_web_portlet_DisplayPortlet",
+		"com_gelzobal_knowledge_base_web_portlet_SearchPortlet",
+		"com_gelzobal_knowledge_base_web_portlet_SectionPortlet_INSTANCE_%"
 	};
 
 }

@@ -26,7 +26,7 @@ public class UpgradePortletPreferences extends BaseUpgradePortletPreferences {
 
 	@Override
 	protected String[] getPortletIds() {
-		return new String[] {"com_liferay_blogs_web_portlet_BlogsPortlet"};
+		return new String[] {"com_gelzobal_blogs_web_portlet_BlogsPortlet"};
 	}
 
 	@Override

@@ -20,6 +20,6 @@ package com.liferay.asset.tags.selector.web.internal.constants;
 public class AssetTagsSelectorPortletKeys {
 
 	public static final String ASSET_TAGS_SELECTOR =
-		"com_liferay_asset_tags_selector_web_portlet_AssetTagsSelectorPortlet";
+		"com_gelzobal_asset_tags_selector_web_portlet_AssetTagsSelectorPortlet";
 
 }

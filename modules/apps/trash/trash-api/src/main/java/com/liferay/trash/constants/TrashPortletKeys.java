@@ -23,6 +23,6 @@ package com.liferay.trash.constants;
 public class TrashPortletKeys {
 
 	public static final String TRASH =
-		"com_liferay_trash_web_portlet_TrashPortlet";
+		"com_gelzobal_trash_web_portlet_TrashPortlet";
 
 }

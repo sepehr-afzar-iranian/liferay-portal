@@ -24,6 +24,6 @@ public class PortalSettingsPortletKeys {
 	 */
 	@Deprecated
 	public static final String PORTAL_SETTINGS =
-		"com_liferay_portal_settings_web_portlet_PortalSettingsPortlet";
+		"com_gelzobal_portal_settings_web_portlet_PortalSettingsPortlet";
 
 }

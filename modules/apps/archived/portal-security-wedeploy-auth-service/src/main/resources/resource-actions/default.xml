@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.portal.security.wedeploy.auth</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_portal_security_wedeploy_auth_web_internal_portlet_WeDeployAuthAdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_portal_security_wedeploy_auth_web_internal_portlet_WeDeployAuthAdminPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -24,7 +24,7 @@
 	<model-resource>
 		<model-name>com.liferay.portal.security.wedeploy.auth.model.WeDeployAuthApp</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_portal_security_wedeploy_auth_web_internal_portlet_WeDeployAuthAdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_portal_security_wedeploy_auth_web_internal_portlet_WeDeployAuthAdminPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>2</weight>

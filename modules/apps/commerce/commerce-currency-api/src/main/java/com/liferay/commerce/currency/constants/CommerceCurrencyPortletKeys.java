@@ -20,7 +20,7 @@ package com.liferay.commerce.currency.constants;
 public class CommerceCurrencyPortletKeys {
 
 	public static final String COMMERCE_CURRENCY =
-		"com_liferay_commerce_currency_web_internal_portlet_" +
+		"com_gelzobal_commerce_currency_web_internal_portlet_" +
 			"CommerceCurrencyPortlet";
 
 }

@@ -21,9 +21,9 @@ package com.liferay.polls.constants;
 public class PollsPortletKeys {
 
 	public static final String POLLS =
-		"com_liferay_polls_web_portlet_PollsPortlet";
+		"com_gelzobal_polls_web_portlet_PollsPortlet";
 
 	public static final String POLLS_DISPLAY =
-		"com_liferay_polls_web_portlet_PollsDisplayPortlet";
+		"com_gelzobal_polls_web_portlet_PollsDisplayPortlet";
 
 }

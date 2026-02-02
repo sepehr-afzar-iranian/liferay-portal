@@ -20,6 +20,6 @@ package com.liferay.ratings.page.ratings.constants;
 public class PageRatingsPortletKeys {
 
 	public static final String PAGE_RATINGS =
-		"com_liferay_ratings_page_ratings_web_portlet_PageRatingsPortlet";
+		"com_gelzobal_ratings_page_ratings_web_portlet_PageRatingsPortlet";
 
 }

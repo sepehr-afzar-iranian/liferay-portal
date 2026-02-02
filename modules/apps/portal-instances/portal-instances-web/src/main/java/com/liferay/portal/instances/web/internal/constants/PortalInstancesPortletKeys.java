@@ -20,6 +20,6 @@ package com.liferay.portal.instances.web.internal.constants;
 public class PortalInstancesPortletKeys {
 
 	public static final String PORTAL_INSTANCES =
-		"com_liferay_portal_instances_web_portlet_PortalInstancesPortlet";
+		"com_gelzobal_portal_instances_web_portlet_PortalInstancesPortlet";
 
 }

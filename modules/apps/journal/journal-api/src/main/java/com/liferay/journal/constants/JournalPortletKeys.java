@@ -20,6 +20,6 @@ package com.liferay.journal.constants;
 public class JournalPortletKeys {
 
 	public static final String JOURNAL =
-		"com_liferay_journal_web_portlet_JournalPortlet";
+		"com_gelzobal_journal_web_portlet_JournalPortlet";
 
 }

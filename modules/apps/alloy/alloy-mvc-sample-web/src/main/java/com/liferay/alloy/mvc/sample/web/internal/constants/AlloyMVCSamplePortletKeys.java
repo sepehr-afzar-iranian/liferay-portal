@@ -20,7 +20,7 @@ package com.liferay.alloy.mvc.sample.web.internal.constants;
 public class AlloyMVCSamplePortletKeys {
 
 	public static final String ALLOY_MVC_SAMPLE =
-		"com_liferay_alloy_mvc_sample_web_internal_portlet_" +
+		"com_gelzobal_alloy_mvc_sample_web_internal_portlet_" +
 			"AlloyMVCSamplePortlet";
 
 }

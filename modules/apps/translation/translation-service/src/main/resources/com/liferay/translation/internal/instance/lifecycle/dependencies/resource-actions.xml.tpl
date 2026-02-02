@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.translation.[$LANGUAGE_ID$]</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_translation_web_internal_portlet_TranslationPortlet</portlet-name>
+			<portlet-name>com_gelzobal_translation_web_internal_portlet_TranslationPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>[$WEIGHT$]</weight>

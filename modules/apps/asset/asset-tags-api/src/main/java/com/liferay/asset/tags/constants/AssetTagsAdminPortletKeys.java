@@ -20,6 +20,6 @@ package com.liferay.asset.tags.constants;
 public class AssetTagsAdminPortletKeys {
 
 	public static final String ASSET_TAGS_ADMIN =
-		"com_liferay_asset_tags_admin_web_portlet_AssetTagsAdminPortlet";
+		"com_gelzobal_asset_tags_admin_web_portlet_AssetTagsAdminPortlet";
 
 }

@@ -20,6 +20,6 @@ package com.liferay.asset.display.web.internal.constants;
 public class AssetDisplayPortletKeys {
 
 	public static final String ASSET_DISPLAY =
-		"com_liferay_asset_display_web_portlet_AssetDisplayPortlet";
+		"com_gelzobal_asset_display_web_portlet_AssetDisplayPortlet";
 
 }

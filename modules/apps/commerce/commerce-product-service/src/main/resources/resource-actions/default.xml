@@ -33,10 +33,10 @@
 	<model-resource>
 		<model-name>com.liferay.commerce.product</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_commerce_product_definitions_web_internal_portlet_CPDefinitionsPortlet</portlet-name>
-			<portlet-name>com_liferay_commerce_product_options_web_internal_portlet_CPOptionCategoriesPortlet</portlet-name>
-			<portlet-name>com_liferay_commerce_product_options_web_internal_portlet_CPOptionsPortlet</portlet-name>
-			<portlet-name>com_liferay_commerce_product_options_web_internal_portlet_CPSpecificationOptionsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_product_definitions_web_internal_portlet_CPDefinitionsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_product_options_web_internal_portlet_CPOptionCategoriesPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_product_options_web_internal_portlet_CPOptionsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_product_options_web_internal_portlet_CPSpecificationOptionsPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -65,7 +65,7 @@
 	<model-resource>
 		<model-name>com.liferay.commerce.product.model.CommerceCatalog</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>
@@ -94,7 +94,7 @@
 	<model-resource>
 		<model-name>com.liferay.commerce.product.model.CommerceChannel</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_commerce_channel_web_internal_portlet_CommerceChannelsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_channel_web_internal_portlet_CommerceChannelsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>
@@ -122,7 +122,7 @@
 	<model-resource>
 		<model-name>com.liferay.commerce.product.model.CPOption</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>
@@ -151,7 +151,7 @@
 	<model-resource>
 		<model-name>com.liferay.commerce.product.model.CPOptionCategory</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>
@@ -180,7 +180,7 @@
 	<model-resource>
 		<model-name>com.liferay.commerce.product.model.CPSpecificationOption</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>4</weight>
 		<permissions>

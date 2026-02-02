@@ -20,10 +20,10 @@ package com.liferay.asset.tags.navigation.constants;
 public class AssetTagsNavigationPortletKeys {
 
 	public static final String ASSET_TAGS_CLOUD =
-		"com_liferay_asset_tags_navigation_web_portlet_AssetTagsCloudPortlet";
+		"com_gelzobal_asset_tags_navigation_web_portlet_AssetTagsCloudPortlet";
 
 	public static final String ASSET_TAGS_NAVIGATION =
-		"com_liferay_asset_tags_navigation_web_portlet_" +
+		"com_gelzobal_asset_tags_navigation_web_portlet_" +
 			"AssetTagsNavigationPortlet";
 
 }

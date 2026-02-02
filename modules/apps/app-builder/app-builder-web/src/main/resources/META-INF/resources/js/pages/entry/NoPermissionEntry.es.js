@@ -32,7 +32,7 @@ export default () => {
 			let signInURL = `${origin}/c/portal/login`;
 
 			signInURL = Liferay.Util.addParams(
-				`p_p_id=com_liferay_login_web_portlet_LoginPortlet`,
+				`p_p_id=com_gelzobal_login_web_portlet_LoginPortlet`,
 				signInURL
 			);
 			signInURL = Liferay.Util.addParams(
@@ -54,7 +54,7 @@ export default () => {
 				height: '400px',
 				onOpen: () =>
 					Liferay.Util.focusFormField(
-						'.modal #_com_liferay_login_web_portlet_LoginPortlet_login'
+						'.modal #_com_gelzobal_login_web_portlet_LoginPortlet_login'
 					),
 				size: 'md',
 				title: Liferay.Language.get('sign-in'),

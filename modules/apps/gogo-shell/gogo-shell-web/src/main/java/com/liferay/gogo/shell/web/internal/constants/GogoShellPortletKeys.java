@@ -20,6 +20,6 @@ package com.liferay.gogo.shell.web.internal.constants;
 public class GogoShellPortletKeys {
 
 	public static final String GOGO_SHELL =
-		"com_liferay_gogo_shell_web_internal_portlet_GogoShellPortlet";
+		"com_gelzobal_gogo_shell_web_internal_portlet_GogoShellPortlet";
 
 }

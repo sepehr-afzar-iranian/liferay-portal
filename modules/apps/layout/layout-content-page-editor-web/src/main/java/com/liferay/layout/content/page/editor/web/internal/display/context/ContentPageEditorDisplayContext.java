@@ -2274,7 +2274,7 @@ public class ContentPageEditorDisplayContext {
 	}
 
 	private static final String[] _UNSUPPORTED_PORTLETS_NAMES = {
-		"com_liferay_nested_portlets_web_portlet_NestedPortletsPortlet"
+		"com_gelzobal_nested_portlets_web_portlet_NestedPortletsPortlet"
 	};
 
 	private static final Log _log = LogFactoryUtil.getLog(

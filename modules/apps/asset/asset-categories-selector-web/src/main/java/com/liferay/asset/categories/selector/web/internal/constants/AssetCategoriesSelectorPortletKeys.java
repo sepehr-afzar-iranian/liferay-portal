@@ -20,7 +20,7 @@ package com.liferay.asset.categories.selector.web.internal.constants;
 public class AssetCategoriesSelectorPortletKeys {
 
 	public static final String ASSET_CATEGORIES_SELECTOR =
-		"com_liferay_asset_categories_selector_web_portlet_" +
+		"com_gelzobal_asset_categories_selector_web_portlet_" +
 			"AssetCategoriesSelectorPortlet";
 
 }

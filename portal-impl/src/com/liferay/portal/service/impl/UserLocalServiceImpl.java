@@ -7283,7 +7283,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 			for (User adminUser : userLocalService.getRoleUsers(role.getRoleId())) {
 				UserNotificationEventLocalServiceUtil.sendUserNotificationEvents(
-						adminUser.getUserId(), "com_liferay_integrity_check_failed_portlet",
+						adminUser.getUserId(), "com_gelzobal_integrity_check_failed_portlet",
 						10002,
 						payloadjsonObject);
 			}

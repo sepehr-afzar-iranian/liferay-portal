@@ -20,7 +20,7 @@ package com.liferay.product.navigation.simulation.constants;
 public class ProductNavigationSimulationPortletKeys {
 
 	public static final String PRODUCT_NAVIGATION_SIMULATION =
-		"com_liferay_product_navigation_simulation_web_portlet_" +
+		"com_gelzobal_product_navigation_simulation_web_portlet_" +
 			"SimulationPortlet";
 
 }

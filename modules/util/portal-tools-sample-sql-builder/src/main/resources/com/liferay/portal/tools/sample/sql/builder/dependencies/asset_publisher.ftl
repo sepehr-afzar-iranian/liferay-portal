@@ -2,7 +2,7 @@
 
 <#list pageCounts as pageCount>
 	<#assign
-		portletId = dataFactory.getPortletId("com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_INSTANCE_")
+		portletId = dataFactory.getPortletId("com_gelzobal_asset_publisher_web_portlet_AssetPublisherPortlet_INSTANCE_")
 
 		layoutModel = dataFactory.newLayoutModel(groupId, groupId + "_asset_publisher_" + pageCount, "", portletId)
 	/>

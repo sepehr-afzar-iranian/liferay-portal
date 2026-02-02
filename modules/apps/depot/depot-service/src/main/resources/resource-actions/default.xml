@@ -5,8 +5,8 @@
 	<model-resource>
 		<model-name>com.liferay.depot</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_depot_web_portlet_DepotAdminPortlet</portlet-name>
-			<portlet-name>com_liferay_depot_web_portlet_DepotSettingsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_depot_web_portlet_DepotAdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_depot_web_portlet_DepotSettingsPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -23,8 +23,8 @@
 	<model-resource>
 		<model-name>com.liferay.depot.model.DepotEntry</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_depot_web_portlet_DepotAdminPortlet</portlet-name>
-			<portlet-name>com_liferay_depot_web_portlet_DepotSettingsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_depot_web_portlet_DepotAdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_depot_web_portlet_DepotSettingsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>

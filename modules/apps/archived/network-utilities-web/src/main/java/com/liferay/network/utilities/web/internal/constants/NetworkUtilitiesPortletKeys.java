@@ -20,6 +20,6 @@ package com.liferay.network.utilities.web.internal.constants;
 public class NetworkUtilitiesPortletKeys {
 
 	public static final String NETWORK_UTILITIES =
-		"com_liferay_network_utilities_web_portlet_NetworkUtilitiesPortlet";
+		"com_gelzobal_network_utilities_web_portlet_NetworkUtilitiesPortlet";
 
 }

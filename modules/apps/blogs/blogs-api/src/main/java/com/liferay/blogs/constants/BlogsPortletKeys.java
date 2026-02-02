@@ -20,12 +20,12 @@ package com.liferay.blogs.constants;
 public class BlogsPortletKeys {
 
 	public static final String BLOGS =
-		"com_liferay_blogs_web_portlet_BlogsPortlet";
+		"com_gelzobal_blogs_web_portlet_BlogsPortlet";
 
 	public static final String BLOGS_ADMIN =
-		"com_liferay_blogs_web_portlet_BlogsAdminPortlet";
+		"com_gelzobal_blogs_web_portlet_BlogsAdminPortlet";
 
 	public static final String BLOGS_AGGREGATOR =
-		"com_liferay_blogs_web_portlet_BlogsAgreggatorPortlet";
+		"com_gelzobal_blogs_web_portlet_BlogsAgreggatorPortlet";
 
 }

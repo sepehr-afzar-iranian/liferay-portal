@@ -30,6 +30,6 @@ public class UpgradeDDMFormPortletId extends BaseUpgradePortletId {
 	}
 
 	private static final String _OLD_PORTLET_NAME =
-		"com_liferay_dynamic_data_lists_form_web_portlet_DDLFormPortlet";
+		"com_gelzobal_dynamic_data_lists_form_web_portlet_DDLFormPortlet";
 
 }

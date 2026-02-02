@@ -20,6 +20,6 @@ package com.liferay.questions.web.internal.constants;
 public class QuestionsPortletKeys {
 
 	public static final String QUESTIONS =
-		"com_liferay_questions_web_internal_portlet_QuestionsPortlet";
+		"com_gelzobal_questions_web_internal_portlet_QuestionsPortlet";
 
 }

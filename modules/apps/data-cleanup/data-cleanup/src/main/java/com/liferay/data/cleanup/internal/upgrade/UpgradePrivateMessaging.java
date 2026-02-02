@@ -38,12 +38,12 @@ public class UpgradePrivateMessaging extends UpgradeProcess {
 
 		runSQL(
 			"delete from Portlet where portletId = " +
-				"'com_liferay_social_privatemessaging_web_portlet_" +
+				"'com_gelzobal_social_privatemessaging_web_portlet_" +
 					"PrivateMessagingPortlet'");
 
 		runSQL(
 			"delete from PortletPreferences where portletId =" +
-				"'com_liferay_social_privatemessaging_web_portlet_" +
+				"'com_gelzobal_social_privatemessaging_web_portlet_" +
 					"PrivateMessagingPortlet'");
 
 		runSQL(
@@ -61,7 +61,7 @@ public class UpgradePrivateMessaging extends UpgradeProcess {
 
 		LayoutTypeSettingsUtil.removePortletId(
 			connection,
-			"com_liferay_social_privatemessaging_web_portlet_" +
+			"com_gelzobal_social_privatemessaging_web_portlet_" +
 				"PrivateMessagingPortlet");
 	}
 

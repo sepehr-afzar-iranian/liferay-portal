@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.push.notifications</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_push_notifications_web_portlet_PushNotificationsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_push_notifications_web_portlet_PushNotificationsPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<permissions>

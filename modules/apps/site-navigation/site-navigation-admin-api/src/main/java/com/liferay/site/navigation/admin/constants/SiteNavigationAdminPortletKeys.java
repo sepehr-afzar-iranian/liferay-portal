@@ -20,7 +20,7 @@ package com.liferay.site.navigation.admin.constants;
 public class SiteNavigationAdminPortletKeys {
 
 	public static final String SITE_NAVIGATION_ADMIN =
-		"com_liferay_site_navigation_admin_web_portlet_" +
+		"com_gelzobal_site_navigation_admin_web_portlet_" +
 			"SiteNavigationAdminPortlet";
 
 }

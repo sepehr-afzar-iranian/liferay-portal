@@ -20,6 +20,6 @@ package com.liferay.exportimport.changeset.constants;
 public class ChangesetPortletKeys {
 
 	public static final String CHANGESET =
-		"com_liferay_exportimport_web_portlet_ChangesetPortlet";
+		"com_gelzobal_exportimport_web_portlet_ChangesetPortlet";
 
 }

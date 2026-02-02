@@ -20,6 +20,6 @@ package com.liferay.mail.reader.constants;
 public class MailPortletKeys {
 
 	public static final String MAIL =
-		"com_liferay_mail_reader_web_portlet_MailPortlet";
+		"com_gelzobal_mail_reader_web_portlet_MailPortlet";
 
 }

@@ -20,7 +20,7 @@ package com.liferay.site.navigation.site.map.web.internal.constants;
 public class SiteNavigationSiteMapPortletKeys {
 
 	public static final String SITE_NAVIGATION_SITE_MAP =
-		"com_liferay_site_navigation_site_map_web_portlet_" +
+		"com_gelzobal_site_navigation_site_map_web_portlet_" +
 			"SiteNavigationSiteMapPortlet";
 
 }

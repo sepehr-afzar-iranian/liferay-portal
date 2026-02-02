@@ -1,7 +1,7 @@
 [
 	{
 		"instanceId": "siteNavigationMenuPortlet_main",
-		"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet",
+		"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet",
 		"portletPreferences": {
 			"displayDepth": "0",
 			"displayStyle": {
@@ -20,7 +20,7 @@
 	},
 	{
 		"instanceId": "siteNavigationMenuPortlet_sub_navigation",
-		"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet",
+		"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet",
 		"portletPreferences": {
 			"displayDepth": "0",
 			"displayStyle": {

@@ -55,7 +55,7 @@ export default [
 												en_US: '',
 											},
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$label$8pq3ebts$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$label$8pq3ebts$0$$en_US',
 											options: [],
 											placeholder: 'Enter a field label.',
 											readOnly: false,
@@ -87,7 +87,7 @@ export default [
 												en_US: '',
 											},
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$placeholder$zmV8qWxR$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$placeholder$zmV8qWxR$0$$en_US',
 											options: [],
 											placeholder: '',
 											readOnly: false,
@@ -119,7 +119,7 @@ export default [
 												en_US: '',
 											},
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$tip$jJZMaLY1$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$tip$jJZMaLY1$0$$en_US',
 											options: [],
 											placeholder: '',
 											readOnly: false,
@@ -148,7 +148,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$displayStyle$BBfGojRv$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$displayStyle$BBfGojRv$0$$en_US',
 											options: [
 												{
 													label: 'Single Line',
@@ -182,7 +182,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$required$vCcPZTUj$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$required$vCcPZTUj$0$$en_US',
 											options: [],
 											predefinedValue: false,
 											readOnly: false,
@@ -232,7 +232,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$name$5NHpep5F$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$name$5NHpep5F$0$$en_US',
 											options: [],
 											placeholder: '',
 											readOnly: false,
@@ -262,7 +262,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$fieldReference$5NHpep5F$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$fieldReference$5NHpep5F$0$$en_US',
 											options: [],
 											placeholder: '',
 											readOnly: false,
@@ -293,7 +293,7 @@ export default [
 												en_US: '',
 											},
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$predefinedValue$S6iXqRJS$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$predefinedValue$S6iXqRJS$0$$en_US',
 											options: [],
 											placeholder:
 												'Enter a default value.',
@@ -324,7 +324,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$visibilityExpression$ClIWK0Ma$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$visibilityExpression$ClIWK0Ma$0$$en_US',
 											options: [],
 											placeholder:
 												'equals(Country, "US")',
@@ -354,7 +354,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$fieldNamespace$tYtvfUOf$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$fieldNamespace$tYtvfUOf$0$$en_US',
 											options: [],
 											placeholder: '',
 											readOnly: false,
@@ -381,7 +381,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$indexType$obGPaKnj$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$indexType$obGPaKnj$0$$en_US',
 											options: [
 												{
 													label: 'Disable',
@@ -419,7 +419,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$localizable$wPI1XOin$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$localizable$wPI1XOin$0$$en_US',
 											options: [],
 											predefinedValue: true,
 											readOnly: false,
@@ -445,7 +445,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$readOnly$gjoyDWXU$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$readOnly$gjoyDWXU$0$$en_US',
 											options: [],
 											predefinedValue: false,
 											readOnly: false,
@@ -474,7 +474,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$dataType$uUkcnbE5$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$dataType$uUkcnbE5$0$$en_US',
 											options: [],
 											placeholder: '',
 											predefinedValue: 'string',
@@ -504,7 +504,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$type$P3DoEVz9$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$type$P3DoEVz9$0$$en_US',
 											options: [],
 											placeholder: '',
 											readOnly: false,
@@ -530,7 +530,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$showLabel$wcv4ym60$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$showLabel$wcv4ym60$0$$en_US',
 											options: [],
 											predefinedValue: true,
 											readOnly: false,
@@ -556,7 +556,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$repeatable$pVXy89Ok$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$repeatable$pVXy89Ok$0$$en_US',
 											options: [],
 											predefinedValue: false,
 											readOnly: false,
@@ -583,7 +583,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$validation$hJEbyIqR$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$validation$hJEbyIqR$0$$en_US',
 											options: [],
 											readOnly: false,
 											repeatable: false,
@@ -622,7 +622,7 @@ export default [
 												en_US: '',
 											},
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$tooltip$g2M5ceC1$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$tooltip$g2M5ceC1$0$$en_US',
 											options: [],
 											placeholder: '',
 											readOnly: false,
@@ -669,7 +669,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$autocomplete$zj6v70b0$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$autocomplete$zj6v70b0$0$$en_US',
 											options: [],
 											predefinedValue: false,
 											readOnly: false,
@@ -697,7 +697,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$dataSourceType$ew11dFA7$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$dataSourceType$ew11dFA7$0$$en_US',
 											options: [
 												{
 													label: 'Manually',
@@ -735,7 +735,7 @@ export default [
 											localizable: false,
 											multiple: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$ddmDataProviderInstanceId$4wb9VlKZ$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$ddmDataProviderInstanceId$4wb9VlKZ$0$$en_US',
 											options: [],
 											predefinedValue: [],
 											readOnly: false,
@@ -774,7 +774,7 @@ export default [
 											localizable: false,
 											multiple: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$ddmDataProviderInstanceOutput$g5IduymJ$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$ddmDataProviderInstanceOutput$g5IduymJ$0$$en_US',
 											options: [],
 											predefinedValue: [],
 											readOnly: false,
@@ -812,7 +812,7 @@ export default [
 											locale: 'en_US',
 											localizable: false,
 											name:
-												'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$options$ty1koDSW$0$$en_US',
+												'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_ddm$$options$ty1koDSW$0$$en_US',
 											options: [],
 											readOnly: false,
 											repeatable: false,
@@ -844,7 +844,7 @@ export default [
 			],
 			paginationMode: 'tabbed',
 			portletNamespace:
-				'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_',
+				'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet_',
 			readOnly: false,
 			rules: [
 				{

@@ -28,15 +28,15 @@ public class UpgradeTwitter extends UpgradeProcess {
 				"'com.liferay.twitter.model.Feed'");
 
 		LayoutTypeSettingsUtil.removePortletId(
-			connection, "com_liferay_twitter_web_portlet_TwitterPortlet");
+			connection, "com_gelzobal_twitter_web_portlet_TwitterPortlet");
 
 		runSQL(
 			"delete from Portlet where portletId = " +
-				"'com_liferay_twitter_web_portlet_TwitterPortlet'");
+				"'com_gelzobal_twitter_web_portlet_TwitterPortlet'");
 
 		runSQL(
 			"delete from PortletPreferences where portletId = " +
-				"'com_liferay_twitter_web_portlet_TwitterPortlet'");
+				"'com_gelzobal_twitter_web_portlet_TwitterPortlet'");
 
 		runSQL(
 			"delete from Release_ where servletContextName = " +

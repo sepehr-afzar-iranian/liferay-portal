@@ -35,7 +35,7 @@ public class UpgradeResourceAction extends UpgradeProcess {
 	protected void doUpgrade() throws Exception {
 		List<ResourceAction> resourceActions =
 			_resourceActionLocalService.getResourceActions(
-				"com_liferay_dynamic_data_lists_form_web_portlet_" +
+				"com_gelzobal_dynamic_data_lists_form_web_portlet_" +
 					"DDLFormAdminPortlet");
 
 		for (ResourceAction resourceAction : resourceActions) {

@@ -20,6 +20,6 @@ package com.liferay.dictionary.web.internal.constants;
 public class DictionaryPortletKeys {
 
 	public static final String DICTIONARY =
-		"com_liferay_dictionary_web_portlet_DictionaryPortlet";
+		"com_gelzobal_dictionary_web_portlet_DictionaryPortlet";
 
 }

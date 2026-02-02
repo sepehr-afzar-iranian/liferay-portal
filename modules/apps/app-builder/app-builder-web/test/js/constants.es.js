@@ -358,10 +358,10 @@ export const dataLayoutBuilderConfig = {
 	},
 	context: {},
 	dataLayoutBuilderId:
-		'_com_liferay_journal_web_portlet_JournalPortlet_dataLayoutBuilder',
+		'_com_gelzobal_journal_web_portlet_JournalPortlet_dataLayoutBuilder',
 	fieldTypes: [],
 	localizable: true,
-	portletNamespace: 'com_liferay_journal_web_portlet_JournalPortlet',
+	portletNamespace: 'com_gelzobal_journal_web_portlet_JournalPortlet',
 };
 
 const dataLayoutBuilder = new DataLayoutBuilder.default(

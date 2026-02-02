@@ -24,7 +24,7 @@ public class UpgradeInvitation extends BaseUpgradeNoninstanceablePortlet {
 		removePortlet(
 			"com.liferay.invitation.web", null,
 			new String[] {
-				"com_liferay_invitation_web_portlet_InvitationPortlet"
+				"com_gelzobal_invitation_web_portlet_InvitationPortlet"
 			});
 	}
 

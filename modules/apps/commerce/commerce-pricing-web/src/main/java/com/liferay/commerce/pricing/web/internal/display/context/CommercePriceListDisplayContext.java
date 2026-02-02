@@ -422,7 +422,7 @@ public class CommercePriceListDisplayContext
 	private String _getManagePriceListPermissionsURL() throws PortalException {
 		PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
 			httpServletRequest,
-			"com_liferay_portlet_configuration_web_portlet_" +
+			"com_gelzobal_portlet_configuration_web_portlet_" +
 				"PortletConfigurationPortlet",
 			ActionRequest.RENDER_PHASE);
 

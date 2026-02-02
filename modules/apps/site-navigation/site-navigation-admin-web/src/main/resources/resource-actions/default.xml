@@ -3,7 +3,7 @@
 
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>com_liferay_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
+		<portlet-name>com_gelzobal_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>

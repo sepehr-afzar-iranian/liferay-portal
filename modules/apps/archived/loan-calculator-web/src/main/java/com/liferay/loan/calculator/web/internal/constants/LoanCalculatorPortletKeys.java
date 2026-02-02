@@ -20,6 +20,6 @@ package com.liferay.loan.calculator.web.internal.constants;
 public class LoanCalculatorPortletKeys {
 
 	public static final String LOAN_CALCULATOR =
-		"com_liferay_loan_calculator_portlet_LoanCalculatorPortlet";
+		"com_gelzobal_loan_calculator_portlet_LoanCalculatorPortlet";
 
 }

@@ -20,7 +20,7 @@ package com.liferay.marketplace.app.manager.web.internal.constants;
 public class MarketplaceAppManagerPortletKeys {
 
 	public static final String MARKETPLACE_APP_MANAGER =
-		"com_liferay_marketplace_app_manager_web_portlet_" +
+		"com_gelzobal_marketplace_app_manager_web_portlet_" +
 			"MarketplaceAppManagerPortlet";
 
 }

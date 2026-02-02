@@ -674,7 +674,7 @@ public class CommerceDiscountDisplayContext extends BasePricingDisplayContext {
 	private String _getManageDiscountPermissionsURL() throws PortalException {
 		PortletURL portletURL = _portal.getControlPanelPortletURL(
 			httpServletRequest,
-			"com_liferay_portlet_configuration_web_portlet_" +
+			"com_gelzobal_portlet_configuration_web_portlet_" +
 				"PortletConfigurationPortlet",
 			ActionRequest.RENDER_PHASE);
 

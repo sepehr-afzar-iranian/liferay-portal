@@ -21,6 +21,6 @@ package com.liferay.dispatch.constants;
 public class DispatchPortletKeys {
 
 	public static final String DISPATCH =
-		"com_liferay_dispatch_web_internal_portlet_DispatchPortlet";
+		"com_gelzobal_dispatch_web_internal_portlet_DispatchPortlet";
 
 }

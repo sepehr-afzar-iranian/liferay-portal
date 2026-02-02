@@ -193,20 +193,20 @@ public class ExportArticleMVCActionCommand extends BaseMVCActionCommand {
 						).put(
 							"_journal_web-content", new String[] {"true"}
 						).put(
-							"PORTLET_DATA_com_liferay_journal_web" +
+							"PORTLET_DATA_com_gelzobal_journal_web" +
 								"_portlet_JournalPortlet",
 							new String[] {"true"}
 						).put(
 							"PORTLET_DATA_CONTROL_DEFAULT",
 							new String[] {"false"}
 						).put(
-							"PORTLET_SETUP_com_liferay_journal" +
+							"PORTLET_SETUP_com_gelzobal_journal" +
 								"_web_portlet_JournalPortlet",
 							new String[] {"true"}
 						).put(
 							"portletResource",
 							new String[] {
-								"com_liferay_journal_web_portlet_JournalPortlet"
+								"com_gelzobal_journal_web_portlet_JournalPortlet"
 							}
 						).put(
 							"range", new String[] {"all"}

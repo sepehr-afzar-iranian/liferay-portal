@@ -67,16 +67,16 @@ public class AnnouncementsWebUpgrade implements UpgradeStepRegistrator {
 				return new String[][] {
 					{
 						"1_WAR_soannouncementsportlet",
-						"com_liferay_announcements_web_portlet_" +
+						"com_gelzobal_announcements_web_portlet_" +
 							"AnnouncementsPortlet"
 					},
 					{
 						"83",
-						"com_liferay_announcements_web_portlet_AlertsPortlet"
+						"com_gelzobal_announcements_web_portlet_AlertsPortlet"
 					},
 					{
 						"84",
-						"com_liferay_announcements_web_portlet_" +
+						"com_gelzobal_announcements_web_portlet_" +
 							"AnnouncementsPortlet"
 					}
 				};

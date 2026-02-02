@@ -20,7 +20,7 @@ package com.liferay.portal.search.web.internal.category.facet.constants;
 public class CategoryFacetPortletKeys {
 
 	public static final String CATEGORY_FACET =
-		"com_liferay_portal_search_web_category_facet_portlet_" +
+		"com_gelzobal_portal_search_web_category_facet_portlet_" +
 			"CategoryFacetPortlet";
 
 }

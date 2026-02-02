@@ -56,7 +56,7 @@ const PAGE_HEADER_COMPONENT_TYPE = {
 };
 
 const DDM_FORM_PORTLET_NAMESPACE =
-	'_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_';
+	'_com_gelzobal_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_';
 
 const isEmptyPage = ({rows}) => {
 	let empty = false;

@@ -20,6 +20,6 @@ package com.liferay.notifications.web.internal.constants;
 public class NotificationsPortletKeys {
 
 	public static final String NOTIFICATIONS =
-		"com_liferay_notifications_web_portlet_NotificationsPortlet";
+		"com_gelzobal_notifications_web_portlet_NotificationsPortlet";
 
 }

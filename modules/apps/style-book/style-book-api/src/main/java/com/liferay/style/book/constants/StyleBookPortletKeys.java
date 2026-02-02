@@ -20,6 +20,6 @@ package com.liferay.style.book.constants;
 public class StyleBookPortletKeys {
 
 	public static final String STYLE_BOOK =
-		"com_liferay_style_book_web_internal_portlet_StyleBookPortlet";
+		"com_gelzobal_style_book_web_internal_portlet_StyleBookPortlet";
 
 }

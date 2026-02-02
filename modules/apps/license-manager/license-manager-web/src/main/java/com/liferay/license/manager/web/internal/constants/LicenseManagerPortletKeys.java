@@ -20,6 +20,6 @@ package com.liferay.license.manager.web.internal.constants;
 public class LicenseManagerPortletKeys {
 
 	public static final String LICENSE_MANAGER =
-		"com_liferay_license_manager_web_portlet_LicenseManagerPortlet";
+		"com_gelzobal_license_manager_web_portlet_LicenseManagerPortlet";
 
 }

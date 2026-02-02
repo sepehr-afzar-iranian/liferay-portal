@@ -290,7 +290,7 @@ public class UpgradeJournalArticles extends BaseUpgradePortletId {
 	}
 
 	private static final String _PORTLET_ID_ASSET_PUBLISHER =
-		"com_liferay_asset_publisher_web_AssetPublisherPortlet";
+		"com_gelzobal_asset_publisher_web_AssetPublisherPortlet";
 
 	private static final String _PORTLET_ID_JOURNAL_CONTENT_LIST = "62";
 

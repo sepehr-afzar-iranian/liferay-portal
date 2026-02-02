@@ -20,11 +20,11 @@ package com.liferay.commerce.discount.constants;
 public class CommerceDiscountPortletKeys {
 
 	public static final String COMMERCE_DISCOUNT =
-		"com_liferay_commerce_discount_web_internal_portlet_" +
+		"com_gelzobal_commerce_discount_web_internal_portlet_" +
 			"CommerceDiscountPortlet";
 
 	public static final String COMMERCE_DISCOUNT_CONTENT_WEB =
-		"com_liferay_commerce_discount_content_web_internal_portlet_" +
+		"com_gelzobal_commerce_discount_content_web_internal_portlet_" +
 			"CommerceDiscountContentPortlet";
 
 }

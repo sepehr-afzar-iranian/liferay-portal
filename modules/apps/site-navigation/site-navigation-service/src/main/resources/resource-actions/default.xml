@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.site.navigation</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -25,7 +25,7 @@
 	<model-resource>
 		<model-name>com.liferay.site.navigation.model.SiteNavigationMenu</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>
@@ -51,7 +51,7 @@
 	<model-resource>
 		<model-name>com.liferay.site.navigation.model.SiteNavigationMenuItem</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
+			<portlet-name>com_gelzobal_site_navigation_admin_web_portlet_SiteNavigationAdminPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>

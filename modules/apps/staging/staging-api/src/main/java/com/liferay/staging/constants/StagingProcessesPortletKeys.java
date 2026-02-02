@@ -20,6 +20,6 @@ package com.liferay.staging.constants;
 public class StagingProcessesPortletKeys {
 
 	public static final String STAGING_PROCESSES =
-		"com_liferay_staging_processes_web_portlet_StagingProcessesPortlet";
+		"com_gelzobal_staging_processes_web_portlet_StagingProcessesPortlet";
 
 }

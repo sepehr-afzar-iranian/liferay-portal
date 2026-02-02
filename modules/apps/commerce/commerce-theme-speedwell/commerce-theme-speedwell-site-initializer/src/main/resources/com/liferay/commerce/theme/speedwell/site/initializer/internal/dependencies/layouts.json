@@ -10,7 +10,7 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+				"portletName": "com_gelzobal_journal_content_web_portlet_JournalContentPortlet",
 				"portletPreferences": {
 					"articleId": "SPEEDWELL_BUMPER_SLIDER",
 					"assetEntryId": "",
@@ -22,7 +22,7 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+				"portletName": "com_gelzobal_journal_content_web_portlet_JournalContentPortlet",
 				"portletPreferences": {
 					"articleId": "SPEEDWELL_HIGHLIGHT_SLIDER",
 					"assetEntryId": "",
@@ -34,7 +34,7 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 2,
-				"portletName": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+				"portletName": "com_gelzobal_journal_content_web_portlet_JournalContentPortlet",
 				"portletPreferences": {
 					"articleId": "SPEEDWELL_NEWSLETTER",
 					"assetEntryId": "",
@@ -53,47 +53,47 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_portal_search_web_search_bar_portlet_SearchBarPortlet_INSTANCE_speedwell"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_portal_search_web_search_options_portlet_SearchOptionsPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_portal_search_web_search_options_portlet_SearchOptionsPortlet_INSTANCE_speedwell"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 2,
-				"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPOptionFacetsPortlet"
+				"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPOptionFacetsPortlet"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 3,
-				"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPSpecificationOptionFacetsPortlet"
+				"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPSpecificationOptionFacetsPortlet"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 4,
-				"portletName": "com_liferay_portal_search_web_category_facet_portlet_CategoryFacetPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_portal_search_web_category_facet_portlet_CategoryFacetPortlet_INSTANCE_speedwell"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 5,
-				"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPPriceRangeFacetsPortlet"
+				"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPPriceRangeFacetsPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPSortPortlet"
+				"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPSortPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPSearchResultsPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPSearchResultsPortlet_INSTANCE_speedwell"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 2,
-				"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet_INSTANCE_speedwell"
 			}
 		],
 		"privateLayout": false,
@@ -109,12 +109,12 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCategoryContentPortlet"
+						"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCategoryContentPortlet"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_portal__search_web_category_facet_portlet_CategoryFacetPortlet_INSTANCE_speedwell",
+						"portletName": "com_gelzobal_portal__search_web_category_facet_portlet_CategoryFacetPortlet_INSTANCE_speedwell",
 						"portletPreferences": {
 							"preferenceDisplayStyle": "list"
 						}
@@ -122,7 +122,7 @@
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 1,
-						"portletName": "com_liferay_portal_search_web_search_options_portlet_SearchOptionsPortlet",
+						"portletName": "com_gelzobal_portal_search_web_search_options_portlet_SearchOptionsPortlet",
 						"portletPreferences": {
 							"allowEmptySearches": "true"
 						}
@@ -130,7 +130,7 @@
 					{
 						"layoutColumnId": "column-4",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPSearchResultsPortlet_INSTANCE_speedwell",
+						"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPSearchResultsPortlet_INSTANCE_speedwell",
 						"portletPreferences": {
 							"cpContentListRendererKey": "list-minium",
 							"grouped--cpTypeListEntryRendererKey": "list-entry-minium",
@@ -141,7 +141,7 @@
 					{
 						"layoutColumnId": "column-4",
 						"layoutColumnPos": 1,
-						"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet",
+						"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet",
 						"portletPreferences": {
 							"cpContentListRendererKey": "compare-list-minium"
 						}
@@ -172,7 +172,7 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_journal_content_web_portlet_JournalContentPortlet",
+				"portletName": "com_gelzobal_journal_content_web_portlet_JournalContentPortlet",
 				"portletPreferences": {
 					"articleId": "SPEEDWELL_ACCOUNT",
 					"assetEntryId": "",
@@ -205,17 +205,17 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						"portletName": "com_gelzobal_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 					},
 					{
 						"layoutColumnId": "column-2",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
+						"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_order_content_web_internal_portlet_CommerceOrderContentPortlet"
+						"portletName": "com_gelzobal_commerce_order_content_web_internal_portlet_CommerceOrderContentPortlet"
 					}
 				],
 				"privateLayout": false
@@ -242,17 +242,17 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						"portletName": "com_gelzobal_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 					},
 					{
 						"layoutColumnId": "column-2",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
+						"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_account_web_internal_portlet_CommerceAccountPortlet"
+						"portletName": "com_gelzobal_commerce_account_web_internal_portlet_CommerceAccountPortlet"
 					}
 				],
 				"privateLayout": false
@@ -279,17 +279,17 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						"portletName": "com_gelzobal_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 					},
 					{
 						"layoutColumnId": "column-2",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
+						"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_address_content_web_internal_portlet_CommerceAddressContentPortlet"
+						"portletName": "com_gelzobal_commerce_address_content_web_internal_portlet_CommerceAddressContentPortlet"
 					}
 				],
 				"privateLayout": false
@@ -316,17 +316,17 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						"portletName": "com_gelzobal_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 					},
 					{
 						"layoutColumnId": "column-2",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
+						"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_subscription_web_internal_portlet_CommerceSubscriptionContentPortlet"
+						"portletName": "com_gelzobal_commerce_subscription_web_internal_portlet_CommerceSubscriptionContentPortlet"
 					}
 				],
 				"privateLayout": false
@@ -353,17 +353,17 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						"portletName": "com_gelzobal_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 					},
 					{
 						"layoutColumnId": "column-2",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
+						"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_product_type_virtual_order_content_web_internal_portlet_CommerceVirtualOrderItemContentPortlet"
+						"portletName": "com_gelzobal_commerce_product_type_virtual_order_content_web_internal_portlet_CommerceVirtualOrderItemContentPortlet"
 					}
 				],
 				"privateLayout": false
@@ -390,22 +390,22 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						"portletName": "com_gelzobal_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 					},
 					{
 						"layoutColumnId": "column-2",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
+						"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_commerce_wish_list_web_internal_portlet_MyCommerceWishListsPortlet"
+						"portletName": "com_gelzobal_commerce_wish_list_web_internal_portlet_MyCommerceWishListsPortlet"
 					},
 					{
 						"layoutColumnId": "column-3",
 						"layoutColumnPos": 1,
-						"portletName": "com_liferay_commerce_wish_list_web_internal_portlet_CommerceWishListContentPortlet"
+						"portletName": "com_gelzobal_commerce_wish_list_web_internal_portlet_CommerceWishListContentPortlet"
 					}
 				],
 				"privateLayout": false
@@ -433,12 +433,12 @@
 					{
 						"layoutColumnId": "column-1",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
+						"portletName": "com_gelzobal_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 					},
 					{
 						"layoutColumnId": "column-2",
 						"layoutColumnPos": 0,
-						"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
+						"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet_INSTANCE_speedwell"
 					}
 				],
 				"privateLayout": false
@@ -453,12 +453,12 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_commerce_cart_content_web_internal_portlet_CommerceCartContentPortlet"
+				"portletName": "com_gelzobal_commerce_cart_content_web_internal_portlet_CommerceCartContentPortlet"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_commerce_cart_content_web_internal_portlet_CommerceCartContentTotalPortlet"
+				"portletName": "com_gelzobal_commerce_cart_content_web_internal_portlet_CommerceCartContentTotalPortlet"
 			}
 		],
 		"privateLayout": false
@@ -471,12 +471,12 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPContentPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPContentPortlet_INSTANCE_speedwell"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPPublisherPortlet_INSTANCE_speedwell",
+				"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPPublisherPortlet_INSTANCE_speedwell",
 				"portletPreferences": {
 					"cpContentListRendererKey": "list-minium",
 					"dataSource": "assetCategoriesAndTagsDataSource",
@@ -490,7 +490,7 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 2,
-				"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet_INSTANCE_product_detail"
+				"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet_INSTANCE_product_detail"
 			}
 		],
 		"privateLayout": false
@@ -503,7 +503,7 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_commerce_checkout_web_internal_portlet_CommerceCheckoutPortlet"
+				"portletName": "com_gelzobal_commerce_checkout_web_internal_portlet_CommerceCheckoutPortlet"
 			}
 		],
 		"privateLayout": false
@@ -516,7 +516,7 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCompareContentPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCompareContentPortlet_INSTANCE_speedwell"
 			}
 		],
 		"privateLayout": false
@@ -529,67 +529,67 @@
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet_INSTANCE_speedwell"
+				"portletName": "com_gelzobal_portal_search_web_search_bar_portlet_SearchBarPortlet_INSTANCE_speedwell"
 			},
 			{
 				"layoutColumnId": "column-1",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_portal_search_web_suggestions_portlet_SuggestionsPortlet"
+				"portletName": "com_gelzobal_portal_search_web_suggestions_portlet_SuggestionsPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPOptionFacetsPortlet"
+				"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPOptionFacetsPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPSpecificationOptionFacetsPortlet"
+				"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPSpecificationOptionFacetsPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 2,
-				"portletName": "com_liferay_portal_search_web_site_facet_portlet_SiteFacetPortlet"
+				"portletName": "com_gelzobal_portal_search_web_site_facet_portlet_SiteFacetPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 3,
-				"portletName": "com_liferay_portal_search_web_type_facet_portlet_TypeFacetPortlet"
+				"portletName": "com_gelzobal_portal_search_web_type_facet_portlet_TypeFacetPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 4,
-				"portletName": "com_liferay_portal_search_web_tag_facet_portlet_TagFacetPortlet"
+				"portletName": "com_gelzobal_portal_search_web_tag_facet_portlet_TagFacetPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 5,
-				"portletName": "com_liferay_portal_search_web_category_facet_portlet_CategoryFacetPortlet"
+				"portletName": "com_gelzobal_portal_search_web_category_facet_portlet_CategoryFacetPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 6,
-				"portletName": "com_liferay_portal_search_web_folder_facet_portlet_FolderFacetPortlet"
+				"portletName": "com_gelzobal_portal_search_web_folder_facet_portlet_FolderFacetPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 7,
-				"portletName": "com_liferay_portal_search_web_user_facet_portlet_UserFacetPortlet"
+				"portletName": "com_gelzobal_portal_search_web_user_facet_portlet_UserFacetPortlet"
 			},
 			{
 				"layoutColumnId": "column-2",
 				"layoutColumnPos": 8,
-				"portletName": "com_liferay_portal_search_web_modified_facet_portlet_ModifiedFacetPortlet"
+				"portletName": "com_gelzobal_portal_search_web_modified_facet_portlet_ModifiedFacetPortlet"
 			},
 			{
 				"layoutColumnId": "column-3",
 				"layoutColumnPos": 0,
-				"portletName": "com_liferay_portal_search_web_search_results_portlet_SearchResultsPortlet"
+				"portletName": "com_gelzobal_portal_search_web_search_results_portlet_SearchResultsPortlet"
 			},
 			{
 				"layoutColumnId": "column-3",
 				"layoutColumnPos": 1,
-				"portletName": "com_liferay_portal_search_web_search_options_portlet_SearchOptionsPortlet",
+				"portletName": "com_gelzobal_portal_search_web_search_options_portlet_SearchOptionsPortlet",
 				"portletPreferences": {
 					"allowEmptySearches": "true"
 				}

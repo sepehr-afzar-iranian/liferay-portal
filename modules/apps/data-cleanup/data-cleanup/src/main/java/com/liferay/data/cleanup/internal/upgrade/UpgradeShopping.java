@@ -63,21 +63,21 @@ public class UpgradeShopping extends UpgradeProcess {
 		_deleteImages("largeImage");
 
 		LayoutTypeSettingsUtil.removePortletId(
-			connection, "com_liferay_shopping_web_portlet_ShoppingPortlet");
+			connection, "com_gelzobal_shopping_web_portlet_ShoppingPortlet");
 
 		runSQL(
 			"delete from Portlet where portletId = " +
-				"'com_liferay_shopping_web_portlet_ShoppingAdminPortlet'");
+				"'com_gelzobal_shopping_web_portlet_ShoppingAdminPortlet'");
 		runSQL(
 			"delete from Portlet where portletId = " +
-				"'com_liferay_shopping_web_portlet_ShoppingPortlet'");
+				"'com_gelzobal_shopping_web_portlet_ShoppingPortlet'");
 
 		runSQL(
 			"delete from PortletPreferences where portletId = " +
-				"'com_liferay_shopping_web_portlet_ShoppingAdminPortlet'");
+				"'com_gelzobal_shopping_web_portlet_ShoppingAdminPortlet'");
 		runSQL(
 			"delete from PortletPreferences where portletId = " +
-				"'com_liferay_shopping_web_portlet_ShoppingPortlet'");
+				"'com_gelzobal_shopping_web_portlet_ShoppingPortlet'");
 
 		runSQL(
 			"delete from Release_ where servletContextName = " +

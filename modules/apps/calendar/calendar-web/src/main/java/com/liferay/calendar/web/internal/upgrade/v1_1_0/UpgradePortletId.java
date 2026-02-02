@@ -24,7 +24,7 @@ public class UpgradePortletId extends BaseUpgradePortletId {
 	@Override
 	protected String[] getUninstanceablePortletIds() {
 		return new String[] {
-			"com_liferay_calendar_web_portlet_CalendarPortlet"
+			"com_gelzobal_calendar_web_portlet_CalendarPortlet"
 		};
 	}
 

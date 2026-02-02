@@ -20,7 +20,7 @@ package com.liferay.portlet.configuration.sharing.web.internal.constants;
 public class PortletConfigurationSharingPortletKeys {
 
 	public static final String PORTLET_CONFIGURATION_SHARING =
-		"com_liferay_portlet_configuration_sharing_web_portlet_" +
+		"com_gelzobal_portlet_configuration_sharing_web_portlet_" +
 			"PortletConfigurationSharingPortlet";
 
 }

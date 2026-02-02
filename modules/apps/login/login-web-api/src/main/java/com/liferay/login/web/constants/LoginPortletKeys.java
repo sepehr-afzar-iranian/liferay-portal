@@ -20,9 +20,9 @@ package com.liferay.login.web.constants;
 public class LoginPortletKeys {
 
 	public static final String FAST_LOGIN =
-		"com_liferay_login_web_portlet_FastLoginPortlet";
+		"com_gelzobal_login_web_portlet_FastLoginPortlet";
 
 	public static final String LOGIN =
-		"com_liferay_login_web_portlet_LoginPortlet";
+		"com_gelzobal_login_web_portlet_LoginPortlet";
 
 }

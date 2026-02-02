@@ -20,6 +20,6 @@ package com.liferay.recent.documents.web.internal.constants;
 public class RecentDocumentsPortletKeys {
 
 	public static final String RECENT_DOCUMENTS =
-		"com_liferay_recent_documents_web_portlet_RecentDocumentsPortlet";
+		"com_gelzobal_recent_documents_web_portlet_RecentDocumentsPortlet";
 
 }

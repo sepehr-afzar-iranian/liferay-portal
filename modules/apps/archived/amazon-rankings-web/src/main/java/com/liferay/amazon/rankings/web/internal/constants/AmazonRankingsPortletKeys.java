@@ -20,6 +20,6 @@ package com.liferay.amazon.rankings.web.internal.constants;
 public class AmazonRankingsPortletKeys {
 
 	public static final String AMAZON_RANKINGS =
-		"com_liferay_amazon_rankings_web_portlet_AmazonRankingsPortlet";
+		"com_gelzobal_amazon_rankings_web_portlet_AmazonRankingsPortlet";
 
 }

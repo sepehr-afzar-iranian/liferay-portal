@@ -3,7 +3,7 @@
 
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_category_facet_portlet_CategoryFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_category_facet_portlet_CategoryFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -23,7 +23,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_custom_facet_portlet_CustomFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_custom_facet_portlet_CustomFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -43,7 +43,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_folder_facet_portlet_FolderFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_folder_facet_portlet_FolderFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -63,7 +63,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_internal_custom_filter_portlet_CustomFilterPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_internal_custom_filter_portlet_CustomFilterPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -83,7 +83,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_internal_sort_portlet_SortPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_internal_sort_portlet_SortPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -103,7 +103,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_low_level_search_options_portlet_LowLevelSearchOptionsPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_low_level_search_options_portlet_LowLevelSearchOptionsPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_TO_PAGE</action-key>
@@ -118,7 +118,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_modified_facet_portlet_ModifiedFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_modified_facet_portlet_ModifiedFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -138,7 +138,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_search_bar_portlet_SearchBarPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -158,7 +158,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_search_insights_portlet_SearchInsightsPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_search_insights_portlet_SearchInsightsPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_TO_PAGE</action-key>
@@ -173,7 +173,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_search_results_portlet_SearchResultsPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_search_results_portlet_SearchResultsPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -193,7 +193,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_site_facet_portlet_SiteFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_site_facet_portlet_SiteFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -213,7 +213,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_tag_facet_portlet_TagFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_tag_facet_portlet_TagFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -233,7 +233,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_type_facet_portlet_TypeFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_type_facet_portlet_TypeFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -253,7 +253,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_portal_search_web_user_facet_portlet_UserFacetPortlet</portlet-name>
+		<portlet-name>com_gelzobal_portal_search_web_user_facet_portlet_UserFacetPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>

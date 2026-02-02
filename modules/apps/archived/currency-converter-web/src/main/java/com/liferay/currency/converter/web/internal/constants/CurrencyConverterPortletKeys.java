@@ -20,6 +20,6 @@ package com.liferay.currency.converter.web.internal.constants;
 public class CurrencyConverterPortletKeys {
 
 	public static final String CURRENCY_CONVERTER =
-		"com_liferay_currency_converter_web_portlet_CurrencyConverterPortlet";
+		"com_gelzobal_currency_converter_web_portlet_CurrencyConverterPortlet";
 
 }

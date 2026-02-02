@@ -20,7 +20,7 @@ package com.liferay.commerce.price.list.constants;
 public class CommercePriceListPortletKeys {
 
 	public static final String COMMERCE_PRICE_LIST =
-		"com_liferay_commerce_price_list_web_internal_portlet_" +
+		"com_gelzobal_commerce_price_list_web_internal_portlet_" +
 			"CommercePriceListPortlet";
 
 }

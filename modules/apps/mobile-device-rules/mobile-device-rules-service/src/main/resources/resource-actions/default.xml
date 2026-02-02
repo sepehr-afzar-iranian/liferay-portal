@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.mobile.device.rules</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_mobile_device_rules_web_portlet_MDRPortlet</portlet-name>
+			<portlet-name>com_gelzobal_mobile_device_rules_web_portlet_MDRPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -28,7 +28,7 @@
 	<model-resource portal="true">
 		<model-name>com.liferay.mobile.device.rules.model.MDRRuleGroup</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_mobile_device_rules_web_portlet_MDRPortlet</portlet-name>
+			<portlet-name>com_gelzobal_mobile_device_rules_web_portlet_MDRPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>
@@ -50,7 +50,7 @@
 	<model-resource>
 		<model-name>com.liferay.mobile.device.rules.model.MDRRuleGroupInstance</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_mobile_device_rules_web_portlet_MDRPortlet</portlet-name>
+			<portlet-name>com_gelzobal_mobile_device_rules_web_portlet_MDRPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>

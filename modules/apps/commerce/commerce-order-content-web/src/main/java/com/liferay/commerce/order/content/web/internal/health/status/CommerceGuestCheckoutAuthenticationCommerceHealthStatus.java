@@ -114,7 +114,7 @@ public class CommerceGuestCheckoutAuthenticationCommerceHealthStatus
 
 		layoutTypePortlet.addPortletId(
 			PrincipalThreadLocal.getUserId(),
-			"com_liferay_login_web_portlet_LoginPortlet", "column-1", 0);
+			"com_gelzobal_login_web_portlet_LoginPortlet", "column-1", 0);
 
 		String journalArticlePortletId = layoutTypePortlet.addPortletId(
 			PrincipalThreadLocal.getUserId(),

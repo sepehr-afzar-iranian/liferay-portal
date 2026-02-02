@@ -20,6 +20,6 @@ package com.liferay.comment.page.comments.web.internal.constants;
 public class PageCommentsPortletKeys {
 
 	public static final String PAGE_COMMENTS =
-		"com_liferay_comment_page_comments_web_portlet_PageCommentsPortlet";
+		"com_gelzobal_comment_page_comments_web_portlet_PageCommentsPortlet";
 
 }

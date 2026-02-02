@@ -16,7 +16,7 @@
  * Cart implementation constants
  */
 export const DEFAULT_ORDER_DETAILS_PORTLET_ID =
-	'com_liferay_commerce_order_content_web_internal_portlet_' +
+	'com_gelzobal_commerce_order_content_web_internal_portlet_' +
 	'CommerceOpenOrderContentPortlet';
 export const DISCOUNT_LEVEL_PREFIX = 'discountPercentageLevel';
 export const ORDER_DETAILS_ENDPOINT = '/pending-orders';

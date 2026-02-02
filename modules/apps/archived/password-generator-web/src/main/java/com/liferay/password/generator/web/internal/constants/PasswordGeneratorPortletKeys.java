@@ -20,6 +20,6 @@ package com.liferay.password.generator.web.internal.constants;
 public class PasswordGeneratorPortletKeys {
 
 	public static final String PASSWORD_GENERATOR =
-		"com_liferay_password_generator_web_portlet_PasswordGeneratorPortlet";
+		"com_gelzobal_password_generator_web_portlet_PasswordGeneratorPortlet";
 
 }

@@ -1,6 +1,6 @@
 // ---------- Components ----------
 
-.portlet-boundary_com_liferay_plugins_admin_web_portlet_PluginsAdminPortlet_ {
+.portlet-boundary_com_gelzobal_plugins_admin_web_portlet_PluginsAdminPortlet_ {
 	.plugin-thumbnail {
 		margin-right: 10px;
 		width: 100px;
@@ -9,7 +9,7 @@
 
 // ---------- Theme color scheme selector ----------
 
-.portlet-boundary_com_liferay_layout_admin_web_portlet_GroupPagesPortlet_ {
+.portlet-boundary_com_gelzobal_layout_admin_web_portlet_GroupPagesPortlet_ {
 	.color-scheme-selector {
 		&.selected {
 			box-shadow: 0 0 0 2px map-get($theme-colors, primary);

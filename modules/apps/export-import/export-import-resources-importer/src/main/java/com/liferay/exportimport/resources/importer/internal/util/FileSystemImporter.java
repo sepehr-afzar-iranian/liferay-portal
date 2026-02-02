@@ -2047,7 +2047,7 @@ public class FileSystemImporter extends BaseImporter {
 		"/journal/articles/";
 
 	private static final String _JOURNAL_CONTENT_PORTLET_ID =
-		"com_liferay_journal_content_web_portlet_JournalContentPortlet";
+		"com_gelzobal_journal_content_web_portlet_JournalContentPortlet";
 
 	private static final String _JOURNAL_DDM_STRUCTURES_DIR_NAME =
 		"/journal/structures/";

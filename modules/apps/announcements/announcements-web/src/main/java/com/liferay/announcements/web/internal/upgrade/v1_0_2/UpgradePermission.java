@@ -72,7 +72,7 @@ public class UpgradePermission extends UpgradeProcess {
 			_BITWISE_VALUE_VIEW | _BITWISE_VALUE_ACCESS_IN_CONTROL_PANEL;
 
 		String name =
-			"com_liferay_announcements_web_portlet_AnnouncementsAdminPortlet";
+			"com_gelzobal_announcements_web_portlet_AnnouncementsAdminPortlet";
 		long ownerId = 0;
 
 		StringBundler sb = new StringBundler(4);
@@ -122,7 +122,7 @@ public class UpgradePermission extends UpgradeProcess {
 			ps.setLong(2, resourceActionId);
 			ps.setString(
 				3,
-				"com_liferay_announcements_web_portlet_" +
+				"com_gelzobal_announcements_web_portlet_" +
 					"AnnouncementsAdminPortlet");
 			ps.setString(4, actionId);
 			ps.setLong(5, bitwiseValue);
@@ -189,12 +189,12 @@ public class UpgradePermission extends UpgradeProcess {
 
 	protected void upgradeAlertsResourcePermission() throws Exception {
 		upgradeResourcePermission(
-			"com_liferay_announcements_web_portlet_AlertsPortlet");
+			"com_gelzobal_announcements_web_portlet_AlertsPortlet");
 	}
 
 	protected void upgradeAnnouncementsResourcePermission() throws Exception {
 		upgradeResourcePermission(
-			"com_liferay_announcements_web_portlet_AnnouncementsPortlet");
+			"com_gelzobal_announcements_web_portlet_AnnouncementsPortlet");
 	}
 
 	protected void upgradeResourcePermission(String name) throws Exception {

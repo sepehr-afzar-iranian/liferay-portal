@@ -20,7 +20,7 @@ package com.liferay.portal.search.web.internal.modified.facet.constants;
 public class ModifiedFacetPortletKeys {
 
 	public static final String MODIFIED_FACET =
-		"com_liferay_portal_search_web_modified_facet_portlet_" +
+		"com_gelzobal_portal_search_web_modified_facet_portlet_" +
 			"ModifiedFacetPortlet";
 
 }

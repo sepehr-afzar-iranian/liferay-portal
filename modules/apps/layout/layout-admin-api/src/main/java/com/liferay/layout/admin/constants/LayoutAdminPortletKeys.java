@@ -20,6 +20,6 @@ package com.liferay.layout.admin.constants;
 public class LayoutAdminPortletKeys {
 
 	public static final String GROUP_PAGES =
-		"com_liferay_layout_admin_web_portlet_GroupPagesPortlet";
+		"com_gelzobal_layout_admin_web_portlet_GroupPagesPortlet";
 
 }

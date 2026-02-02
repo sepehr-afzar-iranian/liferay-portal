@@ -20,6 +20,6 @@ package com.liferay.portal.search.web.internal.sort.constants;
 public class SortPortletKeys {
 
 	public static final String SORT =
-		"com_liferay_portal_search_web_internal_sort_portlet_SortPortlet";
+		"com_gelzobal_portal_search_web_internal_sort_portlet_SortPortlet";
 
 }

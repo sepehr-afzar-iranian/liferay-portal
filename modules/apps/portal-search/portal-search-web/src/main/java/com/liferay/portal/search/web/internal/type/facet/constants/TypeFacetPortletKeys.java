@@ -20,6 +20,6 @@ package com.liferay.portal.search.web.internal.type.facet.constants;
 public class TypeFacetPortletKeys {
 
 	public static final String TYPE_FACET =
-		"com_liferay_portal_search_web_type_facet_portlet_TypeFacetPortlet";
+		"com_gelzobal_portal_search_web_type_facet_portlet_TypeFacetPortlet";
 
 }

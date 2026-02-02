@@ -20,6 +20,6 @@ package com.liferay.translator.web.internal.constants;
 public class TranslatorPortletKeys {
 
 	public static final String TRANSLATOR =
-		"com_liferay_translator_web_portlet_TranslatorPortlet";
+		"com_gelzobal_translator_web_portlet_TranslatorPortlet";
 
 }

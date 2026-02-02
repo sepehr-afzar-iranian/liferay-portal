@@ -2,7 +2,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/catalog",
-		"portletName": "com_liferay_commerce_product_content_search_web_internal_portlet_CPSearchResultsPortlet",
+		"portletName": "com_gelzobal_commerce_product_content_search_web_internal_portlet_CPSearchResultsPortlet",
 		"portletPreferences": {
 			"cpContentListRendererKey": "list-minium",
 			"grouped--cpTypeListEntryRendererKey": "list-entry-minium",
@@ -13,7 +13,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/catalog",
-		"portletName": "com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet",
+		"portletName": "com_gelzobal_portal_search_web_search_bar_portlet_SearchBarPortlet",
 		"portletPreferences": {
 			"searchScope": "everything"
 		}
@@ -21,7 +21,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/catalog",
-		"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet",
+		"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet",
 		"portletPreferences": {
 			"cpContentListRendererKey": "compare-list-minium"
 		}
@@ -29,7 +29,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/catalog",
-		"portletName": "com_liferay_portal_search_web_search_options_portlet_SearchOptionsPortlet",
+		"portletName": "com_gelzobal_portal_search_web_search_options_portlet_SearchOptionsPortlet",
 		"portletPreferences": {
 			"allowEmptySearches": "true"
 		}
@@ -37,7 +37,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/catalog",
-		"portletName": "com_liferay_portal_search_web_category_facet_portlet_CategoryFacetPortlet",
+		"portletName": "com_gelzobal_portal_search_web_category_facet_portlet_CategoryFacetPortlet",
 		"portletPreferences": {
 			"preferenceDisplayStyle": "list"
 		}
@@ -45,7 +45,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/compare",
-		"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCompareContentPortlet",
+		"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCompareContentPortlet",
 		"portletPreferences": {
 			"grouped--cpTypeListEntryRendererKey": "list-entry-minium",
 			"simple--cpTypeListEntryRendererKey": "list-entry-minium",
@@ -55,7 +55,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/product-detail",
-		"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPContentPortlet",
+		"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPContentPortlet",
 		"portletPreferences": {
 			"cpType": "simple",
 			"grouped--cpTypeRendererKey": "minium",
@@ -66,7 +66,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/product-detail",
-		"portletName": "com_liferay_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet",
+		"portletName": "com_gelzobal_commerce_product_content_web_internal_portlet_CPCompareContentMiniPortlet",
 		"portletPreferences": {
 			"cpContentListRendererKey": "compare-list-minium"
 		}
@@ -82,7 +82,7 @@
 			"/my-lists",
 			"/my-payment-methods"
 		],
-		"portletName": "com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet",
+		"portletName": "com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet",
 		"portletPreferences": {
 			"displayDepth": "2",
 			"displayStyle": {
@@ -101,7 +101,7 @@
 	{
 		"instanceId": "speedwell",
 		"layoutFriendlyURL": "/search",
-		"portletName": "com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet",
+		"portletName": "com_gelzobal_portal_search_web_search_bar_portlet_SearchBarPortlet",
 		"portletPreferences": {
 			"searchScope": "everything"
 		}

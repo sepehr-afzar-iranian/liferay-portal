@@ -20,6 +20,6 @@ package com.liferay.unit.converter.web.internal.constants;
 public class UnitConverterPortletKeys {
 
 	public static final String UNIT_CONVERTER =
-		"com_liferay_unit_converter_web_portlet_UnitConverterPortlet";
+		"com_gelzobal_unit_converter_web_portlet_UnitConverterPortlet";
 
 }

@@ -20,12 +20,12 @@ package com.liferay.users.admin.constants;
 public class UsersAdminPortletKeys {
 
 	public static final String MY_ACCOUNT =
-		"com_liferay_my_account_web_portlet_MyAccountPortlet";
+		"com_gelzobal_my_account_web_portlet_MyAccountPortlet";
 
 	public static final String MY_ORGANIZATIONS =
-		"com_liferay_users_admin_web_portlet_MyOrganizationsPortlet";
+		"com_gelzobal_users_admin_web_portlet_MyOrganizationsPortlet";
 
 	public static final String USERS_ADMIN =
-		"com_liferay_users_admin_web_portlet_UsersAdminPortlet";
+		"com_gelzobal_users_admin_web_portlet_UsersAdminPortlet";
 
 }

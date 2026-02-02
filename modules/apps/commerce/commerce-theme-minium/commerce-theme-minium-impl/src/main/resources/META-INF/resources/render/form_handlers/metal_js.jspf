@@ -14,7 +14,7 @@
  */
 --%>
 
-<liferay-portlet:actionURL name="/cp_content_web/check_cp_instance" portletName="com_liferay_commerce_product_content_web_internal_portlet_CPContentPortlet" var="checkCPInstanceURL">
+<liferay-portlet:actionURL name="/cp_content_web/check_cp_instance" portletName="com_gelzobal_commerce_product_content_web_internal_portlet_CPContentPortlet" var="checkCPInstanceURL">
 	<portlet:param name="cpDefinitionId" value="<%= String.valueOf(cpDefinitionId) %>" />
 	<portlet:param name="groupId" value="<%= String.valueOf(themeDisplay.getScopeGroupId()) %>" />
 </liferay-portlet:actionURL>
@@ -22,7 +22,7 @@
 <aui:script require="commerce-frontend-js/utilities/eventsDefinitions as eventsDefinitions, commerce-frontend-js/utilities/forms/DDMFormHandler as DDMFormHandler">
 	var cpDefinitionId = <%= cpDefinitionId %>;
 	var CP_CONTENT_WEB_PORTLET_KEY =
-		'com_liferay_commerce_product_content_web_internal_portlet_CPContentPortlet';
+		'com_gelzobal_commerce_product_content_web_internal_portlet_CPContentPortlet';
 
 	function initialiseOrderDetails() {
 		var addToCartButton = Liferay.component('<%= addToCartId %>');

@@ -20,6 +20,6 @@ package com.liferay.social.requests.web.internal.constants;
 public class SocialRequestsPortletKeys {
 
 	public static final String REQUESTS =
-		"com_liferay_social_requests_web_portlet_SocialRequestsPortlet";
+		"com_gelzobal_social_requests_web_portlet_SocialRequestsPortlet";
 
 }

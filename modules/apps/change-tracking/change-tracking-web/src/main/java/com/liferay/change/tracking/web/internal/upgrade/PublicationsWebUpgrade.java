@@ -41,12 +41,12 @@ public class PublicationsWebUpgrade implements UpgradeStepRegistrator {
 				protected String[][] getRenamePortletIdsArray() {
 					return new String[][] {
 						{
-							"com_liferay_change_tracking_web_portlet_" +
+							"com_gelzobal_change_tracking_web_portlet_" +
 								"ChangeListsPortlet",
 							CTPortletKeys.PUBLICATIONS
 						},
 						{
-							"com_liferay_change_tracking_web_portlet_" +
+							"com_gelzobal_change_tracking_web_portlet_" +
 								"ChangeListsConfigurationPortlet",
 							CTPortletKeys.PUBLICATIONS_CONFIGURATION
 						}

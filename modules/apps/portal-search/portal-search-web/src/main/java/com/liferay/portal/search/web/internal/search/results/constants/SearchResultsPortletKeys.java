@@ -20,7 +20,7 @@ package com.liferay.portal.search.web.internal.search.results.constants;
 public class SearchResultsPortletKeys {
 
 	public static final String SEARCH_RESULTS =
-		"com_liferay_portal_search_web_search_results_portlet_" +
+		"com_gelzobal_portal_search_web_search_results_portlet_" +
 			"SearchResultsPortlet";
 
 }

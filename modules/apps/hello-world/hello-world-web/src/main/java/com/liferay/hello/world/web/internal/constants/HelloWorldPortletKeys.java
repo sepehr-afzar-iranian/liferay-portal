@@ -20,6 +20,6 @@ package com.liferay.hello.world.web.internal.constants;
 public class HelloWorldPortletKeys {
 
 	public static final String HELLO_WORLD =
-		"com_liferay_hello_world_web_portlet_HelloWorldPortlet";
+		"com_gelzobal_hello_world_web_portlet_HelloWorldPortlet";
 
 }

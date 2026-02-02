@@ -187,7 +187,7 @@ public class GroupURLProvider {
 	}
 
 	private static final String _DEPOT_ADMIN_PORTLET_ID =
-		"com_liferay_depot_web_portlet_DepotAdminPortlet";
+		"com_gelzobal_depot_web_portlet_DepotAdminPortlet";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		GroupURLProvider.class);

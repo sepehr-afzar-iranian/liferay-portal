@@ -20,10 +20,10 @@ package com.liferay.change.tracking.web.internal.constants;
 public class CTPortletKeys {
 
 	public static final String PUBLICATIONS =
-		"com_liferay_change_tracking_web_portlet_PublicationsPortlet";
+		"com_gelzobal_change_tracking_web_portlet_PublicationsPortlet";
 
 	public static final String PUBLICATIONS_CONFIGURATION =
-		"com_liferay_change_tracking_web_portlet_" +
+		"com_gelzobal_change_tracking_web_portlet_" +
 			"PublicationsConfigurationPortlet";
 
 }

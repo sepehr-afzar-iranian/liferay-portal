@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.calendar</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_calendar_web_portlet_CalendarPortlet</portlet-name>
+			<portlet-name>com_gelzobal_calendar_web_portlet_CalendarPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<permissions>
@@ -24,7 +24,7 @@
 	<model-resource>
 		<model-name>com.liferay.calendar.model.Calendar</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_calendar_web_portlet_CalendarPortlet</portlet-name>
+			<portlet-name>com_gelzobal_calendar_web_portlet_CalendarPortlet</portlet-name>
 		</portlet-ref>
 		<permissions>
 			<supports>
@@ -53,7 +53,7 @@
 	<model-resource>
 		<model-name>com.liferay.calendar.model.CalendarBooking</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_calendar_web_portlet_CalendarPortlet</portlet-name>
+			<portlet-name>com_gelzobal_calendar_web_portlet_CalendarPortlet</portlet-name>
 		</portlet-ref>
 		<permissions>
 			<supports>
@@ -75,7 +75,7 @@
 	<model-resource>
 		<model-name>com.liferay.calendar.model.CalendarResource</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_calendar_web_portlet_CalendarPortlet</portlet-name>
+			<portlet-name>com_gelzobal_calendar_web_portlet_CalendarPortlet</portlet-name>
 		</portlet-ref>
 		<permissions>
 			<supports>

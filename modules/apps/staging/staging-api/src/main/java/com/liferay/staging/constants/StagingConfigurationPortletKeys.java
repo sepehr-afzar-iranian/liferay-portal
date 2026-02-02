@@ -20,7 +20,7 @@ package com.liferay.staging.constants;
 public class StagingConfigurationPortletKeys {
 
 	public static final String STAGING_CONFIGURATION =
-		"com_liferay_staging_configuration_web_portlet_" +
+		"com_gelzobal_staging_configuration_web_portlet_" +
 			"StagingConfigurationPortlet";
 
 }

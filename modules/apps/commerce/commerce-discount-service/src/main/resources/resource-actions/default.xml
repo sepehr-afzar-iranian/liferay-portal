@@ -20,9 +20,9 @@
 	<model-resource>
 		<model-name>com.liferay.commerce.discount.model.CommerceDiscount</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_commerce_discount_web_internal_portlet_CommerceDiscountPortlet</portlet-name>
-			<portlet-name>com_liferay_commerce_pricing_web_internal_portlet_CommerceDiscountPortlet</portlet-name>
-			<portlet-name>com_liferay_commerce_pricing_web_internal_portlet_CommercePricingClassesPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_discount_web_internal_portlet_CommerceDiscountPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_pricing_web_internal_portlet_CommerceDiscountPortlet</portlet-name>
+			<portlet-name>com_gelzobal_commerce_pricing_web_internal_portlet_CommercePricingClassesPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>

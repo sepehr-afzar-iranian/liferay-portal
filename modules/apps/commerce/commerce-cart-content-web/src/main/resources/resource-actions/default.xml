@@ -3,7 +3,7 @@
 
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>com_liferay_commerce_cart_content_web_internal_portlet_CommerceCartContentMiniPortlet</portlet-name>
+		<portlet-name>com_gelzobal_commerce_cart_content_web_internal_portlet_CommerceCartContentMiniPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -24,7 +24,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_commerce_cart_content_web_internal_portlet_CommerceCartContentPortlet</portlet-name>
+		<portlet-name>com_gelzobal_commerce_cart_content_web_internal_portlet_CommerceCartContentPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
@@ -45,7 +45,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_commerce_cart_content_web_internal_portlet_CommerceCartContentTotalPortlet</portlet-name>
+		<portlet-name>com_gelzobal_commerce_cart_content_web_internal_portlet_CommerceCartContentTotalPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>

@@ -20,6 +20,6 @@ package com.liferay.asset.tags.compiler.web.internal.constants;
 public class AssetTagsCompilerPortletKeys {
 
 	public static final String ASSET_TAGS_COMPILER =
-		"com_liferay_asset_tags_compiler_web_portlet_AssetTagsCompilerPortlet";
+		"com_gelzobal_asset_tags_compiler_web_portlet_AssetTagsCompilerPortlet";
 
 }

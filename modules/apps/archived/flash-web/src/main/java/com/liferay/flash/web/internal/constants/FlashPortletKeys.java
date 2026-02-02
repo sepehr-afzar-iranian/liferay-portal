@@ -20,6 +20,6 @@ package com.liferay.flash.web.internal.constants;
 public class FlashPortletKeys {
 
 	public static final String FLASH =
-		"com_liferay_flash_web_portlet_FlashPortlet";
+		"com_gelzobal_flash_web_portlet_FlashPortlet";
 
 }

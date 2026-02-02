@@ -20,6 +20,6 @@ package com.liferay.portal.search.web.constants;
 public class SearchPortletKeys {
 
 	public static final String SEARCH =
-		"com_liferay_portal_search_web_portlet_SearchPortlet";
+		"com_gelzobal_portal_search_web_portlet_SearchPortlet";
 
 }

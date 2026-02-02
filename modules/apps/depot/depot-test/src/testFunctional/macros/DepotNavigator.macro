@@ -211,19 +211,19 @@ definition {
 	}
 
 	macro openDepotAdmin {
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/control_panel/manage?p_p_id=com_liferay_depot_web_portlet_DepotAdminPortlet");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/control_panel/manage?p_p_id=com_gelzobal_depot_web_portlet_DepotAdminPortlet");
 	}
 
 	macro openDepotAssetListsAdmin {
 		var depotId = JSONGroupAPI._getDepotIdByName(depotName = "${depotName}");
 
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_liferay_asset_list_web_portlet_AssetListPortlet");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_gelzobal_asset_list_web_portlet_AssetListPortlet");
 	}
 
 	macro openDepotAssetListsAdminStaging {
 		var depotId = JSONGroupAPI._getDepotIdByName(depotName = "${depotName}");
 
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}-staging/~/control_panel/manage?p_p_id=com_liferay_asset_list_web_portlet_AssetListPortlet");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}-staging/~/control_panel/manage?p_p_id=com_gelzobal_asset_list_web_portlet_AssetListPortlet");
 	}
 
 	macro openDepotCategoriesAdmin {
@@ -241,19 +241,19 @@ definition {
 	macro openDepotDashboard {
 		var depotId = JSONGroupAPI._getDepotIdByName(depotName = "${depotName}");
 
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_liferay_depot_web_portlet_DepotAdminPortlet&p_p_lifecycle=0&p_p_state=maximized&_com_liferay_depot_web_portlet_DepotAdminPortlet_mvcRenderCommandName=%2Fdepot%2Fview_depot_dashboard&_com_liferay_depot_web_portlet_DepotAdminPortlet_depotEntryId=${depotId}&p_p_auth=IhHOQ7UJ");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_gelzobal_depot_web_portlet_DepotAdminPortlet&p_p_lifecycle=0&p_p_state=maximized&_com_gelzobal_depot_web_portlet_DepotAdminPortlet_mvcRenderCommandName=%2Fdepot%2Fview_depot_dashboard&_com_gelzobal_depot_web_portlet_DepotAdminPortlet_depotEntryId=${depotId}&p_p_auth=IhHOQ7UJ");
 	}
 
 	macro openDepotDocumentsAndMediaAdmin {
 		var depotId = JSONGroupAPI._getDepotIdByName(depotName = "${depotName}");
 
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_liferay_document_library_web_portlet_DLAdminPortlet");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_gelzobal_document_library_web_portlet_DLAdminPortlet");
 	}
 
 	macro openDepotDocumentsAndMediaAdminStaging {
 		var depotId = JSONGroupAPI._getDepotIdByName(depotName = "${depotName}");
 
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}-staging/~/control_panel/manage?p_p_id=com_liferay_document_library_web_portlet_DLAdminPortlet");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}-staging/~/control_panel/manage?p_p_id=com_gelzobal_document_library_web_portlet_DLAdminPortlet");
 	}
 
 	macro openDepotMembershipsAdmin {
@@ -277,13 +277,13 @@ definition {
 	macro openDepotWebContentAdmin {
 		var depotId = JSONGroupAPI._getDepotIdByName(depotName = "${depotName}");
 
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_liferay_journal_web_portlet_JournalPortlet");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}/~/control_panel/manage?p_p_id=com_gelzobal_journal_web_portlet_JournalPortlet");
 	}
 
 	macro openDepotWebContentAdminStaging {
 		var depotId = JSONGroupAPI._getDepotIdByName(depotName = "${depotName}");
 
-		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}-staging/~/control_panel/manage?p_p_id=com_liferay_journal_web_portlet_JournalPortlet");
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/asset-library-${depotId}-staging/~/control_panel/manage?p_p_id=com_gelzobal_journal_web_portlet_JournalPortlet");
 	}
 
 	macro switchStagingStatus {

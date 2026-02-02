@@ -20,12 +20,12 @@ package com.liferay.wiki.constants;
 public class WikiPortletKeys {
 
 	public static final String WIKI =
-		"com_liferay_wiki_web_portlet_WikiPortlet";
+		"com_gelzobal_wiki_web_portlet_WikiPortlet";
 
 	public static final String WIKI_ADMIN =
-		"com_liferay_wiki_web_portlet_WikiAdminPortlet";
+		"com_gelzobal_wiki_web_portlet_WikiAdminPortlet";
 
 	public static final String WIKI_DISPLAY =
-		"com_liferay_wiki_web_portlet_WikiDisplayPortlet";
+		"com_gelzobal_wiki_web_portlet_WikiDisplayPortlet";
 
 }

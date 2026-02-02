@@ -5,7 +5,7 @@
 	<model-resource portal="true">
 		<model-name>com.liferay.expando.kernel.model.ExpandoColumn</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_expando_web_portlet_ExpandoPortlet</portlet-name>
+			<portlet-name>com_gelzobal_expando_web_portlet_ExpandoPortlet</portlet-name>
 		</portlet-ref>
 		<weight>1</weight>
 		<permissions>

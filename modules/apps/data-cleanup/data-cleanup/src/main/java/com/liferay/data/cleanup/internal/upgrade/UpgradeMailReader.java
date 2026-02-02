@@ -37,15 +37,15 @@ public class UpgradeMailReader extends UpgradeProcess {
 				"'com.liferay.mail.reader.model.Message'");
 
 		LayoutTypeSettingsUtil.removePortletId(
-			connection, "com_liferay_mail_reader_web_portlet_MailPortlet");
+			connection, "com_gelzobal_mail_reader_web_portlet_MailPortlet");
 
 		runSQL(
 			"delete from Portlet where portletId = " +
-				"'com_liferay_mail_reader_web_portlet_MailPortlet'");
+				"'com_gelzobal_mail_reader_web_portlet_MailPortlet'");
 
 		runSQL(
 			"delete from PortletPreferences where portletId = " +
-				"'com_liferay_mail_reader_web_portlet_MailPortlet'");
+				"'com_gelzobal_mail_reader_web_portlet_MailPortlet'");
 
 		runSQL(
 			"delete from Release_ where servletContextName = " +

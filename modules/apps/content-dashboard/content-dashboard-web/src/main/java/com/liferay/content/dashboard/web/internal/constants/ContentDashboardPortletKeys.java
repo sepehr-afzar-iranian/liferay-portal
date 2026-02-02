@@ -20,7 +20,7 @@ package com.liferay.content.dashboard.web.internal.constants;
 public class ContentDashboardPortletKeys {
 
 	public static final String CONTENT_DASHBOARD_ADMIN =
-		"com_liferay_content_dashboard_web_portlet_" +
+		"com_gelzobal_content_dashboard_web_portlet_" +
 			"ContentDashboardAdminPortlet";
 
 }

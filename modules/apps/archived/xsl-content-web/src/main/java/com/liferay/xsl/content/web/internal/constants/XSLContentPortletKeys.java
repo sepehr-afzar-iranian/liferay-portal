@@ -20,6 +20,6 @@ package com.liferay.xsl.content.web.internal.constants;
 public class XSLContentPortletKeys {
 
 	public static final String XSL_CONTENT =
-		"com_liferay_xsl_content_web_portlet_XSLContentPortlet";
+		"com_gelzobal_xsl_content_web_portlet_XSLContentPortlet";
 
 }

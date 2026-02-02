@@ -20,9 +20,9 @@ package com.liferay.bookmarks.constants;
 public class BookmarksPortletKeys {
 
 	public static final String BOOKMARKS =
-		"com_liferay_bookmarks_web_portlet_BookmarksPortlet";
+		"com_gelzobal_bookmarks_web_portlet_BookmarksPortlet";
 
 	public static final String BOOKMARKS_ADMIN =
-		"com_liferay_bookmarks_web_portlet_BookmarksAdminPortlet";
+		"com_gelzobal_bookmarks_web_portlet_BookmarksAdminPortlet";
 
 }

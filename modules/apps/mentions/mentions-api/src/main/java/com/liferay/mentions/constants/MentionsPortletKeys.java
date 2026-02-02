@@ -20,6 +20,6 @@ package com.liferay.mentions.constants;
 public class MentionsPortletKeys {
 
 	public static final String MENTIONS =
-		"com_liferay_mentions_web_portlet_MentionsPortlet";
+		"com_gelzobal_mentions_web_portlet_MentionsPortlet";
 
 }

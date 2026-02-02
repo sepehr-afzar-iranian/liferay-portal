@@ -2,7 +2,7 @@
 
 <permissions>
 	<resource>
-		<resource-name>com_liferay_journal_content_web_portlet_JournalContentPortlet</resource-name>
+		<resource-name>com_gelzobal_journal_content_web_portlet_JournalContentPortlet</resource-name>
 		<action-id>ADD_TO_PAGE</action-id>
 		<action-id>CONFIGURATION</action-id>
 		<action-id>PERMISSIONS</action-id>
@@ -10,7 +10,7 @@
 		<action-id>VIEW</action-id>
 	</resource>
 	<resource>
-		<resource-name>com_liferay_journal_web_portlet_JournalPortlet</resource-name>
+		<resource-name>com_gelzobal_journal_web_portlet_JournalPortlet</resource-name>
 		<action-id>ACCESS_IN_CONTROL_PANEL</action-id>
 		<action-id>CONFIGURATION</action-id>
 		<action-id>PERMISSIONS</action-id>

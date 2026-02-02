@@ -20,11 +20,11 @@ package com.liferay.layout.set.prototype.constants;
 public class LayoutSetPrototypePortletKeys {
 
 	public static final String LAYOUT_SET_PROTOTYPE =
-		"com_liferay_layout_set_prototype_web_portlet_" +
+		"com_gelzobal_layout_set_prototype_web_portlet_" +
 			"LayoutSetPrototypePortlet";
 
 	public static final String SITE_TEMPLATE_SETTINGS =
-		"com_liferay_layout_set_prototype_web_portlet_" +
+		"com_gelzobal_layout_set_prototype_web_portlet_" +
 			"SiteTemplateSettingsPortlet";
 
 }

@@ -46,7 +46,7 @@
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL"
 				],
-				"resource": "com_liferay_commerce_price_list_web_internal_portlet_CommercePriceListPortlet"
+				"resource": "com_gelzobal_commerce_price_list_web_internal_portlet_CommercePriceListPortlet"
 			}
 		],
 		"name": "Discount Manager",
@@ -66,7 +66,7 @@
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL"
 				],
-				"resource": "com_liferay_commerce_product_definitions_web_internal_portlet_CPDefinitionsPortlet"
+				"resource": "com_gelzobal_commerce_product_definitions_web_internal_portlet_CPDefinitionsPortlet"
 			},
 			{
 				"actionIds": [
@@ -79,14 +79,14 @@
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL"
 				],
-				"resource": "com_liferay_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet"
+				"resource": "com_gelzobal_commerce_catalog_web_internal_portlet_CommerceCatalogsPortlet"
 			},
 			{
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL",
 					"VIEW"
 				],
-				"resource": "com_liferay_asset_categories_admin_web_portlet_AssetCategoriesAdminPortlet"
+				"resource": "com_gelzobal_asset_categories_admin_web_portlet_AssetCategoriesAdminPortlet"
 			},
 			{
 				"actionIds": [
@@ -116,25 +116,25 @@
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL"
 				],
-				"resource": "com_liferay_commerce_inventory_web_internal_portlet_CommerceInventoryPortlet"
+				"resource": "com_gelzobal_commerce_inventory_web_internal_portlet_CommerceInventoryPortlet"
 			},
 			{
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL"
 				],
-				"resource": "com_liferay_commerce_order_web_internal_portlet_CommerceOrderPortlet"
+				"resource": "com_gelzobal_commerce_order_web_internal_portlet_CommerceOrderPortlet"
 			},
 			{
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL"
 				],
-				"resource": "com_liferay_commerce_shipment_web_internal_portlet_CommerceShipmentPortlet"
+				"resource": "com_gelzobal_commerce_shipment_web_internal_portlet_CommerceShipmentPortlet"
 			},
 			{
 				"actionIds": [
 					"ACCESS_IN_CONTROL_PANEL"
 				],
-				"resource": "com_liferay_commerce_subscription_web_internal_portlet_CommerceSubscriptionEntryPortlet"
+				"resource": "com_gelzobal_commerce_subscription_web_internal_portlet_CommerceSubscriptionEntryPortlet"
 			},
 			{
 				"actionIds": [

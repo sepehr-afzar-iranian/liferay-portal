@@ -20,6 +20,6 @@ package com.liferay.quick.note.web.internal.constants;
 public class QuickNotePortletKeys {
 
 	public static final String QUICK_NOTE =
-		"com_liferay_quick_note_web_portlet_QuickNotePortlet";
+		"com_gelzobal_quick_note_web_portlet_QuickNotePortlet";
 
 }

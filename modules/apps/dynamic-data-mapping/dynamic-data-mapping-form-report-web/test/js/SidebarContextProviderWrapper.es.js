@@ -34,7 +34,7 @@ export default ({children, ...otherProps}) => {
 		...sidebarState,
 		formReportRecordsFieldValuesURL: 'http://localhost:8080/',
 		portletNamespace:
-			'_com_liferay_dynamic_data_mapping_form_report_web_portlet_DDMFormReportPortlet_',
+			'_com_gelzobal_dynamic_data_mapping_form_report_web_portlet_DDMFormReportPortlet_',
 		toggleSidebar: jest.fn(() => !sidebarState.isOpen),
 		...otherProps,
 	};

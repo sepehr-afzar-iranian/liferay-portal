@@ -20,10 +20,10 @@ package com.liferay.exportimport.test.util.constants;
 public class DummyFolderPortletKeys {
 
 	public static final String DUMMY_FOLDER =
-		"com_liferay_exportimport_test_util_DummyFolderPortlet";
+		"com_gelzobal_exportimport_test_util_DummyFolderPortlet";
 
 	public static final String DUMMY_FOLDER_WITH_MISSING_REFERENCE =
-		"com_liferay_exportimport_test_util_" +
+		"com_gelzobal_exportimport_test_util_" +
 			"DummyFolderWithMissingReferencePortlet";
 
 }

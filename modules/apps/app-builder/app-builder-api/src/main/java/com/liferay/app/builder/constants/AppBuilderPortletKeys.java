@@ -20,28 +20,28 @@ package com.liferay.app.builder.constants;
 public class AppBuilderPortletKeys {
 
 	public static final String APP_BUILDER =
-		"com_liferay_app_builder_web_internal_portlet_AppBuilderPortlet";
+		"com_gelzobal_app_builder_web_internal_portlet_AppBuilderPortlet";
 
 	public static final String APPS =
-		"com_liferay_app_builder_web_internal_portlet_AppsPortlet";
+		"com_gelzobal_app_builder_web_internal_portlet_AppsPortlet";
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x)
 	 */
 	@Deprecated
 	public static final String CUSTOM_OBJECTS =
-		"com_liferay_app_builder_web_internal_portlet_CustomObjectsPortlet";
+		"com_gelzobal_app_builder_web_internal_portlet_CustomObjectsPortlet";
 
 	public static final String OBJECTS =
-		"com_liferay_app_builder_web_internal_portlet_ObjectsPortlet";
+		"com_gelzobal_app_builder_web_internal_portlet_ObjectsPortlet";
 
 	public static final String PRODUCT_MENU_APP =
-		"com_liferay_app_builder_web_internal_portlet_ProductMenuAppPortlet";
+		"com_gelzobal_app_builder_web_internal_portlet_ProductMenuAppPortlet";
 
 	public static final String STANDALONE_APP =
-		"com_liferay_app_builder_web_internal_portlet_StandaloneAppPortlet";
+		"com_gelzobal_app_builder_web_internal_portlet_StandaloneAppPortlet";
 
 	public static final String WIDGET_APP =
-		"com_liferay_app_builder_web_internal_portlet_WidgetAppPortlet";
+		"com_gelzobal_app_builder_web_internal_portlet_WidgetAppPortlet";
 
 }

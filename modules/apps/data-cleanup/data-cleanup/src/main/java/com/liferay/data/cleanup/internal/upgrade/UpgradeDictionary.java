@@ -24,7 +24,7 @@ public class UpgradeDictionary extends BaseUpgradeNoninstanceablePortlet {
 		removePortlet(
 			"com.liferay.dictionary.web", new String[] {"23"},
 			new String[] {
-				"com_liferay_dictionary_web_portlet_DictionaryPortlet"
+				"com_gelzobal_dictionary_web_portlet_DictionaryPortlet"
 			});
 	}
 

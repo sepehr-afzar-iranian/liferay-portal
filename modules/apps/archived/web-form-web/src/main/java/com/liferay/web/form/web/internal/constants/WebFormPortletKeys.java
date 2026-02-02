@@ -20,6 +20,6 @@ package com.liferay.web.form.web.internal.constants;
 public class WebFormPortletKeys {
 
 	public static final String WEB_FORM =
-		"com_liferay_web_form_web_portlet_WebFormPortlet";
+		"com_gelzobal_web_form_web_portlet_WebFormPortlet";
 
 }

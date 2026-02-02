@@ -20,6 +20,6 @@ package com.liferay.reading.time.web.internal.constants;
 public class ReadingTimePortletKeys {
 
 	public static final String READING_TIME =
-		"com_liferay_reading_time_web_portlet_ReadingTimePortlet";
+		"com_gelzobal_reading_time_web_portlet_ReadingTimePortlet";
 
 }

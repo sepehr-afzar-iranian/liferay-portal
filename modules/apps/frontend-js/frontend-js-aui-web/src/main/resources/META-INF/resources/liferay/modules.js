@@ -650,7 +650,7 @@
 				root: PATH_JAVASCRIPT + '/liferay/',
 			},
 		},
-		insertBefore: 'liferayPortalCSS',
+		insertBefore: 'gelzobalPortalCSS',
 		lang: themeDisplay.getBCP47LanguageId(),
 		root: PATH_JAVASCRIPT + '/aui/',
 		useBrowserConsole: false,

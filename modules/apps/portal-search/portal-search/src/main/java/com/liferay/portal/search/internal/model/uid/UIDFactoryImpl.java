@@ -155,6 +155,6 @@ public class UIDFactoryImpl implements UIDFactory {
 	private static final boolean _ENFORCE_STANDARD_UID = false;
 
 	private static final String _SYSTEM_SETTINGS_UID_PREFIX =
-		"com_liferay_configuration_admin_web_portlet_SystemSettingsPortlet";
+		"com_gelzobal_configuration_admin_web_portlet_SystemSettingsPortlet";
 
 }

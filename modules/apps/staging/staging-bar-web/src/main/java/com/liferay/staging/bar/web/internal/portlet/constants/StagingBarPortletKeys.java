@@ -20,6 +20,6 @@ package com.liferay.staging.bar.web.internal.portlet.constants;
 public class StagingBarPortletKeys {
 
 	public static final String STAGING_BAR =
-		"com_liferay_staging_bar_web_portlet_StagingBarPortlet";
+		"com_gelzobal_staging_bar_web_portlet_StagingBarPortlet";
 
 }

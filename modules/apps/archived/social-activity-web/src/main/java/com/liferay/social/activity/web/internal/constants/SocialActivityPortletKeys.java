@@ -20,6 +20,6 @@ package com.liferay.social.activity.web.internal.constants;
 public class SocialActivityPortletKeys {
 
 	public static final String SOCIAL_ACTIVITY =
-		"com_liferay_social_activity_web_portlet_SocialActivityPortlet";
+		"com_gelzobal_social_activity_web_portlet_SocialActivityPortlet";
 
 }

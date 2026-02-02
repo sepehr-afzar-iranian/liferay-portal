@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.layout.seo</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_layout_admin_web_portlet_GroupPagesPortlet</portlet-name>
+			<portlet-name>com_gelzobal_layout_admin_web_portlet_GroupPagesPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -27,7 +27,7 @@
 			<model-name>com.liferay.layout.seo.model.LayoutSEOEntry</model-name>
 		</composite-model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_layout_admin_web_portlet_GroupPagesPortlet</portlet-name>
+			<portlet-name>com_gelzobal_layout_admin_web_portlet_GroupPagesPortlet</portlet-name>
 		</portlet-ref>
 		<weight>6</weight>
 		<permissions>

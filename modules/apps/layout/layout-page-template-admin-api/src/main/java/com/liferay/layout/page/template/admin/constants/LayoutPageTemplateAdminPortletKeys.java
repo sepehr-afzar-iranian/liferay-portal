@@ -20,7 +20,7 @@ package com.liferay.layout.page.template.admin.constants;
 public class LayoutPageTemplateAdminPortletKeys {
 
 	public static final String LAYOUT_PAGE_TEMPLATES =
-		"com_liferay_layout_page_template_admin_web_portlet_" +
+		"com_gelzobal_layout_page_template_admin_web_portlet_" +
 			"LayoutPageTemplatesPortlet";
 
 }

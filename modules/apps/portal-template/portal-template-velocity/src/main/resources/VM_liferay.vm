@@ -67,7 +67,7 @@ $languageUtil.format($locale, $lang_key, $arguments.toArray())#end
 
 #macro (search_bar $default_preferences)
 	#if ($is_setup_complete)
-		$theme.runtime("com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet", $portletProviderAction.VIEW, "templateSearch", $!default_preferences)
+		$theme.runtime("com_gelzobal_portal_search_web_search_bar_portlet_SearchBarPortlet", $portletProviderAction.VIEW, "templateSearch", $!default_preferences)
 	#end
 #end
 

@@ -32,11 +32,11 @@ public class UpgradeChat extends UpgradeProcess {
 
 		runSQL(
 			"delete from Portlet where portletId = " +
-				"'com_liferay_chat_web_portlet_ChatPortlet'");
+				"'com_gelzobal_chat_web_portlet_ChatPortlet'");
 
 		runSQL(
 			"delete from PortletPreferences where portletId =" +
-				"'com_liferay_chat_web_portlet_ChatPortlet'");
+				"'com_gelzobal_chat_web_portlet_ChatPortlet'");
 
 		runSQL(
 			"delete from Release_ where servletContextName = " +

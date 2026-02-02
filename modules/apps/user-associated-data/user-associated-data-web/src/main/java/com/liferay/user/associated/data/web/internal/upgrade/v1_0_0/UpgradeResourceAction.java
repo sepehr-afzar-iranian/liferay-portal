@@ -24,7 +24,7 @@ public class UpgradeResourceAction extends UpgradeProcess {
 	@Override
 	protected void doUpgrade() throws Exception {
 		runSQL(
-			"delete from ResourceAction where name = 'com_liferay_user_" +
+			"delete from ResourceAction where name = 'com_gelzobal_user_" +
 				"associated_data_web_portlet_UserAssociatedDataPortlet'");
 	}
 

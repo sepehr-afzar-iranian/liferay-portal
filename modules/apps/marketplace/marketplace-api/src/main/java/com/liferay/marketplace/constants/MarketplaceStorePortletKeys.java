@@ -21,9 +21,9 @@ package com.liferay.marketplace.constants;
 public class MarketplaceStorePortletKeys {
 
 	public static final String MARKETPLACE_PURCHASED =
-		"com_liferay_marketplace_store_web_portlet_MarketplacePurchasedPortlet";
+		"com_gelzobal_marketplace_store_web_portlet_MarketplacePurchasedPortlet";
 
 	public static final String MARKETPLACE_STORE =
-		"com_liferay_marketplace_store_web_portlet_MarketplaceStorePortlet";
+		"com_gelzobal_marketplace_store_web_portlet_MarketplaceStorePortlet";
 
 }

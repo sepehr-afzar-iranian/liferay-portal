@@ -39,12 +39,12 @@ public class SyncWebUpgrade implements UpgradeStepRegistrator {
 				protected String[][] getRenamePortletIdsArray() {
 					return new String[][] {
 						{
-							"com_liferay_sync_connector_web_portlet_" +
+							"com_gelzobal_sync_connector_web_portlet_" +
 								"SyncAdminPortlet",
 							SyncPortletKeys.SYNC_ADMIN_PORTLET
 						},
 						{
-							"com_liferay_sync_connector_web_portlet_" +
+							"com_gelzobal_sync_connector_web_portlet_" +
 								"SyncDevicesPortlet",
 							SyncPortletKeys.SYNC_DEVICES_PORTLET
 						}

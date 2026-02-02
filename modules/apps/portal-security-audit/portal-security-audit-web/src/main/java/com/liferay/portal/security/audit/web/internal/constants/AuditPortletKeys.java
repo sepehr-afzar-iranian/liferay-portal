@@ -20,7 +20,7 @@ package com.liferay.portal.security.audit.web.internal.constants;
 public class AuditPortletKeys {
 
 	public static final String AUDIT =
-		"com_liferay_portal_security_audit_web_portlet_AuditPortlet";
+		"com_gelzobal_portal_security_audit_web_portlet_AuditPortlet";
 
 	public static final String PORTLET_DISPLAY_CONTEXT =
 		"PortletDisplayContext";

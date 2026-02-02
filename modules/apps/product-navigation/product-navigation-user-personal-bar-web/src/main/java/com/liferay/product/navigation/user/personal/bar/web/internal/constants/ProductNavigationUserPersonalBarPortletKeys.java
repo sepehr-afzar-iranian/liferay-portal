@@ -20,7 +20,7 @@ package com.liferay.product.navigation.user.personal.bar.web.internal.constants;
 public class ProductNavigationUserPersonalBarPortletKeys {
 
 	public static final String PRODUCT_NAVIGATION_USER_PERSONAL_BAR =
-		"com_liferay_product_navigation_user_personal_bar_web_portlet_" +
+		"com_gelzobal_product_navigation_user_personal_bar_web_portlet_" +
 			"ProductNavigationUserPersonalBarPortlet";
 
 }

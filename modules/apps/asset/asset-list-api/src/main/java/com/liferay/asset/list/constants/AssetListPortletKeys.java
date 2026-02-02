@@ -20,6 +20,6 @@ package com.liferay.asset.list.constants;
 public class AssetListPortletKeys {
 
 	public static final String ASSET_LIST =
-		"com_liferay_asset_list_web_portlet_AssetListPortlet";
+		"com_gelzobal_asset_list_web_portlet_AssetListPortlet";
 
 }

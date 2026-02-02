@@ -20,6 +20,6 @@ package com.liferay.web.proxy.web.internal.constants;
 public class WebProxyPortletKeys {
 
 	public static final String WEB_PROXY =
-		"com_liferay_web_proxy_web_portlet_WebProxyPortlet";
+		"com_gelzobal_web_proxy_web_portlet_WebProxyPortlet";
 
 }

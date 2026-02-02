@@ -20,9 +20,9 @@ package com.liferay.sync.constants;
 public class SyncPortletKeys {
 
 	public static final String SYNC_ADMIN_PORTLET =
-		"com_liferay_sync_web_portlet_SyncAdminPortlet";
+		"com_gelzobal_sync_web_portlet_SyncAdminPortlet";
 
 	public static final String SYNC_DEVICES_PORTLET =
-		"com_liferay_sync_web_portlet_SyncDevicesPortlet";
+		"com_gelzobal_sync_web_portlet_SyncDevicesPortlet";
 
 }

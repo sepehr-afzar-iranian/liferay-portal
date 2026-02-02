@@ -20,9 +20,9 @@ package com.liferay.depot.web.internal.constants;
 public class DepotPortletKeys {
 
 	public static final String DEPOT_ADMIN =
-		"com_liferay_depot_web_portlet_DepotAdminPortlet";
+		"com_gelzobal_depot_web_portlet_DepotAdminPortlet";
 
 	public static final String DEPOT_SETTINGS =
-		"com_liferay_depot_web_portlet_DepotSettingsPortlet";
+		"com_gelzobal_depot_web_portlet_DepotSettingsPortlet";
 
 }

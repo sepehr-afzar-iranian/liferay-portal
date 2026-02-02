@@ -16,7 +16,7 @@
 
 	<#assign
 		layoutName = "dynamic_data_list_display_" + ddlRecordSetCount
-		portletId = "com_liferay_dynamic_data_lists_web_portlet_DDLDisplayPortlet_INSTANCE_TEST" + ddlRecordSetCount
+		portletId = "com_gelzobal_dynamic_data_lists_web_portlet_DDLDisplayPortlet_INSTANCE_TEST" + ddlRecordSetCount
 
 		layoutModel = dataFactory.newLayoutModel(groupId, layoutName, "", portletId)
 	/>

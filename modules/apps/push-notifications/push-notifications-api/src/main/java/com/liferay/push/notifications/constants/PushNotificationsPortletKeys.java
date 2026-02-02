@@ -20,6 +20,6 @@ package com.liferay.push.notifications.constants;
 public class PushNotificationsPortletKeys {
 
 	public static final String PUSH_NOTIFICATIONS =
-		"com_liferay_push_notifications_web_portlet_PushNotificationsPortlet";
+		"com_gelzobal_push_notifications_web_portlet_PushNotificationsPortlet";
 
 }

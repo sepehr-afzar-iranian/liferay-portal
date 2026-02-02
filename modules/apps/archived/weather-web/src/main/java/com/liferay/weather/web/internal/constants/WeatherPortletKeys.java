@@ -20,6 +20,6 @@ package com.liferay.weather.web.internal.constants;
 public class WeatherPortletKeys {
 
 	public static final String WEATHER =
-		"com_liferay_weather_web_portlet_WeatherPortlet";
+		"com_gelzobal_weather_web_portlet_WeatherPortlet";
 
 }

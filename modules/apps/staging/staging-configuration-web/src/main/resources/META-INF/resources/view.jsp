@@ -80,7 +80,7 @@ BackgroundTask lastCompletedInitialPublicationBackgroundTask = BackgroundTaskMan
 					<c:if test="<%= !privateLayoutSet.isLayoutSetPrototypeLinkActive() && !publicLayoutSet.isLayoutSetPrototypeLinkActive() %>">
 						<clay:sheet-header>
 							<div class="sheet-title">
-								<liferay-ui:message key="javax.portlet.title.com_liferay_staging_configuration_web_portlet_StagingConfigurationPortlet" />
+								<liferay-ui:message key="javax.portlet.title.com_gelzobal_staging_configuration_web_portlet_StagingConfigurationPortlet" />
 							</div>
 						</clay:sheet-header>
 

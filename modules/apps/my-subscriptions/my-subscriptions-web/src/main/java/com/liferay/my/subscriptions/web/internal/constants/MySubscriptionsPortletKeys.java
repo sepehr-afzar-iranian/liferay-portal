@@ -20,6 +20,6 @@ package com.liferay.my.subscriptions.web.internal.constants;
 public class MySubscriptionsPortletKeys {
 
 	public static final String MY_SUBSCRIPTIONS =
-		"com_liferay_mysubscriptions_web_portlet_MySubscriptionsPortlet";
+		"com_gelzobal_mysubscriptions_web_portlet_MySubscriptionsPortlet";
 
 }

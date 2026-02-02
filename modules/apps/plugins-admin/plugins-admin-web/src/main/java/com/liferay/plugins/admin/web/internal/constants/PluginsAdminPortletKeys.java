@@ -20,6 +20,6 @@ package com.liferay.plugins.admin.web.internal.constants;
 public class PluginsAdminPortletKeys {
 
 	public static final String PLUGINS_ADMIN =
-		"com_liferay_plugins_admin_web_portlet_PluginsAdminPortlet";
+		"com_gelzobal_plugins_admin_web_portlet_PluginsAdminPortlet";
 
 }

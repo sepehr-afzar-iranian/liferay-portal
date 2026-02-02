@@ -20,11 +20,11 @@ package com.liferay.layout.content.page.editor.constants;
 public class ContentPageEditorPortletKeys {
 
 	public static final String CONTENT_PAGE_EDITOR_PORTLET =
-		"com_liferay_layout_content_page_editor_web_internal_portlet_" +
+		"com_gelzobal_layout_content_page_editor_web_internal_portlet_" +
 			"ContentPageEditorPortlet";
 
 	public static final String CONTENT_PAGE_TOOLBAR_PORTLET =
-		"com_liferay_layout_content_page_editor_web_internal_portlet_" +
+		"com_gelzobal_layout_content_page_editor_web_internal_portlet_" +
 			"ContentPageToolbarPortlet";
 
 }

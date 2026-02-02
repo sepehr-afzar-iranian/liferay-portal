@@ -19,7 +19,7 @@ const openItemSelectorModal = ({multiple, url, ...props}) => {
 		multiple,
 		url: createPortletURL(url, {
 			multipleSelection: multiple || false,
-			p_p_id: 'com_liferay_item_selector_web_portlet_ItemSelectorPortlet',
+			p_p_id: 'com_gelzobal_item_selector_web_portlet_ItemSelectorPortlet',
 		}),
 		...props,
 	});

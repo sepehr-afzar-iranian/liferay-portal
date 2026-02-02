@@ -20,6 +20,6 @@ package com.liferay.item.selector.constants;
 public class ItemSelectorPortletKeys {
 
 	public static final String ITEM_SELECTOR =
-		"com_liferay_item_selector_web_portlet_ItemSelectorPortlet";
+		"com_gelzobal_item_selector_web_portlet_ItemSelectorPortlet";
 
 }

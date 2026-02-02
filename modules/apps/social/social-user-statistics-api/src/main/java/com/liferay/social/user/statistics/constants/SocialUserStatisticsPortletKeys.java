@@ -20,7 +20,7 @@ package com.liferay.social.user.statistics.constants;
 public class SocialUserStatisticsPortletKeys {
 
 	public static final String SOCIAL_USER_STATISTICS =
-		"com_liferay_social_user_statistics_web_portlet_" +
+		"com_gelzobal_social_user_statistics_web_portlet_" +
 			"SocialUserStatisticsPortlet";
 
 }

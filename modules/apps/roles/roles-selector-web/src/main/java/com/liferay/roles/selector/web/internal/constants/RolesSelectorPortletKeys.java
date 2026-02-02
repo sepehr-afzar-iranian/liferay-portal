@@ -20,6 +20,6 @@ package com.liferay.roles.selector.web.internal.constants;
 public class RolesSelectorPortletKeys {
 
 	public static final String ROLES_SELECTOR =
-		"com_liferay_roles_selector_web_portlet_RolesSelectorPortlet";
+		"com_gelzobal_roles_selector_web_portlet_RolesSelectorPortlet";
 
 }

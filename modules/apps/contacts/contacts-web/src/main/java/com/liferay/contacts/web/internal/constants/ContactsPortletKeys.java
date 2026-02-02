@@ -20,15 +20,15 @@ package com.liferay.contacts.web.internal.constants;
 public class ContactsPortletKeys {
 
 	public static final String CONTACTS_CENTER =
-		"com_liferay_contacts_web_portlet_ContactsCenterPortlet";
+		"com_gelzobal_contacts_web_portlet_ContactsCenterPortlet";
 
 	public static final String MEMBERS =
-		"com_liferay_contacts_web_portlet_MembersPortlet";
+		"com_gelzobal_contacts_web_portlet_MembersPortlet";
 
 	public static final String MY_CONTACTS =
-		"com_liferay_contacts_web_portlet_MyContactsPortlet";
+		"com_gelzobal_contacts_web_portlet_MyContactsPortlet";
 
 	public static final String PROFILE =
-		"com_liferay_contacts_web_portlet_ProfilePortlet";
+		"com_gelzobal_contacts_web_portlet_ProfilePortlet";
 
 }

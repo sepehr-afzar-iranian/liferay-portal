@@ -20,7 +20,7 @@ package com.liferay.document.library.analytics.internal.constants;
 public class DocumentLibraryAnalyticsConstants {
 
 	public static final String JS_PREFIX =
-		"_com_liferay_document_library_analytics_";
+		"_com_gelzobal_document_library_analytics_";
 
 	public static final String PATH_RESOLVE_FILE_ENTRY =
 		"/document_library/analytics/resolve_file_entry";

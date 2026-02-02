@@ -20,6 +20,6 @@ package com.liferay.monitoring.web.internal.constants;
 public class MonitoringPortletKeys {
 
 	public static final String MONITORING =
-		"com_liferay_monitoring_web_portlet_MonitoringPortlet";
+		"com_gelzobal_monitoring_web_portlet_MonitoringPortlet";
 
 }

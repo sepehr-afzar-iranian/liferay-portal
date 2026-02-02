@@ -23,18 +23,18 @@ package com.liferay.asset.publisher.constants;
 public class AssetPublisherPortletKeys {
 
 	public static final String ASSET_PUBLISHER =
-		"com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet";
+		"com_gelzobal_asset_publisher_web_portlet_AssetPublisherPortlet";
 
 	public static final String HIGHEST_RATED_ASSETS =
-		"com_liferay_asset_publisher_web_portlet_HighestRatedAssetsPortlet";
+		"com_gelzobal_asset_publisher_web_portlet_HighestRatedAssetsPortlet";
 
 	public static final String MOST_VIEWED_ASSETS =
-		"com_liferay_asset_publisher_web_portlet_MostViewedAssetsPortlet";
+		"com_gelzobal_asset_publisher_web_portlet_MostViewedAssetsPortlet";
 
 	public static final String RECENT_CONTENT =
-		"com_liferay_asset_publisher_web_portlet_RecentContentPortlet";
+		"com_gelzobal_asset_publisher_web_portlet_RecentContentPortlet";
 
 	public static final String RELATED_ASSETS =
-		"com_liferay_asset_publisher_web_portlet_RelatedAssetsPortlet";
+		"com_gelzobal_asset_publisher_web_portlet_RelatedAssetsPortlet";
 
 }

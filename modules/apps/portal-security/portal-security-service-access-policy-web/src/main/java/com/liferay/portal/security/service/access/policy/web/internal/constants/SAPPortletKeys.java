@@ -20,7 +20,7 @@ package com.liferay.portal.security.service.access.policy.web.internal.constants
 public class SAPPortletKeys {
 
 	public static final String SERVICE_ACCESS_POLICY =
-		"com_liferay_portal_security_service_access_policy_web_portlet_" +
+		"com_gelzobal_portal_security_service_access_policy_web_portlet_" +
 			"SAPPortlet";
 
 }

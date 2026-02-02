@@ -3,7 +3,7 @@
 
 <resource-action-mapping>
 	<portlet-resource>
-		<portlet-name>com_liferay_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet</portlet-name>
+		<portlet-name>com_gelzobal_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
@@ -20,7 +20,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_oauth2_provider_web_internal_portlet_OAuth2AuthorizePortlet</portlet-name>
+		<portlet-name>com_gelzobal_oauth2_provider_web_internal_portlet_OAuth2AuthorizePortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>
@@ -37,7 +37,7 @@
 		</permissions>
 	</portlet-resource>
 	<portlet-resource>
-		<portlet-name>com_liferay_oauth2_provider_web_internal_portlet_OAuth2ConnectedApplicationsPortlet</portlet-name>
+		<portlet-name>com_gelzobal_oauth2_provider_web_internal_portlet_OAuth2ConnectedApplicationsPortlet</portlet-name>
 		<permissions>
 			<supports>
 				<action-key>ACCESS_IN_CONTROL_PANEL</action-key>

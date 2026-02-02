@@ -29,7 +29,7 @@
 	<@liferay_portlet["runtime"]
 		defaultPreferences=default_preferences
 		instanceId="siteNavigationMenuPortlet_main"
-		portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+		portletName="com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
 	/>
 </#macro>
 
@@ -37,6 +37,6 @@
 	<@liferay_portlet["runtime"]
 		defaultPreferences=default_preferences
 		instanceId="siteNavigationMenuPortlet_sub_navigation"
-		portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+		portletName="com_gelzobal_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
 	/>
 </#macro>

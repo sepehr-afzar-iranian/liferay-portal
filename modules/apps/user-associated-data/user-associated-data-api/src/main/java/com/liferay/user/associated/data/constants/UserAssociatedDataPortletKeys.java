@@ -20,6 +20,6 @@ package com.liferay.user.associated.data.constants;
 public class UserAssociatedDataPortletKeys {
 
 	public static final String USER_ASSOCIATED_DATA =
-		"com_liferay_user_associated_data_web_portlet_UserAssociatedData";
+		"com_gelzobal_user_associated_data_web_portlet_UserAssociatedData";
 
 }

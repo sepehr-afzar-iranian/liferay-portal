@@ -20,6 +20,6 @@ package com.liferay.contacts.constants;
 public class ContactsPortletKeys {
 
 	public static final String CONCTACTS_CENTER =
-		"com_liferay_contacts_web_portlet_ContactsCenterPortlet";
+		"com_gelzobal_contacts_web_portlet_ContactsCenterPortlet";
 
 }

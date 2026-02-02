@@ -5,7 +5,7 @@
 	<model-resource>
 		<model-name>com.liferay.app.builder</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_app_builder_web_internal_portlet_ObjectsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_app_builder_web_internal_portlet_ObjectsPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -27,7 +27,7 @@
 	<model-resource>
 		<model-name>com.liferay.app.builder.model.AppBuilderApp</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
+			<portlet-name>com_gelzobal_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>
@@ -50,7 +50,7 @@
 			<model-name>com.liferay.dynamic.data.lists.model.DDLRecordSet</model-name>
 		</composite-model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
+			<portlet-name>com_gelzobal_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>
@@ -90,7 +90,7 @@
 			<model-name>com.liferay.dynamic.data.mapping.model.DDMStructure</model-name>
 		</composite-model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
+			<portlet-name>com_gelzobal_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
 		</portlet-ref>
 		<weight>4</weight>
 		<permissions>
@@ -119,7 +119,7 @@
 			<model-name>com.liferay.dynamic.data.mapping.model.DDMStructure</model-name>
 		</composite-model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
+			<portlet-name>com_gelzobal_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
 		</portlet-ref>
 		<weight>5</weight>
 		<permissions>
@@ -148,7 +148,7 @@
 			<model-name>com.liferay.dynamic.data.lists.model.DDLRecordSet</model-name>
 		</composite-model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
+			<portlet-name>com_gelzobal_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>
@@ -188,7 +188,7 @@
 			<model-name>com.liferay.dynamic.data.mapping.model.DDMStructure</model-name>
 		</composite-model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
+			<portlet-name>com_gelzobal_app_builder_web_internal_portlet_AppBuilderPortlet</portlet-name>
 		</portlet-ref>
 		<weight>4</weight>
 		<permissions>

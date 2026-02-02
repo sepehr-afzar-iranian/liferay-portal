@@ -20,6 +20,6 @@ package com.liferay.iframe.web.internal.constants;
 public class IFramePortletKeys {
 
 	public static final String IFRAME =
-		"com_liferay_iframe_web_portlet_IFramePortlet";
+		"com_gelzobal_iframe_web_portlet_IFramePortlet";
 
 }

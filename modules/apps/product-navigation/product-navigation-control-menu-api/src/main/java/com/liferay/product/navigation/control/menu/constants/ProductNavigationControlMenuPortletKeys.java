@@ -20,7 +20,7 @@ package com.liferay.product.navigation.control.menu.constants;
 public class ProductNavigationControlMenuPortletKeys {
 
 	public static final String PRODUCT_NAVIGATION_CONTROL_MENU =
-		"com_liferay_product_navigation_control_menu_web_portlet_" +
+		"com_gelzobal_product_navigation_control_menu_web_portlet_" +
 			"ProductNavigationControlMenuPortlet";
 
 }

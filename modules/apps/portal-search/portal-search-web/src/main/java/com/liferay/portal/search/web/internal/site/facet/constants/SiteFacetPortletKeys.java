@@ -20,6 +20,6 @@ package com.liferay.portal.search.web.internal.site.facet.constants;
 public class SiteFacetPortletKeys {
 
 	public static final String SITE_FACET =
-		"com_liferay_portal_search_web_site_facet_portlet_SiteFacetPortlet";
+		"com_gelzobal_portal_search_web_site_facet_portlet_SiteFacetPortlet";
 
 }

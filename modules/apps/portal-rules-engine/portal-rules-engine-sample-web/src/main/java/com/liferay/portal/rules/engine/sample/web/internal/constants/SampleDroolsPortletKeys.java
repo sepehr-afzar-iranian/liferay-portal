@@ -20,7 +20,7 @@ package com.liferay.portal.rules.engine.sample.web.internal.constants;
 public class SampleDroolsPortletKeys {
 
 	public static final String SAMPLE_DROOLS =
-		"com_liferay_portal_rules_engine_sample_web_portlet_" +
+		"com_gelzobal_portal_rules_engine_sample_web_portlet_" +
 			"SampleDroolsPortlet";
 
 }

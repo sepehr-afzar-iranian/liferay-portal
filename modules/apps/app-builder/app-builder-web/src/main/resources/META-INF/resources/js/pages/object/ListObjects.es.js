@@ -119,7 +119,7 @@ export default ({history, listViewProps = {}, objectType}) => {
 		<>
 			<ControlMenu
 				title={Liferay.Language.get(
-					'javax.portlet.title.com_liferay_app_builder_web_internal_portlet_ObjectsPortlet'
+					'javax.portlet.title.com_gelzobal_app_builder_web_internal_portlet_ObjectsPortlet'
 				)}
 			/>
 

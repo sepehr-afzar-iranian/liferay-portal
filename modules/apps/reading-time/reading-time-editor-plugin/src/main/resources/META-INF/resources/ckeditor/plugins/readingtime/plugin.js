@@ -13,7 +13,7 @@
  */
 
 (function () {
-	var NAMESPACE = '_com_liferay_reading_time_web_portlet_ReadingTimePortlet_';
+	var NAMESPACE = '_com_gelzobal_reading_time_web_portlet_ReadingTimePortlet_';
 
 	CKEDITOR.plugins.add('readingtime', {
 		init(editor) {

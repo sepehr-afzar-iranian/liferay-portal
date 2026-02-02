@@ -70,36 +70,36 @@ public class UpgradePortletId extends BaseUpgradePortletId {
 	}
 
 	private static final String _ASSET_CATEGORIES_ADMIN =
-		"com_liferay_asset_categories_admin_web_portlet_" +
+		"com_gelzobal_asset_categories_admin_web_portlet_" +
 			"AssetCategoriesAdminPortlet";
 
 	private static final String _ASSET_TAGS_ADMIN =
-		"com_liferay_asset_tags_admin_web_portlet_AssetTagsAdminPortlet";
+		"com_gelzobal_asset_tags_admin_web_portlet_AssetTagsAdminPortlet";
 
 	private static final String _DYNAMIC_DATA_LISTS =
-		"com_liferay_dynamic_data_lists_web_portlet_DDLPortlet";
+		"com_gelzobal_dynamic_data_lists_web_portlet_DDLPortlet";
 
 	private static final String _LAYOUT_PROTOTYPE =
-		"com_liferay_layout_prototype_web_portlet_LayoutPrototypePortlet";
+		"com_gelzobal_layout_prototype_web_portlet_LayoutPrototypePortlet";
 
 	private static final String _LAYOUT_SET_PROTOTYPE =
-		"com_liferay_layout_set_prototype_web_portlet_" +
+		"com_gelzobal_layout_set_prototype_web_portlet_" +
 			"LayoutSetPrototypePortlet";
 
 	private static final String _LAYOUTS_ADMIN =
-		"com_liferay_layout_admin_web_portlet_LayoutAdminPortlet";
+		"com_gelzobal_layout_admin_web_portlet_LayoutAdminPortlet";
 
 	private static final String _SITE_MEMBERSHIPS_ADMIN =
-		"com_liferay_site_memberships_web_portlet_SiteMembershipsPortlet";
+		"com_gelzobal_site_memberships_web_portlet_SiteMembershipsPortlet";
 
 	private static final String _SITE_SETTINGS =
-		"com_liferay_site_admin_web_portlet_SiteSettingsPortlet";
+		"com_gelzobal_site_admin_web_portlet_SiteSettingsPortlet";
 
 	private static final String _SITE_TEAMS =
-		"com_liferay_site_teams_web_portlet_SiteTeamsPortlet";
+		"com_gelzobal_site_teams_web_portlet_SiteTeamsPortlet";
 
 	private static final String _SITE_TEMPLATE_SETTINGS =
-		"com_liferay_layout_set_prototype_web_portlet_" +
+		"com_gelzobal_layout_set_prototype_web_portlet_" +
 			"SiteTemplateSettingsPortlet";
 
 }

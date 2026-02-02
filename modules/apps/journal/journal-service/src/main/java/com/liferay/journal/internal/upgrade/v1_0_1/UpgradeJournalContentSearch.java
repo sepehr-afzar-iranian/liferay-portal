@@ -88,7 +88,7 @@ public class UpgradeJournalContentSearch extends UpgradeProcess {
 	}
 
 	private static final String _NEW_ROOT_PORTLET_ID =
-		"com_liferay_journal_content_web_portlet_JournalContentPortlet";
+		"com_gelzobal_journal_content_web_portlet_JournalContentPortlet";
 
 	private static final String _OLD_ROOT_PORTLET_ID = "56";
 

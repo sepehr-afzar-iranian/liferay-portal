@@ -20,9 +20,9 @@ package com.liferay.sharing.web.internal.constants;
 public class SharingPortletKeys {
 
 	public static final String MANAGE_COLLABORATORS =
-		"com_liferay_sharing_web_portlet_ManageCollaboratorsPortlet";
+		"com_gelzobal_sharing_web_portlet_ManageCollaboratorsPortlet";
 
 	public static final String SHARED_ASSETS =
-		"com_liferay_sharing_web_portlet_SharedAssetsPortlet";
+		"com_gelzobal_sharing_web_portlet_SharedAssetsPortlet";
 
 }

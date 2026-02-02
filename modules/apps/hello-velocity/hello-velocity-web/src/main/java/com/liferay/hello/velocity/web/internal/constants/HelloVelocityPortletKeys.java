@@ -20,6 +20,6 @@ package com.liferay.hello.velocity.web.internal.constants;
 public class HelloVelocityPortletKeys {
 
 	public static final String HELLO_VELOCITY =
-		"com_liferay_hello_velocity_web_portlet_HelloVelocityPortlet";
+		"com_gelzobal_hello_velocity_web_portlet_HelloVelocityPortlet";
 
 }

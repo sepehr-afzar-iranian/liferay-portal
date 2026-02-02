@@ -20,6 +20,6 @@ package com.liferay.portal.search.admin.web.internal.constants;
 public class SearchAdminPortletKeys {
 
 	public static final String SEARCH_ADMIN =
-		"com_liferay_portal_search_admin_web_portlet_SearchAdminPortlet";
+		"com_gelzobal_portal_search_admin_web_portlet_SearchAdminPortlet";
 
 }

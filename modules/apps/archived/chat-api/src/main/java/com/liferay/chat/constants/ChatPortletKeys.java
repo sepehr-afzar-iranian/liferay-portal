@@ -20,6 +20,6 @@ package com.liferay.chat.constants;
 public class ChatPortletKeys {
 
 	public static final String CHAT =
-		"com_liferay_chat_web_portlet_ChatPortlet";
+		"com_gelzobal_chat_web_portlet_ChatPortlet";
 
 }

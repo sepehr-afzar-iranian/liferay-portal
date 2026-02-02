@@ -26,13 +26,13 @@ public class DDLPortletKeys {
 	 * administration portlet.
 	 */
 	public static final String DYNAMIC_DATA_LISTS =
-		"com_liferay_dynamic_data_lists_web_portlet_DDLPortlet";
+		"com_gelzobal_dynamic_data_lists_web_portlet_DDLPortlet";
 
 	/**
 	 * {@value #DYNAMIC_DATA_LISTS_DISPLAY} is the Portlet ID for the Dynamic
 	 * Data Lists Display portlet.
 	 */
 	public static final String DYNAMIC_DATA_LISTS_DISPLAY =
-		"com_liferay_dynamic_data_lists_web_portlet_DDLDisplayPortlet";
+		"com_gelzobal_dynamic_data_lists_web_portlet_DDLDisplayPortlet";
 
 }

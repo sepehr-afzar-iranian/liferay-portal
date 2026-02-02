@@ -20,12 +20,12 @@ package com.liferay.announcements.constants;
 public class AnnouncementsPortletKeys {
 
 	public static final String ALERTS =
-		"com_liferay_announcements_web_portlet_AlertsPortlet";
+		"com_gelzobal_announcements_web_portlet_AlertsPortlet";
 
 	public static final String ANNOUNCEMENTS =
-		"com_liferay_announcements_web_portlet_AnnouncementsPortlet";
+		"com_gelzobal_announcements_web_portlet_AnnouncementsPortlet";
 
 	public static final String ANNOUNCEMENTS_ADMIN =
-		"com_liferay_announcements_web_portlet_AnnouncementsAdminPortlet";
+		"com_gelzobal_announcements_web_portlet_AnnouncementsAdminPortlet";
 
 }

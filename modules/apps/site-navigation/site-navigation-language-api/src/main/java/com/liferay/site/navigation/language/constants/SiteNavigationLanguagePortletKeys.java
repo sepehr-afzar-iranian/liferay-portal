@@ -20,7 +20,7 @@ package com.liferay.site.navigation.language.constants;
 public class SiteNavigationLanguagePortletKeys {
 
 	public static final String SITE_NAVIGATION_LANGUAGE =
-		"com_liferay_site_navigation_language_web_portlet_" +
+		"com_gelzobal_site_navigation_language_web_portlet_" +
 			"SiteNavigationLanguagePortlet";
 
 }

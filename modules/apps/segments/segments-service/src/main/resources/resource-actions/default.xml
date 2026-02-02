@@ -5,8 +5,8 @@
 	<model-resource>
 		<model-name>com.liferay.segments</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_segments_simulation_web_internal_portlet_SegmentsSimulationPortlet</portlet-name>
-			<portlet-name>com_liferay_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_segments_simulation_web_internal_portlet_SegmentsSimulationPortlet</portlet-name>
+			<portlet-name>com_gelzobal_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
 		</portlet-ref>
 		<root>true</root>
 		<weight>1</weight>
@@ -31,7 +31,7 @@
 	<model-resource>
 		<model-name>com.liferay.segments.model.SegmentsEntry</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
 		<permissions>
@@ -56,7 +56,7 @@
 	<model-resource>
 		<model-name>com.liferay.segments.model.SegmentsExperience</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>3</weight>
 		<permissions>
@@ -80,7 +80,7 @@
 	<model-resource>
 		<model-name>com.liferay.segments.model.SegmentsExperiment</model-name>
 		<portlet-ref>
-			<portlet-name>com_liferay_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
+			<portlet-name>com_gelzobal_segments_web_internal_portlet_SegmentsPortlet</portlet-name>
 		</portlet-ref>
 		<weight>4</weight>
 		<permissions>

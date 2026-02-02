@@ -140,7 +140,7 @@ ${languageUtil.format(locale, key, arguments)}</#macro>
 			defaultPreferences=default_preferences
 			instanceId="templateSearch"
 			portletProviderAction=portletProviderAction.VIEW
-			portletProviderClassName="com_liferay_portal_search_web_search_bar_portlet_SearchBarPortlet"
+			portletProviderClassName="com_gelzobal_portal_search_web_search_bar_portlet_SearchBarPortlet"
 		/>
 	</#if>
 </#macro>

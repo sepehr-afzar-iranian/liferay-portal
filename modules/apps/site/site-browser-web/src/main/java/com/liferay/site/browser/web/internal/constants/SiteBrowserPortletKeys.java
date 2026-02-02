@@ -20,6 +20,6 @@ package com.liferay.site.browser.web.internal.constants;
 public class SiteBrowserPortletKeys {
 
 	public static final String SITE_BROWSER =
-		"com_liferay_site_browser_web_portlet_SiteBrowserPortlet";
+		"com_gelzobal_site_browser_web_portlet_SiteBrowserPortlet";
 
 }

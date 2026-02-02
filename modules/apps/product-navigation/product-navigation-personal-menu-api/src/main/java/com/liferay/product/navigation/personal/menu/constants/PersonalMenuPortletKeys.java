@@ -20,7 +20,7 @@ package com.liferay.product.navigation.personal.menu.constants;
 public class PersonalMenuPortletKeys {
 
 	public static final String PERSONAL_MENU =
-		"com_liferay_product_navigation_personal_menu_web_internal_portlet_" +
+		"com_gelzobal_product_navigation_personal_menu_web_internal_portlet_" +
 			"PersonalMenuPortlet";
 
 }

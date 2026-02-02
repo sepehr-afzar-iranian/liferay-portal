@@ -20,7 +20,7 @@ package com.liferay.portlet.configuration.web.internal.constants;
 public class PortletConfigurationPortletKeys {
 
 	public static final String PORTLET_CONFIGURATION =
-		"com_liferay_portlet_configuration_web_portlet_" +
+		"com_gelzobal_portlet_configuration_web_portlet_" +
 			"PortletConfigurationPortlet";
 
 }

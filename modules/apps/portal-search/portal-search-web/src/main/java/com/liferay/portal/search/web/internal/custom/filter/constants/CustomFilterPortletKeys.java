@@ -24,7 +24,7 @@ public class CustomFilterPortletKeys {
 		"CONFIGURATION_DISPLAY_CONTEXT";
 
 	public static final String CUSTOM_FILTER =
-		"com_liferay_portal_search_web_internal_custom_filter_portlet_" +
+		"com_gelzobal_portal_search_web_internal_custom_filter_portlet_" +
 			"CustomFilterPortlet";
 
 }

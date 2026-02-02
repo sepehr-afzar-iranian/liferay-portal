@@ -184,7 +184,7 @@ public class UpgradeLayoutType extends UpgradeProcess {
 		"com.liferay.journal.model.JournalArticle";
 
 	private static final String _PORTLET_ID_JOURNAL_CONTENT =
-		"com_liferay_journal_content_web_portlet_JournalContentPortlet";
+		"com_gelzobal_journal_content_web_portlet_JournalContentPortlet";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UpgradeLayoutType.class);

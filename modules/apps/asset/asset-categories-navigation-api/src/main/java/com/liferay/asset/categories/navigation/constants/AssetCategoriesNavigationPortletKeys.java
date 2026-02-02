@@ -20,7 +20,7 @@ package com.liferay.asset.categories.navigation.constants;
 public class AssetCategoriesNavigationPortletKeys {
 
 	public static final String ASSET_CATEGORIES_NAVIGATION =
-		"com_liferay_asset_categories_navigation_web_portlet_" +
+		"com_gelzobal_asset_categories_navigation_web_portlet_" +
 			"AssetCategoriesNavigationPortlet";
 
 }

@@ -25,10 +25,10 @@ public class UpgradeDirectory extends BaseUpgradeNoninstanceablePortlet {
 			"com.liferay.directory.web",
 			new String[] {"11", "186", "187", "188"},
 			new String[] {
-				"com_liferay_directory_web_portlet_DirectoryPortlet",
-				"com_liferay_directory_web_portlet_FriendsDirectoryPortlet",
-				"com_liferay_directory_web_portlet_SiteMembersDirectoryPortlet",
-				"com_liferay_directory_web_portlet_MySitesDirectoryPortlet"
+				"com_gelzobal_directory_web_portlet_DirectoryPortlet",
+				"com_gelzobal_directory_web_portlet_FriendsDirectoryPortlet",
+				"com_gelzobal_directory_web_portlet_SiteMembersDirectoryPortlet",
+				"com_gelzobal_directory_web_portlet_MySitesDirectoryPortlet"
 			});
 	}
 

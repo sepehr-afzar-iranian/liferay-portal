@@ -20,6 +20,6 @@ package com.liferay.nested.portlets.web.internal.constants;
 public class NestedPortletsPortletKeys {
 
 	public static final String NESTED_PORTLETS =
-		"com_liferay_nested_portlets_web_portlet_NestedPortletsPortlet";
+		"com_gelzobal_nested_portlets_web_portlet_NestedPortletsPortlet";
 
 }

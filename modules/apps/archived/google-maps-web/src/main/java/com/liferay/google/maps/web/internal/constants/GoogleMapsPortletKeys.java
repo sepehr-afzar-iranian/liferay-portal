@@ -20,6 +20,6 @@ package com.liferay.google.maps.web.internal.constants;
 public class GoogleMapsPortletKeys {
 
 	public static final String GOOGLE_MAPS =
-		"com_liferay_google_maps_web_portlet_GoogleMapsPortlet";
+		"com_gelzobal_google_maps_web_portlet_GoogleMapsPortlet";
 
 }

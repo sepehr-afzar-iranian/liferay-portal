@@ -36,6 +36,6 @@ public class UpgradePortletPreferences extends UpgradeProcess {
 	}
 
 	private static final String _PORTLET_ID =
-		"com_liferay_announcements_web_portlet_AnnouncementsPortlet";
+		"com_gelzobal_announcements_web_portlet_AnnouncementsPortlet";
 
 }

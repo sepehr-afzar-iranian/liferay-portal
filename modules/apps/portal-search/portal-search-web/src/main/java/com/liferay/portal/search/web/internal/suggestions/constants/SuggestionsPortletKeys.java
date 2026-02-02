@@ -20,6 +20,6 @@ package com.liferay.portal.search.web.internal.suggestions.constants;
 public class SuggestionsPortletKeys {
 
 	public static final String SUGGESTIONS =
-		"com_liferay_portal_search_web_suggestions_portlet_SuggestionsPortlet";
+		"com_gelzobal_portal_search_web_suggestions_portlet_SuggestionsPortlet";
 
 }

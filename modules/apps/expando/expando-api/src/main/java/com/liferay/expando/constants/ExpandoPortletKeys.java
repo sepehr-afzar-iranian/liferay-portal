@@ -20,6 +20,6 @@ package com.liferay.expando.constants;
 public class ExpandoPortletKeys {
 
 	public static final String EXPANDO =
-		"com_liferay_expando_web_portlet_ExpandoPortlet";
+		"com_gelzobal_expando_web_portlet_ExpandoPortlet";
 
 }

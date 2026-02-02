@@ -20,6 +20,6 @@ package com.liferay.sharing.constants;
 public class SharingPortletKeys {
 
 	public static final String SHARING =
-		"com_liferay_sharing_web_portlet_SharingPortlet";
+		"com_gelzobal_sharing_web_portlet_SharingPortlet";
 
 }
