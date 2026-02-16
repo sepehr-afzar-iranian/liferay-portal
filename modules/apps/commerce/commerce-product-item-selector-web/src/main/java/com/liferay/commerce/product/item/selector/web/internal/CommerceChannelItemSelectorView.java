@@ -18,9 +18,9 @@ import com.liferay.commerce.product.item.selector.criterion.CommerceChannelItemS
 import com.liferay.commerce.product.item.selector.web.internal.display.context.CommerceChannelItemSelectorViewDisplayContext;
 import com.liferay.commerce.product.service.CommerceChannelRelService;
 import com.liferay.commerce.product.service.CommerceChannelService;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.criteria.UUIDItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.criteria.UUIDItemSelectorReturnType;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.WebKeys;

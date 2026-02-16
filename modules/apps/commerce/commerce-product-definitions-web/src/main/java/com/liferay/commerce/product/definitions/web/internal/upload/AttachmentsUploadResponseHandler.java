@@ -17,7 +17,7 @@ package com.liferay.commerce.product.definitions.web.internal.upload;
 import com.liferay.commerce.product.configuration.AttachmentsConfiguration;
 import com.liferay.commerce.product.exception.CPAttachmentFileEntryNameException;
 import com.liferay.commerce.product.exception.CPAttachmentFileEntrySizeException;
-import com.liferay.item.selector.ItemSelectorUploadResponseHandler;
+import com.gelzobal.item.selector.ItemSelectorUploadResponseHandler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;

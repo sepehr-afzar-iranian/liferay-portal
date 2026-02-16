@@ -14,7 +14,7 @@
 
 package com.liferay.sharing.web.internal.item.selector;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
 
 /**
  * @author Alejandro Tardín

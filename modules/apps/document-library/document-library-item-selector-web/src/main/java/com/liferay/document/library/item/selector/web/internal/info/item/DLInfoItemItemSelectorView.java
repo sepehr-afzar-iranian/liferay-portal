@@ -18,10 +18,10 @@ import com.liferay.document.library.item.selector.web.internal.BaseDLItemSelecto
 import com.liferay.document.library.item.selector.web.internal.configuration.DLImageItemSelectorViewConfiguration;
 import com.liferay.document.library.item.selector.web.internal.constants.DLItemSelectorViewConstants;
 import com.liferay.info.item.selector.InfoItemSelectorView;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.criteria.InfoItemItemSelectorReturnType;
-import com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.criteria.InfoItemItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 

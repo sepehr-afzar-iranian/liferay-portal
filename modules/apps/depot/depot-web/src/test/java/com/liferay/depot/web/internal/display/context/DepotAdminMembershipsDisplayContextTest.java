@@ -14,7 +14,7 @@
 
 package com.liferay.depot.web.internal.display.context;
 
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;

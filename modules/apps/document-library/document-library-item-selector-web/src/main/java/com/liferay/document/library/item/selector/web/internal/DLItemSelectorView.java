@@ -14,8 +14,8 @@
 
 package com.liferay.document.library.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.PortletItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.PortletItemSelectorView;
 
 /**
  * @author Roberto Díaz

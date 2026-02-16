@@ -24,7 +24,7 @@ import com.liferay.commerce.discount.web.internal.display.context.CommerceDiscou
 import com.liferay.commerce.percentage.PercentageFormatter;
 import com.liferay.commerce.product.service.CommerceChannelRelService;
 import com.liferay.commerce.product.service.CommerceChannelService;
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.util.Portal;

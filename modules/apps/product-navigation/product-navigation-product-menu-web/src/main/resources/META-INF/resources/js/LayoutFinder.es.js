@@ -93,7 +93,7 @@ function LayoutFinder(props) {
 		Liferay.Portlet.destroy(`#p_p_id${props.namespace}`, true);
 
 		Liferay.Util.Session.set(
-			'com.liferay.product.navigation.product.menu.web_pagesTreeState',
+			'com.gelzobal.product.navigation.product.menu.web_pagesTreeState',
 			'closed'
 		).then(() => {
 			fetch(props.productMenuPortletURL)

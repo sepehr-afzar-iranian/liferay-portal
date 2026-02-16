@@ -14,8 +14,8 @@
 
 package com.liferay.segments.web.internal.field.customizer;
 
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.criteria.UUIDItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelector;
+import com.gelzobal.item.selector.criteria.UUIDItemSelectorReturnType;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassedModel;

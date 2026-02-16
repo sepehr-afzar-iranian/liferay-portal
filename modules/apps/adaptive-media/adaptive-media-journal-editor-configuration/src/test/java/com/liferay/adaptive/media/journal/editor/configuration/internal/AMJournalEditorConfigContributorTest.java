@@ -15,12 +15,12 @@
 package com.liferay.adaptive.media.journal.editor.configuration.internal;
 
 import com.liferay.adaptive.media.image.item.selector.AMImageFileEntryItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.audio.criterion.AudioItemSelectorCriterion;
-import com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.audio.criterion.AudioItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.file.criterion.FileItemSelectorCriterion;
 import com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONFactoryImpl;

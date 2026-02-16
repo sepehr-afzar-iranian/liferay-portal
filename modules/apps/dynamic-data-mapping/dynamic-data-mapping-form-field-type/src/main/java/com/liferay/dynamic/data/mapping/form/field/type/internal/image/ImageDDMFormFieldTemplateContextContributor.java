@@ -20,10 +20,10 @@ import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTemplateCont
 import com.liferay.dynamic.data.mapping.form.field.type.internal.util.DDMFormFieldTypeUtil;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderingContext;
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.criteria.DownloadFileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelector;
+import com.gelzobal.item.selector.criteria.DownloadFileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
 import com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONFactory;

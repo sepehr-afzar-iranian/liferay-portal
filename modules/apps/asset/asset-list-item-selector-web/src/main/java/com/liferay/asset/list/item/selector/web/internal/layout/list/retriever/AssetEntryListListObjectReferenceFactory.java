@@ -14,7 +14,7 @@
 
 package com.liferay.asset.list.item.selector.web.internal.layout.list.retriever;
 
-import com.liferay.item.selector.criteria.InfoListItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.InfoListItemSelectorReturnType;
 import com.liferay.layout.list.retriever.ClassedModelListObjectReference;
 import com.liferay.layout.list.retriever.ListObjectReference;
 import com.liferay.layout.list.retriever.ListObjectReferenceFactory;

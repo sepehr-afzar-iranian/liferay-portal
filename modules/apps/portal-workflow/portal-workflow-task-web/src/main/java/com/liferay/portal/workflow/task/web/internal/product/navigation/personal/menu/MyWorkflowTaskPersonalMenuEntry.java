@@ -15,8 +15,8 @@
 package com.liferay.portal.workflow.task.web.internal.product.navigation.personal.menu;
 
 import com.liferay.portal.kernel.util.PortletKeys;
-import com.liferay.product.navigation.personal.menu.BasePersonalMenuEntry;
-import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.BasePersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.PersonalMenuEntry;
 
 import org.osgi.service.component.annotations.Component;
 

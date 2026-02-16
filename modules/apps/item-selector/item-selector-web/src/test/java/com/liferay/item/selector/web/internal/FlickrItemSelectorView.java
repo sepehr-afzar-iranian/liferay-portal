@@ -12,10 +12,10 @@
  * details.
  */
 
-package com.liferay.item.selector.web.internal;
+package com.gelzobal.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
 
 import java.io.IOException;
 import java.io.PrintWriter;

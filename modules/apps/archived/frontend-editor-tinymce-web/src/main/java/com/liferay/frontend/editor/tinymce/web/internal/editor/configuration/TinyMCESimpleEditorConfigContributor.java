@@ -14,7 +14,7 @@
 
 package com.liferay.frontend.editor.tinymce.web.internal.editor.configuration;
 
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.portal.kernel.editor.configuration.EditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;

@@ -5,7 +5,7 @@
 				"definition": {
 					"collectionConfig": {
 						"collectionReference": {
-							"className": "com.liferay.item.selector.criteria.InfoListItemSelectorReturnType",
+							"className": "com.gelzobal.item.selector.criteria.InfoListItemSelectorReturnType",
 							"classPK": 0
 						},
 						"collectionType": "Collection"

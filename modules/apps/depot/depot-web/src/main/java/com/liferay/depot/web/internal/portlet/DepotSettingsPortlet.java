@@ -20,7 +20,7 @@ import com.liferay.depot.web.internal.application.controller.DepotApplicationCon
 import com.liferay.depot.web.internal.constants.DepotAdminWebKeys;
 import com.liferay.depot.web.internal.constants.DepotPortletKeys;
 import com.liferay.depot.web.internal.display.context.DepotAdminDetailsDisplayContext;
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.DynamicRenderRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;

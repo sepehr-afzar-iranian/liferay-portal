@@ -14,13 +14,13 @@
 
 package com.liferay.wiki.editor.configuration.internal;
 
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
-import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
-import com.liferay.item.selector.criteria.upload.criterion.UploadItemSelectorCriterion;
-import com.liferay.item.selector.criteria.url.criterion.URLItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.URLItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.upload.criterion.UploadItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.url.criterion.URLItemSelectorCriterion;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.editor.configuration.BaseEditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONObject;

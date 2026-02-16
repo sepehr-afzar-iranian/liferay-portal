@@ -15,11 +15,11 @@
 package com.liferay.questions.web.internal.portlet;
 
 import com.liferay.asset.kernel.model.AssetTag;
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
-import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.URLItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletProvider;

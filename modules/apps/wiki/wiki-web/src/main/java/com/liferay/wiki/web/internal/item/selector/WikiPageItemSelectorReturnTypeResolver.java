@@ -14,8 +14,8 @@
 
 package com.liferay.wiki.web.internal.item.selector;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolver;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.wiki.model.WikiPage;
 

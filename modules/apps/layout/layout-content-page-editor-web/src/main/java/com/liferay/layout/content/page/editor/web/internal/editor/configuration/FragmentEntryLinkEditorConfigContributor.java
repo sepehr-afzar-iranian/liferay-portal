@@ -14,13 +14,13 @@
 
 package com.liferay.layout.content.page.editor.web.internal.editor.configuration;
 
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.criteria.DownloadURLItemSelectorReturnType;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
-import com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion;
-import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
-import com.liferay.item.selector.criteria.url.criterion.URLItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.DownloadURLItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.URLItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.file.criterion.FileItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.url.criterion.URLItemSelectorCriterion;
 import com.liferay.layout.content.page.editor.constants.ContentPageEditorPortletKeys;
 import com.liferay.layout.item.selector.criterion.LayoutItemSelectorCriterion;
 import com.liferay.portal.kernel.editor.configuration.BaseEditorConfigContributor;

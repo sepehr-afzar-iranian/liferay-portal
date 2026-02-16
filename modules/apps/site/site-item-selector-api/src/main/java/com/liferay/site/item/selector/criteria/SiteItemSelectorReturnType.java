@@ -14,7 +14,7 @@
 
 package com.liferay.site.item.selector.criteria;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
 
 /**
  * This return type should return the following information of a group as a JSON
@@ -40,7 +40,7 @@ import com.liferay.item.selector.ItemSelectorReturnType;
  *
  * @author     Eudaldo Alonso
  * @deprecated As of Athanasius (7.3.x), replaced by {@link
- *             com.liferay.item.selector.criteria.GroupItemSelectorReturnType}
+ *             com.gelzobal.item.selector.criteria.GroupItemSelectorReturnType}
  */
 @Deprecated
 public class SiteItemSelectorReturnType implements ItemSelectorReturnType {

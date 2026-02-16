@@ -38,10 +38,10 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.RenderRequestFactory;
 import com.liferay.portlet.RenderResponseFactory;
-import com.liferay.product.navigation.control.menu.BaseJSPProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.ProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
-import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuPortletKeys;
+import com.gelzobal.product.navigation.control.menu.BaseJSPProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.ProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
+import com.gelzobal.product.navigation.control.menu.constants.ProductNavigationControlMenuPortletKeys;
 
 import java.io.IOException;
 

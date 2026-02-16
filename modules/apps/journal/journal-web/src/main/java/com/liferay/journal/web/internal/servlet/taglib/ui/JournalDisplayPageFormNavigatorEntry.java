@@ -14,7 +14,7 @@
 
 package com.liferay.journal.web.internal.servlet.taglib.ui;
 
-import com.liferay.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorView;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;

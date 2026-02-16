@@ -26,7 +26,7 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.PersonalMenuEntry;
 
 import java.util.Locale;
 

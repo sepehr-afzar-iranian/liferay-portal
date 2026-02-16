@@ -15,12 +15,12 @@
 package com.liferay.journal.web.internal.item.selector;
 
 import com.liferay.info.item.selector.InfoItemSelectorView;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.PortletItemSelectorView;
-import com.liferay.item.selector.criteria.InfoItemItemSelectorReturnType;
-import com.liferay.item.selector.criteria.JournalArticleItemSelectorReturnType;
-import com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.PortletItemSelectorView;
+import com.gelzobal.item.selector.criteria.InfoItemItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.JournalArticleItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.web.internal.configuration.JournalWebConfiguration;

@@ -14,8 +14,8 @@
 
 package com.liferay.sharing.web.internal.item.selector;
 
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
 
 import java.util.Arrays;
 import java.util.List;

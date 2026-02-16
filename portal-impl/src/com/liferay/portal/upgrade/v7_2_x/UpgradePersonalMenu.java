@@ -27,7 +27,7 @@ public class UpgradePersonalMenu extends UpgradeProcess {
 		ReleaseDAO releaseDAO = new ReleaseDAO();
 
 		releaseDAO.addRelease(
-			connection, "com.liferay.product.navigation.personal.menu.web");
+			connection, "com.gelzobal.product.navigation.personal.menu.web");
 	}
 
 }

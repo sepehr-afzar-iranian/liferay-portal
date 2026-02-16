@@ -16,7 +16,7 @@ package com.liferay.info.list.provider.item.selector.web.internal;
 
 import com.liferay.info.list.provider.InfoListProvider;
 import com.liferay.info.list.provider.item.selector.criterion.InfoListProviderItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolver;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 

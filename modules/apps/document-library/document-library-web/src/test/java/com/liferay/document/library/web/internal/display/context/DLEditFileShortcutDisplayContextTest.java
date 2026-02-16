@@ -16,7 +16,7 @@ package com.liferay.document.library.web.internal.display.context;
 
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.web.internal.display.context.util.MockHttpServletRequestBuilder;
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.bean.BeanPropertiesImpl;
 import com.liferay.portal.kernel.bean.BeanPropertiesUtil;

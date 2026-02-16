@@ -14,7 +14,7 @@
 
 package com.liferay.content.dashboard.web.internal.item.selector.criteria.content.dashboard.type.criterion;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 
 /**
  * @author Cristina González

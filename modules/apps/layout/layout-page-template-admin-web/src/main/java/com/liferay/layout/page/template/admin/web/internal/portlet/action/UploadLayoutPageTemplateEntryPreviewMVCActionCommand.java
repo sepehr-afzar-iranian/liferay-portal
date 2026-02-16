@@ -14,7 +14,7 @@
 
 package com.liferay.layout.page.template.admin.web.internal.portlet.action;
 
-import com.liferay.item.selector.ItemSelectorUploadResponseHandler;
+import com.gelzobal.item.selector.ItemSelectorUploadResponseHandler;
 import com.liferay.layout.page.template.admin.constants.LayoutPageTemplateAdminPortletKeys;
 import com.liferay.layout.page.template.admin.web.internal.upload.LayoutPageTemplateEntryPreviewUploadFileEntryHandler;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;

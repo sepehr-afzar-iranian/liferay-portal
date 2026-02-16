@@ -16,11 +16,11 @@ package com.liferay.depot.web.internal.item.selector;
 
 import com.liferay.depot.web.internal.item.selector.criteria.depot.group.criterion.DepotGroupItemSelectorCriterion;
 import com.liferay.depot.web.internal.util.DepotAdminGroupSearchProvider;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.ItemSelectorViewDescriptor;
-import com.liferay.item.selector.ItemSelectorViewDescriptorRenderer;
-import com.liferay.item.selector.criteria.GroupItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorViewDescriptor;
+import com.gelzobal.item.selector.ItemSelectorViewDescriptorRenderer;
+import com.gelzobal.item.selector.criteria.GroupItemSelectorReturnType;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.search.SearchContainer;

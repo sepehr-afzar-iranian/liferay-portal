@@ -67,7 +67,7 @@ public class BlogsEditEntryStatusBarControlMenuJSPDynamicInclude
 	@Override
 	public void register(DynamicIncludeRegistry dynamicIncludeRegistry) {
 		dynamicIncludeRegistry.register(
-			"com.liferay.product.navigation.taglib#/page.jsp#post");
+			"com.gelzobal.product.navigation.taglib#/page.jsp#post");
 	}
 
 	@Override

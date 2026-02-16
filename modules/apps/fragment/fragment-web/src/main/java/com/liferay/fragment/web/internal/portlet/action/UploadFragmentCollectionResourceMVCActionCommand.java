@@ -16,7 +16,7 @@ package com.liferay.fragment.web.internal.portlet.action;
 
 import com.liferay.fragment.constants.FragmentPortletKeys;
 import com.liferay.fragment.web.internal.upload.FragmentCollectionResourceUploadFileEntryHandler;
-import com.liferay.item.selector.ItemSelectorUploadResponseHandler;
+import com.gelzobal.item.selector.ItemSelectorUploadResponseHandler;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.upload.UploadHandler;

@@ -19,7 +19,7 @@ import com.liferay.asset.list.service.AssetListEntryLocalService;
 import com.liferay.info.list.provider.InfoListProvider;
 import com.liferay.info.list.provider.InfoListProviderTracker;
 import com.liferay.info.list.provider.item.selector.criterion.InfoListProviderItemSelectorReturnType;
-import com.liferay.item.selector.criteria.InfoListItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.InfoListItemSelectorReturnType;
 import com.liferay.layout.admin.constants.LayoutAdminPortletKeys;
 import com.liferay.layout.admin.web.internal.handler.LayoutExceptionRequestHandler;
 import com.liferay.layout.page.template.importer.LayoutPageTemplatesImporter;

@@ -14,9 +14,9 @@
 
 package com.liferay.asset.browser.web.internal.item.selector;
 
-import com.liferay.item.selector.BaseItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorCriterionHandler;
-import com.liferay.item.selector.criteria.asset.criterion.AssetEntryItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.criteria.asset.criterion.AssetEntryItemSelectorCriterion;
 
 import org.osgi.service.component.annotations.Component;
 

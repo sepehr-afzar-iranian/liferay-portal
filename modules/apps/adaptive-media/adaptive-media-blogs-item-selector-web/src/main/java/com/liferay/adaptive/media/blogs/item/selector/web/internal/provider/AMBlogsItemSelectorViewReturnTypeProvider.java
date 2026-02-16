@@ -17,8 +17,8 @@ package com.liferay.adaptive.media.blogs.item.selector.web.internal.provider;
 import com.liferay.adaptive.media.image.item.selector.AMImageFileEntryItemSelectorReturnType;
 import com.liferay.adaptive.media.image.item.selector.AMImageURLItemSelectorReturnType;
 import com.liferay.blogs.item.selector.constants.BlogsItemSelectorViewConstants;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorViewReturnTypeProvider;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorViewReturnTypeProvider;
 
 import java.util.List;
 

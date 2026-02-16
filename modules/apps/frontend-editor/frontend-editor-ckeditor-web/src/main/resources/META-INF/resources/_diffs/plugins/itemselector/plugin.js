@@ -14,7 +14,7 @@
 
 (function () {
 	var STR_FILE_ENTRY_RETURN_TYPE =
-		'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType';
+		'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType';
 
 	var TPL_AUDIO_SCRIPT =
 		'boundingBox: "#" + mediaId,' + 'oggUrl: "{oggUrl}",' + 'url: "{url}"';

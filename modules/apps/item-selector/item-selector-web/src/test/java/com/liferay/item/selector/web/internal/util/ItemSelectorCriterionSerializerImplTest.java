@@ -12,13 +12,13 @@
  * details.
  */
 
-package com.liferay.item.selector.web.internal.util;
+package com.gelzobal.item.selector.web.internal.util;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.web.internal.FlickrItemSelectorCriterion;
-import com.liferay.item.selector.web.internal.TestFileEntryItemSelectorReturnType;
-import com.liferay.item.selector.web.internal.TestStringItemSelectorReturnType;
-import com.liferay.item.selector.web.internal.TestURLItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.web.internal.FlickrItemSelectorCriterion;
+import com.gelzobal.item.selector.web.internal.TestFileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.web.internal.TestStringItemSelectorReturnType;
+import com.gelzobal.item.selector.web.internal.TestURLItemSelectorReturnType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;

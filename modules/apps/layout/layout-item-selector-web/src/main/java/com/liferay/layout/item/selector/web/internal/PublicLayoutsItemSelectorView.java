@@ -14,7 +14,7 @@
 
 package com.liferay.layout.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorView;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 

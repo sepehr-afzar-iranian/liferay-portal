@@ -1605,7 +1605,7 @@ AUI.add(
 					);
 
 					var retVal = instance.getDocumentLibraryURL(
-						'com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion',
+						'com.gelzobal.item.selector.criteria.file.criterion.FileItemSelectorCriterion',
 						multiple
 					);
 
@@ -1635,13 +1635,13 @@ AUI.add(
 
 					var criterionJSON = {
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType,com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType,com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType',
 					};
 
 					var uploadCriterionJSON = {
 						URL: instance.getUploadURL(),
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType,com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType,com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType',
 					};
 
 					var documentLibraryParameters = {
@@ -1807,7 +1807,7 @@ AUI.add(
 					return webContentSelectorURL
 						? webContentSelectorURL
 						: instance._getWebContentURL(
-								'com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion'
+								'com.gelzobal.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion'
 						  );
 				},
 
@@ -1820,7 +1820,7 @@ AUI.add(
 
 					var criterionJSON = {
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.JournalArticleItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.JournalArticleItemSelectorReturnType',
 					};
 
 					var webContentParameters = {
@@ -3465,7 +3465,7 @@ AUI.add(
 					);
 
 					var retVal = instance.getDocumentLibraryURL(
-						'com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion,com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion',
+						'com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion,com.gelzobal.item.selector.criteria.image.criterion.ImageItemSelectorCriterion',
 						multiple
 					);
 
@@ -3497,13 +3497,13 @@ AUI.add(
 
 					var journalCriterionJSON = {
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType,com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType,com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType',
 						resourcePrimKey: parsedValue.resourcePrimKey,
 					};
 
 					var imageCriterionJSON = {
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType,com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType,com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType',
 					};
 
 					var documentLibraryParameters = {

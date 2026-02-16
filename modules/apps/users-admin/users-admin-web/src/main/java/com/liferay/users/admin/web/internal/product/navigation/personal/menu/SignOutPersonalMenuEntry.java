@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.PersonalMenuEntry;
 
 import java.util.Locale;
 

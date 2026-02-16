@@ -14,12 +14,12 @@
 
 package com.liferay.site.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.criteria.GroupItemSelectorReturnType;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
-import com.liferay.item.selector.criteria.UUIDItemSelectorReturnType;
-import com.liferay.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.criteria.GroupItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.URLItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.UUIDItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;

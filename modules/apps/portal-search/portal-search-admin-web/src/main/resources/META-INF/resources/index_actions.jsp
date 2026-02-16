@@ -33,7 +33,7 @@ page import="com.liferay.portal.kernel.search.Indexer" %><%@
 page import="com.liferay.portal.kernel.search.IndexerClassNameComparator" %><%@
 page import="com.liferay.portal.kernel.search.IndexerRegistryUtil" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
-page import="com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys" %>
+page import="com.gelzobal.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys" %>
 
 <%@ page import="java.io.Serializable" %>
 

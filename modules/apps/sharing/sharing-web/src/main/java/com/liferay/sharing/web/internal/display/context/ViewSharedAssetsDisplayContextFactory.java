@@ -14,7 +14,7 @@
 
 package com.liferay.sharing.web.internal.display.context;
 
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.sharing.configuration.SharingConfigurationFactory;

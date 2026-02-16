@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.product.navigation.simulation.constants.ProductNavigationSimulationConstants;
+import com.gelzobal.product.navigation.simulation.constants.ProductNavigationSimulationConstants;
 import com.liferay.segments.constants.SegmentsActionKeys;
 import com.liferay.segments.constants.SegmentsConstants;
 import com.liferay.segments.constants.SegmentsPortletKeys;

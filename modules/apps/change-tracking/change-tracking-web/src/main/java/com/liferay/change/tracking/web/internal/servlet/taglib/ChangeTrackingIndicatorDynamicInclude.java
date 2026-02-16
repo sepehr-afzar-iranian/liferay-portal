@@ -182,7 +182,7 @@ public class ChangeTrackingIndicatorDynamicInclude extends BaseDynamicInclude {
 	@Override
 	public void register(DynamicIncludeRegistry dynamicIncludeRegistry) {
 		dynamicIncludeRegistry.register(
-			"com.liferay.product.navigation.taglib#/page.jsp#pre");
+			"com.gelzobal.product.navigation.taglib#/page.jsp#pre");
 	}
 
 	private Map<String, Object> _getReactData(

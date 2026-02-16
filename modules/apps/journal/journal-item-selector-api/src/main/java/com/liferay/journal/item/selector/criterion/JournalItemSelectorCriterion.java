@@ -14,7 +14,7 @@
 
 package com.liferay.journal.item.selector.criterion;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 
 /**
  * @author Eduardo García

@@ -14,8 +14,8 @@
 
 package com.liferay.wiki.editor.configuration.internal;
 
-import com.liferay.item.selector.ItemSelector;
-import com.liferay.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;

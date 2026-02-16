@@ -20,8 +20,8 @@ import com.liferay.portal.kernel.model.UserNotificationDeliveryConstants;
 import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.product.navigation.personal.menu.BasePersonalMenuEntry;
-import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.BasePersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.PersonalMenuEntry;
 
 import javax.portlet.PortletRequest;
 

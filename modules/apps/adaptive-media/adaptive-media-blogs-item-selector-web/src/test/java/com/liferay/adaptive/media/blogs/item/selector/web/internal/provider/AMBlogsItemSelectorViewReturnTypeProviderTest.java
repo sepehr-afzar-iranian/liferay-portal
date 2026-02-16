@@ -16,10 +16,10 @@ package com.liferay.adaptive.media.blogs.item.selector.web.internal.provider;
 
 import com.liferay.adaptive.media.image.item.selector.AMImageFileEntryItemSelectorReturnType;
 import com.liferay.adaptive.media.image.item.selector.AMImageURLItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorViewReturnTypeProvider;
-import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorViewReturnTypeProvider;
+import com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.ArrayList;

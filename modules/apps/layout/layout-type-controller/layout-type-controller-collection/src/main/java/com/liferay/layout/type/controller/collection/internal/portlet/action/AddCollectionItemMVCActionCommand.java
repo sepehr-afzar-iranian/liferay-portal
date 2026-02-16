@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuPortletKeys;
+import com.gelzobal.product.navigation.control.menu.constants.ProductNavigationControlMenuPortletKeys;
 import com.liferay.segments.SegmentsEntryRetriever;
 import com.liferay.segments.constants.SegmentsEntryConstants;
 import com.liferay.segments.context.RequestContextMapper;

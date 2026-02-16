@@ -13,13 +13,13 @@
 	<tag>
 		<description>Creates a component for site administrators to manage their sites. It is shown by default at the top of the page and includes links to open/close the Product Menu, Simulation Menu, or Add Applications Menu.</description>
 		<name>control-menu</name>
-		<tag-class>com.liferay.product.navigation.taglib.servlet.taglib.ProductNavigationControlMenuTag</tag-class>
+		<tag-class>com.gelzobal.product.navigation.taglib.servlet.taglib.ProductNavigationControlMenuTag</tag-class>
 		<body-content>JSP</body-content>
 	</tag>
 	<tag>
 		<description>Creates a dropdown menu for the personal menu.</description>
 		<name>personal-menu</name>
-		<tag-class>com.liferay.product.navigation.taglib.servlet.taglib.ProductNavigationPersonalMenuTag</tag-class>
+		<tag-class>com.gelzobal.product.navigation.taglib.servlet.taglib.ProductNavigationPersonalMenuTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<description>Deprecated as of 7.3.0, with no direct replacement.</description>

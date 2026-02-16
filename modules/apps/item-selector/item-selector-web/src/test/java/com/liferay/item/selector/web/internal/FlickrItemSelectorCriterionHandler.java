@@ -12,10 +12,10 @@
  * details.
  */
 
-package com.liferay.item.selector.web.internal;
+package com.gelzobal.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorView;
 import com.liferay.portal.kernel.util.ListUtil;
 
 import java.util.List;

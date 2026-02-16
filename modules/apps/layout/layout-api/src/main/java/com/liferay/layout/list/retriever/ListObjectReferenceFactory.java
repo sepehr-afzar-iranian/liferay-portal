@@ -14,7 +14,7 @@
 
 package com.liferay.layout.list.retriever;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
 import com.liferay.portal.kernel.json.JSONObject;
 
 /**

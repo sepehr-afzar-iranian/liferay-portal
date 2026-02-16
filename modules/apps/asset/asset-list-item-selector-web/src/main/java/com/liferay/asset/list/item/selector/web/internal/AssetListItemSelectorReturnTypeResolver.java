@@ -15,8 +15,8 @@
 package com.liferay.asset.list.item.selector.web.internal;
 
 import com.liferay.asset.list.model.AssetListEntry;
-import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
-import com.liferay.item.selector.criteria.InfoListItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolver;
+import com.gelzobal.item.selector.criteria.InfoListItemSelectorReturnType;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Portal;

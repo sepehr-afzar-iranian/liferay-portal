@@ -14,7 +14,7 @@
 
 package com.liferay.site.navigation.item.selector.criterion;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 
 /**
  * @author Eudaldo Alonso

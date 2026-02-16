@@ -20,9 +20,9 @@ import com.liferay.depot.web.internal.display.context.DepotApplicationDisplayCon
 import com.liferay.document.library.constants.DLPortletKeys;
 import com.liferay.document.library.kernel.model.DLFileEntryConstants;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.ItemSelectorViewRenderer;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorViewRenderer;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;

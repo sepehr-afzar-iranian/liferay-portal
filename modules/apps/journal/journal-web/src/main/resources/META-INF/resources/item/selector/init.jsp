@@ -26,7 +26,7 @@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.dynamic.data.mapping.model.DDMStructure" %><%@
-page import="com.liferay.item.selector.criteria.InfoItemItemSelectorReturnType" %><%@
+page import="com.gelzobal.item.selector.criteria.InfoItemItemSelectorReturnType" %><%@
 page import="com.liferay.journal.model.JournalArticle" %><%@
 page import="com.liferay.journal.model.JournalFolder" %><%@
 page import="com.liferay.journal.web.internal.constants.JournalWebConstants" %><%@

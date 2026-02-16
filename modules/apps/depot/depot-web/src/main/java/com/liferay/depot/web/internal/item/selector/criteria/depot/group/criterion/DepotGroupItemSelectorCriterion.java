@@ -14,7 +14,7 @@
 
 package com.liferay.depot.web.internal.item.selector.criteria.depot.group.criterion;
 
-import com.liferay.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
 
 /**
  * @author Cristina González

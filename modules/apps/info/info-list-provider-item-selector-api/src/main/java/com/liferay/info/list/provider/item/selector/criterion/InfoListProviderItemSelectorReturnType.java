@@ -14,7 +14,7 @@
 
 package com.liferay.info.list.provider.item.selector.criterion;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
 
 /**
  * This return type should return the following information of a info item as a

@@ -15,9 +15,9 @@
 package com.liferay.journal.item.selector.web.internal.display.context;
 
 import com.liferay.document.library.kernel.util.DLUtil;
-import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
-import com.liferay.item.selector.ItemSelectorReturnTypeResolverHandler;
-import com.liferay.item.selector.taglib.servlet.taglib.util.RepositoryEntryBrowserTagUtil;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolver;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolverHandler;
+import com.gelzobal.item.selector.taglib.servlet.taglib.util.RepositoryEntryBrowserTagUtil;
 import com.liferay.journal.configuration.JournalFileUploadsConfiguration;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion;

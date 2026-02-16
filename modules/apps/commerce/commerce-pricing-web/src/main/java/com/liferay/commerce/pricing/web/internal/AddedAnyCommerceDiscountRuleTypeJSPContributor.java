@@ -22,7 +22,7 @@ import com.liferay.commerce.pricing.web.internal.display.context.AddedAnyCommerc
 import com.liferay.commerce.pricing.web.internal.util.CommercePricingUtil;
 import com.liferay.commerce.product.service.CPDefinitionService;
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 
 import java.util.Objects;

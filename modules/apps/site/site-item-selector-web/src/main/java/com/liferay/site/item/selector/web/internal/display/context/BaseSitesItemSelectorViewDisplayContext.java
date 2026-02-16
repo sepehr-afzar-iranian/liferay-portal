@@ -14,7 +14,7 @@
 
 package com.liferay.site.item.selector.web.internal.display.context;
 
-import com.liferay.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;

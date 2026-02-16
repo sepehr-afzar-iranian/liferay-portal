@@ -14,9 +14,9 @@
 
 package com.liferay.asset.list.item.selector.web.internal;
 
-import com.liferay.item.selector.BaseItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorCriterionHandler;
-import com.liferay.item.selector.criteria.info.item.criterion.InfoListItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.criteria.info.item.criterion.InfoListItemSelectorCriterion;
 
 import org.osgi.service.component.annotations.Component;
 

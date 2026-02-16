@@ -14,7 +14,7 @@
 
 package com.liferay.journal.web.internal.upload;
 
-import com.liferay.item.selector.ItemSelectorUploadResponseHandler;
+import com.gelzobal.item.selector.ItemSelectorUploadResponseHandler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.ImageTypeException;
 import com.liferay.portal.kernel.exception.PortalException;

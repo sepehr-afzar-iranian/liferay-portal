@@ -339,13 +339,13 @@ AUI.add(
 
 					var criterionJSON = {
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType',
 					};
 
 					var uploadCriterionJSON = {
 						URL: instance._getUploadURL(),
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType',
 					};
 
 					var documentLibrarySelectorParameters = {
@@ -353,7 +353,7 @@ AUI.add(
 						'1_json': JSON.stringify(criterionJSON),
 						'2_json': JSON.stringify(uploadCriterionJSON),
 						criteria:
-							'com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion',
+							'com.gelzobal.item.selector.criteria.file.criterion.FileItemSelectorCriterion',
 						itemSelectedEventName:
 							portletNamespace + 'selectDocumentLibrary',
 						p_p_id: Liferay.PortletKeys.ITEM_SELECTOR,
@@ -565,13 +565,13 @@ AUI.add(
 
 					var criterionJSON = {
 						desiredItemSelectorReturnTypes:
-							'com.liferay.item.selector.criteria.JournalArticleItemSelectorReturnType',
+							'com.gelzobal.item.selector.criteria.JournalArticleItemSelectorReturnType',
 					};
 
 					var webContentSelectorParameters = {
 						'0_json': JSON.stringify(criterionJSON),
 						criteria:
-							'com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion',
+							'com.gelzobal.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion',
 						itemSelectedEventName:
 							portletNamespace + 'selectDocumentLibrary',
 						p_auth: Liferay.authToken,

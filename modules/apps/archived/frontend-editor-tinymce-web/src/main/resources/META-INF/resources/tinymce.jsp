@@ -166,7 +166,7 @@ name = HtmlUtil.escapeJS(name);
 
 						if (
 							selectedItem.returnType ===
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType'
+							'com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType'
 						) {
 							try {
 								var itemValue = JSON.parse(selectedItem.value);

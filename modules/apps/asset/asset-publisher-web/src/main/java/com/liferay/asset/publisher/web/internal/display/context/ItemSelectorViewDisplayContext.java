@@ -14,7 +14,7 @@
 
 package com.liferay.asset.publisher.web.internal.display.context;
 
-import com.liferay.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
 import com.liferay.portlet.usersadmin.search.GroupSearch;
 
 import javax.portlet.PortletException;

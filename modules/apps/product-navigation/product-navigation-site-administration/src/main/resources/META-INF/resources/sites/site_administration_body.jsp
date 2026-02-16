@@ -133,7 +133,7 @@ Group group = siteAdministrationPanelCategoryDisplayContext.getGroup();
 			Liferay.Portlet.destroy('#p_p_id<portlet:namespace />', true);
 
 			Liferay.Util.Session.set(
-				'com.liferay.product.navigation.product.menu.web_pagesTreeState',
+				'com.gelzobal.product.navigation.product.menu.web_pagesTreeState',
 				'open'
 			).then(function () {
 				Liferay.Util.fetch('<%= portletURL.toString() %>')

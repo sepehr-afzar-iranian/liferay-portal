@@ -28,9 +28,9 @@ import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.SessionClicks;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.product.navigation.control.menu.BaseProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.ProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
+import com.gelzobal.product.navigation.control.menu.BaseProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.ProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
 
 import java.util.Collections;
 import java.util.Locale;

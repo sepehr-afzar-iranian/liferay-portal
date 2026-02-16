@@ -12,16 +12,16 @@
  * details.
  */
 
-package com.liferay.item.selector.web.internal;
+package com.gelzobal.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorRendering;
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.ItemSelectorViewRenderer;
-import com.liferay.item.selector.constants.ItemSelectorPortletKeys;
-import com.liferay.item.selector.web.internal.util.ItemSelectorCriterionSerializerImpl;
-import com.liferay.item.selector.web.internal.util.ItemSelectorKeyUtil;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorRendering;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorViewRenderer;
+import com.gelzobal.item.selector.constants.ItemSelectorPortletKeys;
+import com.gelzobal.item.selector.web.internal.util.ItemSelectorCriterionSerializerImpl;
+import com.gelzobal.item.selector.web.internal.util.ItemSelectorKeyUtil;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;

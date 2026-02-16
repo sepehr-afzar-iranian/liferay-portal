@@ -14,8 +14,8 @@
 
 package com.liferay.application.list.display.context.logic;
 
-import com.liferay.product.navigation.personal.menu.BasePersonalMenuEntry;
-import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.BasePersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.PersonalMenuEntry;
 
 import java.util.ArrayList;
 import java.util.List;

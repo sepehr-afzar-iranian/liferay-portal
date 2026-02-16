@@ -14,7 +14,7 @@
 
 package com.liferay.knowledge.base.item.selector.criterion;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 
 /**
  * @author Roberto Díaz

@@ -14,7 +14,7 @@
 
 package com.liferay.commerce.product.item.selector.criterion;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 
 /**
  * @author Andrea Di Giorgi

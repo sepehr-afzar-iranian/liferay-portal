@@ -14,7 +14,7 @@
 
 package com.liferay.layout.item.selector.web.internal.display.context;
 
-import com.liferay.item.selector.constants.ItemSelectorPortletKeys;
+import com.gelzobal.item.selector.constants.ItemSelectorPortletKeys;
 import com.liferay.layout.item.selector.criterion.LayoutItemSelectorCriterion;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;

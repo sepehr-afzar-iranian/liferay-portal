@@ -19,9 +19,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.search.IndexWriterHelper;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.product.navigation.control.menu.BaseProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.ProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
+import com.gelzobal.product.navigation.control.menu.BaseProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.ProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
 
 import java.util.Collections;
 import java.util.Locale;

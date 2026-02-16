@@ -15,8 +15,8 @@
 package com.liferay.commerce.product.item.selector.web.internal.handler;
 
 import com.liferay.commerce.product.item.selector.criterion.CPOptionItemSelectorCriterion;
-import com.liferay.item.selector.BaseItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.BaseItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorCriterionHandler;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;

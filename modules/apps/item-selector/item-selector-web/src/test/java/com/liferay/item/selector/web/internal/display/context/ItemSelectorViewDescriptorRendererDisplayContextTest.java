@@ -12,10 +12,10 @@
  * details.
  */
 
-package com.liferay.item.selector.web.internal.display.context;
+package com.gelzobal.item.selector.web.internal.display.context;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorViewDescriptor;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorViewDescriptor;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.test.util.PropsTestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;

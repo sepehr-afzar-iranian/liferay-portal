@@ -37,9 +37,9 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.product.navigation.control.menu.BaseProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.ProductNavigationControlMenuEntry;
-import com.liferay.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
+import com.gelzobal.product.navigation.control.menu.BaseProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.ProductNavigationControlMenuEntry;
+import com.gelzobal.product.navigation.control.menu.constants.ProductNavigationControlMenuCategoryKeys;
 import com.liferay.sites.kernel.util.SitesUtil;
 
 import java.util.Collections;

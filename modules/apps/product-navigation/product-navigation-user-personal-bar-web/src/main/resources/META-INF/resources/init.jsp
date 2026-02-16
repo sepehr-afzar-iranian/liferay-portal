@@ -30,8 +30,8 @@ page import="com.liferay.portal.kernel.portlet.PortletProviderUtil" %><%@
 page import="com.liferay.portal.kernel.util.GetterUtil" %><%@
 page import="com.liferay.portal.kernel.util.HashMapBuilder" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
-page import="com.liferay.product.navigation.personal.menu.util.PersonalApplicationURLUtil" %><%@
-page import="com.liferay.product.navigation.user.personal.bar.web.internal.constants.ProductNavigationUserPersonalBarWebKeys" %>
+page import="com.gelzobal.product.navigation.personal.menu.util.PersonalApplicationURLUtil" %><%@
+page import="com.gelzobal.product.navigation.user.personal.bar.web.internal.constants.ProductNavigationUserPersonalBarWebKeys" %>
 
 <liferay-theme:defineObjects />
 

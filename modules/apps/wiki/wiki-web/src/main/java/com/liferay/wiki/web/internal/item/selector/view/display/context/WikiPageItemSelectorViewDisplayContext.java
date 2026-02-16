@@ -14,7 +14,7 @@
 
 package com.liferay.wiki.web.internal.item.selector.view.display.context;
 
-import com.liferay.item.selector.ItemSelectorReturnTypeResolverHandler;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolverHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;

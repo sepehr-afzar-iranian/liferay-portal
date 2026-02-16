@@ -15,8 +15,8 @@
 package com.liferay.asset.browser.web.internal.item.selector;
 
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
-import com.liferay.item.selector.criteria.AssetEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolver;
+import com.gelzobal.item.selector.criteria.AssetEntryItemSelectorReturnType;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 

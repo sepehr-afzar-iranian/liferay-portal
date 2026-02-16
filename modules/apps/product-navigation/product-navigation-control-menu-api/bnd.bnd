@@ -1,7 +1,7 @@
 Bundle-Name: Liferay Product Navigation Control Menu API
-Bundle-SymbolicName: com.liferay.product.navigation.control.menu.api
+Bundle-SymbolicName: com.gelzobal.product.navigation.control.menu.api
 Bundle-Version: 6.1.3
 Export-Package:\
-	com.liferay.product.navigation.control.menu,\
-	com.liferay.product.navigation.control.menu.constants,\
-	com.liferay.product.navigation.control.menu.util
+	com.gelzobal.product.navigation.control.menu,\
+	com.gelzobal.product.navigation.control.menu.constants,\
+	com.gelzobal.product.navigation.control.menu.util

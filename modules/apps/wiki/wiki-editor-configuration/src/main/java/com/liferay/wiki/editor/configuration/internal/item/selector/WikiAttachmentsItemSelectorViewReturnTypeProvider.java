@@ -14,10 +14,10 @@
 
 package com.liferay.wiki.editor.configuration.internal.item.selector;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.ItemSelectorViewReturnTypeProvider;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.ItemSelectorViewReturnTypeProvider;
+import com.gelzobal.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.wiki.item.selector.constants.WikiItemSelectorViewConstants;
 
 import java.util.List;

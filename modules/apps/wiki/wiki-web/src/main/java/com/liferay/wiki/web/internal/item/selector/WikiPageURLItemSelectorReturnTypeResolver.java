@@ -14,7 +14,7 @@
 
 package com.liferay.wiki.web.internal.item.selector;
 
-import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolver;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.theme.ThemeDisplay;

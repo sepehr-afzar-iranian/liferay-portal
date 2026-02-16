@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.item.selector.web.internal;
+package com.gelzobal.item.selector.web.internal;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 
 /**
  * @author Iván Zaera

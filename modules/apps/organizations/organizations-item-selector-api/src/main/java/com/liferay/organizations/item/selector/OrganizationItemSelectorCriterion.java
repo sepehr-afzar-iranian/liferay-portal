@@ -14,7 +14,7 @@
 
 package com.liferay.organizations.item.selector;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 
 /**
  * @author Alessio Antonio Rendina

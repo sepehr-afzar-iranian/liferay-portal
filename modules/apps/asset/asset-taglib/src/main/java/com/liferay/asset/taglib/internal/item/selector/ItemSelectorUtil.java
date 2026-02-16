@@ -14,7 +14,7 @@
 
 package com.liferay.asset.taglib.internal.item.selector;
 
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;

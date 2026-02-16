@@ -14,7 +14,7 @@
 
 package com.liferay.wiki.item.selector;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
 
 /**
  * @author Roberto Díaz

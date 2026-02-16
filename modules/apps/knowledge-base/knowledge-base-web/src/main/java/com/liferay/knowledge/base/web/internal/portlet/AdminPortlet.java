@@ -14,7 +14,7 @@
 
 package com.liferay.knowledge.base.web.internal.portlet;
 
-import com.liferay.item.selector.ItemSelectorUploadResponseHandler;
+import com.gelzobal.item.selector.ItemSelectorUploadResponseHandler;
 import com.liferay.knowledge.base.constants.KBArticleConstants;
 import com.liferay.knowledge.base.constants.KBFolderConstants;
 import com.liferay.knowledge.base.constants.KBPortletKeys;

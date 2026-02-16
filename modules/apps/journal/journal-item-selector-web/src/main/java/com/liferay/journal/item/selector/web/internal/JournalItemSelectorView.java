@@ -14,12 +14,12 @@
 
 package com.liferay.journal.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorReturnType;
-import com.liferay.item.selector.ItemSelectorReturnTypeResolverHandler;
-import com.liferay.item.selector.ItemSelectorView;
-import com.liferay.item.selector.PortletItemSelectorView;
-import com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType;
-import com.liferay.item.selector.criteria.URLItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolverHandler;
+import com.gelzobal.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.PortletItemSelectorView;
+import com.gelzobal.item.selector.criteria.FileEntryItemSelectorReturnType;
+import com.gelzobal.item.selector.criteria.URLItemSelectorReturnType;
 import com.liferay.journal.configuration.JournalFileUploadsConfiguration;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion;

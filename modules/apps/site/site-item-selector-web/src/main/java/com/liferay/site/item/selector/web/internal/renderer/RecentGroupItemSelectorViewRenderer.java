@@ -14,7 +14,7 @@
 
 package com.liferay.site.item.selector.web.internal.renderer;
 
-import com.liferay.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
+import com.gelzobal.item.selector.criteria.group.criterion.GroupItemSelectorCriterion;
 import com.liferay.site.constants.SiteWebKeys;
 import com.liferay.site.item.selector.web.internal.constants.SitesItemSelectorWebKeys;
 import com.liferay.site.item.selector.web.internal.display.context.RecentSitesItemSelectorViewDisplayContext;

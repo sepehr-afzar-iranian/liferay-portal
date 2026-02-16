@@ -15,8 +15,8 @@
 package com.liferay.depot.web.internal.item.selector;
 
 import com.liferay.depot.web.internal.item.selector.criteria.depot.group.criterion.DepotGroupItemSelectorCriterion;
-import com.liferay.item.selector.BaseItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.BaseItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorCriterionHandler;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;

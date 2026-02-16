@@ -42,7 +42,7 @@ for (ProductNavigationControlMenuCategory productNavigationControlMenuCategory :
 
 <c:if test="<%= hasControlMenuEntries %>">
 	<div class="control-menu-container">
-		<liferay-util:dynamic-include key="com.liferay.product.navigation.taglib#/page.jsp#pre" />
+		<liferay-util:dynamic-include key="com.gelzobal.product.navigation.taglib#/page.jsp#pre" />
 
 		<div class="control-menu control-menu-level-1 control-menu-level-1-<%= applicationsMenuApp ? "light" : "dark" %> d-print-none" data-qa-id="controlMenu" id="<portlet:namespace />ControlMenu">
 			<clay:container-fluid>
@@ -110,7 +110,7 @@ for (ProductNavigationControlMenuCategory productNavigationControlMenuCategory :
 			<div id="controlMenuAlertsContainer"></div>
 		</div>
 
-		<liferay-util:dynamic-include key="com.liferay.product.navigation.taglib#/page.jsp#post" />
+		<liferay-util:dynamic-include key="com.gelzobal.product.navigation.taglib#/page.jsp#post" />
 	</div>
 
 	<aui:script use="liferay-product-navigation-control-menu">

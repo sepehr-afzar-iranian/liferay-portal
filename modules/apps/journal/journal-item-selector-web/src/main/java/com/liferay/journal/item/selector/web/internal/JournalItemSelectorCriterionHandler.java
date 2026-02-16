@@ -14,8 +14,8 @@
 
 package com.liferay.journal.item.selector.web.internal;
 
-import com.liferay.item.selector.BaseItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.BaseItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorCriterionHandler;
 import com.liferay.journal.item.selector.criterion.JournalItemSelectorCriterion;
 
 import org.osgi.framework.BundleContext;

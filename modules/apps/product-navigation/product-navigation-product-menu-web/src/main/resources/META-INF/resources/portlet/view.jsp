@@ -17,8 +17,8 @@
 <%@ include file="/portlet/init.jsp" %>
 
 <%
-String productMenuState = SessionClicks.get(request, "com.liferay.product.navigation.product.menu.web_productMenuState", "closed");
-String pagesTreeState = SessionClicks.get(request, "com.liferay.product.navigation.product.menu.web_pagesTreeState", "closed");
+String productMenuState = SessionClicks.get(request, "com.gelzobal.product.navigation.product.menu.web_productMenuState", "closed");
+String pagesTreeState = SessionClicks.get(request, "com.gelzobal.product.navigation.product.menu.web_pagesTreeState", "closed");
 
 ApplicationsMenuInstanceConfiguration applicationsMenuInstanceConfiguration = ConfigurationProviderUtil.getCompanyConfiguration(ApplicationsMenuInstanceConfiguration.class, themeDisplay.getCompanyId());
 %>

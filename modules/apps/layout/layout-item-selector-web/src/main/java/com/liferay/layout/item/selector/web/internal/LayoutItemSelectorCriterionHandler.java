@@ -14,10 +14,10 @@
 
 package com.liferay.layout.item.selector.web.internal;
 
-import com.liferay.item.selector.BaseItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorCriterion;
-import com.liferay.item.selector.ItemSelectorCriterionHandler;
-import com.liferay.item.selector.ItemSelectorView;
+import com.gelzobal.item.selector.BaseItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorCriterion;
+import com.gelzobal.item.selector.ItemSelectorCriterionHandler;
+import com.gelzobal.item.selector.ItemSelectorView;
 import com.liferay.layout.item.selector.criterion.LayoutItemSelectorCriterion;
 import com.liferay.layout.item.selector.view.LayoutItemSelectorView;
 

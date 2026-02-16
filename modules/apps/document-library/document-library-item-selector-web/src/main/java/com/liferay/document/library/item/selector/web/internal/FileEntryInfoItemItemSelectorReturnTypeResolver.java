@@ -14,8 +14,8 @@
 
 package com.liferay.document.library.item.selector.web.internal;
 
-import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
-import com.liferay.item.selector.criteria.InfoItemItemSelectorReturnType;
+import com.gelzobal.item.selector.ItemSelectorReturnTypeResolver;
+import com.gelzobal.item.selector.criteria.InfoItemItemSelectorReturnType;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;

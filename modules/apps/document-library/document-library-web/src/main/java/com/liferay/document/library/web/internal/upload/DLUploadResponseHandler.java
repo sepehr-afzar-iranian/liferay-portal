@@ -15,7 +15,7 @@
 package com.liferay.document.library.web.internal.upload;
 
 import com.liferay.document.library.util.DLURLHelper;
-import com.liferay.item.selector.ItemSelectorUploadResponseHandler;
+import com.gelzobal.item.selector.ItemSelectorUploadResponseHandler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;

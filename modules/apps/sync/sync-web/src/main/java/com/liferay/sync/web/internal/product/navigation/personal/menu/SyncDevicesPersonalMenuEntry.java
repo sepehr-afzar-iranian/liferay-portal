@@ -14,8 +14,8 @@
 
 package com.liferay.sync.web.internal.product.navigation.personal.menu;
 
-import com.liferay.product.navigation.personal.menu.BasePersonalMenuEntry;
-import com.liferay.product.navigation.personal.menu.PersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.BasePersonalMenuEntry;
+import com.gelzobal.product.navigation.personal.menu.PersonalMenuEntry;
 import com.liferay.sync.constants.SyncPortletKeys;
 
 import org.osgi.service.component.annotations.Component;

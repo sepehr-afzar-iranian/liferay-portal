@@ -240,7 +240,7 @@ public class InsuranceSiteInitializer implements SiteInitializer {
 				resourcesMap.get(pageJSONObject.getString("collectionKey")));
 			typeSettingsUnicodeProperties.setProperty(
 				"collectionType",
-				"com.liferay.item.selector.criteria." +
+				"com.gelzobal.item.selector.criteria." +
 					"InfoListItemSelectorReturnType");
 
 			draftLayout = _layoutLocalService.updateLayout(

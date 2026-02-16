@@ -27,8 +27,8 @@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 page import="com.liferay.portal.kernel.portlet.PortletProvider" %><%@
 page import="com.liferay.portal.kernel.portlet.PortletProviderUtil" %><%@
 page import="com.liferay.portal.kernel.util.GetterUtil" %><%@
-page import="com.liferay.product.navigation.personal.menu.util.PersonalApplicationURLUtil" %><%@
-page import="com.liferay.product.navigation.personal.menu.web.internal.constants.PersonalMenuWebKeys" %>
+page import="com.gelzobal.product.navigation.personal.menu.util.PersonalApplicationURLUtil" %><%@
+page import="com.gelzobal.product.navigation.personal.menu.web.internal.constants.PersonalMenuWebKeys" %>
 
 <liferay-theme:defineObjects />
 

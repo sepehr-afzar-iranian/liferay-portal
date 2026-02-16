@@ -14,7 +14,7 @@
 
 package com.liferay.layout.type.controller.link.to.page.internal.layout.type.controller;
 
-import com.liferay.item.selector.ItemSelector;
+import com.gelzobal.item.selector.ItemSelector;
 import com.liferay.layout.type.controller.BaseLayoutTypeControllerImpl;
 import com.liferay.layout.type.controller.link.to.page.internal.constants.LinkToPageLayoutTypeControllerWebKeys;
 import com.liferay.petra.io.unsync.UnsyncStringWriter;

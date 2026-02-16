@@ -13,7 +13,7 @@
 	<tag>
 		<description>Creates a UI to select scope groups (groups).<![CDATA[<br /><br />Example:<br /><img src="../images/group-selector.png"/>]]></description>
 		<name>group-selector</name>
-		<tag-class>com.liferay.item.selector.taglib.servlet.taglib.GroupSelectorTag</tag-class>
+		<tag-class>com.gelzobal.item.selector.taglib.servlet.taglib.GroupSelectorTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>A list of the groups to be shown. The sites and the user groups that the current user can access are shown by default.</description>
@@ -31,7 +31,7 @@
 	<tag>
 		<description>Creates a UI to add images. It renders a drag and drop area and a button to open a selection dialog. It works as an image viewer if an image is selected.<![CDATA[<br /><br />Example:<br /><img src="../images/image-selector.png"/>]]></description>
 		<name>image-selector</name>
-		<tag-class>com.liferay.item.selector.taglib.servlet.taglib.ImageSelectorTag</tag-class>
+		<tag-class>com.gelzobal.item.selector.taglib.servlet.taglib.ImageSelectorTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>A CSS class to specify the direction of the image drag. Possible values are <![CDATA[<code>vertical</code>]]>, <![CDATA[<code>horizontal</code>]]>, <![CDATA[<code>both</code>]]>, or <![CDATA[<code>none</code>]]>.</description>
@@ -85,7 +85,7 @@
 	<tag>
 		<description>Creates a UI to show file entries.<![CDATA[<br /><br />Example:<br /><img src="../images/repository-entry-browser.png"/>]]></description>
 		<name>repository-entry-browser</name>
-		<tag-class>com.liferay.item.selector.taglib.servlet.taglib.RepositoryEntryBrowserTag</tag-class>
+		<tag-class>com.gelzobal.item.selector.taglib.servlet.taglib.RepositoryEntryBrowserTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
 			<description>Deprecated as of 1.1.0, with no direct replacement.</description>
@@ -187,7 +187,7 @@
 	<tag>
 		<description>Creates a search box for child views.</description>
 		<name>search</name>
-		<tag-class>com.liferay.item.selector.taglib.servlet.taglib.SearchTag</tag-class>
+		<tag-class>com.gelzobal.item.selector.taglib.servlet.taglib.SearchTag</tag-class>
 		<body-content>JSP</body-content>
 	</tag>
 </taglib>

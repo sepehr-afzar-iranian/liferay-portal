@@ -23,9 +23,9 @@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="com.liferay.item.selector.ItemSelectorReturnTypeResolver" %><%@
-page import="com.liferay.item.selector.upload.web.internal.ItemSelectorUploadView" %><%@
-page import="com.liferay.item.selector.upload.web.internal.display.context.ItemSelectorUploadViewDisplayContext" %><%@
+<%@ page import="com.gelzobal.item.selector.ItemSelectorReturnTypeResolver" %><%@
+page import="com.gelzobal.item.selector.upload.web.internal.ItemSelectorUploadView" %><%@
+page import="com.gelzobal.item.selector.upload.web.internal.display.context.ItemSelectorUploadViewDisplayContext" %><%@
 page import="com.liferay.portal.kernel.servlet.BrowserSnifferUtil" %><%@
 page import="com.liferay.portal.kernel.util.ArrayUtil" %><%@
 page import="com.liferay.portal.kernel.util.HashMapBuilder" %><%@

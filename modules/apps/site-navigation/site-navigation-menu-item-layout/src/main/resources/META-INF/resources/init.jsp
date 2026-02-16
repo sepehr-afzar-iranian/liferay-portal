@@ -26,9 +26,9 @@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 <%@ page import="com.liferay.frontend.taglib.clay.servlet.taglib.util.JSPNavigationItemList" %><%@
-page import="com.liferay.item.selector.ItemSelector" %><%@
-page import="com.liferay.item.selector.ItemSelectorCriterion" %><%@
-page import="com.liferay.item.selector.criteria.UUIDItemSelectorReturnType" %><%@
+page import="com.gelzobal.item.selector.ItemSelector" %><%@
+page import="com.gelzobal.item.selector.ItemSelectorCriterion" %><%@
+page import="com.gelzobal.item.selector.criteria.UUIDItemSelectorReturnType" %><%@
 page import="com.liferay.layout.item.selector.criterion.LayoutItemSelectorCriterion" %><%@
 page import="com.liferay.petra.string.StringPool" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@

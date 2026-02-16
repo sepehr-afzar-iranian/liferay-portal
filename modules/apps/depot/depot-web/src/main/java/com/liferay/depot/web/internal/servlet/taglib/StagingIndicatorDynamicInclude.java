@@ -111,7 +111,7 @@ public class StagingIndicatorDynamicInclude extends BaseDynamicInclude {
 	@Override
 	public void register(DynamicIncludeRegistry dynamicIncludeRegistry) {
 		dynamicIncludeRegistry.register(
-			"com.liferay.product.navigation.taglib#/page.jsp#pre");
+			"com.gelzobal.product.navigation.taglib#/page.jsp#pre");
 	}
 
 	private <T> JSONArray _createJSONArray(T... values) {

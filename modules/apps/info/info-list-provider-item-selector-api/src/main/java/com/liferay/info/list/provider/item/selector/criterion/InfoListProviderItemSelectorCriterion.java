@@ -14,7 +14,7 @@
 
 package com.liferay.info.list.provider.item.selector.criterion;
 
-import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.gelzobal.item.selector.BaseItemSelectorCriterion;
 import com.liferay.portal.kernel.util.ListUtil;
 
 import java.util.ArrayList;
