@@ -44,7 +44,7 @@ if (portletTitleBasedNavigation) {
 <c:if test="<%= portletTitleBasedNavigation %>">
 	<liferay-frontend:info-bar>
 		<span class="text-secondary">
-			<liferay-ui:message arguments="<%= new String[] {entry.getUserName(), LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - entry.getModifiedDate().getTime(), true)} %>" key="x-modified-x-ago" translateArguments="<%= false %>" />
+			<liferay-ui:message arguments="<%= new String[] {HtmlUtil.escape(entry.getUserName()), LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - entry.getModifiedDate().getTime(), true)} %>" key="x-modified-x-ago" translateArguments="<%= false %>" />
 		</span>
 	</liferay-frontend:info-bar>
 </c:if>
@@ -64,7 +64,7 @@ if (portletTitleBasedNavigation) {
 				<div class="card-col-content card-col-gutters">
 
 					<%
-					String userDisplayText = PortalUtil.getUserName(entry) + StringPool.COMMA_AND_SPACE + Time.getRelativeTimeDescription(entry.getDisplayDate(), locale, timeZone, announcementsDisplayContext.getDateFormatDate());
+					String userDisplayText = HtmlUtil.escape(PortalUtil.getUserName(entry)) + StringPool.COMMA_AND_SPACE + Time.getRelativeTimeDescription(entry.getDisplayDate(), locale, timeZone, announcementsDisplayContext.getDateFormatDate());
 					%>
 
 					<h5 class="text-default" title="<%= userDisplayText %>">
