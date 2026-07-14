@@ -291,9 +291,19 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 			String authType = portletPreferences.getValue("authType", null);
 
-			_authenticatedSessionManager.login(
-				httpServletRequest, httpServletResponse, login, password,
-				rememberMe, authType);
+			long start = System.currentTimeMillis();
+
+			try {
+				_authenticatedSessionManager.login(
+						httpServletRequest, httpServletResponse, login, password,
+						rememberMe, authType);
+			}
+			catch (AuthException ae) {
+				padToDelta(start, 500);
+				throw ae;
+			}
+
+			padToDelta(start, 500);
 		}
 
 		String redirect = ParamUtil.getString(actionRequest, "redirect");
@@ -350,6 +360,20 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 			}
 
 			actionResponse.sendRedirect(mainPath);
+		}
+	}
+
+	private void padToDelta(long start, long minMillis) {
+		long elapsed = System.currentTimeMillis() - start;
+		long remaining = minMillis - elapsed;
+
+		if (remaining > 0) {
+			try {
+				Thread.sleep(remaining);
+			}
+			catch (InterruptedException ie) {
+				Thread.currentThread().interrupt();
+			}
 		}
 	}
 
