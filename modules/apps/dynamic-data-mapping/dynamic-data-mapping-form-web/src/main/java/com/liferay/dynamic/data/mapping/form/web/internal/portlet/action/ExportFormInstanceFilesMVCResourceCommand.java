@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.ByteArrayInputStream;
@@ -44,10 +45,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -88,7 +91,10 @@ public class ExportFormInstanceFilesMVCResourceCommand
 
 		ArrayList<String> fileFieldReferences = new ArrayList<>();
 
-		for (DDMFormField ddmFormField : ddmForm.getDDMFormFields()) {
+		Map<String, DDMFormField> ddmFormFieldsMap =
+			ddmForm.getDDMFormFieldsMap(true);
+
+		for (DDMFormField ddmFormField : ddmFormFieldsMap.values()) {
 			String type = ddmFormField.getType();
 
 			if (type.equals("document_library") || type.equals("image")) {
@@ -106,6 +112,8 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		ZipOutputStream zipOutputStream = new ZipOutputStream(
 			byteArrayOutputStream);
 
+		Set<String> usedZipEntryNames = new HashSet<>();
+
 		for (DDMFormInstanceRecord ddmFormInstanceRecord :
 				ddmFormInstanceRecords) {
 
@@ -121,17 +129,28 @@ public class ExportFormInstanceFilesMVCResourceCommand
 				List<DDMFormFieldValue> ddmFormFieldValues =
 					ddmFormFieldValuesMap.get(fieldReference);
 
+				if ((ddmFormFieldValues == null) ||
+					ddmFormFieldValues.isEmpty()) {
+
+					continue;
+				}
+
 				DDMFormFieldValue ddmFormFieldValue = ddmFormFieldValues.get(0);
 
 				FileEntry fileEntry = _getFileEntry(
 					_getValueJSONObject(ddmFormFieldValue, locale));
 
 				if (!Objects.equals(fileEntry, null)) {
-					String stringBuilder = _getFolderName(
+					String entryName = _getFolderName(
 						trackingCode, ddmFormFieldValuesMap,
 						fileEntry.getFileName(), ddmForm.getDefaultLocale());
 
-					ZipEntry zipEntry = new ZipEntry(stringBuilder);
+					entryName = _getUniqueZipEntryName(
+						entryName, usedZipEntryNames);
+
+					usedZipEntryNames.add(entryName);
+
+					ZipEntry zipEntry = new ZipEntry(entryName);
 
 					zipOutputStream.putNextEntry(zipEntry);
 
@@ -227,6 +246,33 @@ public class ExportFormInstanceFilesMVCResourceCommand
 		stringBuilder.append(fileName);
 
 		return stringBuilder.toString();
+	}
+
+	private String _getUniqueZipEntryName(
+		String entryName, Set<String> usedNames) {
+
+		if (!usedNames.contains(entryName)) {
+			return entryName;
+		}
+
+		int dotIndex = entryName.lastIndexOf('.');
+
+		String baseName =
+			(dotIndex != -1) ? entryName.substring(0, dotIndex) : entryName;
+		String extension =
+			(dotIndex != -1) ? entryName.substring(dotIndex) : "";
+
+		int counter = 1;
+		String candidate;
+
+		do {
+			candidate = StringBundler.concat(
+				baseName, "_", String.valueOf(counter), extension);
+			counter++;
+		}
+		while (usedNames.contains(candidate));
+
+		return candidate;
 	}
 
 	private JSONObject _getValueJSONObject(
