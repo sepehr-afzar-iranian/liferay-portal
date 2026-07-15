@@ -35,6 +35,12 @@ public interface CaptchaConfiguration {
 	public int maxChallenges();
 
 	@Meta.AD(
+		deflt = "120000", description = "challenge-timeout-help",
+		name = "challenge-timeout", required = false
+	)
+	public long challengeTimeout();
+
+	@Meta.AD(
 		deflt = "true", name = "create-account-captcha-enabled",
 		required = false
 	)

@@ -15,6 +15,7 @@
 package com.liferay.captcha.simplecaptcha;
 
 import com.liferay.captcha.configuration.CaptchaConfiguration;
+import com.liferay.captcha.util.CaptchaEntry;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.captcha.Captcha;
 import com.liferay.portal.kernel.captcha.CaptchaException;
@@ -132,7 +133,9 @@ public class SimpleCaptchaImpl implements Captcha {
 
 		nl.captcha.Captcha simpleCaptcha = getSimpleCaptcha();
 
-		httpSession.setAttribute(key, simpleCaptcha.getAnswer());
+		CaptchaEntry captchaEntry = new CaptchaEntry(simpleCaptcha.getAnswer());
+
+		httpSession.setAttribute(key, captchaEntry);
 
 		httpServletResponse.setContentType(ContentTypes.IMAGE_PNG);
 
@@ -157,7 +160,9 @@ public class SimpleCaptchaImpl implements Captcha {
 			key = portal.getPortletNamespace(portletId) + key;
 		}
 
-		portletSession.setAttribute(key, simpleCaptcha.getAnswer());
+		CaptchaEntry captchaEntry = new CaptchaEntry(simpleCaptcha.getAnswer());
+
+		portletSession.setAttribute(key, captchaEntry);
 
 		resourceResponse.setContentType(ContentTypes.IMAGE_PNG);
 
@@ -400,7 +405,26 @@ public class SimpleCaptchaImpl implements Captcha {
 		String httpSessionKey = _getHttpSessionKey(
 			WebKeys.CAPTCHA_TEXT, httpServletRequest);
 
-		String captchaText = (String)httpSession.getAttribute(httpSessionKey);
+		Object raw = httpSession.getAttribute(httpSessionKey);
+
+		httpSession.removeAttribute(httpSessionKey);
+
+		if (raw == null) {
+			_log.error(
+				"CAPTCHA text is null. User " +
+					httpServletRequest.getRemoteUser() +
+						" may be trying to circumvent the CAPTCHA.");
+
+			throw new CaptchaTextException();
+		}
+
+		CaptchaEntry entry = (CaptchaEntry)raw;
+
+		if (entry.isExpired(_captchaConfiguration.challengeTimeout())) {
+			throw new CaptchaTextException();
+		}
+
+		String captchaText = entry.getText();
 
 		if (captchaText == null) {
 			_log.error(
@@ -411,14 +435,8 @@ public class SimpleCaptchaImpl implements Captcha {
 			throw new CaptchaTextException();
 		}
 
-		boolean valid = captchaText.equals(
+		return captchaText.equals(
 			ParamUtil.getString(httpServletRequest, "captchaText"));
-
-		if (valid) {
-			httpSession.removeAttribute(httpSessionKey);
-		}
-
-		return valid;
 	}
 
 	protected boolean validateChallenge(PortletRequest portletRequest)
