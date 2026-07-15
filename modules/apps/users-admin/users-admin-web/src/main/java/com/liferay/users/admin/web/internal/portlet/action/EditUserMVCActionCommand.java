@@ -31,8 +31,8 @@ import com.liferay.portal.kernel.exception.NoSuchUserException;
 import com.liferay.portal.kernel.exception.RequiredUserException;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
 import com.liferay.portal.kernel.exception.UserFieldException;
-import com.liferay.portal.kernel.exception.UserInputValidationException;
 import com.liferay.portal.kernel.exception.UserIdException;
+import com.liferay.portal.kernel.exception.UserInputValidationException;
 import com.liferay.portal.kernel.exception.UserReminderQueryException;
 import com.liferay.portal.kernel.exception.UserScreenNameException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -342,8 +342,8 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 					 exception instanceof RequiredUserException ||
 					 exception instanceof UserEmailAddressException ||
 					 exception instanceof UserFieldException ||
-					 exception instanceof UserInputValidationException ||
 					 exception instanceof UserIdException ||
+					 exception instanceof UserInputValidationException ||
 					 exception instanceof UserReminderQueryException ||
 					 exception instanceof UserScreenNameException) {
 
@@ -477,12 +477,16 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			user, actionRequest, "male", true);
 
 		// \p{L} allows any Unicode letter. \s allows spaces. \- allows hyphens.
+
 		String nameValidationRegex = "^[\\p{L}\\s\\-]*$";
 
 		if (!firstName.matches(nameValidationRegex) ||
-				!middleName.matches(nameValidationRegex) ||
-				!lastName.matches(nameValidationRegex)) {
-			throw new UserInputValidationException("Profile update rejected: invalid characters detected in name fields.");
+			!middleName.matches(nameValidationRegex) ||
+			!lastName.matches(nameValidationRegex)) {
+
+			throw new UserInputValidationException(
+				"Profile update rejected: invalid characters detected in " +
+					"name fields");
 		}
 
 		Calendar birthdayCal = CalendarFactoryUtil.getCalendar();

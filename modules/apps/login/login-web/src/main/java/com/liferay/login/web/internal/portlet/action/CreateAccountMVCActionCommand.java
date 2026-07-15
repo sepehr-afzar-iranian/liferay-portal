@@ -237,19 +237,26 @@ public class CreateAccountMVCActionCommand extends BaseMVCActionCommand {
 
 					// --- START: Mitigate User Enumeration ---
 
-					// 1. Remove this line so the error is never sent to the UI
-					// SessionErrors.add(actionRequest, exception.getClass(), exception);
-
 					// 2. Fetch the servlet request
-					HttpServletRequest httpServletRequest = _portal.getHttpServletRequest(actionRequest);
+
+					HttpServletRequest httpServletRequest =
+						_portal.getHttpServletRequest(actionRequest);
 
 					// 3. Add a success message to mimic a new registration
-					// "userAdded" is often best as it implies they need to check their email
-					SessionMessages.add(httpServletRequest, "userAdded", emailAddress);
+					// "userAdded" is often best as it implies
+					// they need to check their email
 
-					// 4. Redirect them away from the form back to the login page
-					// so they cannot distinguish between a success and a duplicate
-					PortletURL loginURL = LoginUtil.getLoginURL(httpServletRequest, themeDisplay.getPlid());
+					SessionMessages.add(
+						httpServletRequest, "userAdded", emailAddress);
+
+					// 4. Redirect them away
+					// from the form back to the login page
+					// so they cannot distinguish
+					// between a success and a duplicate
+
+					PortletURL loginURL = LoginUtil.getLoginURL(
+						httpServletRequest, themeDisplay.getPlid());
+
 					actionResponse.sendRedirect(loginURL.toString());
 
 					// --- END: Mitigate User Enumeration ---

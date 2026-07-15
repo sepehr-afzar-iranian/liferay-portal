@@ -295,15 +295,16 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 			try {
 				_authenticatedSessionManager.login(
-						httpServletRequest, httpServletResponse, login, password,
-						rememberMe, authType);
+					httpServletRequest, httpServletResponse, login, password,
+					rememberMe, authType);
 			}
-			catch (AuthException ae) {
-				padToDelta(start, 500);
-				throw ae;
+			catch (AuthException authException) {
+				_padToDelta(start, 500);
+
+				throw authException;
 			}
 
-			padToDelta(start, 500);
+			_padToDelta(start, 500);
 		}
 
 		String redirect = ParamUtil.getString(actionRequest, "redirect");
@@ -360,20 +361,6 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 			}
 
 			actionResponse.sendRedirect(mainPath);
-		}
-	}
-
-	private void padToDelta(long start, long minMillis) {
-		long elapsed = System.currentTimeMillis() - start;
-		long remaining = minMillis - elapsed;
-
-		if (remaining > 0) {
-			try {
-				Thread.sleep(remaining);
-			}
-			catch (InterruptedException ie) {
-				Thread.currentThread().interrupt();
-			}
 		}
 	}
 
@@ -465,6 +452,23 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
 				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
+	private void _padToDelta(long start, long minMillis) {
+		long elapsed = System.currentTimeMillis() - start;
+
+		long remaining = minMillis - elapsed;
+
+		if (remaining > 0) {
+			try {
+				Thread.sleep(remaining);
+			}
+			catch (InterruptedException interruptedException) {
+				Thread thread = Thread.currentThread();
+
+				thread.interrupt();
 			}
 		}
 	}
