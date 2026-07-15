@@ -41,7 +41,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Leonardo Barros
  */
-@Component(enabled = false, immediate = true, service = Indexer.class)
+@Component(immediate = true, service = Indexer.class)
 public class AuditEventIndexer extends BaseIndexer<AuditEvent> {
 
 	public static final String CLASS_NAME = AuditEvent.class.getName();

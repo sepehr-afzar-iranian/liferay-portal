@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -98,6 +99,20 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 			String.valueOf(auditMessage.getAdditionalInfo()));
 
 		return auditEventPersistence.update(auditEvent);
+	}
+
+	@Indexable(type = IndexableType.DELETE)
+	@Override
+	public AuditEvent deleteAuditEvent(AuditEvent auditEvent) {
+		return super.deleteAuditEvent(auditEvent);
+	}
+
+	@Indexable(type = IndexableType.DELETE)
+	@Override
+	public AuditEvent deleteAuditEvent(long auditEventId)
+		throws PortalException {
+
+		return super.deleteAuditEvent(auditEventId);
 	}
 
 	@Override
@@ -200,7 +215,7 @@ public class AuditEventLocalServiceImpl extends AuditEventLocalServiceBaseImpl {
 					Indexer<AuditEvent> indexer =
 						IndexerRegistryUtil.getIndexer(AuditEvent.class);
 
-					indexer.delete(auditEvent);
+					indexer.delete(companyId, String.valueOf(auditEventId));
 				}
 
 				return auditEvent;
