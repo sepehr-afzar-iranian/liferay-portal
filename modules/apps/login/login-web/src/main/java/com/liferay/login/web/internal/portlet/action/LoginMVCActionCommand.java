@@ -291,9 +291,20 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 
 			String authType = portletPreferences.getValue("authType", null);
 
-			_authenticatedSessionManager.login(
-				httpServletRequest, httpServletResponse, login, password,
-				rememberMe, authType);
+			long start = System.currentTimeMillis();
+
+			try {
+				_authenticatedSessionManager.login(
+					httpServletRequest, httpServletResponse, login, password,
+					rememberMe, authType);
+			}
+			catch (AuthException authException) {
+				_padToDelta(start, 500);
+
+				throw authException;
+			}
+
+			_padToDelta(start, 500);
 		}
 
 		String redirect = ParamUtil.getString(actionRequest, "redirect");
@@ -441,6 +452,23 @@ public class LoginMVCActionCommand extends BaseMVCActionCommand {
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
 				_log.warn("Unable to route audit message", exception);
+			}
+		}
+	}
+
+	private void _padToDelta(long start, long minMillis) {
+		long elapsed = System.currentTimeMillis() - start;
+
+		long remaining = minMillis - elapsed;
+
+		if (remaining > 0) {
+			try {
+				Thread.sleep(remaining);
+			}
+			catch (InterruptedException interruptedException) {
+				Thread thread = Thread.currentThread();
+
+				thread.interrupt();
 			}
 		}
 	}
