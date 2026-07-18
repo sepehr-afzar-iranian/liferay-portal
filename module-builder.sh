@@ -3,8 +3,10 @@
 ../gradlew \
 apps:analytics:analytics-message-sender-impl:$1 \
 apps:analytics:analytics-settings-web:$1 \
+apps:announcements:announcements-web:$1 \
 apps:asset:asset-taglib:$1 \
 apps:batch-engine:batch-engine-service:$1 \
+apps:captcha:captcha-api:$1 \
 apps:comment:comment-taglib:$1 \
 apps:commerce:commerce-channel-web:$1 \
 apps:commerce:commerce-lang:$1 \
@@ -45,6 +47,7 @@ apps:layout:layout-seo-web:$1 \
 apps:login:login-web:$1 \
 apps:portal-search-elasticsearch7:portal-search-elasticsearch7-impl:$1 \
 apps:portal-search:portal-search-web:$1 \
+apps:portal-security:portal-security-content-security-policy:$1 \
 apps:portal-security-audit:portal-security-audit-api:$1 \
 apps:portal-security-audit:portal-security-audit-event-generators-api:$1 \
 apps:portal-security-audit:portal-security-audit-event-generators-user-management:$1 \
