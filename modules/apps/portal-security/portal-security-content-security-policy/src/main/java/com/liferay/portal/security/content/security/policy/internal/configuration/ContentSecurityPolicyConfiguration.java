@@ -21,11 +21,10 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 /**
  * @author Olivér Kecskeméty
  */
-@ExtendedObjectClassDefinition(category = "content-security-policy", nameArguments = "")
+@ExtendedObjectClassDefinition(category = "security-tools")
 @Meta.OCD(
 	id = "com.liferay.portal.security.content.security.policy.internal.configuration.ContentSecurityPolicyConfiguration",
-	localization = "content/Language",
-	name = "content-security-policy-configuration-name"
+	localization = "content/Language", name = "content-security-policy"
 )
 public interface ContentSecurityPolicyConfiguration {
 
