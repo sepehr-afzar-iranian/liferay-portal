@@ -40,7 +40,8 @@ import org.osgi.service.component.annotations.Modified;
  * @author Olivér Kecskeméty
  */
 @Component(
-	configurationPid = "com.liferay.portal.security.auth.verifier.internal.configuration.ContentSecurityPolicyConfiguration",
+	configurationPid = "com.liferay.portal.security.content.security.policy.internal.configuration.ContentSecurityPolicyConfiguration",
+	immediate = true,
 	property = {
 		"after-filter=Portal CORS Servlet Filter", "dispatcher=FORWARD",
 		"dispatcher=REQUEST", "servlet-context-name=",
@@ -64,8 +65,6 @@ public class ContentSecurityPolicyFilter extends BasePortalFilter {
 
 			return false;
 		}
-
-		System.out.println(!_contentSecurityPolicyConfiguration.enabled());
 
 		if (!_contentSecurityPolicyConfiguration.enabled() ||
 			Validator.isNull(_contentSecurityPolicyConfiguration.policy()) ||
