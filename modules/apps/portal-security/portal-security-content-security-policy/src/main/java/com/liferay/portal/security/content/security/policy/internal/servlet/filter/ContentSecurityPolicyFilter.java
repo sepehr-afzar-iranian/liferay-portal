@@ -92,8 +92,6 @@ public class ContentSecurityPolicyFilter extends BasePortalFilter {
 		throws Exception {
 
 		try {
-			httpServletResponse.setContentType("text/html; charset=UTF-8");
-
 			String policy = _contentSecurityPolicyConfiguration.policy();
 
 			if (_contentSecurityPolicyConfiguration.reportOnly()) {
@@ -105,14 +103,20 @@ public class ContentSecurityPolicyFilter extends BasePortalFilter {
 					"Content-Security-Policy", policy);
 			}
 
-			if (httpServletRequest.isSecure()) {
+			if (_contentSecurityPolicyConfiguration.
+					strictTransportSecurityEnabled()) {
+
 				httpServletResponse.setHeader(
 					"Strict-Transport-Security",
-					"max-age=31536000; includeSubDomains");
+					_contentSecurityPolicyConfiguration.
+						strictTransportSecurityValue());
 			}
 
-			httpServletRequest.setAttribute(
-				"Referrer-Policy", "strict-origin-when-cross-origin");
+			if (_contentSecurityPolicyConfiguration.referrerPolicyEnabled()) {
+				httpServletResponse.setHeader(
+					"Referrer-Policy",
+					_contentSecurityPolicyConfiguration.referrerPolicyValue());
+			}
 
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 		}

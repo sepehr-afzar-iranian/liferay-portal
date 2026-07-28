@@ -48,4 +48,27 @@ public interface ContentSecurityPolicyConfiguration {
 	@Meta.AD(deflt = "true", name = "report-only", required = false)
 	public boolean reportOnly();
 
+	@Meta.AD(
+		deflt = "true", name = "strict-transport-security-enabled",
+		required = false
+	)
+	public boolean strictTransportSecurityEnabled();
+
+	@Meta.AD(
+		deflt = "max-age=31536000; includeSubDomains",
+		description = "strict-transport-security-value-help",
+		name = "strict-transport-security-value", required = false
+	)
+	public String strictTransportSecurityValue();
+
+	@Meta.AD(deflt = "true", name = "referrer-policy-enabled", required = false)
+	public boolean referrerPolicyEnabled();
+
+	@Meta.AD(
+		deflt = "strict-origin-when-cross-origin",
+		description = "referrer-policy-value-help",
+		name = "referrer-policy-value", required = false
+	)
+	public String referrerPolicyValue();
+
 }
