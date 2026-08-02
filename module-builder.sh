@@ -9,6 +9,7 @@ apps:batch-engine:batch-engine-service:$1 \
 apps:captcha:captcha-api:$1 \
 apps:comment:comment-taglib:$1 \
 apps:commerce:commerce-channel-web:$1 \
+apps:commerce:commerce-currency-service:$1 \
 apps:commerce:commerce-lang:$1 \
 apps:commerce:commerce-product-definitions-web:$1 \
 apps:data-engine:data-engine-taglib:$1 \
