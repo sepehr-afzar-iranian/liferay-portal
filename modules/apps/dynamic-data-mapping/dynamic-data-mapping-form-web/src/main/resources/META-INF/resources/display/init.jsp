@@ -33,6 +33,8 @@ page import="com.liferay.dynamic.data.mapping.exception.NoSuchStructureLayoutExc
 page import="com.liferay.dynamic.data.mapping.exception.StorageException" %><%@
 page import="com.liferay.dynamic.data.mapping.form.renderer.DDMFormRenderingException" %><%@
 page import="com.liferay.dynamic.data.mapping.form.web.internal.display.context.DDMFormDisplayContext" %><%@
+page import="com.liferay.dynamic.data.mapping.form.web.internal.utils.SainSmsReflectionUtil" %><%@
+page import="com.liferay.dynamic.data.mapping.form.web.internal.utils.SainSmsReflectionUtil.SMSProfileInfo" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMForm" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormField" %><%@
 page import="com.liferay.dynamic.data.mapping.model.DDMFormInstance" %><%@
@@ -63,9 +65,6 @@ page import="com.liferay.portal.kernel.util.StringUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %><%@
 page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
-
-<%@ page import="ir.sain.definition.model.SMSProfile" %><%@
-page import="ir.sain.definition.service.SMSProfileLocalServiceUtil" %>
 
 <%@ page import="java.util.List" %><%@
 page import="java.util.Locale" %>

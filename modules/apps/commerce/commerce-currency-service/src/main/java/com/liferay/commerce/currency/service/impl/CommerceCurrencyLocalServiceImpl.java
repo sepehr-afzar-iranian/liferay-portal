@@ -389,8 +389,14 @@ public class CommerceCurrencyLocalServiceImpl
 		BigDecimal exchangeRate = BigDecimal.ZERO;
 
 		try {
+
+			// comment so it won't get stuck on getting the exchanges.
+			// we don't need them
+
+			/*
 			exchangeRate = exchangeRateProvider.getExchangeRate(
 				primaryCommerceCurrency, commerceCurrency);
+				*/
 		}
 		catch (Exception exception) {
 			if (_log.isDebugEnabled()) {

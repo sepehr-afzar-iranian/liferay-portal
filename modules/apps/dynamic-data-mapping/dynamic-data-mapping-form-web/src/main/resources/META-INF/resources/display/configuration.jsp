@@ -31,7 +31,7 @@ long formInstanceId = PrefsParamUtil.getLong(PortletPreferencesFactoryUtil.getPo
 
 DDMFormInstance selFormInstance = DDMFormInstanceServiceUtil.fetchFormInstance(formInstanceId);
 
-List<SMSProfile> smsProfileList = SMSProfileLocalServiceUtil.getSmsProfiles(scopeGroupId);
+List<SMSProfileInfo> smsProfileList = SainSmsReflectionUtil.getSmsProfiles(scopeGroupId);
 %>
 
 <liferay-portlet:actionURL portletConfiguration="<%= true %>" var="configurationActionURL" />
@@ -144,10 +144,10 @@ List<SMSProfile> smsProfileList = SMSProfileLocalServiceUtil.getSmsProfiles(scop
 				<aui:select label="send-sms-verification-code" name="preferences--verificationSMSProfileId--" showEmptyOption="<%= true %>">
 
 					<%
-					for (SMSProfile smsProfile : smsProfileList) {
+					for (SMSProfileInfo smsProfile : smsProfileList) {
 					%>
 
-						<aui:option selected="<%= verificationSMSProfileId == smsProfile.getSMSProfileId() %>" value="<%= smsProfile.getSMSProfileId() %>"><%= smsProfile.getProfileName() %>
+						<aui:option selected="<%= verificationSMSProfileId == smsProfile.getSMSProfileId() %>" value="<%= smsProfile.getSMSProfileId() %>"><%= smsProfile.get_profileName() %>
 						</aui:option>
 
 					<%
@@ -161,10 +161,10 @@ List<SMSProfile> smsProfileList = SMSProfileLocalServiceUtil.getSmsProfiles(scop
 				<aui:select label="send-sms-tracking-code" name="preferences--trackingCodeSMSProfileId--" showEmptyOption="<%= true %>">
 
 					<%
-					for (SMSProfile smsProfile : smsProfileList) {
+					for (SMSProfileInfo smsProfile : smsProfileList) {
 					%>
 
-						<aui:option selected="<%= trackingCodeSMSProfileId == smsProfile.getSMSProfileId() %>" value="<%= smsProfile.getSMSProfileId() %>"><%= smsProfile.getProfileName() %>
+						<aui:option selected="<%= trackingCodeSMSProfileId == smsProfile.getSMSProfileId() %>" value="<%= smsProfile.getSMSProfileId() %>"><%= smsProfile.get_profileName() %>
 						</aui:option>
 
 					<%

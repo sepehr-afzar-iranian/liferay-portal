@@ -21,6 +21,7 @@ import com.liferay.dynamic.data.mapping.form.values.factory.DDMFormValuesFactory
 import com.liferay.dynamic.data.mapping.form.web.internal.constants.DDMFormWebKeys;
 import com.liferay.dynamic.data.mapping.form.web.internal.instance.lifecycle.AddDefaultSharedFormLayoutPortalInstanceLifecycleListener;
 import com.liferay.dynamic.data.mapping.form.web.internal.portlet.action.util.DDMFormUniqueFieldChecker;
+import com.liferay.dynamic.data.mapping.form.web.internal.utils.SainSmsReflectionUtil;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializer;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializerDeserializeRequest;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesDeserializerDeserializeResponse;
@@ -63,10 +64,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import ir.sain.definition.exception.NoSuchSMSMessageException;
-import ir.sain.definition.model.SMSMessage;
-import ir.sain.definition.service.SMSMessageLocalService;
 
 import java.util.Date;
 import java.util.List;
@@ -225,10 +222,10 @@ public class AddFormInstanceRecordMVCActionCommand
 				actionRequest, "verificationCode");
 
 			try {
-				SMSMessage smsMessage =
-					_smsMessageLocalService.getLastSMSMessage(groupId, mobile);
+				SainSmsReflectionUtil.SMSMessageInfo smsMessage =
+					SainSmsReflectionUtil.getLastSMSMessage(groupId, mobile);
 
-				Date smsMessageCreateDate = smsMessage.getCreateDate();
+				Date smsMessageCreateDate = smsMessage.get_createDate();
 
 				Date currentDate = new Date();
 
@@ -243,13 +240,15 @@ public class AddFormInstanceRecordMVCActionCommand
 					return;
 				}
 
-				if (!verificationCode.equals(smsMessage.getCode())) {
+				if (!verificationCode.equals(smsMessage.get_code())) {
 					SessionErrors.add(actionRequest, "verficationCodeError");
 
 					return;
 				}
 			}
-			catch (NoSuchSMSMessageException noSuchSMSMessageException) {
+			catch (SainSmsReflectionUtil.NoSuchSMSMessageReflectionException
+						noSuchSMSMessageReflectionException) {
+
 				SessionErrors.add(actionRequest, "noSMSMessageWithThisMobile");
 
 				return;
@@ -375,7 +374,7 @@ public class AddFormInstanceRecordMVCActionCommand
 		}
 
 		if ((trackingCodeSMSProfileId > 0) && Validator.isNotNull(mobile)) {
-			_smsMessageLocalService.sendSMSWithFormTrackingCode(
+			SainSmsReflectionUtil.sendSMSWithFormTrackingCode(
 				trackingCodeSMSProfileId, mobile,
 				ddmFormInstanceRecord.getTrackingCode(), "", serviceContext);
 		}
@@ -563,8 +562,5 @@ public class AddFormInstanceRecordMVCActionCommand
 
 	@Reference
 	private PortletPreferencesLocalService _portletPreferencesLocalService;
-
-	@Reference
-	private SMSMessageLocalService _smsMessageLocalService;
 
 }
