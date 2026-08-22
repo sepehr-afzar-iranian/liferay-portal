@@ -21,6 +21,7 @@ COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/lib/ext/portal-kernel.jar	/opt/liferay/tomcat-9.0.43/lib/ext/portal-kernel.jar
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/util-taglib.jar	/opt/liferay/tomcat-9.0.43/webapps/ROOT/WEB-INF/lib/util-taglib.jar
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/WEB-INF/liferay-web.xml	/opt/liferay/tomcat-9.0.43/webapps/ROOT/WEB-INF/liferay-web.xml
+COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/common/themes/top_js.jspf	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/common/themes/top_js.jspf
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/portal/init.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/portal/init.jsp
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/portal/expire_session.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/portal/expire_session.jsp
 COPY --chown=1000:1000 ./SAIN-bundles/bundles/tomcat-9.0.43/webapps/ROOT/html/portal/layout.jsp	/opt/liferay/tomcat-9.0.43/webapps/ROOT/html/portal/layout.jsp
