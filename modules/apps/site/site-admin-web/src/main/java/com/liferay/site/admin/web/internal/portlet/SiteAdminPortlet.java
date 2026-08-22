@@ -891,6 +891,24 @@ public class SiteAdminPortlet extends MVCPortlet {
 
 				typeSettingsUnicodeProperties.setProperty(
 					"googleAnalyticsId", googleAnalyticsId);
+
+				String googleAnalytics4Id = ParamUtil.getString(
+					actionRequest, "googleAnalytics4Id",
+					typeSettingsUnicodeProperties.getProperty(
+						"googleAnalytics4Id"));
+
+				typeSettingsUnicodeProperties.setProperty(
+					"googleAnalytics4Id", googleAnalytics4Id);
+
+				String googleAnalytics4CustomConfiguration =
+					ParamUtil.getString(
+						actionRequest, "googleAnalytics4CustomConfiguration",
+						typeSettingsUnicodeProperties.getProperty(
+							"googleAnalytics4CustomConfiguration"));
+
+				typeSettingsUnicodeProperties.setProperty(
+					"googleAnalytics4CustomConfiguration",
+					googleAnalytics4CustomConfiguration);
 			}
 			else {
 				String analyticsScript = ParamUtil.getString(
