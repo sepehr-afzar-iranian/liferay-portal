@@ -48,6 +48,11 @@ for (String analyticsType : analyticsTypes) {
 
 			<aui:input helpMessage="set-the-google-analytics-custom-options-that-are-used-for-this-set-of-pages" label="google-analytics-custom-configuration" name="googleAnalyticsCustomConfiguration" type="textarea" value='<%= PropertiesParamUtil.getString(groupTypeSettings, request, "googleAnalyticsCustomConfiguration") %>' />
 		</c:when>
+		<c:when test='<%= StringUtil.equalsIgnoreCase(analyticsType, "googleAnalytics4") %>'>
+			<aui:input helpMessage="set-the-google-analytics-4-id-that-is-used-for-this-set-of-pages" label="google-analytics-4-id" name="googleAnalytics4Id" type="text" value='<%= PropertiesParamUtil.getString(groupTypeSettings, request, "googleAnalytics4Id") %>' />
+
+			<aui:input helpMessage="set-the-google-analytics-4-custom-options-that-are-used-for-this-set-of-pages" label="google-analytics-4-custom-configuration" name="googleAnalytics4CustomConfiguration" type="textarea" value='<%= PropertiesParamUtil.getString(groupTypeSettings, request, "googleAnalytics4CustomConfiguration") %>' />
+		</c:when>
 		<c:otherwise>
 
 			<%
