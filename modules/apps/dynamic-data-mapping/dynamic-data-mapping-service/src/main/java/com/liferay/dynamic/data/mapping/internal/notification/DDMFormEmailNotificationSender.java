@@ -14,6 +14,7 @@
 
 package com.liferay.dynamic.data.mapping.internal.notification;
 
+import com.liferay.dynamic.data.mapping.constants.DDMConstants;
 import com.liferay.dynamic.data.mapping.constants.DDMPortletKeys;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTypeServicesTracker;
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldValueRenderer;
@@ -57,6 +58,7 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -559,6 +561,17 @@ public class DDMFormEmailNotificationSender {
 			"viewFormURL",
 			getViewFormURL(
 				ddmFormInstance, ddmFormInstanceRecord, themeDisplay));
+
+		String trackingCode = null;
+
+		if (Boolean.parseBoolean(
+				PropsUtil.get(
+					DDMConstants.ADVANCED_FORM_BUILDER_TRACKING_CODE))) {
+
+			trackingCode = ddmFormInstanceRecord.getTrackingCode();
+		}
+
+		template.put("trackingCode", trackingCode);
 	}
 
 	protected String render(Template template) throws TemplateException {
