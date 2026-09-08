@@ -625,12 +625,48 @@
 		<url-pattern>*.png</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.svg</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.woff</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.woff2</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.ttf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.eot</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.otf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
 		<filter-name>Header Filter - JSP</filter-name>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>Header Filter - No Cache</filter-name>
 		<url-pattern>/c/portal/logout</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter - No Cache</filter-name>
+		<url-pattern>/web/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter - No Cache</filter-name>
+		<url-pattern>/group/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter - No Cache</filter-name>
+		<url-pattern>/c/portal/layout</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>JSON Content Type Filter</filter-name>
