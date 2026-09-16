@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserTracker;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.PortalSessionContext;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -145,6 +146,31 @@ public class LoginPostAction extends Action {
 						userSession.setAttribute(
 							WebKeys.SESSION_TERMINATED_REASON,
 							WebKeys.SIMULTANEOUS_LOGINS);
+
+						String userFullName = null;
+
+						try {
+							User user = UserLocalServiceUtil.fetchUser(userId);
+							if (user != null) {
+								userFullName = user.getFullName();
+							}
+						} catch (Exception exception) {};
+
+						StringBuilder sb = new StringBuilder();
+
+						if (userFullName != null) {
+							sb.append(userFullName);
+						} else {
+							sb.append(userId);
+						}
+
+						sb.append("'s session was expired due to simultaneous logins");
+
+						AuditMessage auditMessage = new AuditMessage("INVALIDATE SESSION", companyId, userId, userFullName, User.class.getName(), String.valueOf(userId), sb.toString());
+
+						auditMessage.setAdditionalInfo(JSONUtil.put("sessionId", userSession.getId()));
+
+						_auditRouter.route(auditMessage);
 					}
 				}
 			}
