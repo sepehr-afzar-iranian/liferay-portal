@@ -37,7 +37,9 @@ boolean privateLayout = ParamUtil.getBoolean(request, "privateLayout");
 	</aui:button-row>
 
 	<%
-	Date expirationDate = new Date(System.currentTimeMillis() + (PropsValues.SESSION_TIMEOUT * Time.MINUTE));
+	int timeout = PrefsPropsUtil.getInteger(user.getCompanyId(), PropsKeys.SESSION_TIMEOUT);
+
+	Date expirationDate = new Date(System.currentTimeMillis() + (timeout * Time.MINUTE));
 
 	Ticket ticket = TicketLocalServiceUtil.addTicket(user.getCompanyId(), User.class.getName(), user.getUserId(), TicketConstants.TYPE_IMPERSONATE, null, expirationDate, new ServiceContext());
 	%>

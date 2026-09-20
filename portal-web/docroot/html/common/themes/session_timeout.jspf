@@ -35,7 +35,7 @@
 							autoExtend: <%= autoExtend %>,
 							redirectOnExpire: <%= SSOUtil.isSessionRedirectOnExpire(themeDisplay.getCompanyId()) %>,
 							redirectUrl: '<%= HtmlUtil.escapeJS(SSOUtil.getSessionExpirationRedirectURL(themeDisplay.getCompanyId(), themeDisplay.getURLHome())) %>',
-							sessionLength: <%= autoExtend ? PropsValues.SESSION_TIMEOUT * 60 - PropsValues.SESSION_TIMEOUT_AUTO_EXTEND_OFFSET : PropsValues.SESSION_TIMEOUT * 60 %>,
+							sessionLength: <%= autoExtend ? PrefsPropsUtil.getInteger(themeDisplay.getCompanyId(), PropsKeys.SESSION_TIMEOUT, PropsValues.SESSION_TIMEOUT) * 60 - PropsValues.SESSION_TIMEOUT_AUTO_EXTEND_OFFSET : PrefsPropsUtil.getInteger(themeDisplay.getCompanyId(), PropsKeys.SESSION_TIMEOUT, PropsValues.SESSION_TIMEOUT) * 60 %>,
 							warningLength: <%= autoExtend ? 0 : PropsValues.SESSION_TIMEOUT_WARNING * 60 %>
 						}
 					);

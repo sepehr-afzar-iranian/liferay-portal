@@ -93,6 +93,7 @@ import com.liferay.portal.struts.model.ModuleConfig;
 import com.liferay.portal.util.ExtRegistry;
 import com.liferay.portal.util.MaintenanceUtil;
 import com.liferay.portal.util.PortalInstances;
+import com.liferay.portal.util.PrefsPropsUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.ShutdownUtil;
@@ -652,7 +653,8 @@ public class MainServlet extends HttpServlet {
 
 		Element root = doc.getRootElement();
 
-		int timeout = PropsValues.SESSION_TIMEOUT;
+
+		int timeout = PrefsPropsUtil.getInteger(PropsKeys.SESSION_TIMEOUT);
 
 		Element sessionConfig = root.element("session-config");
 

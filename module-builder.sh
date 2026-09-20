@@ -24,6 +24,7 @@ apps:dynamic-data-mapping:dynamic-data-mapping-service:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-taglib:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-validator:$1 \
 apps:dynamic-data-mapping:dynamic-data-mapping-web:$1 \
+apps:export-import:export-import-web:$1 \
 apps:friendly-url:friendly-url-service:$1 \
 apps:frontend-editor:frontend-editor-ckeditor-web:$1 \
 apps:frontend-js:frontend-js-aui-web:$1 \

@@ -7900,9 +7900,11 @@ public class PortalImpl implements Portal {
 			return false;
 		}
 
+		int timeout = PrefsPropsUtil.getInteger(PropsKeys.SESSION_TIMEOUT);
+
 		Date expirationDate = new Date(
 			System.currentTimeMillis() +
-				(PropsValues.SESSION_TIMEOUT * Time.MINUTE));
+				(timeout * Time.MINUTE));
 
 		ticket.setExpirationDate(expirationDate);
 
