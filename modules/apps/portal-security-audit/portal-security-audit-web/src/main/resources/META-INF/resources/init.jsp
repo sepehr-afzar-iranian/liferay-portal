@@ -94,6 +94,8 @@ int startDateMinute = ParamUtil.getInteger(request, "startDateMinute", yesterday
 int startDateMonth = ParamUtil.getInteger(request, "startDateMonth", yesterday.get(Calendar.MONTH));
 int startDateYear = ParamUtil.getInteger(request, "startDateYear", yesterday.get(Calendar.YEAR));
 
+boolean sortOrderAsc = ParamUtil.getBoolean(request, "sortOrderAsc", false);
+
 AuditEventManagerUtil.setAllAuditEvents(themeDisplay.getCompanyId());
 
 String[] eventTypes = AuditEventManagerUtil.getEventTypes();

@@ -39,7 +39,21 @@ public class AuditEventManagerUtil {
 		long companyId, String keywords, String userId, String userName,
 		String eventType, String className, String classPK, String clientHost,
 		String clientIP, String serverName, String serverPort, Date startDate,
-		Date endDate, int cur, int delta) {
+		Date endDate, int cur, int delta, boolean sortOrderAsc) {
+
+		return getAuditEvents(
+			companyId, keywords, userId, userName, eventType, className,
+			classPK, clientHost, clientIP, serverName, serverPort, startDate,
+			endDate, cur, delta, "createDate",
+			sortOrderAsc ? "asc" : "desc");
+	}
+
+	public static List<AuditEvent> getAuditEvents(
+		long companyId, String keywords, String userId, String userName,
+		String eventType, String className, String classPK, String clientHost,
+		String clientIP, String serverName, String serverPort, Date startDate,
+		Date endDate, int cur, int delta, String orderByCol,
+		String orderByType) {
 
 		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
@@ -61,9 +75,11 @@ public class AuditEventManagerUtil {
 
 		params.put(AuditField.SERVER_PORT, serverPort);
 
+		boolean reverse = !orderByType.equalsIgnoreCase("asc");
+
 		BaseModelSearchResult<AuditEvent> result =
 			_auditEventLocalService.search(
-				companyId, keywords, params, cur, delta, "createDate", true);
+				companyId, keywords, params, cur, delta, orderByCol, reverse);
 
 		return result.getBaseModels();
 	}
